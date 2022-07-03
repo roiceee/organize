@@ -14,12 +14,11 @@ function modalTemplate() {
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body text-black">
-                <form onkeydown="return event.key != 'Enter';" id="form">
+                <form id="form">
                     <div class="mb-3">
-                        
                         <input type="text" class="form-control" id="add-project" aria-describedby="Input Title" placeholder="Project Name">
                     </div>
-                    <button type="button" id="submit-project-button" class="btn btn-success float-end" data-bs-dismiss="modal">Add</button>
+                    <button type="button" id="add-project-button" class="btn btn-success float-end" data-bs-dismiss="modal">Add</button>
                   </form>
             </div>
           </div>
@@ -31,7 +30,7 @@ function modalTemplate() {
 
 function addProjectModalEvent() {
     const element = `
-    <span class="dropdown-item" id="add-project-button" data-project="" data-bs-toggle="modal" data-bs-target="#add-project-modal"><i>Add New Project</i></span>
+    <span class="dropdown-item" id="add-project-div" data-project="" data-bs-toggle="modal" data-bs-target="#add-project-modal"><i>Add New Project</i></span>
     `
     return element;
 }
