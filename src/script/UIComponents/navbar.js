@@ -28,7 +28,7 @@ function createProjectsTab() {
   <div class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Projects
   </div>
-  <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+  <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" id="project-holder">
     <li>${addProjectModalEvent()}</li>
   </ul>
 </div>

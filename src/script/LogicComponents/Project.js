@@ -1,4 +1,5 @@
-const Project = () => {
+const Project = (name) => {
+    let projectName = name;
     let tasks = [];
     const addTask = function(task) {
         tasks.push(task);
@@ -6,14 +7,18 @@ const Project = () => {
     const getTasks = function() {
         return tasks;
     }
+    const getName = function() {
+        return projectName;
+    }
     return {
+        getName,
         addTask,
         getTasks
     }
 }
 
-function createProject() {
-    return Project();
+function createProject(name) {
+    return Project(name);
 }
 
-export default createProject();
+export default createProject;

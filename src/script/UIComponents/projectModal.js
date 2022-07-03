@@ -31,7 +31,7 @@ function modalTemplate() {
 
 function addProjectModalEvent() {
     const element = `
-    <span class="dropdown-item" id="add-project-button" data-bs-toggle="modal" data-bs-target="#add-project-modal"><i>Add New Project</i></span>
+    <span class="dropdown-item" id="add-project-button" data-project="" data-bs-toggle="modal" data-bs-target="#add-project-modal"><i>Add New Project</i></span>
     `
     return element;
 }
