@@ -18,3 +18,8 @@ body {
     background-color: #e16a6e;
     transform: scale(1.1);
 }
+
+#icon {
+    height: 30px;
+    width: 30px;
+}
