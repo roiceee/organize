@@ -16,8 +16,7 @@ function modalTemplate() {
             <div class="modal-body text-black">
                 <form onkeydown="return event.key != 'Enter';" id="form">
                     <div class="mb-3">
-                        <label for="title" class="form-label">Project Name</label>
-                        <input type="text" class="form-control" id="add-project" aria-describedby="Input Title" placeholder="Insert text here">
+                        <input type="text" class="form-control" id="add-project" aria-describedby="Input Title" placeholder="Project Name">
                     </div>
                     <button type="button" id="submit-project-button" class="btn btn-success float-end" data-bs-dismiss="modal">Add</button>
                   </form>
