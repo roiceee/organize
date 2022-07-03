@@ -3,3 +3,18 @@
 body {
     font-family: 'Oxygen', sans-serif;
 }
+
+.add-button {
+    background-color: #F17A7E;
+    border: none;
+    border-radius: 8px;
+}
+
+.add-button:hover {
+    background-color: #e16a6e;
+}
+
+.add-button:active {
+    background-color: #e16a6e;
+    transform: scale(1.1);
+}
