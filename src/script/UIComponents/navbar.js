@@ -1,4 +1,4 @@
-import {addProjectModalEvent} from './addProjectModal.js';
+import {addProjectModalEvent} from './projectModal.js';
 
 function createNavBar() {
     let nav = document.createElement('div');

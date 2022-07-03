@@ -1,5 +1,5 @@
 
-function createModal() {
+function createProjectModal() {
     return modalTemplate();
 }
 
@@ -19,7 +19,7 @@ function modalTemplate() {
                         <label for="title" class="form-label">Project Name</label>
                         <input type="text" class="form-control" id="add-project" aria-describedby="Input Title" placeholder="Insert text here">
                     </div>
-                    <button type="button" id="submit-button" class="btn btn-success float-end" data-bs-dismiss="modal">Add</button>
+                    <button type="button" id="submit-project-button" class="btn btn-success float-end" data-bs-dismiss="modal">Add</button>
                   </form>
             </div>
           </div>
@@ -36,4 +36,4 @@ function addProjectModalEvent() {
     return element;
 }
 
-export {createModal, addProjectModalEvent};
+export {createProjectModal, addProjectModalEvent};

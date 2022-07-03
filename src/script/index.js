@@ -1,5 +1,6 @@
 import createNavBar from "./UIComponents/navbar.js";
-import {createModal as loadAddProjectModal} from './UIComponents/addProjectModal.js';
+import {createProjectModal as loadProjectModal} from './UIComponents/projectModal.js';
+import {createTaskModal as loadTaskModal, addTaskModalButton} from './UIComponents/taskModal.js';
 
 function loadNav() {
     const navContainer = document.getElementById('nav-container');
@@ -8,15 +9,14 @@ function loadNav() {
 
 function loadModalsToDOM() {
     const DOMBody = document.body;
-    DOMBody.appendChild(loadAddProjectModal());
+    DOMBody.appendChild(loadProjectModal());
+    DOMBody.appendChild(loadTaskModal());
 }
 
-
-
-
-
-
-
+function loadAddTaskButtonToDOM() {
+    const DOMBody = document.body;
+    DOMBody.appendChild(addTaskModalButton());
+}
 
 
 
@@ -27,3 +27,4 @@ function loadModalsToDOM() {
 
 loadNav();
 loadModalsToDOM();
+loadAddTaskButtonToDOM();
