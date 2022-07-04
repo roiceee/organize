@@ -74,9 +74,9 @@ function loadAddTaskButtonToDOM() {
     DOMBody.appendChild(addTaskModalButton());
 }
 
+
 //project related functions
 // ___________________________________________________________________________________
-
 function renderProjects() {
     let index = 0;
     const projects = ProjectHolder.getProjects();
