@@ -21,9 +21,20 @@ const localStorageController = (() => {
     }
 })();
 
+function convertProjectJSON() {
+    //returns an array of project objects
+    let projects = JSON.parse(localStorageController.getData());
+    for (let i = 0; i < projects.length; i++) {
+        const projectObject = createProject(projects[i].name);
+        projectObject.setTasks(projects[i].tasks);
+        projects[i] = projectObject;
+    }
+    return projects;
+}
+
 const ProjectHolder = (() => {
     let projects;
-    localStorageController.getData() === null ? projects = [] : projects = JSON.parse(localStorageController.getData());
+    localStorageController.getData() === null ? projects = [] : projects = convertProjectJSON();
     console.log("Projects = " + projects);
     console.log("Projects length = " + projects[0])
     const addProject = function(project) {
@@ -40,7 +51,7 @@ const ProjectHolder = (() => {
     }
     const getProjects = function() {
         return projects;
-    }   
+    }
     return {
         addProject,
         deleteProject,

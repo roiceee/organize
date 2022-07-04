@@ -1,8 +1,12 @@
 class Project  {
     constructor(projectName) {
         projectName.trim() === "" ? this.name = "untitled": this.name = projectName;
+        this.tasks = [];
     }
-    tasks = [];
+    setTasks(tasks) {
+        this.tasks = tasks;
+    }
+    
      addTask(task) {
         this.tasks.push(task);
     } 
