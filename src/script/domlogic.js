@@ -184,7 +184,11 @@ function addSubmitTaskButtonListener() {
 }
 
 function removeNoProjectWarning() {
-    const button = document.getElementById('no-project-warning-button').click();
+    const button = document.getElementById('no-project-warning-button');
+    if (button === null) {
+        return;
+    }
+    button.click();
 }
 
 
