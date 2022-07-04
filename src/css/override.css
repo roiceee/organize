@@ -28,3 +28,8 @@ body {
     background-color: #F17A7E;
     color: white;
   }
+
+hr {
+    width: 50%;
+    min-width: 150px;
+  }

@@ -95,6 +95,7 @@ function insertProjectToDOM(index, project) {
     holder.insertBefore(createProjectLI(index, project), holder.firstChild);
     setToCurrentProject(index);
     addProjectListener(index);
+    updateProjectName(index);
 }
 
 function createProjectLI(index, project) {
@@ -115,6 +116,7 @@ function addProjectButtonEventListener() {
         ProjectHolder.addProject(newProject);
         localStorageController.saveData(ProjectHolder.getProjects());
         insertProjectToDOM(ProjectHolder.getCurrentIndex(), newProject);
+        
     });
 }
 
@@ -122,13 +124,19 @@ function addProjectListener(projectNumber) {
     const project = document.getElementById(`project-number-${projectNumber}`);
     project.addEventListener('click', (e) => {
         const currentProjectNumber = e.target.getAttribute('data-project')
-        console.log(currentProjectNumber);
         setToCurrentProject(currentProjectNumber);
+        updateProjectName(currentProjectNumber);
     })
 }
 
 function resetForm() {
     document.getElementById('project-form').reset();
+}
+
+function updateProjectName(currentProjectNumber) {
+    const currentProject = document.getElementById(`project-number-${currentProjectNumber}`)
+    const container = document.getElementById('project-name');
+    container.textContent = currentProject.textContent;
 }
 
 function setToCurrentProject(projectNumber) {
@@ -140,10 +148,29 @@ function setToCurrentProject(projectNumber) {
    currentProject.setAttribute('data-current', true);
 }
 
+function loadProjectNameContainer() {
+        const container = document.getElementById('main-body');
+        const element = document.createElement('div');
+        element.classList.add('container');
+        element.innerHTML = `
+        <h2 id="project-name">No Project Chosen</h2>
+                <hr>
+        `
+        container.append(element);
+}
+
 // ___________________________________________________________________________________
 //project related functions
 
 
+//task-related functions
+//____________________________________________________________________________________
+
+
+
+
+//____________________________________________________________________________________
+//body-related functions
 
 
 //Execution Area
@@ -154,6 +181,7 @@ export default function startAppLogic() {
     loadNav();
     loadModalsToDOM();
     loadAddTaskButtonToDOM();
+    loadProjectNameContainer();
     renderProjects();
     addProjectButtonEventListener();
 }
