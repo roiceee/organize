@@ -1,15 +1,15 @@
-const Task = (title) => {
-    let title = title;
-    const getDetails = function() {
-        return title;
+class Task {
+    constructor(title) {
+        title.trim() === "" ? this.title = "untitled": this.title = title;
     }
-    return {
-        getDetails
+   
+    getDetails() {
+        return this.title;
     }
 }
 
 function createTask(title) {
-    return Task(title);
+    return new Task(title);
 }
 
 export default createTask(title);

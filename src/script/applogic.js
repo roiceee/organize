@@ -3,8 +3,29 @@ import {createProjectModal as loadProjectModal} from './UIComponents/projectModa
 import {createTaskModal as loadTaskModal, addTaskModalButton} from './UIComponents/taskModal.js';
 import createProject from "./LogicComponents/Project.js";
 
+const localStorageController = (() => {
+    const data = window.localStorage.getItem("projects");
+    const saveData = function(projects) {
+        console.log("typeof projects " + typeof(projects))
+        projects.forEach(project => {
+            console.log(project.getName());
+        })
+        window.localStorage.setItem("projects", JSON.stringify(projects));
+    }
+    const getData = function() {
+        return data;
+    }
+    return {
+        saveData,
+        getData
+    }
+})();
+
 const ProjectHolder = (() => {
-    let projects = [];
+    let projects;
+    localStorageController.getData() === null ? projects = [] : projects = JSON.parse(localStorageController.getData());
+    console.log("Projects = " + projects);
+    console.log("Projects length = " + projects[0])
     const addProject = function(project) {
         projects.push(project);
     }
@@ -19,7 +40,7 @@ const ProjectHolder = (() => {
     }
     const getProjects = function() {
         return projects;
-    }
+    }   
     return {
         addProject,
         deleteProject,
@@ -50,6 +71,9 @@ function renderProjects() {
     let index = 0;
     const projects = ProjectHolder.getProjects();
     const holder = document.getElementById('project-holder');
+    if (projects.length === 0) {
+        return;
+    }
     projects.forEach((project) => {
         const listItem = createProjectLI(index, project);
         holder.insertBefore(listItem, holder.firstChild);
@@ -59,7 +83,7 @@ function renderProjects() {
 
 function insertProjectToDOM(index, project) {
     const holder = document.getElementById('project-holder');
-    holder.insertBefore(createProjectItem(index, project), holder.firstChild);
+    holder.insertBefore(createProjectLI(index, project), holder.firstChild);
 }
 
 function createProjectLI(index, project) {
@@ -78,13 +102,17 @@ function addProjectButtonEventListener() {
         resetForm();
         const newProject = createProject(projectName);
         ProjectHolder.addProject(newProject);
+        localStorageController.saveData(ProjectHolder.getProjects());
         insertProjectToDOM(ProjectHolder.getCurrentIndex(), newProject);
+        
     });
 }
 
 function resetForm() {
     document.getElementById('form').reset();
 }
+
+
 
 
 

@@ -1,25 +1,21 @@
-const Project = (name) => {
-    name.trim() === "" ? name = "untitled": name = name;
-    let projectName = name;
-    let tasks = [];
-    const addTask = function(task) {
-        tasks.push(task);
+class Project  {
+    constructor(projectName) {
+        projectName.trim() === "" ? this.name = "untitled": this.name = projectName;
+    }
+    tasks = [];
+     addTask(task) {
+        this.tasks.push(task);
     } 
-    const getTasks = function() {
-        return tasks;
+     getTasks() {
+        return this.tasks;
     }
-    const getName = function() {
-        return projectName;
-    }
-    return {
-        getName,
-        addTask,
-        getTasks
+     getName() {
+        return this.name;
     }
 }
 
 function createProject(name) {
-    return Project(name);
+    return new Project(name);
 }
 
 export default createProject;
