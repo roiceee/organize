@@ -1,4 +1,5 @@
 const Project = (name) => {
+    name.trim() === "" ? name = "untitled": name = name;
     let projectName = name;
     let tasks = [];
     const addTask = function(task) {

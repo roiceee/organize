@@ -16,7 +16,7 @@ function modalTemplate() {
             <div class="modal-body text-black">
                 <form id="form">
                     <div class="mb-3">
-                        <input type="text" class="form-control" id="add-project" aria-describedby="Input Title" placeholder="Project Name">
+                        <input type="text" maxlength="30" class="form-control" id="add-project" aria-describedby="Input Title" placeholder="Project Name">
                     </div>
                     <button type="button" id="add-project-button" class="btn btn-success float-end" data-bs-dismiss="modal">Add</button>
                   </form>
