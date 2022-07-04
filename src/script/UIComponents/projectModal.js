@@ -14,7 +14,7 @@ function modalTemplate() {
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body text-black">
-                <form id="form">
+                <form id="project-form" onkeydown="return event.key != 'Enter';">
                     <div class="mb-3">
                         <input type="text" maxlength="30" class="form-control" id="add-project" aria-describedby="Input Title" placeholder="Project Name">
                     </div>

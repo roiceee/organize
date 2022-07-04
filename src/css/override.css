@@ -23,3 +23,8 @@ body {
     height: 30px;
     width: 30px;
 }
+
+[data-current= 'true'] {
+    background-color: #F17A7E;
+    color: white;
+  }

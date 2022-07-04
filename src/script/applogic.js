@@ -6,10 +6,6 @@ import createProject from "./LogicComponents/Project.js";
 const localStorageController = (() => {
     const data = window.localStorage.getItem("projects");
     const saveData = function(projects) {
-        console.log("typeof projects " + typeof(projects))
-        projects.forEach(project => {
-            console.log(project.getName());
-        })
         window.localStorage.setItem("projects", JSON.stringify(projects));
     }
     const getData = function() {
@@ -35,8 +31,6 @@ function convertProjectJSON() {
 const ProjectHolder = (() => {
     let projects;
     localStorageController.getData() === null ? projects = [] : projects = convertProjectJSON();
-    console.log("Projects = " + projects);
-    console.log("Projects length = " + projects[0])
     const addProject = function(project) {
         projects.push(project);
     }
@@ -78,6 +72,9 @@ function loadAddTaskButtonToDOM() {
     DOMBody.appendChild(addTaskModalButton());
 }
 
+//project related functions
+// ___________________________________________________________________________________
+
 function renderProjects() {
     let index = 0;
     const projects = ProjectHolder.getProjects();
@@ -88,6 +85,7 @@ function renderProjects() {
     projects.forEach((project) => {
         const listItem = createProjectLI(index, project);
         holder.insertBefore(listItem, holder.firstChild);
+        addProjectListener(index);
         index++;
     })
 }
@@ -95,12 +93,14 @@ function renderProjects() {
 function insertProjectToDOM(index, project) {
     const holder = document.getElementById('project-holder');
     holder.insertBefore(createProjectLI(index, project), holder.firstChild);
+    setToCurrentProject(index);
+    addProjectListener(index);
 }
 
 function createProjectLI(index, project) {
     const listItem = document.createElement('li');
         listItem.innerHTML = `
-        <span class="dropdown-item fw-bolder" id="project-number-${index}" data-project="${index}">${project.getName()}</span>
+        <div class="dropdown-item" id="project-number-${index}" data-project="${index}">${project.getName()}</div>
         `
     return listItem;
 }
@@ -115,15 +115,33 @@ function addProjectButtonEventListener() {
         ProjectHolder.addProject(newProject);
         localStorageController.saveData(ProjectHolder.getProjects());
         insertProjectToDOM(ProjectHolder.getCurrentIndex(), newProject);
-        
     });
 }
 
-function resetForm() {
-    document.getElementById('form').reset();
+function addProjectListener(projectNumber) {
+    const project = document.getElementById(`project-number-${projectNumber}`);
+    project.addEventListener('click', (e) => {
+        const currentProjectNumber = e.target.getAttribute('data-project')
+        console.log(currentProjectNumber);
+        setToCurrentProject(currentProjectNumber);
+    })
 }
 
+function resetForm() {
+    document.getElementById('project-form').reset();
+}
 
+function setToCurrentProject(projectNumber) {
+   const lastCurrent = document.querySelector(`[data-current=true]`);
+   if (lastCurrent != null || lastCurrent != undefined) {
+     lastCurrent.removeAttribute('data-current');
+   }
+   const currentProject = document.getElementById(`project-number-${projectNumber}`);
+   currentProject.setAttribute('data-current', true);
+}
+
+// ___________________________________________________________________________________
+//project related functions
 
 
 
