@@ -1,6 +1,6 @@
 import createNavBar from "./UIComponents/navbar.js";
 import {createProjectModal as loadProjectModal} from './UIComponents/projectModal.js';
-import {createTaskModal as loadTaskModal, addTaskModalButton} from './UIComponents/taskModal.js';
+import {createTaskModal as loadTaskModal, addTaskModalButton, noProjectWarning} from './UIComponents/taskModal.js';
 import createProject from "./LogicComponents/Project.js";
 
 const localStorageController = (() => {
@@ -30,6 +30,7 @@ function convertProjectJSON() {
 
 const ProjectHolder = (() => {
     let projects;
+    let isOnProject = false;
     localStorageController.getData() === null ? projects = [] : projects = convertProjectJSON();
     const addProject = function(project) {
         projects.push(project);
@@ -51,7 +52,8 @@ const ProjectHolder = (() => {
         deleteProject,
         getLength,
         getProjects,
-        getCurrentIndex
+        getCurrentIndex,
+        isOnProject
     }
 })();
 
@@ -116,7 +118,6 @@ function addProjectButtonEventListener() {
         ProjectHolder.addProject(newProject);
         localStorageController.saveData(ProjectHolder.getProjects());
         insertProjectToDOM(ProjectHolder.getCurrentIndex(), newProject);
-        
     });
 }
 
@@ -140,6 +141,7 @@ function updateProjectName(currentProjectNumber) {
 }
 
 function setToCurrentProject(projectNumber) {
+    ProjectHolder.isOnProject = true;
    const lastCurrent = document.querySelector(`[data-current=true]`);
    if (lastCurrent != null || lastCurrent != undefined) {
      lastCurrent.removeAttribute('data-current');
@@ -153,7 +155,7 @@ function loadProjectNameContainer() {
         const element = document.createElement('div');
         element.classList.add('container');
         element.innerHTML = `
-        <h2 id="project-name">No Project Chosen</h2>
+        <h2 id="project-name">Choose a project on the "Projects" tab above.</h2>
                 <hr>
         `
         container.append(element);
@@ -166,6 +168,24 @@ function loadProjectNameContainer() {
 //task-related functions
 //____________________________________________________________________________________
 
+function addSubmitTaskButtonListener() {
+    const submitTaskButton = document.getElementById('submit-task-button');
+    submitTaskButton.addEventListener('click', (e) => {
+        if (!ProjectHolder.isOnProject) {
+            const container = document.getElementById('main-body');
+           const alert = noProjectWarning();
+           container.append(alert);
+            setTimeout(() => {
+                removeNoProjectWarning();
+            },5000)
+            return;
+        }
+    })
+}
+
+function removeNoProjectWarning() {
+    const button = document.getElementById('no-project-warning-button').click();
+}
 
 
 
@@ -184,4 +204,5 @@ export default function startAppLogic() {
     loadProjectNameContainer();
     renderProjects();
     addProjectButtonEventListener();
+    addSubmitTaskButtonListener();
 }
