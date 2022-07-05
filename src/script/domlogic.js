@@ -39,33 +39,31 @@ function loadProjectNameContainer() {
 //project related functions
 // ___________________________________________________________________________________
 function renderProjects() {
-    let index = 0;
     const projects = ProjectHolder.getProjects();
     const holder = document.getElementById('project-holder');
     if (projects.length === 0) {
         return;
     }
     projects.forEach((project) => {
-        const listItem = createProjectLI(index, project);
+        const listItem = createProjectLI(project);
         holder.insertBefore(listItem, holder.firstChild);
-        addProjectListener(index);
-        index++;
+        addProjectListener(project.index);
     })
 }
 
 function insertProjectToDOM(project) {
     const index = project.index;
     const holder = document.getElementById('project-holder');
-    holder.insertBefore(createProjectLI(index, project), holder.firstChild);
+    holder.insertBefore(createProjectLI(project), holder.firstChild);
     setToCurrentProject(index);
     addProjectListener(index);
     updateProjectName(index);
 }
 
-function createProjectLI(index, project) {
+function createProjectLI(project) {
     const listItem = document.createElement('li');
         listItem.innerHTML = `
-        <div class="dropdown-item" id="project-number-${index}" data-project="${index}">${project.getName()}</div>
+        <div class="dropdown-item" id="project-number-${project.index}" data-project="${project.index}">${project.getName()}</div>
         `
     return listItem;
 }
@@ -110,6 +108,8 @@ function addProjectListener(projectNumber) {
         const currentProjectNumber = e.target.getAttribute('data-project')
         setToCurrentProject(currentProjectNumber);
         updateProjectName(currentProjectNumber);
+        removeTaskCards();
+        renderTaskCards();
     })
 }
 
@@ -138,6 +138,7 @@ function addSubmitTaskButtonListener() {
         const task = createTask(ProjectHolder.getCurrentProjectLength(), title, date);
         ProjectHolder.addTaskToCurrentProject(task);
         //createTaskCard and append it to the dom
+        localStorageController.saveData(ProjectHolder.getProjects());
         insertTaskToDOM(task);
     })
 }
@@ -169,6 +170,26 @@ function resetTaskForm() {
     document.getElementById('task-form').reset();
 }
 
+function renderTaskCards() {
+    const project = ProjectHolder.getCurrentProject();
+    const holder = document.getElementById('main-body');
+    
+    if (project.getLength() === 0) {
+        return;
+    }
+    project.getTasks().forEach((task) => {
+        const taskCard = createTaskCard(task);
+        holder.append(taskCard);
+        //add some listeners
+    })
+}
+
+function removeTaskCards() {
+    const tasks = document.querySelectorAll('.task-card');
+    tasks.forEach((task) => {
+        task.remove();
+    })
+}
 //____________________________________________________________________________________
 //task-related functions
 

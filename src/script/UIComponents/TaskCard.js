@@ -1,6 +1,6 @@
 export default function createTaskCard(task) {
     const div = document.createElement("div");
-    div.classList.add("card", "mx-auto", "mx-sm-0", "shadow", "gx-0");
+    div.classList.add("card", "mx-auto", "mx-sm-0", "shadow", "gx-0", 'task-card');
     div.setAttribute("data-task-number", `${task}`);
     div.style.width = "18rem";
     div.innerHTML = 

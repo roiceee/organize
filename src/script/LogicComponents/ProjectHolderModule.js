@@ -4,6 +4,7 @@ import createProject from "./Project.js";
 function convertProjectJSON() {
     //returns an array of project objects
     let projects = JSON.parse(localStorageController.getData());
+    
     for (let i = 0; i < projects.length; i++) {
         const projectObject = createProject(projects[i].index, projects[i].name);
         projectObject.setTasks(projects[i].tasks);
@@ -38,6 +39,9 @@ export default (function ProjectHolder(){
     const addTaskToCurrentProject = function(task) {
         currentProject.addTask(task);
     }
+    const getCurrentProject = function() {
+        return currentProject;
+    }
     return {
         addProject,
         deleteProject,
@@ -46,6 +50,7 @@ export default (function ProjectHolder(){
         setCurrentProject,
         getCurrentProjectLength,
         addTaskToCurrentProject,
-        isOnProject
+        getCurrentProject,
+        isOnProject,
     }
 })();
