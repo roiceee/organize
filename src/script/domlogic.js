@@ -35,6 +35,13 @@ function loadProjectNameContainer() {
     container.append(element);
 }
 
+function loadTaskCardContainer() {
+    const container = document.getElementById('main-body');
+    const element = document.createElement('div');
+    element.classList.add('row', 'gap-3');
+    element.setAttribute('id', 'card-container');
+    container.append(element);
+}
 
 //project related functions
 // ___________________________________________________________________________________
@@ -91,7 +98,18 @@ function setToCurrentProject(projectNumber) {
 
 function addProjectButtonEventListener() {
     const button = document.getElementById('add-project-button');
-    button.addEventListener('click', () => {
+    button.addEventListener('click', () => {addProjectButtonEvent();});
+    const projectForm = document.getElementById('project-form');
+    projectForm.addEventListener('keypress', (event) => {
+        if (event.key === 'Enter') { 
+            event.preventDefault();
+            button.click();
+          }
+
+    });
+}
+
+function addProjectButtonEvent() {
         const form = document.getElementById('add-project');
         const projectName = form.value;
         resetProjectForm();
@@ -99,7 +117,6 @@ function addProjectButtonEventListener() {
         ProjectHolder.addProject(newProject);
         localStorageController.saveData(ProjectHolder.getProjects());
         insertProjectToDOM(newProject);
-    });
 }
 
 function addProjectListener(projectNumber) {
@@ -119,28 +136,38 @@ function addProjectListener(projectNumber) {
 //task-related functions
 //____________________________________________________________________________________
 
-function addSubmitTaskButtonListener() {
+function submitTaskButtonListener() {
     const submitTaskButton = document.getElementById('submit-task-button');
-    submitTaskButton.addEventListener('click', (e) => {
-        if (!ProjectHolder.isOnProject) {
-            const message = "You should choose a project first."
-           fireNoProjectWarning(message);
-            return;
-        }
-        const title = document.getElementById('add-title').value;
-        const date = document.getElementById('add-date').value;
-        resetTaskForm();
-        if (title === "") {
-            const message = "Please enter task name."
-            fireNoProjectWarning(message);
-            return;
-        }
-        const task = createTask(ProjectHolder.getCurrentProjectLength(), title, date);
-        ProjectHolder.addTaskToCurrentProject(task);
-        //createTaskCard and append it to the dom
-        localStorageController.saveData(ProjectHolder.getProjects());
-        insertTaskToDOM(task);
-    })
+    submitTaskButton.addEventListener('click', (e) => {submitTaskEvent()})
+    const taskForm = document.getElementById('task-form');
+    taskForm.focus();
+    taskForm.addEventListener('keypress', (event) => {
+        if (event.key === 'Enter') { 
+            event.preventDefault();
+            submitTaskButton.click();
+          }
+
+    });
+}
+
+function submitTaskEvent() {
+    if (!ProjectHolder.isOnProject) {
+        const message = "You should choose a project first."
+       fireNoProjectWarning(message);
+        return;
+    }
+    const title = document.getElementById('add-title').value;
+    const date = document.getElementById('add-date').value;
+    resetTaskForm();
+    if (title === "") {
+        const message = "Please enter task name."
+        fireNoProjectWarning(message);
+        return;
+    }
+    const task = createTask(ProjectHolder.getCurrentProjectLength(), title, date);
+    ProjectHolder.addTaskToCurrentProject(task);
+    localStorageController.saveData(ProjectHolder.getProjects());
+    insertTaskToDOM(task);
 }
 
 function fireNoProjectWarning(message) {
@@ -161,7 +188,7 @@ function removeNoProjectWarning() {
 }
 
 function insertTaskToDOM(task) {
-    const container = document.getElementById('main-body');
+    const container = document.getElementById('card-container');
     const taskCard = createTaskCard(task);
     container.append(taskCard);
 }
@@ -172,7 +199,7 @@ function resetTaskForm() {
 
 function renderTaskCards() {
     const project = ProjectHolder.getCurrentProject();
-    const holder = document.getElementById('main-body');
+    const holder = document.getElementById('card-container');
     
     if (project.getLength() === 0) {
         return;
@@ -197,7 +224,6 @@ function removeTaskCards() {
 //____________________________________________________________________________________
 
 
-
 //____________________________________________________________________________________
 //body-related functions
 
@@ -211,8 +237,8 @@ export default function startAppLogic() {
     loadModalsToDOM();
     loadAddTaskButtonToDOM();
     loadProjectNameContainer();
+    loadTaskCardContainer();
     renderProjects();
     addProjectButtonEventListener();
-    addSubmitTaskButtonListener();
-
+    submitTaskButtonListener();
 }

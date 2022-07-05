@@ -13,7 +13,7 @@ function modalTemplate() {
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body text-black">
-                <form onkeydown="return event.key != 'Enter';" id="task-form">
+                <form id="task-form">
                     <div class="mb-3">
                     <label for="add-task">Title</label>
                         <input type="text" class="form-control" id="add-title" aria-describedby="Input Title" placeholder="Task Name">
