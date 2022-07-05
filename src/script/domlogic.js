@@ -2,60 +2,10 @@ import createNavBar from "./UIComponents/navbar.js";
 import {createProjectModal as loadProjectModal} from './UIComponents/projectModal.js';
 import {createTaskModal as loadTaskModal, addTaskModalButton, noProjectWarning} from './UIComponents/taskModal.js';
 import createProject from "./LogicComponents/Project.js";
-
-const localStorageController = (() => {
-    const data = window.localStorage.getItem("projects");
-    const saveData = function(projects) {
-        window.localStorage.setItem("projects", JSON.stringify(projects));
-    }
-    const getData = function() {
-        return data;
-    }
-    return {
-        saveData,
-        getData
-    }
-})();
-
-function convertProjectJSON() {
-    //returns an array of project objects
-    let projects = JSON.parse(localStorageController.getData());
-    for (let i = 0; i < projects.length; i++) {
-        const projectObject = createProject(projects[i].name);
-        projectObject.setTasks(projects[i].tasks);
-        projects[i] = projectObject;
-    }
-    return projects;
-}
-
-const ProjectHolder = (() => {
-    let projects;
-    let isOnProject = false;
-    localStorageController.getData() === null ? projects = [] : projects = convertProjectJSON();
-    const addProject = function(project) {
-        projects.push(project);
-    }
-    const deleteProject = function(index) {
-        projects.splice(index,1);
-    }
-    const getLength = function() {
-        return projects.length;
-    }
-    const getCurrentIndex = function() {
-        return projects.length - 1;
-    }
-    const getProjects = function() {
-        return projects;
-    }
-    return {
-        addProject,
-        deleteProject,
-        getLength,
-        getProjects,
-        getCurrentIndex,
-        isOnProject
-    }
-})();
+import localStorageController from "./LogicComponents/localStorageModule.js";
+import ProjectHolder from "./LogicComponents/ProjectHolderModule.js";
+import createTask from "./LogicComponents/Task.js";
+import createTaskCard from "./UIComponents/TaskCard.js";
 
 
 function loadNav() {
@@ -72,6 +22,17 @@ function loadModalsToDOM() {
 function loadAddTaskButtonToDOM() {
     const DOMBody = document.body;
     DOMBody.appendChild(addTaskModalButton());
+}
+
+function loadProjectNameContainer() {
+    const container = document.getElementById('main-body');
+    const element = document.createElement('div');
+    element.classList.add('container');
+    element.innerHTML = `
+    <h2 id="project-name">Choose a project on the "Projects" tab above.</h2>
+            <hr>
+    `
+    container.append(element);
 }
 
 
@@ -92,7 +53,8 @@ function renderProjects() {
     })
 }
 
-function insertProjectToDOM(index, project) {
+function insertProjectToDOM(project) {
+    const index = project.index;
     const holder = document.getElementById('project-holder');
     holder.insertBefore(createProjectLI(index, project), holder.firstChild);
     setToCurrentProject(index);
@@ -108,16 +70,37 @@ function createProjectLI(index, project) {
     return listItem;
 }
 
+function resetProjectForm() {
+    document.getElementById('project-form').reset();
+}
+
+function updateProjectName(currentProjectNumber) {
+    const currentProject = document.getElementById(`project-number-${currentProjectNumber}`)
+    const container = document.getElementById('project-name');
+    container.textContent = currentProject.textContent;
+}
+
+function setToCurrentProject(projectNumber) {
+   ProjectHolder.isOnProject = true;
+   ProjectHolder.setCurrentProject(projectNumber);
+   const lastCurrent = document.querySelector(`[data-current=true]`);
+   if (lastCurrent != null || lastCurrent != undefined) {
+     lastCurrent.removeAttribute('data-current');
+   }
+   const currentProject = document.getElementById(`project-number-${projectNumber}`);
+   currentProject.setAttribute('data-current', true);
+}
+
 function addProjectButtonEventListener() {
     const button = document.getElementById('add-project-button');
     button.addEventListener('click', () => {
         const form = document.getElementById('add-project');
         const projectName = form.value;
-        resetForm();
-        const newProject = createProject(projectName);
+        resetProjectForm();
+        const newProject = createProject(ProjectHolder.getLength(), projectName);
         ProjectHolder.addProject(newProject);
         localStorageController.saveData(ProjectHolder.getProjects());
-        insertProjectToDOM(ProjectHolder.getCurrentIndex(), newProject);
+        insertProjectToDOM(newProject);
     });
 }
 
@@ -130,40 +113,8 @@ function addProjectListener(projectNumber) {
     })
 }
 
-function resetForm() {
-    document.getElementById('project-form').reset();
-}
-
-function updateProjectName(currentProjectNumber) {
-    const currentProject = document.getElementById(`project-number-${currentProjectNumber}`)
-    const container = document.getElementById('project-name');
-    container.textContent = currentProject.textContent;
-}
-
-function setToCurrentProject(projectNumber) {
-    ProjectHolder.isOnProject = true;
-   const lastCurrent = document.querySelector(`[data-current=true]`);
-   if (lastCurrent != null || lastCurrent != undefined) {
-     lastCurrent.removeAttribute('data-current');
-   }
-   const currentProject = document.getElementById(`project-number-${projectNumber}`);
-   currentProject.setAttribute('data-current', true);
-}
-
-function loadProjectNameContainer() {
-        const container = document.getElementById('main-body');
-        const element = document.createElement('div');
-        element.classList.add('container');
-        element.innerHTML = `
-        <h2 id="project-name">Choose a project on the "Projects" tab above.</h2>
-                <hr>
-        `
-        container.append(element);
-}
-
 // ___________________________________________________________________________________
 //project related functions
-
 
 //task-related functions
 //____________________________________________________________________________________
@@ -172,15 +123,32 @@ function addSubmitTaskButtonListener() {
     const submitTaskButton = document.getElementById('submit-task-button');
     submitTaskButton.addEventListener('click', (e) => {
         if (!ProjectHolder.isOnProject) {
-            const container = document.getElementById('main-body');
-           const alert = noProjectWarning();
+            const message = "You should choose a project first."
+           fireNoProjectWarning(message);
+            return;
+        }
+        const title = document.getElementById('add-title').value;
+        const date = document.getElementById('add-date').value;
+        resetTaskForm();
+        if (title === "") {
+            const message = "Please enter task name."
+            fireNoProjectWarning(message);
+            return;
+        }
+        const task = createTask(ProjectHolder.getCurrentProjectLength(), title, date);
+        ProjectHolder.addTaskToCurrentProject(task);
+        //createTaskCard and append it to the dom
+        insertTaskToDOM(task);
+    })
+}
+
+function fireNoProjectWarning(message) {
+    const container = document.getElementById('main-body');
+           const alert = noProjectWarning(message);
            container.append(alert);
             setTimeout(() => {
                 removeNoProjectWarning();
             },5000)
-            return;
-        }
-    })
 }
 
 function removeNoProjectWarning() {
@@ -191,15 +159,31 @@ function removeNoProjectWarning() {
     button.click();
 }
 
+function insertTaskToDOM(task) {
+    const container = document.getElementById('main-body');
+    const taskCard = createTaskCard(task);
+    container.append(taskCard);
+}
+
+function resetTaskForm() {
+    document.getElementById('task-form').reset();
+}
+
+//____________________________________________________________________________________
+//task-related functions
+
+//body-related functions
+//____________________________________________________________________________________
+
 
 
 //____________________________________________________________________________________
 //body-related functions
 
 
+
 //Execution Area
 //___________________________________________________________________________________________________________
-
 
 export default function startAppLogic() {
     loadNav();
@@ -209,4 +193,5 @@ export default function startAppLogic() {
     renderProjects();
     addProjectButtonEventListener();
     addSubmitTaskButtonListener();
+
 }

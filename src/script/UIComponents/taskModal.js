@@ -13,9 +13,14 @@ function modalTemplate() {
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body text-black">
-                <form onkeydown="return event.key != 'Enter';" id="form">
+                <form onkeydown="return event.key != 'Enter';" id="task-form">
                     <div class="mb-3">
-                        <input type="text" class="form-control" id="add-task" aria-describedby="Input Title" placeholder="Task Name">
+                    <label for="add-task">Title</label>
+                        <input type="text" class="form-control" id="add-title" aria-describedby="Input Title" placeholder="Task Name">
+                    </div>
+                    <div class="mb-3 col-6">
+                        <label for="add-date">Deadline</label>
+                        <input type="date" class="form-control" id="add-date" aria-describedby="Input Date">
                     </div>
                     <button type="button" id="submit-task-button" class="btn btn-success float-end" data-bs-dismiss="modal">Add</button>
                   </form>
@@ -27,10 +32,10 @@ function modalTemplate() {
       return container;
 }
 
-function noProjectWarning() {
+function noProjectWarning(message) {
   const DOMString = `
   <div class="alert alert-warning alert-dismissible fade show" role="alert">
-  <strong>Can't add task!</strong> You should choose a project first.
+  <strong>Can't add task!</strong> ${message}
   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" id="no-project-warning-button"></button>
 </div>
   `

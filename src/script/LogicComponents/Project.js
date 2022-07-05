@@ -1,9 +1,10 @@
 class Project  {
-    constructor(projectName) {
+    constructor(index, projectName) {
+        this.index = index;
         projectName.trim() === "" ? this.name = "untitled": this.name = projectName;
         this.tasks = [];
     }
-    setTasks(tasks) {
+     setTasks(tasks) {
         this.tasks = tasks;
     }
     
@@ -16,10 +17,13 @@ class Project  {
      getName() {
         return this.name;
     }
+     getLength() {
+        return this.tasks.length;
+     }
 }
 
-function createProject(name) {
-    return new Project(name);
+function createProject(index, name) {
+    return new Project(index, name);
 }
 
 export default createProject;

@@ -1,15 +1,12 @@
 class Task {
-    constructor(title) {
+    constructor(index, title, date) {
         title.trim() === "" ? this.title = "untitled": this.title = title;
-    }
-   
-    getDetails() {
-        return this.title;
+        date === "" ? this.date = "No Deadline" : this.date = date;
+        this.index = index;
     }
 }
 
-function createTask(title) {
-    return new Task(title);
+export default function createTask(index, title,date) {
+    return new Task(index, title, date);
 }
 
-export default createTask(title);
