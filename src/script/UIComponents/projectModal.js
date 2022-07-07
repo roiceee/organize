@@ -1,9 +1,5 @@
 
 function createProjectModal() {
-    return addProjectModalTemplate();
-}
-
-function addProjectModalTemplate() {
     const container = document.createElement('div');
     const template = `
     <div class="modal fade" tabindex="-1" id="add-project-modal">

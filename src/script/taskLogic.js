@@ -45,7 +45,7 @@ function removeNoProjectWarning() {
 function insertTaskToDOM(task) {
         const container = document.getElementById('card-container');
         const taskCard = createTaskCard(task);
-        container.append(taskCard);
+        container.insertBefore(taskCard, container.firstChild);
 }
 
 function resetTaskForm() {
@@ -54,14 +54,12 @@ function resetTaskForm() {
 
 function renderTaskCards() {
     const project = ProjectHolder.getCurrentProject();
-    const holder = document.getElementById('card-container');
     
     if (project.getLength() === 0) {
         return;
     }
     project.getTasks().forEach((task) => {
-        const taskCard = createTaskCard(task);
-        holder.append(taskCard);
+        insertTaskToDOM(task);
         addDeleteTaskButtonListener(task.index);
     })
 }

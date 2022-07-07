@@ -79,8 +79,10 @@ function addProjectButtonEvent() {
         resetProjectForm();
         const newProject = createProject(ProjectHolder.getLength(), projectName);
         ProjectHolder.addProject(newProject);
-        localStorageController.saveData(ProjectHolder.getProjects());
         insertProjectToDOM(newProject);
+        removeTaskCards();
+        renderTaskCards();
+        localStorageController.saveData(ProjectHolder.getProjects());
 }
 
 function addProjectListener(projectNumber) {

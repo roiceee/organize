@@ -19,7 +19,7 @@ function modalTemplate() {
                         <input type="text" class="form-control" id="add-title" aria-describedby="Input Title" placeholder="Task Name">
                     </div>
                     <div class="mb-3 col-6">
-                        <label for="add-date">Deadline</label>
+                        <label for="add-date">Deadline (Optional)</label>
                         <input type="date" class="form-control" id="add-date" aria-describedby="Input Date">
                     </div>
                     <button type="button" id="submit-task-button" class="btn btn-success float-end" data-bs-dismiss="modal">Add</button>
@@ -34,7 +34,7 @@ function modalTemplate() {
 
 function noProjectWarning(message) {
   const DOMString = `
-  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+  <div class="alert alert-warning alert-dismissible fade show my-" role="alert">
   <strong>Can't add task!</strong> ${message}
   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" id="no-project-warning-button"></button>
 </div>
@@ -44,7 +44,8 @@ function noProjectWarning(message) {
 
 function addTaskModalButton() {
     const DOMString = `
-    <button class="add-button rounded-25 p-2 position-fixed end-0 bottom-0 mx-5 mb-5" data-bs-toggle="modal" data-bs-target="#add-task-modal" id="task-modal">
+    <button class="add-button rounded-25 p-2" data-bs-toggle="modal" data-bs-target="#add-task-modal" id="task-modal">
+          Add Task
           <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
       </button>
     `

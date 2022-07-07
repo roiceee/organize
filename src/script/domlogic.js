@@ -17,9 +17,9 @@ function loadModalsToDOM() {
     DOMBody.appendChild(deleteProjectModal());
 }
 
-function loadAddTaskButtonToDOM() {
-    const DOMBody = document.body;
-    DOMBody.appendChild(addTaskModalButton());
+function loadAddTaskButton() {
+    const container = document.getElementById('card-container');
+    container.appendChild(addTaskModalButton());
 }
 
 function loadProjectNameContainer() {
@@ -37,27 +37,18 @@ function loadProjectNameContainer() {
 function loadTaskCardContainer() {
     const container = document.getElementById('main-body');
     const element = document.createElement('div');
-    element.classList.add('row', 'gap-3');
+    element.classList.add('row', 'gap-3', "row-cols-auto", "mb-3");
     element.setAttribute('id', 'card-container');
     container.append(element);
 }
-
-//project related functions
-// ___________________________________________________________________________________
-
-
-
-
-// ___________________________________________________________________________________
-//project related functions
 
 
 export default function startAppLogic() {
     loadNav();
     loadModalsToDOM();
-    loadAddTaskButtonToDOM();
     loadProjectNameContainer();
     loadTaskCardContainer();
+    loadAddTaskButton();
     renderProjects();
     addProjectButtonEventListener();
     submitTaskButtonListener();

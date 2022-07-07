@@ -9,10 +9,6 @@ button {
     border: none;
 }
 
-.add-button {
-    background-color: #F17A7E;
-}
-
 .add-button:hover {
     background-color: #e16a6e;
 }
@@ -50,8 +46,6 @@ hr {
     background-color: #eeba42;
 }
 
-
-
 #delete-icon {
     pointer-events: none;
 }
@@ -64,4 +58,25 @@ hr {
 
 #delete-project-trigger:hover {
     color: #F17A7E;
+}
+
+
+@media (min-width: 100px){
+	.add-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 50px;
+        width: 120px;
+        background-color: #F17A7E;
+        margin: auto;
+        margin-bottom: 12px;
+    }
+}
+
+@media only screen and (min-width: 770px){
+	.add-button {
+        margin-top: 40px;
+        margin-left: 90px;
+    }
 }
