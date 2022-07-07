@@ -26,9 +26,9 @@ function submitTaskEvent() {
 }
 
 function fireNoProjectWarning(message) {
-    const container = document.getElementById('main-body');
+    const container = document.getElementById('footer');
            const alert = noProjectWarning(message);
-           container.append(alert);
+           container.insertBefore(alert, container.firstChild);
             setTimeout(() => {
                 removeNoProjectWarning();
             },5000)

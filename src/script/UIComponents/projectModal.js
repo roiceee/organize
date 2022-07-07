@@ -24,11 +24,4 @@ function createProjectModal() {
       return container;
 }
 
-function addProjectModalEvent() {
-    const element = `
-    <span class="dropdown-item" id="add-project-div" data-project="" data-bs-toggle="modal" data-bs-target="#add-project-modal"><i>Add New Project</i></span>
-    `
-    return element;
-}
-
-export {createProjectModal, addProjectModalEvent};
+export {createProjectModal};

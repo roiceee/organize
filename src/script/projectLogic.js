@@ -114,14 +114,12 @@ function addProjectListener(projectNumber) {
 function deleteProjectListener() {
     const deleteProjectButton = document.getElementById('delete-project-button');
     deleteProjectButton.addEventListener('click', () => {
-        //deletecurrentProjectFromProjectHolder, reset index of projects, setCurrentProject to none
         removeProjectFromDropdown(ProjectHolder.getCurrentProject());
         removeTaskCards();
         resetProjectNameContainer();
         ProjectHolder.deleteCurrentProject();
         ProjectHolder.removeCurrentProjectVariable();
-        //delete project and tasks from the DOM
-        //project name deleted. show availableProjects
+        localStorageController.saveData(ProjectHolder.getProjects());
     })
 }
 

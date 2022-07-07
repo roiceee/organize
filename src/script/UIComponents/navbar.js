@@ -1,4 +1,4 @@
-import {addProjectModalEvent} from './projectModal.js';
+
 
 function createNavBar() {
     let nav = document.createElement('div');
@@ -29,7 +29,7 @@ function createProjectsTab() {
     Projects
   </div>
   <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" id="project-holder">
-    <li>${addProjectModalEvent()}</li>
+    <li><span class="dropdown-item" id="add-project-div" data-project="" data-bs-toggle="modal" data-bs-target="#add-project-modal"><i>Add New Project</i></span></li>
   </ul>
 </div>
 </div>

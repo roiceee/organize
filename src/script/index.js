@@ -1,4 +1,4 @@
-import startAppLogic from "./domlogic.js";
+import startAppLogic from "./initialLoad.js";
 
 
 // function addIcon() {
