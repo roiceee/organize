@@ -4,10 +4,13 @@ body {
     font-family: 'Oxygen', sans-serif;
 }
 
+button {
+    border-radius: 8px;
+    border: none;
+}
+
 .add-button {
     background-color: #F17A7E;
-    border: none;
-    border-radius: 8px;
 }
 
 .add-button:hover {
@@ -34,20 +37,31 @@ body {
   }
 
 hr {
+    margin-top: 4px;
     width: 100%;
     min-width: 150px;
   }
 
 .delete-button {
     background-color: #FFC94B;
-    border-radius: 8px;
-    border: none;
 }
 
 .delete-button:hover {
     background-color: #eeba42;
 }
 
+
+
 #delete-icon {
     pointer-events: none;
+}
+
+#delete-project-trigger {
+    font-size: 0.8rem;
+    display: none;
+    border:none;
+}
+
+#delete-project-trigger:hover {
+    color: #F17A7E;
 }
