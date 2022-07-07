@@ -42,6 +42,12 @@ export default (function ProjectHolder(){
     const getCurrentProject = function() {
         return currentProject;
     }
+    const getCurrentProjectTask = function (index) {
+        return currentProject.getTask(index);
+    }
+    const deleteCurrentProjectTask = function (index) {
+        currentProject.deleteTask(index);
+    }
     return {
         addProject,
         deleteProject,
@@ -51,6 +57,8 @@ export default (function ProjectHolder(){
         getCurrentProjectLength,
         addTaskToCurrentProject,
         getCurrentProject,
+        getCurrentProjectTask,
+        deleteCurrentProjectTask,
         isOnProject,
     }
 })();

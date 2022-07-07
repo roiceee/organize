@@ -1,3 +1,4 @@
+import createTask from "./Task.js";
 class Project  {
     constructor(index, projectName) {
         this.index = index;
@@ -5,9 +6,10 @@ class Project  {
         this.tasks = [];
     }
      setTasks(tasks) {
-        this.tasks = tasks;
+        tasks.forEach(task => {
+         this.tasks.push(createTask(task.index, task.title, task.date));
+        })
     }
-    
      addTask(task) {
         this.tasks.push(task);
     } 
@@ -20,6 +22,19 @@ class Project  {
      getLength() {
         return this.tasks.length;
      }
+     getTask(index) {
+        return this.tasks[index];
+     }
+     deleteTask(index) {
+        this.tasks.splice(index,1);
+        this.resetTasksIndex(index);
+     }
+     resetTasksIndex(start) {
+      for (let i = start; i < this.tasks.length; i++) {
+         this.tasks[i].setIndex(i.toString());
+      }
+     }
+
 }
 
 function createProject(index, name) {

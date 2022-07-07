@@ -150,7 +150,7 @@ function submitTaskButtonListener() {
     });
 }
 
-function submitTaskEvent() {
+ function submitTaskEvent() {
     if (!ProjectHolder.isOnProject) {
         const message = "You should choose a project first."
        fireNoProjectWarning(message);
@@ -168,6 +168,7 @@ function submitTaskEvent() {
     ProjectHolder.addTaskToCurrentProject(task);
     localStorageController.saveData(ProjectHolder.getProjects());
     insertTaskToDOM(task);
+    addDeleteTaskButtonListener(task.index);
 }
 
 function fireNoProjectWarning(message) {
@@ -188,9 +189,9 @@ function removeNoProjectWarning() {
 }
 
 function insertTaskToDOM(task) {
-    const container = document.getElementById('card-container');
-    const taskCard = createTaskCard(task);
-    container.append(taskCard);
+        const container = document.getElementById('card-container');
+        const taskCard = createTaskCard(task);
+        container.append(taskCard);
 }
 
 function resetTaskForm() {
@@ -207,30 +208,53 @@ function renderTaskCards() {
     project.getTasks().forEach((task) => {
         const taskCard = createTaskCard(task);
         holder.append(taskCard);
-        //add some listeners
+        addDeleteTaskButtonListener(task.index);
+        //add delete listeners
     })
 }
 
 function removeTaskCards() {
     const tasks = document.querySelectorAll('.task-card');
-    tasks.forEach((task) => {
-        task.remove();
+    tasks.forEach((task) => {task.remove();})
+}
+
+function addDeleteTaskButtonListener(taskIndex) {
+    const button = document.getElementById(`delete-button-${taskIndex}`);
+    button.addEventListener('click', (e) => {
+        const index = e.target.getAttribute('data-delete');
+        console.log(index);
+        deleteTaskFromProject(index);
+        deleteTaskCard(index);
+        resetTaskNumber(index)
+        localStorageController.saveData(ProjectHolder.getProjects());
     })
 }
-//____________________________________________________________________________________
-//task-related functions
 
-//body-related functions
-//____________________________________________________________________________________
+function deleteTaskCard(taskIndex) {
+    const taskCard = document.querySelector(`[data-task-number="${taskIndex}"]`);
+    taskCard.remove();
+}
 
+function deleteTaskFromProject(taskIndex) {
+    ProjectHolder.deleteCurrentProjectTask(taskIndex);
+}
 
-//____________________________________________________________________________________
-//body-related functions
+function resetTaskNumber(start) {
+    start = Number(start);
+    let end = ProjectHolder.getCurrentProjectLength();
+    for (let i = start; i < end; i++) {
+        resetTaskCardNumber(i + 1);
+    }
+    
+}
 
-
-
-//Execution Area
-//___________________________________________________________________________________________________________
+function resetTaskCardNumber(current) {
+    const taskCard = document.querySelector(`[data-task-number="${current}"]`);
+    taskCard.setAttribute('data-task-number', current - 1);
+    const button = document.getElementById(`delete-button-${current}`);
+    button.setAttribute('data-delete', current-1);
+    button.setAttribute('id', `delete-button-${current-1}`);
+}
 
 export default function startAppLogic() {
     loadNav();

@@ -4,6 +4,10 @@ class Task {
         date === "" ? this.date = "No Deadline" : this.date = date;
         this.index = index;
     }
+    
+    setIndex(newIndex) {
+        this.index = newIndex;
+    }
 }
 
 export default function createTask(index, title,date) {
