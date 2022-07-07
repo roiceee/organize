@@ -44,9 +44,9 @@ function noProjectWarning(message) {
 
 function addTaskModalButton() {
     const DOMString = `
-    <button class="add-button rounded-25 p-2" data-bs-toggle="modal" data-bs-target="#add-task-modal" id="task-modal">
+    <button class="add-button rounded-25 p-2 text-white" data-bs-toggle="modal" data-bs-target="#add-task-modal" id="task-modal">
           Add Task
-          <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
       </button>
     `
     return document.createRange().createContextualFragment(DOMString);
