@@ -1,6 +1,7 @@
 import createNavBar from "./UIComponents/navbar.js";
 import {createProjectModal as loadProjectModal} from './UIComponents/projectModal.js';
 import {createTaskModal as loadTaskModal, addTaskModalButton} from './UIComponents/taskModal.js';
+import deleteProjectModal from "./UIComponents/delete-project-modal.js";
 import createProject from "./LogicComponents/Project.js";
 import localStorageController from "./LogicComponents/localStorageModule.js";
 import ProjectHolder from "./LogicComponents/ProjectHolderModule.js";
@@ -16,6 +17,7 @@ function loadModalsToDOM() {
     const DOMBody = document.body;
     DOMBody.appendChild(loadProjectModal());
     DOMBody.appendChild(loadTaskModal());
+    DOMBody.appendChild(deleteProjectModal());
 }
 
 function loadAddTaskButtonToDOM() {
@@ -29,9 +31,14 @@ function loadProjectNameContainer() {
     element.classList.add('container');
     element.innerHTML = `
     <h2 id="project-name">Choose a project on the "Projects" tab above.</h2>
+    <button id="delete-project-trigger" class="my-0 mx-0 bg-white" data-bs-toggle="modal" data-bs-target="#delete-project-modal">Delete Project</button>
             <hr>
     `
     container.append(element);
+}
+
+function addDeleteProjectModalTrigger() {
+    document.getElementById('delete-project-trigger').style.display = "block"
 }
 
 function loadTaskCardContainer() {
@@ -64,7 +71,10 @@ function insertProjectToDOM(project) {
     setToCurrentProject(index);
     addProjectListener(index);
     updateProjectName(index);
+    addDeleteProjectModalTrigger();
 }
+
+
 
 function createProjectLI(project) {
     const listItem = document.createElement('li');
@@ -82,6 +92,7 @@ function updateProjectName(currentProjectNumber) {
     const currentProject = document.getElementById(`project-number-${currentProjectNumber}`)
     const container = document.getElementById('project-name');
     container.textContent = currentProject.textContent;
+    addDeleteProjectModalTrigger()
 }
 
 function setToCurrentProject(projectNumber) {
@@ -104,7 +115,6 @@ function addProjectButtonEventListener() {
             event.preventDefault();
             button.click();
           }
-
     });
 }
 
@@ -128,6 +138,8 @@ function addProjectListener(projectNumber) {
         renderTaskCards();
     })
 }
+
+
 
 // ___________________________________________________________________________________
 //project related functions
