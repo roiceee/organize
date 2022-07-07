@@ -12,7 +12,7 @@ function deleteProjectModal() {
                 <p>Do you want to delete the project? It can't be undone.</p>
                 <div class="row">
                 <div class="col d-flex justify-content-end">
-                <button type="button" class="btn btn-warning w-50" id="delete-project-button">Delete</button>
+                <button type="button" class="btn btn-warning w-50" data-bs-dismiss="modal" id="delete-project-button">Delete</button>
                 </div>
                 <div class="col d-flex">
                 <button type="button" class="btn btn-success w-50" data-bs-dismiss="modal">Cancel</button>

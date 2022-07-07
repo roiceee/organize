@@ -1,9 +1,10 @@
 import createNavBar from "./UIComponents/navbar.js";
 import {createProjectModal as loadProjectModal} from './UIComponents/projectModal.js';
 import {createTaskModal as loadTaskModal, addTaskModalButton} from './UIComponents/taskModal.js';
-import deleteProjectModal from "./UIComponents/delete-project-modal.js";
+import deleteProjectModal from "./UIComponents/deleteProjectModal.js";
 import {submitTaskButtonListener} from './taskLogic.js';
-import {renderProjects, addProjectButtonEventListener} from './projectLogic.js';
+import {renderProjects, addProjectButtonEventListener, deleteProjectListener} from './projectLogic.js';
+import ProjectHolder from "./LogicComponents/ProjectHolderModule.js";
 
 function loadNav() {
     const navContainer = document.getElementById('nav-container');
@@ -34,6 +35,10 @@ function loadProjectNameContainer() {
     container.append(element);
 }
 
+function loadProjectsToPage() {
+    //load existing projects to card container
+}
+
 function loadTaskCardContainer() {
     const container = document.getElementById('main-body');
     const element = document.createElement('div');
@@ -52,4 +57,5 @@ export default function startAppLogic() {
     renderProjects();
     addProjectButtonEventListener();
     submitTaskButtonListener();
+    deleteProjectListener();
 }

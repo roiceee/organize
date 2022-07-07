@@ -10,6 +10,9 @@ class Project  {
          this.tasks.push(createTask(task.index, task.title, task.date));
         })
     }
+    setIndex(newIndex) {
+      this.index = newIndex;
+    }
      addTask(task) {
         this.tasks.push(task);
     } 

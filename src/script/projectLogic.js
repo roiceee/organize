@@ -73,6 +73,21 @@ function addProjectButtonEventListener() {
     });
 }
 
+function resetProjectNameContainer() {
+    const container = document.getElementById('project-name');
+    container.textContent = 'Choose a project on the "Projects" tab above.';
+    document.getElementById('delete-project-trigger').style.display = "none";
+}
+
+function removeProjectFromDropdown(project) {
+    ProjectHolder.isOnProject = false;
+    const lastCurrent = document.querySelector(`[data-current=true]`);
+    if (lastCurrent != null || lastCurrent != undefined) {
+      lastCurrent.removeAttribute('data-current');
+    }
+    document.getElementById(`project-number-${project.index}`).remove();
+}
+
 function addProjectButtonEvent() {
         const form = document.getElementById('add-project');
         const projectName = form.value;
@@ -96,4 +111,18 @@ function addProjectListener(projectNumber) {
     })
 }
 
-export {renderProjects, addProjectButtonEventListener}
+function deleteProjectListener() {
+    const deleteProjectButton = document.getElementById('delete-project-button');
+    deleteProjectButton.addEventListener('click', () => {
+        //deletecurrentProjectFromProjectHolder, reset index of projects, setCurrentProject to none
+        removeProjectFromDropdown(ProjectHolder.getCurrentProject());
+        removeTaskCards();
+        resetProjectNameContainer();
+        ProjectHolder.deleteCurrentProject();
+        ProjectHolder.removeCurrentProjectVariable();
+        //delete project and tasks from the DOM
+        //project name deleted. show availableProjects
+    })
+}
+
+export {renderProjects, addProjectButtonEventListener, deleteProjectListener}

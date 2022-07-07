@@ -48,6 +48,19 @@ export default (function ProjectHolder(){
     const deleteCurrentProjectTask = function (index) {
         currentProject.deleteTask(index);
     }
+    const removeCurrentProjectVariable = function() {
+        currentProject = null;
+    }
+    const deleteCurrentProject = function() {
+        const index = projects.indexOf(currentProject);
+        projects.splice(index, 1);
+        //resets project index
+        for (let i = index; i < projects.length; i++) {
+            const project = projects[i];
+            project.setIndex(i);
+        }
+        console.log(projects);
+    }
     return {
         addProject,
         deleteProject,
@@ -59,6 +72,8 @@ export default (function ProjectHolder(){
         getCurrentProject,
         getCurrentProjectTask,
         deleteCurrentProjectTask,
+        deleteCurrentProject,
+        removeCurrentProjectVariable,
         isOnProject,
     }
 })();
