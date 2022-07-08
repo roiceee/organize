@@ -52,7 +52,7 @@ function loadProjectNameContainer() {
 function reloadProjects() {
     //load existing projects to card container
     const projectNameContainer = document.getElementById('project-name');
-    projectNameContainer.textContent = "Choose a project."
+    projectNameContainer.textContent = "Choose a project"
     document.getElementById('delete-project-trigger').style.display = 'none';
     removeAddTaskButton();
 }
