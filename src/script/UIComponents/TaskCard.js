@@ -4,8 +4,8 @@ export default function createTaskCard(task) {
     div.setAttribute("data-task-number", `${task.index}`);
     div.style.width = "18rem";
     div.innerHTML = 
-                    `<div class="card-body bg-secondary">
-                      <h5 class="card-title mb-0" id="task-title">${task.title}</h5>
+                    `<div class="card-body bg-secondary ${task.checked ? 'done' : ""}" id="task-title-${task.index}">
+                      <h5 class="card-title mb-0" >${task.title}</h5>
                     </div>
                     <ul class="list-group list-group-flush">
                       <li class="list-group-item" id="task-date">${task.date}</li>

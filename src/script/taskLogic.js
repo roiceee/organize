@@ -104,10 +104,18 @@ function resetTaskCardNumber(current) {
     button.setAttribute('id', `delete-button-${current-1}`);
     const checker = document.getElementById(`checkbox-${current}`)
     checker.setAttribute('id', `checkbox-${current-1}`);
+    const taskTitleNumber = document.getElementById(`task-title-${current}`);
+    taskTitleNumber.setAttribute('id', `task-title-${current-1}`);
 }
 
-function markCardAsDone() {
-    
+function markCard(taskIndex, value) {
+    const card = document.getElementById(`task-title-${taskIndex}`);
+    //change color of task card depending on checkbox value
+    if (value) {
+        card.classList.add('done');
+    } else {
+        card.classList.remove('done');
+    }
 }
 
 function submitTaskButtonListener() {
@@ -144,6 +152,7 @@ function addCheckboxListener(taskIndex){
         const task = ProjectHolder.getCurrentProjectTask(idNumber[1])
         task.setChecked(value);
         localStorageController.saveData(ProjectHolder.getProjects());
+        markCard(idNumber[1], value);
     })
 }
 
