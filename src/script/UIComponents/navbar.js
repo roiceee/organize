@@ -1,4 +1,4 @@
-import icon from '../../images/organize-icon.png'
+
 
 function createNavBar() {
     let nav = document.createElement('div');
@@ -7,7 +7,7 @@ function createNavBar() {
     <nav class="navbar navbar-expand-sm text-light navbar-dark">
     <div class="container-fluid">
     <span class="navbar-brand mb-0 h1 mx-3">
-    <img src="${icon}" id="icon">
+    <img src="/src/images/organize-icon.png" id="icon">
     <span>Organize</span>
     </span>
     ${createProjectsTab()}
