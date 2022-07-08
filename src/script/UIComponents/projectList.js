@@ -9,7 +9,7 @@ return document.createRange().createContextualFragment(nodeString);
 }
 
 function createProjectListItem(project) {
-   const element = `<div class="project-li card mx-auto mx-sm-0 gx-0 col p-2 bg-primary bg-opacity-50">${project.name}</div>`
+   const element = `<div class="project-li card mx-auto mx-sm-0 gx-0 col p-2 bg-primary bg-opacity-50" data-project-li="${project.index}" id="project-li-${project.index}">${project.name}</div>`
    return document.createRange().createContextualFragment(element);
 }
 

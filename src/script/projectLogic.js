@@ -21,13 +21,13 @@ function renderProjects() {
         holder.insertBefore(listItem, holder.firstChild);
         cardContainer.insertBefore(projectDiv, cardContainer.firstChild);
         addProjectListener(project.index);
+        addProjectListListener(project.index);
     })
 }
 
 function renderProjectList() {
     const projects = ProjectHolder.getProjects();
     const cardContainer = document.getElementById('card-container');
-    const projectDivContainer = createProjectListContainer();
     loadAddProjectButton();
     if (projects.length === 0) {
         return;
@@ -35,6 +35,7 @@ function renderProjectList() {
     projects.forEach((project) => {
         const projectDiv = createProjectListItem(project);
         cardContainer.insertBefore(projectDiv, cardContainer.firstChild);
+        addProjectListListener(project.index);
     })
 }
 
@@ -146,28 +147,38 @@ function addProjectButtonEvent() {
         const newProject = createProject(ProjectHolder.getLength(), projectName);
         ProjectHolder.addProject(newProject);
         insertProjectToDOM(newProject);
-        loadAddTaskButton();
-        removeTaskCards();
-        renderTaskCards();
-        removeProjectLi();
-        removeAddProjectButton();
-        restoreAddTaskButton();
+        updateDOM();
         localStorageController.saveData(ProjectHolder.getProjects());
 }
 
 function addProjectListener(projectNumber) {
     const project = document.getElementById(`project-number-${projectNumber}`);
     project.addEventListener('click', (e) => {
-        loadAddTaskButton();
         const currentProjectNumber = e.target.getAttribute('data-project')
         setToCurrentProject(currentProjectNumber);
         updateProjectName(currentProjectNumber);
-        removeTaskCards();
-        renderTaskCards();
-        removeProjectLi();
-        removeAddProjectButton();
+        updateDOM();
     })
 }
+
+function updateDOM() {
+    loadAddTaskButton();
+    removeTaskCards();
+    renderTaskCards();
+    removeProjectLi();
+    removeAddProjectButton();
+    restoreAddTaskButton();
+}
+
+function addProjectListListener(projectNumber) {
+    const project = document.getElementById(`project-li-${projectNumber}`);
+    project.addEventListener('click', (e) => {
+        const data = e.target.getAttribute('data-project-li');
+        const projectItem = document.getElementById(`project-number-${data}`);
+        projectItem.click();
+    })
+}
+
 function deleteProjectListener() {
     const deleteProjectButton = document.getElementById('delete-project-button');
     deleteProjectButton.addEventListener('click', () => {
