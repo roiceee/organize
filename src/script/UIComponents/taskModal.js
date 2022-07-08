@@ -34,7 +34,7 @@ function modalTemplate() {
 
 function noProjectWarning(message) {
   const DOMString = `
-  <div class="alert alert-warning alert-dismissible fade show mt-3 start-50 translate-middle" role="alert">
+  <div class="alert alert-success alert-dismissible fade show mt-3 start-50 translate-middle" role="alert">
   <strong>Can't add task!</strong> ${message}
   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" id="no-project-warning-button"></button>
 </div>
