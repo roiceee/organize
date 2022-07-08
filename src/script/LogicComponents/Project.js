@@ -7,7 +7,7 @@ class Project  {
     }
      setTasks(tasks) {
         tasks.forEach(task => {
-         this.tasks.push(createTask(task.index, task.title, task.date));
+         this.tasks.push(createTask(task.index, task.title, task.date, task.checked));
         })
     }
     setIndex(newIndex) {

@@ -19,11 +19,12 @@ function submitTaskEvent() {
         fireNoProjectWarning(message);
         return;
     }
-    const task = createTask(ProjectHolder.getCurrentProjectLength(), title, date);
+    const task = createTask(ProjectHolder.getCurrentProjectLength(), title, date, false);
     ProjectHolder.addTaskToCurrentProject(task);
     localStorageController.saveData(ProjectHolder.getProjects());
     insertTaskToDOM(task);
     addDeleteTaskButtonListener(task.index);
+    addCheckboxListener(task.index);
 }
 
 function processDateInput(dateString) {
@@ -69,6 +70,7 @@ function renderTaskCards() {
     project.getTasks().forEach((task) => {
         insertTaskToDOM(task);
         addDeleteTaskButtonListener(task.index);
+        addCheckboxListener(task.index);
     })
 }
 
@@ -92,7 +94,6 @@ function resetTaskNumber(start) {
     for (let i = start; i < end; i++) {
         resetTaskCardNumber(i + 1);
     }
-    
 }
 
 function resetTaskCardNumber(current) {
@@ -101,6 +102,12 @@ function resetTaskCardNumber(current) {
     const button = document.getElementById(`delete-button-${current}`);
     button.setAttribute('data-delete', current-1);
     button.setAttribute('id', `delete-button-${current-1}`);
+    const checker = document.getElementById(`checkbox-${current}`)
+    checker.setAttribute('id', `checkbox-${current-1}`);
+}
+
+function markCardAsDone() {
+    
 }
 
 function submitTaskButtonListener() {
@@ -125,6 +132,17 @@ function addDeleteTaskButtonListener(taskIndex) {
         deleteTaskFromProject(index);
         deleteTaskCard(index);
         resetTaskNumber(index)
+        localStorageController.saveData(ProjectHolder.getProjects());
+    })
+}
+
+function addCheckboxListener(taskIndex){
+    const checker = document.getElementById(`checkbox-${taskIndex}`);
+    checker.addEventListener('click', (e) => {
+        const value = checker.checked;
+        const idNumber = e.target.getAttribute('id').split("-");
+        const task = ProjectHolder.getCurrentProjectTask(idNumber[1])
+        task.setChecked(value);
         localStorageController.saveData(ProjectHolder.getProjects());
     })
 }
