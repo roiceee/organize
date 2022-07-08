@@ -4,17 +4,37 @@ import localStorageController from "./LogicComponents/localStorageModule.js";
 import ProjectHolder from "./LogicComponents/ProjectHolderModule.js";
 import {renderTaskCards, removeTaskCards} from './taskLogic.js';
 import {reloadProjects, loadAddTaskButton} from './initialLoad.js';
+import {createProjectListContainer, createProjectListItem} from './UIComponents/projectList.js';
+import { loadAddProjectButton, restoreAddTaskButton} from "./initialLoad.js";
 
 function renderProjects() {
     const projects = ProjectHolder.getProjects();
     const holder = document.getElementById('project-holder');
+    const cardContainer = document.getElementById('card-container');
+    loadAddProjectButton();
     if (projects.length === 0) {
         return;
     }
     projects.forEach((project) => {
         const listItem = createProjectLI(project);
+        const projectDiv = createProjectListItem(project);
         holder.insertBefore(listItem, holder.firstChild);
+        cardContainer.insertBefore(projectDiv, cardContainer.firstChild);
         addProjectListener(project.index);
+    })
+}
+
+function renderProjectList() {
+    const projects = ProjectHolder.getProjects();
+    const cardContainer = document.getElementById('card-container');
+    const projectDivContainer = createProjectListContainer();
+    loadAddProjectButton();
+    if (projects.length === 0) {
+        return;
+    }
+    projects.forEach((project) => {
+        const projectDiv = createProjectListItem(project);
+        cardContainer.insertBefore(projectDiv, cardContainer.firstChild);
     })
 }
 
@@ -101,6 +121,24 @@ function removeProjectFromDropdown(project) {
     document.getElementById(`li-${project.index}`).remove();
 }
 
+function removeProjectLi() {
+    const projectDivs = document.querySelectorAll('.project-li');
+    if (projectDivs == null || projectDivs == undefined) {
+        return;
+    }
+    projectDivs.forEach(div => {
+        div.remove();
+    })
+}
+
+
+function removeAddProjectButton() {
+    const button = document.getElementById('add-project-modal-button');
+    if (button != null || button != undefined) {
+        button.remove();
+    }
+}
+
 function addProjectButtonEvent() {
         const form = document.getElementById('add-project');
         const projectName = form.value;
@@ -111,6 +149,9 @@ function addProjectButtonEvent() {
         loadAddTaskButton();
         removeTaskCards();
         renderTaskCards();
+        removeProjectLi();
+        removeAddProjectButton();
+        restoreAddTaskButton();
         localStorageController.saveData(ProjectHolder.getProjects());
 }
 
@@ -123,9 +164,10 @@ function addProjectListener(projectNumber) {
         updateProjectName(currentProjectNumber);
         removeTaskCards();
         renderTaskCards();
+        removeProjectLi();
+        removeAddProjectButton();
     })
 }
-
 function deleteProjectListener() {
     const deleteProjectButton = document.getElementById('delete-project-button');
     deleteProjectButton.addEventListener('click', () => {
@@ -136,6 +178,7 @@ function deleteProjectListener() {
         ProjectHolder.deleteCurrentProject();
         ProjectHolder.removeCurrentProjectVariable();
         resetProjectListIndex(project.index);
+        renderProjectList();
         localStorageController.saveData(ProjectHolder.getProjects());
     })
 }

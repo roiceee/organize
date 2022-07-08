@@ -4,6 +4,7 @@ import {createTaskModal as loadTaskModal, addTaskModalButton} from './UIComponen
 import deleteProjectModal from "./UIComponents/deleteProjectModal.js";
 import {submitTaskButtonListener} from './taskLogic.js';
 import {renderProjects, addProjectButtonEventListener, deleteProjectListener} from './projectLogic.js';
+import { createProjectButton } from "./UIComponents/projectList.js";
 import ProjectHolder from "./LogicComponents/ProjectHolderModule.js";
 
 function loadNav() {
@@ -25,6 +26,15 @@ function loadAddTaskButton() {
     }
     const container = document.getElementById('card-container');
     container.appendChild(addTaskModalButton());
+}
+
+function loadAddProjectButton() {
+    const button = document.getElementById('add-project-modal-button');
+    if (button != undefined || button != null) {
+        return;
+    }
+    const container = document.getElementById('card-container');
+    container.appendChild(createProjectButton());
 }
 
 function loadProjectNameContainer() {
@@ -54,6 +64,13 @@ function removeAddTaskButton() {
     }
 }
 
+function restoreAddTaskButton() {
+    const button = document.getElementById('task-modal');
+   if (button != null) { 
+        button.style.display = 'flex'
+    }
+}
+
 function loadTaskCardContainer() {
     const container = document.getElementById('main-body');
     const element = document.createElement('div');
@@ -68,10 +85,10 @@ function startAppLogic() {
     loadProjectNameContainer();
     loadTaskCardContainer();
     renderProjects();
-    reloadProjects()
+    reloadProjects();
     addProjectButtonEventListener();
     submitTaskButtonListener();
     deleteProjectListener();
 }
 
-export {startAppLogic as default, reloadProjects, loadAddTaskButton}
+export {startAppLogic as default, reloadProjects, loadAddTaskButton, loadAddProjectButton, restoreAddTaskButton}

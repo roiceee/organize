@@ -59,6 +59,16 @@ hr {
     color: #F17A7E;
 }
 
+.project-li {
+    max-width: 300px;
+    width: 80%;
+    height: 40px;
+}
+
+#add-project-modal-button {
+    height: 60px;
+    width: 120px;
+}
 
 @media (min-width: 100px){
 	.add-button {
