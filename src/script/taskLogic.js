@@ -11,7 +11,8 @@ function submitTaskEvent() {
         return;
     }
     const title = document.getElementById('add-title').value;
-    const date = document.getElementById('add-date').value;
+    const dateInput = document.getElementById('add-date').value;
+    const date = processDateInput(dateInput);
     resetTaskForm();
     if (title === "") {
         const message = "Please enter task name."
@@ -23,6 +24,13 @@ function submitTaskEvent() {
     localStorageController.saveData(ProjectHolder.getProjects());
     insertTaskToDOM(task);
     addDeleteTaskButtonListener(task.index);
+}
+
+function processDateInput(dateString) {
+    var options = {month: 'long', day: 'numeric', year: 'numeric'};
+    dateString = dateString.split('-');
+    const date = new Date(dateString[0], Number(dateString[1]) - 1, dateString[2]);
+    return date.toLocaleDateString("en-US", options);
 }
 
 function fireNoProjectWarning(message) {
