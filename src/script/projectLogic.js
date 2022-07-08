@@ -3,6 +3,7 @@ import createProject from "./LogicComponents/Project.js";
 import localStorageController from "./LogicComponents/localStorageModule.js";
 import ProjectHolder from "./LogicComponents/ProjectHolderModule.js";
 import {renderTaskCards, removeTaskCards} from './taskLogic.js';
+import {reloadProjects, loadAddTaskButton} from './initialLoad.js';
 
 function renderProjects() {
     const projects = ProjectHolder.getProjects();
@@ -33,10 +34,28 @@ function addDeleteProjectModalTrigger() {
 
 function createProjectLI(project) {
     const listItem = document.createElement('li');
+    listItem.setAttribute('id', `li-${project.index}`)
         listItem.innerHTML = `
         <div class="dropdown-item" id="project-number-${project.index}" data-project="${project.index}">${project.getName()}</div>
         `
     return listItem;
+}
+
+function resetProject(index) {
+    const selector = index+1;
+    const listItem = document.getElementById(`li-${selector}`);
+    listItem.setAttribute('id', `li-${index}`);
+    const projectContainer = document.getElementById(`project-number-${selector}`);
+    projectContainer.setAttribute('id', `project-number-${index}`);
+    projectContainer.setAttribute('data-project', `${index}`);
+}
+
+function resetProjectListIndex(start) {
+    start = Number(start);
+    let end = ProjectHolder.getLength();
+    for (let i = start; i < end; i++) {
+        resetProject(i);
+    }
 }
 
 function resetProjectForm() {
@@ -73,19 +92,13 @@ function addProjectButtonEventListener() {
     });
 }
 
-function resetProjectNameContainer() {
-    const container = document.getElementById('project-name');
-    container.textContent = 'Choose a project on the "Projects" tab above.';
-    document.getElementById('delete-project-trigger').style.display = "none";
-}
-
 function removeProjectFromDropdown(project) {
     ProjectHolder.isOnProject = false;
     const lastCurrent = document.querySelector(`[data-current=true]`);
     if (lastCurrent != null || lastCurrent != undefined) {
       lastCurrent.removeAttribute('data-current');
     }
-    document.getElementById(`project-number-${project.index}`).remove();
+    document.getElementById(`li-${project.index}`).remove();
 }
 
 function addProjectButtonEvent() {
@@ -95,6 +108,7 @@ function addProjectButtonEvent() {
         const newProject = createProject(ProjectHolder.getLength(), projectName);
         ProjectHolder.addProject(newProject);
         insertProjectToDOM(newProject);
+        loadAddTaskButton();
         removeTaskCards();
         renderTaskCards();
         localStorageController.saveData(ProjectHolder.getProjects());
@@ -103,6 +117,7 @@ function addProjectButtonEvent() {
 function addProjectListener(projectNumber) {
     const project = document.getElementById(`project-number-${projectNumber}`);
     project.addEventListener('click', (e) => {
+        loadAddTaskButton();
         const currentProjectNumber = e.target.getAttribute('data-project')
         setToCurrentProject(currentProjectNumber);
         updateProjectName(currentProjectNumber);
@@ -114,11 +129,13 @@ function addProjectListener(projectNumber) {
 function deleteProjectListener() {
     const deleteProjectButton = document.getElementById('delete-project-button');
     deleteProjectButton.addEventListener('click', () => {
-        removeProjectFromDropdown(ProjectHolder.getCurrentProject());
+        const project = ProjectHolder.getCurrentProject();
+        removeProjectFromDropdown(project);
         removeTaskCards();
-        resetProjectNameContainer();
+        reloadProjects();
         ProjectHolder.deleteCurrentProject();
         ProjectHolder.removeCurrentProjectVariable();
+        resetProjectListIndex(project.index);
         localStorageController.saveData(ProjectHolder.getProjects());
     })
 }

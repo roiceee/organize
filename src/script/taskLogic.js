@@ -54,7 +54,7 @@ function resetTaskForm() {
 
 function renderTaskCards() {
     const project = ProjectHolder.getCurrentProject();
-    
+    console.log(project)
     if (project.getLength() === 0) {
         return;
     }
