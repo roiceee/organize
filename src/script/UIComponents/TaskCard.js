@@ -6,13 +6,14 @@ export default function createTaskCard(task) {
     div.innerHTML = 
                     `<div class="card-body bg-secondary position-relative ${task.checked ? 'done' : ""}" id="task-title-${task.index}">
                     <div class="row">
-                      <h5 class="card-title mb-0 col" >${task.title}</h5>
-                      <div class="edit-div position-absolute my-3 translate-middle"><svg class="edit-button" id="edit-${task.index}" data-bs-toggle="modal" data-bs-target="#edit-task-modal" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"></path><polygon points="18 2 22 6 12 16 8 16 8 12 18 2"></polygon></svg>
-                      </div>
+                      <h5 class="card-title mb-0 col" id="task-title-holder-${task.index}">${task.title}</h5>
+                      <button class="edit-button position-absolute my-3 translate-middle"  id="edit-${task.index}" data-bs-toggle="modal" data-bs-target="#edit-task-modal"> 
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"></path><polygon points="18 2 22 6 12 16 8 16 8 12 18 2"></polygon></svg>
+                      </button>
                     </div>
                     </div>
                     <ul class="list-group list-group-flush">
-                      <li class="list-group-item" id="task-date">${task.date}</li>
+                      <li class="list-group-item" id="task-date-${task.index}">${task.date}</li>
                     </ul>
                     <div class="p-1 d-flex justify-content-between align-items-center gap-4">
                     <div class="form-check mx-3">

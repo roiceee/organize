@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Oxygen&display=swap');
 
+*:focus-visible {
+    outline: none;
+}
+
 body {
     font-family: 'Oxygen', sans-serif;
 }
@@ -11,10 +15,6 @@ button {
 
 .add-button:hover {
     background-color: #547071;
-}
-
-.add-button:focus-visible {
-    border: none;
 }
 
 .add-button:active {
@@ -44,10 +44,6 @@ hr {
 
 .delete-button:hover {
     background-color: #eeba42;
-}
-
-#delete-icon {
-    pointer-events: none;
 }
 
 #delete-project-trigger {
@@ -80,17 +76,29 @@ h3 {
     pointer-events: none;
 }
 
-.edit-div {
+.edit-button {
     background-color: transparent;
     width: fit-content;
     top: 0px;
     right: -26px;
 }
 
-#edit-button:active {
+
+.edit-button:active {
     transform: scale(1.2);
 }
 
+svg {
+    pointer-events: none;
+}
+
+.card-title {
+    padding-right: 22px;
+}
+
+.project-name {
+    text-overflow: ellipsis;
+}
 
 @media (min-width: 100px){
 	.add-button {
@@ -114,8 +122,5 @@ h3 {
     }
     .project-li:hover {
         background-color: rgb(236, 154, 157)!important;
-    }
-    #edit-button:hover {
-        stroke: rgb(54, 54, 54);
     }
 }

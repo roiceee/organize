@@ -12,7 +12,7 @@ function editTaskModalTemplate() {
                 <form id="task-form">
                     <div class="mb-3">
                     <label for="edit-title">Title</label>
-                        <input type="text" maxlength="50" class="form-control" id="edit-title" aria-describedby="Input Title" placeholder="Task Name">
+                        <input type="text" maxlength="40" class="form-control" id="edit-title" aria-describedby="Input Title" placeholder="Task Name">
                     </div>
                     <div class="mb-3 col-6">
                         <label for="edit-date">Deadline (Optional)</label>

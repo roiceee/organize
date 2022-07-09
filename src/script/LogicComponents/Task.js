@@ -13,6 +13,12 @@ class Task {
     setIndex(newIndex) {
         this.index = newIndex;
     }
+    setTitle(title) {
+        this.title = title;
+    }
+    setDate(date) {
+        this.date = date;
+    }
 }
 
 export default function createTask(index, title,date, checked) {

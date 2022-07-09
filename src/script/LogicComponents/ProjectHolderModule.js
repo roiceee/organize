@@ -17,6 +17,7 @@ export default (function ProjectHolder(){
     let projects;
     let currentProject;
     let isOnProject = false;
+    let currentTaskToEdit;
     localStorageController.getData() === null ? projects = [] : projects = convertProjectJSON();
     const addProject = function(project) {
         projects.push(project);
@@ -61,6 +62,12 @@ export default (function ProjectHolder(){
         }
         console.log(projects);
     }
+    const setCurrentTaskToEdit = function(task) {
+        currentTaskToEdit = task;
+    }
+    const getCurrentTaskToEdit = function() {
+        return currentTaskToEdit;
+    }
     return {
         addProject,
         deleteProject,
@@ -74,6 +81,8 @@ export default (function ProjectHolder(){
         deleteCurrentProjectTask,
         deleteCurrentProject,
         removeCurrentProjectVariable,
+        setCurrentTaskToEdit,
+        getCurrentTaskToEdit,
         isOnProject,
     }
 })();

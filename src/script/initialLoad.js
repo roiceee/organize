@@ -2,10 +2,10 @@ import createNavBar from "./UIComponents/navbar.js";
 import {createProjectModal as loadProjectModal} from './UIComponents/projectModal.js';
 import {createTaskModal as loadTaskModal, addTaskModalButton} from './UIComponents/taskModal.js';
 import deleteProjectModal from "./UIComponents/deleteProjectModal.js";
-import {submitTaskButtonListener} from './taskLogic.js';
+import {submitTaskButtonListener, editTaskListener} from './taskLogic.js';
 import {renderProjects, addProjectButtonEventListener, deleteProjectListener} from './projectLogic.js';
 import { createProjectButton } from "./UIComponents/projectList.js";
-import {createEditTaskModal as loadEditTaskModal} from "./UIComponents/editTaskModal.js";
+import {createEditTaskModal as loadEditTaskModal} from "./UIComponents/editTaskModal.js"; 
 import ProjectHolder from "./LogicComponents/ProjectHolderModule.js";
 
 function loadNav() {
@@ -91,6 +91,7 @@ function startAppLogic() {
     addProjectButtonEventListener();
     submitTaskButtonListener();
     deleteProjectListener();
+    editTaskListener();
 }
 
 export {startAppLogic as default, reloadProjects, loadAddTaskButton, loadAddProjectButton, restoreAddTaskButton}
