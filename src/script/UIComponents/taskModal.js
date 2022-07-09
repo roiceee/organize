@@ -15,7 +15,7 @@ function modalTemplate() {
             <div class="modal-body text-black">
                 <form id="task-form">
                     <div class="mb-3">
-                    <label for="add-task">Title</label>
+                    <label for="add-title">Title</label>
                         <input type="text" maxlength="50" class="form-control" id="add-title" aria-describedby="Input Title" placeholder="Task Name">
                     </div>
                     <div class="mb-3 col-6">

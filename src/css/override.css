@@ -80,6 +80,18 @@ h3 {
     pointer-events: none;
 }
 
+.edit-div {
+    background-color: transparent;
+    width: fit-content;
+    top: 0px;
+    right: -26px;
+}
+
+#edit-button:active {
+    transform: scale(1.2);
+}
+
+
 @media (min-width: 100px){
 	.add-button {
         display: flex;
@@ -102,5 +114,8 @@ h3 {
     }
     .project-li:hover {
         background-color: rgb(236, 154, 157)!important;
+    }
+    #edit-button:hover {
+        stroke: rgb(54, 54, 54);
     }
 }

@@ -156,4 +156,8 @@ function addCheckboxListener(taskIndex){
     })
 }
 
+function addEditButtonListener() {
+    
+}
+
 export {submitTaskButtonListener, renderTaskCards, removeTaskCards};

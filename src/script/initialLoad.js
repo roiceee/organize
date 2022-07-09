@@ -5,6 +5,7 @@ import deleteProjectModal from "./UIComponents/deleteProjectModal.js";
 import {submitTaskButtonListener} from './taskLogic.js';
 import {renderProjects, addProjectButtonEventListener, deleteProjectListener} from './projectLogic.js';
 import { createProjectButton } from "./UIComponents/projectList.js";
+import {createEditTaskModal as loadEditTaskModal} from "./UIComponents/editTaskModal.js";
 import ProjectHolder from "./LogicComponents/ProjectHolderModule.js";
 
 function loadNav() {
@@ -16,6 +17,7 @@ function loadModalsToDOM() {
     const DOMBody = document.body;
     DOMBody.appendChild(loadProjectModal());
     DOMBody.appendChild(loadTaskModal());
+    DOMBody.appendChild(loadEditTaskModal());
     DOMBody.appendChild(deleteProjectModal());
 }
 
