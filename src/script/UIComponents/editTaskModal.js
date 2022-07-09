@@ -9,7 +9,7 @@ function editTaskModalTemplate() {
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body text-black">
-                <form id="task-form">
+                <form id="edit-task-form">
                     <div class="mb-3">
                     <label for="edit-title">Title</label>
                         <input type="text" maxlength="40" class="form-control" id="edit-title" aria-describedby="Input Title" placeholder="Task Name">

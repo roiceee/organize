@@ -27,12 +27,6 @@ function getTaskFormDetails(mode) {
     const title = document.getElementById(`${mode}-title`).value;
     const dateInput = document.getElementById(`${mode}-date`).value;
     const date = processDateInput(dateInput);
-    resetTaskForm();
-    if (title === "") {
-        const message = "Please enter task name."
-        fireNoProjectWarning(message);
-        return;
-    }
     return {title, date};
 }
 
@@ -203,7 +197,6 @@ function addEditTaskModalButtonListener(taskIndex) {
         const idArray = e.target.getAttribute('id').split("-");
         const idNumber = idArray[1];
         console.log(idNumber)
-        //get task details and put it in the edit modal
         const task = ProjectHolder.getCurrentProjectTask(idNumber);
         const editModalTitleForm = document.getElementById('edit-title');
         const editModalDateForm = document.getElementById('edit-date');
@@ -218,11 +211,11 @@ function editTaskListener() {
     const button = document.getElementById('edit-task-button');
     button.addEventListener('click', (e) => {
         const {title, date} = getTaskFormDetails("edit");
-        console.log(title + "   " + date);
         updateTask(title, date);
         localStorageController.saveData(ProjectHolder.getProjects());
     })
-    document.addEventListener('keydown', (e) => {
+    const editProjectForm = document.getElementById('edit-task-form');
+    editProjectForm.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
             button.click();

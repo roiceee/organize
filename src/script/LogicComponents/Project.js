@@ -2,13 +2,16 @@ import createTask from "./Task.js";
 class Project  {
     constructor(index, projectName) {
         this.index = index;
-        projectName.trim() === "" ? this.name = "untitled": this.name = projectName;
+        projectName.trim() === "" ? this.name = "Untitled": this.name = projectName;
         this.tasks = [];
     }
      setTasks(tasks) {
         tasks.forEach(task => {
          this.tasks.push(createTask(task.index, task.title, task.date, task.checked));
         })
+    }
+    setName(projectName) {
+      this.name = projectName;
     }
     setIndex(newIndex) {
       this.index = newIndex;

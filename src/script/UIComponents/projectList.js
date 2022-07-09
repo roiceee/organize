@@ -9,7 +9,7 @@ return document.createRange().createContextualFragment(nodeString);
 }
 
 function createProjectListItem(project) {
-   const element = `<div class="project-li card mx-auto mx-sm-0 gx-0 col p-2 bg-primary bg-opacity-50" data-project-li="${project.index}" id="project-li-${project.index}"><h3>${project.name.length > 15 ? project.name.substring(0,15) + "..." : project.name}</h3></div>`
+   const element = `<div class="project-li card mx-auto mx-sm-0 gx-0 col p-2 bg-primary bg-opacity-50" data-project-li="${project.index}" id="project-li-${project.index}"><h3>${project.name.length > 20 ? project.name.substring(0,18) + "..." : project.name}</h3></div>`
    return document.createRange().createContextualFragment(element);
 }
 

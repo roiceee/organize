@@ -46,13 +46,17 @@ hr {
     background-color: #eeba42;
 }
 
-#delete-project-trigger {
+.project-trigger {
     font-size: 0.8rem;
     display: none;
 }
 
 #delete-project-trigger:hover {
     color: #F17A7E;
+}
+
+#edit-project-trigger:hover {
+    color: #eeba42;
 }
 
 .project-li {

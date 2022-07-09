@@ -3,10 +3,10 @@ import {createProjectModal as loadProjectModal} from './UIComponents/projectModa
 import {createTaskModal as loadTaskModal, addTaskModalButton} from './UIComponents/taskModal.js';
 import deleteProjectModal from "./UIComponents/deleteProjectModal.js";
 import {submitTaskButtonListener, editTaskListener} from './taskLogic.js';
-import {renderProjects, addProjectButtonEventListener, deleteProjectListener} from './projectLogic.js';
+import {renderProjects, addProjectButtonEventListener, deleteProjectListener, editProjectModalListener, editProjectButtonListener} from './projectLogic.js';
 import { createProjectButton } from "./UIComponents/projectList.js";
 import {createEditTaskModal as loadEditTaskModal} from "./UIComponents/editTaskModal.js"; 
-import ProjectHolder from "./LogicComponents/ProjectHolderModule.js";
+import { createEditProjectModal as loadEditProjectModal } from "./UIComponents/editProjectModal.js";
 
 function loadNav() {
     const navContainer = document.getElementById('nav-container');
@@ -19,6 +19,7 @@ function loadModalsToDOM() {
     DOMBody.appendChild(loadTaskModal());
     DOMBody.appendChild(loadEditTaskModal());
     DOMBody.appendChild(deleteProjectModal());
+    DOMBody.appendChild(loadEditProjectModal());
 }
 
 function loadAddTaskButton() {
@@ -45,7 +46,10 @@ function loadProjectNameContainer() {
     element.classList.add('container');
     element.innerHTML = `
     <h2 id="project-name"></h2>
-    <button type="button" id="delete-project-trigger" class="my-0 mx-0 bg-white" data-bs-toggle="modal" data-bs-target="#delete-project-modal">Delete Project</button>
+    <div class="d-flex">
+    <button type="button" id="edit-project-trigger" class="my-0 mx-0 bg-white project-trigger" data-bs-toggle="modal" data-bs-target="#edit-project-modal">Edit</button>
+    <button type="button" id="delete-project-trigger" class="my-0 mx-0 bg-white project-trigger" data-bs-toggle="modal" data-bs-target="#delete-project-modal">Delete</button>
+    </div>
             <hr>
     `
     container.append(element);
@@ -56,6 +60,7 @@ function reloadProjects() {
     const projectNameContainer = document.getElementById('project-name');
     projectNameContainer.textContent = "Choose a project"
     document.getElementById('delete-project-trigger').style.display = 'none';
+    document.getElementById('edit-project-trigger').style.display = 'none';
     removeAddTaskButton();
 }
 
@@ -89,8 +94,10 @@ function startAppLogic() {
     renderProjects();
     reloadProjects();
     addProjectButtonEventListener();
-    submitTaskButtonListener();
     deleteProjectListener();
+    editProjectModalListener();
+    editProjectButtonListener();
+    submitTaskButtonListener();
     editTaskListener();
 }
 

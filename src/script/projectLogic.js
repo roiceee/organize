@@ -51,6 +51,7 @@ function insertProjectToDOM(project) {
 
 function addDeleteProjectModalTrigger() {
     document.getElementById('delete-project-trigger').style.display = "block"
+    document.getElementById('edit-project-trigger').style.display = "block"
 }
 
 function createProjectLI(project) {
@@ -101,18 +102,6 @@ function setToCurrentProject(projectNumber) {
    currentProject.setAttribute('data-current', true);
 }
 
-function addProjectButtonEventListener() {
-    const button = document.getElementById('add-project-button');
-    button.addEventListener('click', () => {addProjectButtonEvent();});
-    const projectForm = document.getElementById('project-form');
-    projectForm.addEventListener('keypress', (event) => {
-        if (event.key === 'Enter') { 
-            event.preventDefault();
-            button.click();
-          }
-    });
-}
-
 function removeProjectFromDropdown(project) {
     ProjectHolder.isOnProject = false;
     const lastCurrent = document.querySelector(`[data-current=true]`);
@@ -151,6 +140,27 @@ function addProjectButtonEvent() {
         localStorageController.saveData(ProjectHolder.getProjects());
 }
 
+
+function updateDOM() {
+    loadAddTaskButton();
+    removeTaskCards();
+    renderTaskCards();
+    removeProjectLi();
+    removeAddProjectButton();
+    restoreAddTaskButton();
+}
+
+function updateProject(projectName) {
+    const project = ProjectHolder.getCurrentProject();
+    project.setName(projectName);
+    updateProjectDOM(project);
+}
+
+function updateProjectDOM(project) {
+    document.getElementById('project-name').textContent = project.name;
+    document.getElementById(`project-number-${project.index}`).textContent = project.name;
+}
+
 function addProjectListener(projectNumber) {
     const project = document.getElementById(`project-number-${projectNumber}`);
     project.addEventListener('click', (e) => {
@@ -161,13 +171,16 @@ function addProjectListener(projectNumber) {
     })
 }
 
-function updateDOM() {
-    loadAddTaskButton();
-    removeTaskCards();
-    renderTaskCards();
-    removeProjectLi();
-    removeAddProjectButton();
-    restoreAddTaskButton();
+function addProjectButtonEventListener() {
+    const button = document.getElementById('add-project-button');
+    button.addEventListener('click', () => {addProjectButtonEvent();});
+    const projectForm = document.getElementById('project-form');
+    projectForm.addEventListener('keypress', (event) => {
+        if (event.key === 'Enter') { 
+            event.preventDefault();
+            button.click();
+          }
+    });
 }
 
 function addProjectListListener(projectNumber) {
@@ -194,4 +207,28 @@ function deleteProjectListener() {
     })
 }
 
-export {renderProjects, addProjectButtonEventListener, deleteProjectListener}
+function editProjectModalListener() {
+    const editProjectButton = document.getElementById('edit-project-trigger');
+    editProjectButton.addEventListener('click', (e) => {
+        const currentProjectToEdit = ProjectHolder.getCurrentProject();
+        document.getElementById('edit-project').value = currentProjectToEdit.name;
+    })
+}
+
+function editProjectButtonListener() {
+    const button = document.getElementById('edit-project-button');
+    button.addEventListener('click', (e) => {
+        const projectName = document.getElementById('edit-project').value;
+        updateProject(projectName);
+        localStorageController.saveData(ProjectHolder.getProjects());
+    })
+    
+    document.getElementById('edit-project').addEventListener('keydown', (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            button.click();
+        }
+    })
+}
+
+export {renderProjects, addProjectButtonEventListener, deleteProjectListener, editProjectModalListener, editProjectButtonListener}
