@@ -105,6 +105,14 @@ svg {
     overflow-wrap: break-word;
 }
 
+.red-column {
+    height: 100%!important;
+    width: 8px!important;
+    background-color: #F17A7E!important;
+    top: 0px;
+    left: 0px;
+}
+
 @media (min-width: 100px){
 	.add-button {
         display: flex;
