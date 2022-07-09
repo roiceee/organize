@@ -11,7 +11,7 @@ class Project  {
         })
     }
     setName(projectName) {
-      this.name = projectName;
+      projectName.trim() === "" ? this.name = "Untitled": this.name = projectName;
     }
     setIndex(newIndex) {
       this.index = newIndex;
