@@ -62,7 +62,6 @@ hr {
 .project-li {
     max-width: 300px;
     width: 80%;
-    height: fit-content;
     overflow-wrap: break-word;
 }
 
