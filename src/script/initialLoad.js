@@ -45,7 +45,9 @@ function loadProjectNameContainer() {
     const element = document.createElement('div');
     element.classList.add('container');
     element.innerHTML = `
+    <div>
     <h2 id="project-name"></h2>
+    <div>
     <div class="d-flex">
     <button type="button" id="edit-project-trigger" class="my-0 mx-0 bg-white project-trigger" data-bs-toggle="modal" data-bs-target="#edit-project-modal">Edit</button>
     <button type="button" id="delete-project-trigger" class="my-0 mx-0 bg-white project-trigger" data-bs-toggle="modal" data-bs-target="#delete-project-modal">Delete</button>

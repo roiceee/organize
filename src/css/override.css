@@ -62,7 +62,7 @@ hr {
 .project-li {
     max-width: 300px;
     width: 80%;
-    height: 50px;
+    height: fit-content;
     text-overflow: ellipsis!important;
 }
 
@@ -101,8 +101,8 @@ svg {
     padding-right: 22px;
 }
 
-.project-name {
-    text-overflow: ellipsis;
+#project-name {
+    overflow-wrap: break-word;
 }
 
 @media (min-width: 100px){
