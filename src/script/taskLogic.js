@@ -154,7 +154,7 @@ function updateTaskCard(task, title, date) {
 
 function submitTaskButtonListener() {
     const submitTaskButton = document.getElementById('submit-task-button');
-    submitTaskButton.addEventListener('click', (e) => {submitTaskEvent()})
+    submitTaskButton.addEventListener('click', () => {submitTaskEvent()})
     const taskForm = document.getElementById('task-form');
     taskForm.focus();
     taskForm.addEventListener('keypress', (event) => {
@@ -209,7 +209,7 @@ function addEditTaskModalButtonListener(taskIndex) {
 
 function editTaskListener() {
     const button = document.getElementById('edit-task-button');
-    button.addEventListener('click', (e) => {
+    button.addEventListener('click', () => {
         const {title, date} = getTaskFormDetails("edit");
         updateTask(title, date);
         localStorageController.saveData(ProjectHolder.getProjects());

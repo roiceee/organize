@@ -67,7 +67,7 @@ hr {
 
 
 .project-li:active {
-    background-color: rgb(236, 154, 157)!important;
+    background-color: rgb(251, 209, 210)!important;
     transform: scale(1.1);
 }
 
@@ -133,6 +133,6 @@ svg {
         width: 180px;
     }
     .project-li:hover {
-        background-color: rgb(236, 154, 157)!important;
+        background-color: rgb(251, 209, 210)!important;
     }
 }

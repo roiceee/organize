@@ -103,4 +103,4 @@ function startAppLogic() {
     editTaskListener();
 }
 
-export {startAppLogic as default, reloadProjects, loadAddTaskButton, loadAddProjectButton, restoreAddTaskButton}
+export {startAppLogic as default, reloadProjects, loadAddTaskButton, loadAddProjectButton, restoreAddTaskButton};

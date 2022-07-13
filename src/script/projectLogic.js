@@ -4,8 +4,8 @@ import localStorageController from "./LogicComponents/localStorageModule.js";
 import ProjectHolder from "./LogicComponents/ProjectHolderModule.js";
 import {renderTaskCards, removeTaskCards} from './taskLogic.js';
 import {reloadProjects, loadAddTaskButton} from './initialLoad.js';
-import {createProjectListContainer, createProjectListItem} from './UIComponents/projectList.js';
-import { loadAddProjectButton, restoreAddTaskButton} from "./initialLoad.js";
+import {createProjectListItem} from './UIComponents/projectList.js';
+import {loadAddProjectButton, restoreAddTaskButton} from "./initialLoad.js";
 
 function renderProjects() {
     const projects = ProjectHolder.getProjects();
@@ -209,7 +209,7 @@ function deleteProjectListener() {
 
 function editProjectModalListener() {
     const editProjectButton = document.getElementById('edit-project-trigger');
-    editProjectButton.addEventListener('click', (e) => {
+    editProjectButton.addEventListener('click', () => {
         const currentProjectToEdit = ProjectHolder.getCurrentProject();
         document.getElementById('edit-project').value = currentProjectToEdit.name;
     })
@@ -217,7 +217,7 @@ function editProjectModalListener() {
 
 function editProjectButtonListener() {
     const button = document.getElementById('edit-project-button');
-    button.addEventListener('click', (e) => {
+    button.addEventListener('click', () => {
         const projectName = document.getElementById('edit-project').value;
         updateProject(projectName);
         localStorageController.saveData(ProjectHolder.getProjects());
