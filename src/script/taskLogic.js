@@ -5,11 +5,6 @@ import createTask from "./LogicComponents/Task.js";
 import createTaskCard from "./UIComponents/TaskCard.js";
 
 function submitTaskEvent() {
-    if (!ProjectHolder.isOnProject) {
-        const message = "You should choose a project first."
-       fireNoProjectWarning(message);
-        return;
-    }
     const {title, date} = getTaskFormDetails("add");
     resetTaskForm();
     if (title === "") {
@@ -142,7 +137,7 @@ function updateTask(title, date) {
     const task = ProjectHolder.getCurrentTaskToEdit();
     task.setTitle(title);
     task.setDate(date);
-    updateTaskCard(task, title, date);
+    updateTaskCard(task, task.title, task.date);
 }
 
 function updateTaskCard(task, title, date) {

@@ -1,7 +1,7 @@
 class Task {
     constructor(index, title, date, checked) {
         title.trim() === "" ? this.title = "untitled": this.title = title;
-        date === "Invalid Date" ? this.date = "No Deadline" : this.date = date;
+        date === "Invalid Date" || date === "" ? this.date = "No Deadline" : this.date = date;
         this.index = index;
         this.checked = checked;
         
@@ -17,7 +17,7 @@ class Task {
         this.title = title;
     }
     setDate(date) {
-        this.date = date;
+        date === "Invalid Date" || date === "" ? this.date = "No Deadline" : this.date = date;
     }
 }
 
