@@ -112,6 +112,12 @@ svg {
     left: 0px;
 }
 
+.dropdown-item:active { 
+        color: #1e2125!important;
+        text-decoration: none;
+        background-color: #e9ecef!important;
+}
+
 @media (min-width: 100px){
 	.add-button {
         display: flex;
