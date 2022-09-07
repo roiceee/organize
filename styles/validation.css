@@ -1,0 +1,11 @@
+.error {
+    font-size: 0.8rem;
+    padding-top: 4px;
+    margin-left: 16px;
+    color: #f76262;
+}
+
+.invalid {
+    box-shadow: 0 0 0 0.25rem rgba(220, 93, 93, 0.25)!important;
+    border-color: #fe8686!important;
+}
