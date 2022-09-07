@@ -24,12 +24,13 @@ interface AddProjectModalProps {
 function AddProjectModal({ show, setModalShow }: AddProjectModalProps) {
   const { projectArrayState, setProjectArrayState } =
     useContext(ProjectArrayContext);
+
   const [currentProjectValue, setCurrentProjectValue] =
     useState<ProjectInterface>({
       title: "",
       description: "",
-      dateCreated: new Date(),
-      lastModified: new Date(),
+      dateCreated: undefined,
+      lastModified: undefined,
       tasks: [],
     });
 
@@ -44,13 +45,37 @@ function AddProjectModal({ show, setModalShow }: AddProjectModalProps) {
       return;
     }
 
+    setCurrentProjectValue((prevProjectValue) => ({
+      ...prevProjectValue,
+      dateCreated: new Date(),
+      lastModified: new Date(),
+    }));
+
+    setModalShow(false);
+  }, [setModalShow, areFormsValid]);
+
+  //this adds the current project to the project array once the date is being loaded to the current project.]
+  //also clears the current project
+  useEffect(() => {
+    if (currentProjectValue.dateCreated === undefined) {
+      return;
+    }
     setProjectArrayState((prevProjectArrayState) => ({
       ...prevProjectArrayState,
       projects: [...prevProjectArrayState.projects, currentProjectValue],
     }));
-
-    setModalShow(false);
-  }, [setModalShow, areFormsValid, currentProjectValue, setProjectArrayState]);
+    setCurrentProjectValue({
+      title: "",
+      description: "",
+      dateCreated: undefined,
+      lastModified: undefined,
+      tasks: [],
+    });
+  }, [
+    currentProjectValue.dateCreated,
+    currentProjectValue,
+    setProjectArrayState,
+  ]);
 
   const currentProjectValueHandler = useCallback(
     (e: ChangeEvent<HTMLInputElement>): void => {
@@ -67,10 +92,6 @@ function AddProjectModal({ show, setModalShow }: AddProjectModalProps) {
   const titleOnFocusHandler = useCallback(() => {
     removeErrorFields(titleForm, "title-error");
   }, [titleForm]);
-
-  useEffect(() => {
-    console.log(currentProjectValue);
-  });
 
   return (
     <Modal

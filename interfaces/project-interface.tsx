@@ -3,8 +3,8 @@ import TaskInterface from "./task-interface";
 interface ProjectInterface {
   title: string;
   description: string | undefined;
-  dateCreated: Date;
-  lastModified: Date;
+  dateCreated: Date | undefined;
+  lastModified: Date | undefined;
   tasks: TaskInterface[];
 }
 
