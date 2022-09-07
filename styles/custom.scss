@@ -1,5 +1,5 @@
 $primary: #360568;
-$secondary: #5b2a86;
+$secondary: #63328e;
 $action: #ec9706;
 $success: #28a745;
 $danger: #dc3545;
@@ -9,6 +9,7 @@ $light: #f8f9fa;
 $dark: #343a40;
 $muted: #6c757d;
 $white: #ffffff;
+$gray: #dddddd;
 
 $theme-colors: (
     "primary": $primary,
@@ -22,6 +23,7 @@ $theme-colors: (
     "dark": $dark,
     "muted": $muted,
     "white": $white,
+    "gray": $gray,
 );
 
 @import "~bootstrap/scss/bootstrap";

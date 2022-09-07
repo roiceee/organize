@@ -9,7 +9,7 @@ function Layout({ children }: LayoutProps) {
     <>
       <div
         style={{ minHeight: "100vh" }}
-        className="d-flex flex-column justify-content-between gap-1"
+        className="d-flex flex-column justify-content-between gap-1 bg-light"
       >
         <div>
           <NavigationBar />

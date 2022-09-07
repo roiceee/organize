@@ -1,6 +1,7 @@
 import TaskInterface from "./task-interface";
 
 interface ProjectInterface {
+  id: string;
   title: string;
   description: string | undefined;
   dateCreated: Date | undefined;

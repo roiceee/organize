@@ -13,8 +13,10 @@ import ProjectArrayContext from "../../contexts/project-array-context";
 import ProjectInterface from "../../interfaces/project-interface";
 import {
   removeErrorFields,
+  validateExistingProject,
   validateRequiredInput,
 } from "../../utils/validation";
+import ProjectConstraintsEnum from "../../enums/project-constraints";
 
 interface AddProjectModalProps {
   show: boolean;
@@ -27,6 +29,7 @@ function AddProjectModal({ show, setModalShow }: AddProjectModalProps) {
 
   const [currentProjectValue, setCurrentProjectValue] =
     useState<ProjectInterface>({
+      id: "",
       title: "",
       description: "",
       dateCreated: undefined,
@@ -37,8 +40,11 @@ function AddProjectModal({ show, setModalShow }: AddProjectModalProps) {
   const titleForm = useRef<HTMLInputElement>(null);
 
   const areFormsValid = useCallback((): boolean => {
-    return validateRequiredInput(titleForm, "title-error");
-  }, [titleForm]);
+    return (
+      validateRequiredInput(titleForm, "title-error") &&
+      validateExistingProject(titleForm, "title-error", projectArrayState)
+    );
+  }, [titleForm, projectArrayState]);
 
   const addButtonHandler = useCallback((): void => {
     if (!areFormsValid()) {
@@ -47,6 +53,7 @@ function AddProjectModal({ show, setModalShow }: AddProjectModalProps) {
 
     setCurrentProjectValue((prevProjectValue) => ({
       ...prevProjectValue,
+      id: prevProjectValue.title,
       dateCreated: new Date(),
       lastModified: new Date(),
     }));
@@ -65,6 +72,7 @@ function AddProjectModal({ show, setModalShow }: AddProjectModalProps) {
       projects: [...prevProjectArrayState.projects, currentProjectValue],
     }));
     setCurrentProjectValue({
+      id: "",
       title: "",
       description: "",
       dateCreated: undefined,
@@ -113,8 +121,14 @@ function AddProjectModal({ show, setModalShow }: AddProjectModalProps) {
         ></button>
       </Modal.Header>
       <Modal.Body>
-        <Form>
+        <Form onSubmit={(e) => e.preventDefault()}>
           <Form.Group>
+            <div className="d-flex justify-content-end">
+              <span style={{ fontSize: "0.9rem" }}>
+                {currentProjectValue.title.length}/
+                {ProjectConstraintsEnum.TitleLength}
+              </span>
+            </div>
             <Form.Control
               id="title"
               type="text"
@@ -123,20 +137,30 @@ function AddProjectModal({ show, setModalShow }: AddProjectModalProps) {
               onFocus={titleOnFocusHandler}
               value={currentProjectValue.title}
               ref={titleForm}
+              maxLength={ProjectConstraintsEnum.TitleLength}
             />
             <div id="title-error" className="error my-1"></div>
           </Form.Group>
+          <div className="d-flex justify-content-end">
+            <span style={{ fontSize: "0.9rem" }}>
+              {currentProjectValue.description!.length}/
+              {ProjectConstraintsEnum.DescriptionLength}
+            </span>
+          </div>
           <Form.Control
             id="description"
             as="textarea"
             placeholder="Project Description (Optional)"
             onChange={currentProjectValueHandler}
-            style={{ height: "100px" }}
+            style={{ height: "100px", resize: "none" }}
+            maxLength={ProjectConstraintsEnum.DescriptionLength}
           />
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={addButtonHandler}>Add Project</Button>
+        <Button variant="secondary" onClick={addButtonHandler}>
+          Add Project
+        </Button>
       </Modal.Footer>
     </Modal>
   );
