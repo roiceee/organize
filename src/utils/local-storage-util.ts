@@ -2,16 +2,18 @@ import LocalStorageKeyEnum from "../enums/local-storage-key";
 import ProjectArrayInterface from "../interfaces/project-array-interface";
 import ProjectInterface from "../interfaces/project-interface";
 
-function saveToLocalStorage(project: ProjectArrayInterface) {
+function saveToLocalStorage(project: ProjectArrayInterface) : void {
   localStorage.setItem(LocalStorageKeyEnum.Key, JSON.stringify(project));
 }
 
-function retrieveFromLocalStorage(project: ProjectArrayInterface) {
+function retrieveFromLocalStorage() : ProjectArrayInterface {
   const objectString = localStorage.getItem(LocalStorageKeyEnum.Key);
   if (objectString === null) {
     return {
-      project: new Array<ProjectInterface>(),
+      projects: new Array<ProjectInterface>(),
     };
   }
   return JSON.parse(objectString);
 }
+
+export {saveToLocalStorage, retrieveFromLocalStorage}

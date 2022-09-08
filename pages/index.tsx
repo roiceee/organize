@@ -1,21 +1,29 @@
 import type { NextPage } from "next";
-import { useCallback, useContext, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import HeadWrapper from "../src/components/head-wrapper";
 import AddProjectModal from "../src/components/projects-components/add-project-modal";
 import NoProjectCard from "../src/components/projects-components/no-project-card";
 import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
-import ProjectArrayContext from "../src/contexts/project-array-context";
+import UserTypeContext from "../src/contexts/user-context";
 import ProjectCard from "../src/components/projects-components/project-card";
+import ProjectArrayInterface from "../src/interfaces/project-array-interface";
+import { retrieveFromLocalStorage } from "../src/utils/local-storage-util";
+import LoadingNotice from "../src/components/util-components/loading-notice";
 
 const Home: NextPage = () => {
   const [show, setModalShow] = useState<boolean>(false);
 
-  const { projectArrayState, setProjectArrayState } =
-    useContext(ProjectArrayContext);
+  const { userTypeState, setUserStateType } = useContext(UserTypeContext);
 
-  const renderProjects = useCallback((): Array<JSX.Element> => {
+  const [projectArrayState, setProjectArrayState] =
+    useState<ProjectArrayInterface>();
+
+  const renderProjects = useCallback((): Array<JSX.Element> | JSX.Element => {
+    if (projectArrayState === undefined) {
+      return <></>;
+    }
     const projectCards = projectArrayState.projects.map((project) => {
       return <ProjectCard key={project.id} project={project} />;
     });
@@ -26,6 +34,20 @@ const Home: NextPage = () => {
     () => setModalShow(true),
     [setModalShow]
   );
+
+  useEffect(() => {
+    console.log("yeah")
+    if (!userTypeState.isLoggedIn) {
+      const projects = retrieveFromLocalStorage();
+      setProjectArrayState(projects);
+      return;
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  if (!projectArrayState) {
+    return <LoadingNotice />;
+  }
 
   return (
     <Container>
@@ -47,7 +69,13 @@ const Home: NextPage = () => {
           Add a new Project
         </Button>
       </Row>
-      <AddProjectModal show={show} setModalShow={setModalShow} />
+      <AddProjectModal
+        show={show}
+        setModalShow={setModalShow}
+        projectArrayState={projectArrayState}
+        setProjectArrayState={setProjectArrayState}
+        userTypeState={userTypeState}
+      />
     </Container>
   );
 };

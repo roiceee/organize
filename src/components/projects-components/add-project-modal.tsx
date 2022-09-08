@@ -4,12 +4,10 @@ import Form from "react-bootstrap/Form";
 import React, {
   ChangeEvent,
   useCallback,
-  useContext,
   useEffect,
   useRef,
   useState,
 } from "react";
-import ProjectArrayContext from "../../contexts/project-array-context";
 import ProjectInterface from "../../interfaces/project-interface";
 import {
   removeErrorFields,
@@ -17,16 +15,19 @@ import {
   validateRequiredInput,
 } from "../../../src/utils/validation";
 import ProjectConstraintsEnum from "../../enums/project-constraints";
+import ProjectArrayInterface from "../../interfaces/project-array-interface";
+import UserTypeInterface from "../../interfaces/user-interface"
+import { saveToLocalStorage } from "../../utils/local-storage-util";
 
 interface AddProjectModalProps {
   show: boolean;
   setModalShow: React.Dispatch<React.SetStateAction<boolean>>;
+  projectArrayState: ProjectArrayInterface;
+  setProjectArrayState: React.Dispatch<React.SetStateAction<ProjectArrayInterface | undefined>>;
+  userTypeState: UserTypeInterface;
 }
 
-function AddProjectModal({ show, setModalShow }: AddProjectModalProps) {
-  const { projectArrayState, setProjectArrayState } =
-    useContext(ProjectArrayContext);
-
+function AddProjectModal({ show, setModalShow, projectArrayState, setProjectArrayState, userTypeState }: AddProjectModalProps) {
   const [currentProjectValue, setCurrentProjectValue] =
     useState<ProjectInterface>({
       id: "",
@@ -67,9 +68,12 @@ function AddProjectModal({ show, setModalShow }: AddProjectModalProps) {
     if (currentProjectValue.dateCreated === undefined) {
       return;
     }
+    if (setProjectArrayState === undefined) {
+      return
+    }
     setProjectArrayState((prevProjectArrayState) => ({
       ...prevProjectArrayState,
-      projects: [...prevProjectArrayState.projects, currentProjectValue],
+      projects: [...prevProjectArrayState!.projects, currentProjectValue],
     }));
     setCurrentProjectValue({
       id: "",
@@ -83,7 +87,15 @@ function AddProjectModal({ show, setModalShow }: AddProjectModalProps) {
     currentProjectValue.dateCreated,
     currentProjectValue,
     setProjectArrayState,
+    userTypeState.isLoggedIn,
   ]);
+
+  //this saves the project array to localStorage
+  useEffect(() => {
+    if (!userTypeState.isLoggedIn) {
+      saveToLocalStorage(projectArrayState)
+    }
+  }, [projectArrayState, userTypeState.isLoggedIn])
 
   const currentProjectValueHandler = useCallback(
     (e: ChangeEvent<HTMLInputElement>): void => {
