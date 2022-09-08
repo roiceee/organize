@@ -1,5 +1,5 @@
-import "../styles/globals.css";
-import "../styles/globals.scss";
+import "../src/styles/globals.css";
+import "../src/styles/globals.scss";
 import type { AppProps } from "next/app";
 import Layout from "../src/components/layout";
 import ProjectArrayContext from "../src/contexts/project-array-context";
