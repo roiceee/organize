@@ -1,10 +1,10 @@
 import "../styles/globals.css";
 import "../styles/globals.scss";
 import type { AppProps } from "next/app";
-import Layout from "../components/layout";
-import ProjectArrayContext from "../contexts/project-array-context";
+import Layout from "../src/components/layout";
+import ProjectArrayContext from "../src/contexts/project-array-context";
 import { useState } from "react";
-import ProjectArrayInterface from "../interfaces/project-array-interface";
+import ProjectArrayInterface from "../src/interfaces/project-array-interface";
 
 function MyApp({ Component, pageProps }: AppProps) {
 

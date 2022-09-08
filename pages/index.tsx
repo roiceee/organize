@@ -1,13 +1,13 @@
 import type { NextPage } from "next";
 import { useCallback, useContext, useState } from "react";
-import HeadWrapper from "../components/head-wrapper";
-import AddProjectModal from "../components/projects-components/add-project-modal";
-import NoProjectCard from "../components/projects-components/no-project-card";
+import HeadWrapper from "../src/components/head-wrapper";
+import AddProjectModal from "../src/components/projects-components/add-project-modal";
+import NoProjectCard from "../src/components/projects-components/no-project-card";
 import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
-import ProjectArrayContext from "../contexts/project-array-context";
-import ProjectCard from "../components/projects-components/project-card";
+import ProjectArrayContext from "../src/contexts/project-array-context";
+import ProjectCard from "../src/components/projects-components/project-card";
 
 const Home: NextPage = () => {
   const [show, setModalShow] = useState<boolean>(false);

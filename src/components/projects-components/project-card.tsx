@@ -1,7 +1,7 @@
 import ProjectInterface from "../../interfaces/project-interface";
 import styles from "../../styles/modules/project-card.module.css";
 import Card from "react-bootstrap/Card"
-import formatDate from "../../utils/dateFormatter";
+import formatDate from "../../../src/utils/dateFormatter";
 import Link from "next/link"
 interface ProjectCardProps {
   project: ProjectInterface;
