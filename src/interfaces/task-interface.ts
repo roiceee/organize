@@ -1,8 +1,8 @@
 interface TaskInterface {
     title: string;
-    content: string | undefined;
     isDone: boolean;
-    deadline: Date;
+    deadline: Date | string;
+    priority: string;
 }
 
 export default TaskInterface;

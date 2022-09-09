@@ -7,9 +7,6 @@ function LoadingNotice() {
           style={{ width: "100vw" }}
         >
           <Spinner animation="grow" />
-          <p>
-            Loading your data...
-          </p>
         </div>
       );
 }

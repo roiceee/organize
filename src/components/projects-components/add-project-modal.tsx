@@ -1,4 +1,3 @@
-import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import React, {
@@ -16,25 +15,36 @@ import {
 } from "../../../src/utils/validation";
 import ProjectConstraintsEnum from "../../enums/project-constraints";
 import ProjectArrayInterface from "../../interfaces/project-array-interface";
-import UserTypeInterface from "../../interfaces/user-interface"
+import UserTypeInterface from "../../interfaces/user-interface";
 import { saveToLocalStorage } from "../../utils/local-storage-util";
+import ModalWrapper from "../util-components/modal-wrapper";
+import FormLengthCounter from "../util-components/form-length-counter";
+import TaskInterface from "../../interfaces/task-interface";
 
 interface AddProjectModalProps {
   show: boolean;
   setModalShow: React.Dispatch<React.SetStateAction<boolean>>;
   projectArrayState: ProjectArrayInterface;
-  setProjectArrayState: React.Dispatch<React.SetStateAction<ProjectArrayInterface | undefined>>;
+  setProjectArrayState: React.Dispatch<
+    React.SetStateAction<ProjectArrayInterface | undefined>
+  >;
   userTypeState: UserTypeInterface;
 }
 
-function AddProjectModal({ show, setModalShow, projectArrayState, setProjectArrayState, userTypeState }: AddProjectModalProps) {
+function AddProjectModal({
+  show,
+  setModalShow,
+  projectArrayState,
+  setProjectArrayState,
+  userTypeState,
+}: AddProjectModalProps) {
   const [currentProjectValue, setCurrentProjectValue] =
     useState<ProjectInterface>({
       id: "",
       title: "",
       description: "",
-      dateCreated: undefined,
-      lastModified: undefined,
+      dateCreated: "",
+      lastModified: "",
       tasks: [],
     });
 
@@ -51,59 +61,60 @@ function AddProjectModal({ show, setModalShow, projectArrayState, setProjectArra
     if (!areFormsValid()) {
       return;
     }
-
-    setCurrentProjectValue((prevProjectValue) => ({
-      ...prevProjectValue,
-      id: prevProjectValue.title,
-      dateCreated: new Date(),
-      lastModified: new Date(),
-    }));
-
-    setModalShow(false);
-  }, [setModalShow, areFormsValid]);
-
-  //this adds the current project to the project array once the date is being loaded to the current project.]
-  //also clears the current project
-  useEffect(() => {
-    if (currentProjectValue.dateCreated === undefined) {
-      return;
-    }
-    if (setProjectArrayState === undefined) {
-      return
-    }
     setProjectArrayState((prevProjectArrayState) => ({
       ...prevProjectArrayState,
       projects: [...prevProjectArrayState!.projects, currentProjectValue],
     }));
+
+    setModalShow(false);
+  }, [setModalShow, areFormsValid, currentProjectValue, setProjectArrayState]);
+
+  const resetProjectValues = useCallback(() => {
     setCurrentProjectValue({
       id: "",
       title: "",
       description: "",
-      dateCreated: undefined,
-      lastModified: undefined,
+      dateCreated: "",
+      lastModified: "",
       tasks: [],
     });
-  }, [
-    currentProjectValue.dateCreated,
-    currentProjectValue,
-    setProjectArrayState,
-    userTypeState.isLoggedIn,
-  ]);
+  }, []);
 
-  //this saves the project array to localStorage
+  //this saves the project array to localStorage and reset values
   useEffect(() => {
     if (!userTypeState.isLoggedIn) {
-      saveToLocalStorage(projectArrayState)
+      saveToLocalStorage(projectArrayState);
     }
-  }, [projectArrayState, userTypeState.isLoggedIn])
+    return () => resetProjectValues();
+  }, [projectArrayState, userTypeState, resetProjectValues]);
 
-  const currentProjectValueHandler = useCallback(
+  //this returns a new date everytime this component rerenders
+  useEffect(() => {
+    setCurrentProjectValue((prevProjectValue) => ({
+      ...prevProjectValue,
+      dateCreated: new Date(),
+      lastModified: new Date(),
+    }));
+  }, [setCurrentProjectValue]);
+
+  const projectTitleFormHandler = useCallback(
     (e: ChangeEvent<HTMLInputElement>): void => {
       const value = e.target.value;
-      const id = e.target.id;
       setCurrentProjectValue((prevProjectValue) => ({
         ...prevProjectValue,
-        [id]: value,
+        id: value,
+        title: value,
+      }));
+    },
+    [setCurrentProjectValue]
+  );
+
+  const projectDescriptionFormHandler = useCallback(
+    (e: ChangeEvent<HTMLInputElement>): void => {
+      const value = e.target.value;
+      setCurrentProjectValue((prevProjectValue) => ({
+        ...prevProjectValue,
+        description: value,
       }));
     },
     [setCurrentProjectValue]
@@ -114,38 +125,24 @@ function AddProjectModal({ show, setModalShow, projectArrayState, setProjectArra
   }, [titleForm]);
 
   return (
-    <Modal
+    <ModalWrapper
       show={show}
-      onHide={() => setModalShow(false)}
-      size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <Modal.Header className="bg-primary text-light">
-        <Modal.Title id="contained-modal-title-vcenter">
-          Add Project
-        </Modal.Title>
-        <button
-          type="button"
-          className="btn-close btn-close-white"
-          aria-label="Close"
-          onClick={() => setModalShow(false)}
-        ></button>
-      </Modal.Header>
-      <Modal.Body>
+      setModalShow={setModalShow}
+      modalTitle="Add Project"
+      bodyChildren={
         <Form onSubmit={(e) => e.preventDefault()}>
           <Form.Group>
             <div className="d-flex justify-content-end">
-              <span style={{ fontSize: "0.9rem" }}>
-                {currentProjectValue.title.length}/
-                {ProjectConstraintsEnum.TitleLength}
-              </span>
+              <FormLengthCounter
+                currentValue={currentProjectValue.title.length}
+                maxValue={ProjectConstraintsEnum.TitleLength}
+              />
             </div>
             <Form.Control
               id="title"
               type="text"
               placeholder="Project name"
-              onChange={currentProjectValueHandler}
+              onChange={projectTitleFormHandler}
               onFocus={titleOnFocusHandler}
               value={currentProjectValue.title}
               ref={titleForm}
@@ -154,27 +151,27 @@ function AddProjectModal({ show, setModalShow, projectArrayState, setProjectArra
             <div id="title-error" className="error my-1"></div>
           </Form.Group>
           <div className="d-flex justify-content-end">
-            <span style={{ fontSize: "0.9rem" }}>
-              {currentProjectValue.description!.length}/
-              {ProjectConstraintsEnum.DescriptionLength}
-            </span>
+            <FormLengthCounter
+              currentValue={currentProjectValue.description!.length}
+              maxValue={ProjectConstraintsEnum.DescriptionLength}
+            />
           </div>
           <Form.Control
             id="description"
             as="textarea"
             placeholder="Project Description (Optional)"
-            onChange={currentProjectValueHandler}
+            onChange={projectDescriptionFormHandler}
             style={{ height: "100px", resize: "none" }}
             maxLength={ProjectConstraintsEnum.DescriptionLength}
           />
         </Form>
-      </Modal.Body>
-      <Modal.Footer>
+      }
+      footerChildren={
         <Button variant="secondary" onClick={addButtonHandler}>
           Add Project
         </Button>
-      </Modal.Footer>
-    </Modal>
+      }
+    />
   );
 }
 

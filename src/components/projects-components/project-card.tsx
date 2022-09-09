@@ -20,10 +20,6 @@ function ProjectCard({ project }: ProjectCardProps) {
     <h4 className="my-0">{project.title}</h4>
     </Card.Header>
     <Card.Body>
-    <div>
-        Description:{" "}
-        {project.description === "" ? "No description" : project.description}
-      </div>
       <div>Tasks: {project.tasks.length}</div>
       <div>Last Visited: {formatDate(project.lastModified)}</div>
     </Card.Body>
