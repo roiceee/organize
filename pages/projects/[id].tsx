@@ -5,7 +5,7 @@ import ProjectInterface from "../../src/interfaces/project-interface";
 import ProjectArrayInterface from "../../src/interfaces/project-array-interface";
 import formatDate from "../../src/utils/dateFormatter";
 import LoadingNotice from "../../src/components/util-components/loading-notice";
-import { retrieveFromLocalStorage as retrieveProjectsFromLocalStorage, saveToLocalStorage } from "../../src/utils/local-storage-util";
+import { retrieveFromStorage, saveToStorage } from "../../src/utils/local-storage-util";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import ProjectControl from "../../src/components/tasks-page-components/project-control";
@@ -13,10 +13,10 @@ import ErrorNotice from "../../src/components/util-components/error-notice";
 import HeadWrapper from "../../src/components/head-wrapper";
 import AddTaskModal from "../../src/components/tasks-page-components/add-task-modal";
 import Button from "react-bootstrap/Button";
-import TaskInterface from "../../src/interfaces/task-interface";
 import createProjectObject from "../../src/defaults/default-project";
 import createProjectArrayObject from "../../src/defaults/default-project-array-";
 import TaskCard from "../../src/components/tasks-page-components/task-card";
+import TaskInterface from "../../src/interfaces/task-interface";
 
 
 function TasksPage() {
@@ -36,12 +36,47 @@ function TasksPage() {
     return taskCards;
   }, [currentProjectState]);
 
+  const updateCurrentProjectOnProjectArrayState = useCallback((updatedProject : ProjectInterface) => {
+    setProjectArrayState((prevProjectArrayState) => {
+      const prevProjectArrayStateCopy = {...prevProjectArrayState};
+      prevProjectArrayStateCopy.projects.forEach((project, index) => {
+        if (project.id === updatedProject.id) {
+          prevProjectArrayStateCopy.projects[index] = updatedProject;
+        }
+      })
+      const newProjectArrayState = {
+        projects: prevProjectArrayStateCopy.projects,
+      }
+      saveToStorage(userTypeState, newProjectArrayState);
+      return newProjectArrayState;
+    });
+  }, [userTypeState])
+
+  const addTaskToProject = useCallback((newTask : TaskInterface) => {
+
+    setCurrentProjectState((prevProjectState) => {
+      const newProjectState = {
+        ...prevProjectState,
+        tasks: [
+          ...prevProjectState.tasks,
+          newTask
+        ]
+      }
+      updateCurrentProjectOnProjectArrayState(newProjectState);
+      return newProjectState;
+    })
+    setModalShow(false);
+
+  }, [
+    setModalShow,
+    updateCurrentProjectOnProjectArrayState,
+  ]);
+
   useEffect(() => {
-    if (!userTypeState.isLoggedIn) {
-      const projects = retrieveProjectsFromLocalStorage();
+      const projects = retrieveFromStorage(userTypeState);
       setProjectArrayState(projects);
       return;
-    }
+    
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -89,10 +124,7 @@ function TasksPage() {
       <AddTaskModal
         show={show}
         setModalShow={setModalShow}
-        setProjectArrayState={setProjectArrayState}
-        userTypeState={userTypeState}
-        currentProjectState={currentProjectState}
-        projectArrayState={projectArrayState}
+        onAddTaskButtonClick={addTaskToProject}
       />
     </>
   );

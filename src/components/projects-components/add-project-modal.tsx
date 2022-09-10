@@ -2,7 +2,6 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import React, {
   ChangeEvent,
-  MutableRefObject,
   useCallback,
   useEffect,
   useRef,
@@ -17,7 +16,6 @@ import {
 import ProjectConstraintsEnum from "../../enums/project-constraints";
 import ProjectArrayInterface from "../../interfaces/project-array-interface";
 import UserTypeInterface from "../../interfaces/user-interface";
-import { saveToLocalStorage } from "../../utils/local-storage-util";
 import ModalWrapper from "../util-components/modal-wrapper";
 import FormLengthCounter from "../util-components/form-length-counter";
 import createProjectObject from "../../defaults/default-project";
@@ -26,35 +24,19 @@ interface AddProjectModalProps {
   show: boolean;
   setModalShow: React.Dispatch<React.SetStateAction<boolean>>;
   projectArrayState: ProjectArrayInterface;
-  setProjectArrayState: React.Dispatch<
-    React.SetStateAction<ProjectArrayInterface>
-  >;
-  userTypeState: UserTypeInterface;
-  isMounted: MutableRefObject<boolean>;
+  onAddProjectButtonClick: (newProject: ProjectInterface) => void;
 }
 
 function AddProjectModal({
   show,
   setModalShow,
   projectArrayState,
-  setProjectArrayState,
-  userTypeState,
-  isMounted,
+  onAddProjectButtonClick,
 }: AddProjectModalProps) {
   const [currentProjectValue, setCurrentProjectValue] =
     useState<ProjectInterface>(createProjectObject());
 
   const titleForm = useRef<HTMLInputElement>(null);
-
-  //this saves the project array to localStorage and reset values
-  const saveToStorage = useCallback(
-    (projectArrayState: ProjectArrayInterface) => {
-      if (!userTypeState.isLoggedIn) {
-        saveToLocalStorage(projectArrayState);
-      }
-    },
-    [userTypeState.isLoggedIn]
-  );
 
   const resetProjectValues = useCallback(() => {
     setCurrentProjectValue(createProjectObject());
@@ -67,29 +49,20 @@ function AddProjectModal({
     );
   }, [titleForm, projectArrayState]);
 
-  const addButtonHandler = useCallback((): void => {
-    if (!areFormsValid()) {
+  const addProjectButtonHandler = useCallback(() => {
+    if (!areFormsValid) {
       return;
     }
-    setProjectArrayState((prevProjectArrayState) => {
-      const newProjectState = {
-        ...prevProjectArrayState,
-        projects: [...prevProjectArrayState.projects, currentProjectValue],
-      };
-      saveToStorage(newProjectState);
-      resetProjectValues();
-      return newProjectState;
-    });
 
-    setModalShow(false);
+    onAddProjectButtonClick(currentProjectValue);
+    resetProjectValues();
   }, [
-    setModalShow,
     areFormsValid,
     currentProjectValue,
-    setProjectArrayState,
-    saveToStorage,
+    onAddProjectButtonClick,
     resetProjectValues,
   ]);
+
   //this returns a new date on modal render
   useEffect(() => {
     setCurrentProjectValue((prevProjectValue) => ({
@@ -169,7 +142,7 @@ function AddProjectModal({
         </Form>
       }
       footerChildren={
-        <Button variant="secondary" onClick={addButtonHandler}>
+        <Button variant="secondary" onClick={addProjectButtonHandler}>
           Add Project
         </Button>
       }

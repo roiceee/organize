@@ -1,7 +1,5 @@
 import React, {
-  ChangeEventHandler,
   useCallback,
-  useEffect,
   useState,
 } from "react";
 import ModalWrapper from "../util-components/modal-wrapper";
@@ -9,32 +7,20 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import TaskConstraintsEnum from "../../enums/task-constraints";
 import FormLengthCounter from "../util-components/form-length-counter";
-import ProjectInterface from "../../interfaces/project-interface";
 import TaskInterface from "../../interfaces/task-interface";
 import createTaskObject from "../../defaults/default-task";
-import UserTypeInterface from "../../interfaces/user-interface";
-import ProjectArrayInterface from "../../interfaces/project-array-interface";
-import { saveToLocalStorage } from "../../utils/local-storage-util";
 
-interface AddTaskModalInterface {
+interface AddTaskModalProps {
   show: boolean;
   setModalShow: React.Dispatch<React.SetStateAction<boolean>>;
-  setProjectArrayState: React.Dispatch<
-    React.SetStateAction<ProjectArrayInterface>
-  >;
-  userTypeState: UserTypeInterface;
-  currentProjectState: ProjectInterface;
-  projectArrayState: ProjectArrayInterface;
+  onAddTaskButtonClick: (newTask: TaskInterface) => void;
 }
 
 function AddTaskModal({
   show,
   setModalShow,
-  setProjectArrayState,
-  projectArrayState,
-  currentProjectState,
-  userTypeState,
-}: AddTaskModalInterface) {
+  onAddTaskButtonClick,
+}: AddTaskModalProps) {
   const [currentTaskState, setCurrentTaskState] = useState<TaskInterface>(
     createTaskObject()
   );
@@ -53,7 +39,7 @@ function AddTaskModal({
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setCurrentTaskState((prevTaskState) => ({
         ...prevTaskState,
-        deadline: new Date(e.target.value),
+        deadline: e.target.value,
       }));
     },
     []
@@ -69,30 +55,14 @@ function AddTaskModal({
     []
   );
 
-  const addTaskButtonHandler = useCallback(() => {
-    setProjectArrayState((prevProjectArrayState) => {
-      const newProjectArrayState = {
-        projects: prevProjectArrayState.projects.map((project) => {
-          if (project.id === currentProjectState.id) {
-            project.tasks.push(currentTaskState);
-          }
-          return project;
-        }),
-      };
-      return newProjectArrayState;
-    });
-  }, [currentTaskState, setProjectArrayState, currentProjectState.id]);
-
   const resetTaskValues = useCallback(() => {
     setCurrentTaskState(createTaskObject());
   }, []);
 
-  useEffect(() => {
-    if (!userTypeState.isLoggedIn) {
-      saveToLocalStorage(projectArrayState);
-    }
-    return () => resetTaskValues();
-  }, [projectArrayState, userTypeState, resetTaskValues]);
+  const addTaskButtonHandler = useCallback(() => {
+    onAddTaskButtonClick(currentTaskState);
+    resetTaskValues();
+  }, [currentTaskState, onAddTaskButtonClick, resetTaskValues]);
 
   return (
     <ModalWrapper
@@ -113,6 +83,7 @@ function AddTaskModal({
             placeholder="Task Name"
             className="mb-2"
             maxLength={TaskConstraintsEnum.TitleLength}
+            value={currentTaskState.title}
             onChange={taskTitleFormHandler}
           />
           <div className="d-flex gap-2 align-items-center">
@@ -121,6 +92,7 @@ function AddTaskModal({
               type="date"
               style={{ width: "fit-content" }}
               className="mb-2"
+              value={currentTaskState.deadline}
               onChange={deadLineFormHandler}
             />
           </div>

@@ -9,16 +9,17 @@ import Container from "react-bootstrap/Container";
 import UserTypeContext from "../src/contexts/user-context";
 import ProjectCard from "../src/components/projects-components/project-card";
 import ProjectArrayInterface from "../src/interfaces/project-array-interface";
-import { retrieveFromLocalStorage } from "../src/utils/local-storage-util";
+import { retrieveFromStorage } from "../src/utils/local-storage-util";
 import LoadingNotice from "../src/components/util-components/loading-notice";
 import createProjectArrayObject from "../src/defaults/default-project-array-";
+import ProjectInterface from "../src/interfaces/project-interface";
+import { saveToStorage } from "../src/utils/local-storage-util";
 
 const Home: NextPage = () => {
   const [show, setModalShow] = useState<boolean>(false);
   const { userTypeState, setUserStateType } = useContext(UserTypeContext);
   const [projectArrayState, setProjectArrayState] =
     useState<ProjectArrayInterface>(createProjectArrayObject());
-  let isMounted = useRef(false);
 
   const renderedProjects = useMemo((): Array<JSX.Element> | JSX.Element => {
     if (projectArrayState === undefined) {
@@ -30,13 +31,29 @@ const Home: NextPage = () => {
     return projectCards;
   }, [projectArrayState]);
 
+
+  const addProjectToProjectArray = useCallback((newProject: ProjectInterface): void => {
+    
+    setProjectArrayState((prevProjectArrayState) => {
+      const newProjectState = {
+        ...prevProjectArrayState,
+        projects: [...prevProjectArrayState.projects, newProject],
+      };
+      saveToStorage(userTypeState, newProjectState);
+    
+      return newProjectState;
+    });
+
+    setModalShow(false);
+  }, [
+    setModalShow,
+    setProjectArrayState,
+    userTypeState
+  ]);
+
   useEffect(() => {
-    isMounted.current = true;
-    if (!userTypeState.isLoggedIn) {
-      const projects = retrieveFromLocalStorage();
+      const projects = retrieveFromStorage(userTypeState);
       setProjectArrayState(projects);
-      return;
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -69,9 +86,7 @@ const Home: NextPage = () => {
         show={show}
         setModalShow={setModalShow}
         projectArrayState={projectArrayState}
-        setProjectArrayState={setProjectArrayState}
-        userTypeState={userTypeState}
-        isMounted={isMounted}
+        onAddProjectButtonClick={addProjectToProjectArray}
       />
     </Container>
   );

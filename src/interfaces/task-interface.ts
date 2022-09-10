@@ -1,7 +1,7 @@
 interface TaskInterface {
     title: string;
     isDone: boolean;
-    deadline: Date | string;
+    deadline: string;
     priority: string;
 }
 
