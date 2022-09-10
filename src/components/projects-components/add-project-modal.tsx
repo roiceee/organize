@@ -42,8 +42,8 @@ function AddProjectModal({
 
   const areFormsValid = useCallback((): boolean => {
     return (
-      validateRequiredInput(titleForm, "title-error") &&
-      validateExistingProject(titleForm, "title-error", projectArrayState)
+      validateRequiredInput(titleForm, "form-title-error") &&
+      validateExistingProject(titleForm, "form-title-error", projectArrayState)
     );
   }, [titleForm, projectArrayState]);
 
@@ -91,7 +91,7 @@ function AddProjectModal({
   );
 
   const titleOnFocusHandler = useCallback(() => {
-    removeErrorFields(titleForm, "title-error");
+    removeErrorFields(titleForm, "form-title-error");
   }, [titleForm]);
 
   return (
@@ -118,7 +118,7 @@ function AddProjectModal({
               ref={titleForm}
               maxLength={ProjectConstraintsEnum.TitleLength}
             />
-            <div id="title-error" className="error my-1"></div>
+            <div id="form-title-error" className="error my-1"></div>
           </Form.Group>
           <div className="d-flex justify-content-end">
             <FormLengthCounter

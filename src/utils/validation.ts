@@ -1,4 +1,5 @@
 import ProjectArrayInterface from "../interfaces/project-array-interface";
+import ProjectInterface from "../interfaces/project-interface";
 
 function validateRequiredInput(
   formElement: React.RefObject<HTMLInputElement>,
@@ -38,6 +39,26 @@ function validateExistingProject(
   return true;
 }
 
+function validateExistingTask(
+  formElement: React.RefObject<HTMLInputElement>,
+  errorTextElementID: string,
+  project: ProjectInterface
+) {
+  const element: HTMLInputElement | null = formElement.current;
+  const errorTextElement: HTMLDivElement | null = document.querySelector(
+    `#${errorTextElementID}`
+  );
+
+  for (let i = 0; i < project.tasks.length; i++) {
+    if (project.tasks[i].title === element?.value) {
+      element.classList.add("invalid");
+      errorTextElement!.textContent = "Task name exists.";
+      return false;
+    }
+  }
+  return true;
+}
+
 function removeErrorFields(
   formElement: React.RefObject<HTMLInputElement>,
   errorTextElementID: string
@@ -52,4 +73,9 @@ function removeErrorFields(
   errorTextElement!.textContent = "";
 }
 
-export { validateRequiredInput, removeErrorFields, validateExistingProject };
+export {
+  validateRequiredInput,
+  removeErrorFields,
+  validateExistingProject,
+  validateExistingTask,
+};

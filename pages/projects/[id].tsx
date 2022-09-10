@@ -112,7 +112,7 @@ function TasksPage() {
           <ProjectControl />
         </Row>
         <hr className="mx-auto my-1 mb-2" />
-        <div>
+        <div className="mb-2">
           <Button variant="action" onClick={() => setModalShow(true)}>
             Add Task
           </Button>
@@ -125,6 +125,7 @@ function TasksPage() {
         show={show}
         setModalShow={setModalShow}
         onAddTaskButtonClick={addTaskToProject}
+        currentProjectState={currentProjectState}
       />
     </>
   );

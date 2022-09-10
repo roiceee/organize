@@ -1,7 +1,4 @@
-import React, {
-  useCallback,
-  useState,
-} from "react";
+import React, { useCallback, useState, useRef } from "react";
 import ModalWrapper from "../util-components/modal-wrapper";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -9,21 +6,45 @@ import TaskConstraintsEnum from "../../enums/task-constraints";
 import FormLengthCounter from "../util-components/form-length-counter";
 import TaskInterface from "../../interfaces/task-interface";
 import createTaskObject from "../../defaults/default-task";
+import {
+  validateExistingTask,
+  validateRequiredInput,
+  removeErrorFields,
+} from "../../utils/validation";
+import ProjectInterface from "../../interfaces/project-interface";
 
 interface AddTaskModalProps {
   show: boolean;
   setModalShow: React.Dispatch<React.SetStateAction<boolean>>;
   onAddTaskButtonClick: (newTask: TaskInterface) => void;
+  currentProjectState: ProjectInterface;
 }
 
 function AddTaskModal({
   show,
   setModalShow,
   onAddTaskButtonClick,
+  currentProjectState,
 }: AddTaskModalProps) {
   const [currentTaskState, setCurrentTaskState] = useState<TaskInterface>(
     createTaskObject()
   );
+  const taskTitleForm = useRef(null);
+
+  const areFormsValid = useCallback((): boolean => {
+    return (
+      validateRequiredInput(taskTitleForm, "task-title-error") &&
+      validateExistingTask(
+        taskTitleForm,
+        "task-title-error",
+        currentProjectState
+      )
+    );
+  }, [taskTitleForm, currentProjectState]);
+
+  const titleOnFocusHandler = useCallback(() => {
+    removeErrorFields(taskTitleForm, "task-title-error");
+  }, [taskTitleForm]);
 
   const taskTitleFormHandler = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -60,9 +81,12 @@ function AddTaskModal({
   }, []);
 
   const addTaskButtonHandler = useCallback(() => {
+    if (!areFormsValid()) {
+      return;
+    }
     onAddTaskButtonClick(currentTaskState);
     resetTaskValues();
-  }, [currentTaskState, onAddTaskButtonClick, resetTaskValues]);
+  }, [currentTaskState, onAddTaskButtonClick, resetTaskValues, areFormsValid]);
 
   return (
     <ModalWrapper
@@ -81,11 +105,13 @@ function AddTaskModal({
           <Form.Control
             type="text"
             placeholder="Task Name"
-            className="mb-2"
             maxLength={TaskConstraintsEnum.TitleLength}
             value={currentTaskState.title}
             onChange={taskTitleFormHandler}
+            onFocus={titleOnFocusHandler}
+            ref={taskTitleForm}
           />
+          <div className="error my-1" id="task-title-error"></div>
           <div className="d-flex gap-2 align-items-center">
             <div>Deadline:</div>
             <Form.Control
