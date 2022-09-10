@@ -5,7 +5,7 @@ import ProjectInterface from "../../src/interfaces/project-interface";
 import ProjectArrayInterface from "../../src/interfaces/project-array-interface";
 import formatDate from "../../src/utils/dateFormatter";
 import LoadingNotice from "../../src/components/util-components/loading-notice";
-import { retrieveFromLocalStorage as retrieveProjectsFromLocalStorage } from "../../src/utils/local-storage-util";
+import { retrieveFromLocalStorage as retrieveProjectsFromLocalStorage, saveToLocalStorage } from "../../src/utils/local-storage-util";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import ProjectControl from "../../src/components/tasks-page-components/project-control";
@@ -14,28 +14,27 @@ import HeadWrapper from "../../src/components/head-wrapper";
 import AddTaskModal from "../../src/components/tasks-page-components/add-task-modal";
 import Button from "react-bootstrap/Button";
 import TaskInterface from "../../src/interfaces/task-interface";
+import createProjectObject from "../../src/defaults/default-project";
+import createProjectArrayObject from "../../src/defaults/default-project-array-";
+import TaskCard from "../../src/components/tasks-page-components/task-card";
+
 
 function TasksPage() {
   const router = useRouter();
   const { userTypeState, setUserStateType } = useContext(UserTypeContext);
   const [projectArrayState, setProjectArrayState] =
-    useState<ProjectArrayInterface>();
+    useState<ProjectArrayInterface>(createProjectArrayObject());
   const [currentProjectState, setCurrentProjectState] =
-    useState<ProjectInterface>();
+    useState<ProjectInterface>(createProjectObject());
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [show, setModalShow] = useState<boolean>(false);
 
-  // const renderedTasks = useMemo(() : JSX.Element | Array<JSX.Element> => {
-  //     const tasks = currentProjectState?.tasks.map((task) => {
-  //       return //task cards
-  //     })
-  // }, [currentProjectState])
-
-  // const addTaskToProject = useCallback((task : TaskInterface) => {
-  //   setCurrentProjectState((prevProjectState) => ({
-  //     ...prevProjectState,
-  //   }));
-  // }, []);
+  const renderedTasks = useMemo((): JSX.Element | Array<JSX.Element> => {
+    const taskCards = currentProjectState?.tasks.map((task) => {
+      return <TaskCard key={task.title} task={task} />;
+    });
+    return taskCards;
+  }, [currentProjectState]);
 
   useEffect(() => {
     if (!userTypeState.isLoggedIn) {
@@ -53,7 +52,7 @@ function TasksPage() {
     const matchedProject = projectArrayState.projects.find((project) => {
       return project.id === router.query.id;
     });
-    setCurrentProjectState(matchedProject);
+    setCurrentProjectState(matchedProject!);
     setIsLoading(false);
   }, [router.query.id, projectArrayState]);
 
@@ -83,11 +82,17 @@ function TasksPage() {
             Add Task
           </Button>
         </div>
+        <Row>
+          {renderedTasks}
+        </Row>
       </Container>
       <AddTaskModal
         show={show}
         setModalShow={setModalShow}
-        setCurrentProjectState={setCurrentProjectState}
+        setProjectArrayState={setProjectArrayState}
+        userTypeState={userTypeState}
+        currentProjectState={currentProjectState}
+        projectArrayState={projectArrayState}
       />
     </>
   );

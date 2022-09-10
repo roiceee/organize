@@ -11,26 +11,33 @@ import TaskConstraintsEnum from "../../enums/task-constraints";
 import FormLengthCounter from "../util-components/form-length-counter";
 import ProjectInterface from "../../interfaces/project-interface";
 import TaskInterface from "../../interfaces/task-interface";
+import createTaskObject from "../../defaults/default-task";
+import UserTypeInterface from "../../interfaces/user-interface";
+import ProjectArrayInterface from "../../interfaces/project-array-interface";
+import { saveToLocalStorage } from "../../utils/local-storage-util";
 
 interface AddTaskModalInterface {
   show: boolean;
   setModalShow: React.Dispatch<React.SetStateAction<boolean>>;
-  setCurrentProjectState: React.Dispatch<
-    React.SetStateAction<ProjectInterface | undefined>
+  setProjectArrayState: React.Dispatch<
+    React.SetStateAction<ProjectArrayInterface>
   >;
+  userTypeState: UserTypeInterface;
+  currentProjectState: ProjectInterface;
+  projectArrayState: ProjectArrayInterface;
 }
 
 function AddTaskModal({
   show,
   setModalShow,
-  setCurrentProjectState,
+  setProjectArrayState,
+  projectArrayState,
+  currentProjectState,
+  userTypeState,
 }: AddTaskModalInterface) {
-  const [currentTaskState, setCurrentTaskState] = useState<TaskInterface>({
-    title: "",
-    isDone: false,
-    deadline: "",
-    priority: "",
-  });
+  const [currentTaskState, setCurrentTaskState] = useState<TaskInterface>(
+    createTaskObject()
+  );
 
   const taskTitleFormHandler = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,17 +69,30 @@ function AddTaskModal({
     []
   );
 
-//   const addButtonHandler = useCallback(() => {
-//    if ()
-//     setCurrentProjectState((prevProjectState) => ({
-//       ...prevProjectState,
-//       tasks: [...prevProjectState.tasks, currentTaskState],
-//     }));
-//   }, []);
+  const addTaskButtonHandler = useCallback(() => {
+    setProjectArrayState((prevProjectArrayState) => {
+      const newProjectArrayState = {
+        projects: prevProjectArrayState.projects.map((project) => {
+          if (project.id === currentProjectState.id) {
+            project.tasks.push(currentTaskState);
+          }
+          return project;
+        }),
+      };
+      return newProjectArrayState;
+    });
+  }, [currentTaskState, setProjectArrayState, currentProjectState.id]);
+
+  const resetTaskValues = useCallback(() => {
+    setCurrentTaskState(createTaskObject());
+  }, []);
 
   useEffect(() => {
-    console.log(currentTaskState);
-  }, [currentTaskState]);
+    if (!userTypeState.isLoggedIn) {
+      saveToLocalStorage(projectArrayState);
+    }
+    return () => resetTaskValues();
+  }, [projectArrayState, userTypeState, resetTaskValues]);
 
   return (
     <ModalWrapper
@@ -135,7 +155,11 @@ function AddTaskModal({
           </div>
         </Form>
       }
-      footerChildren={<Button variant="secondary">Add Task</Button>}
+      footerChildren={
+        <Button variant="secondary" onClick={addTaskButtonHandler}>
+          Add Task
+        </Button>
+      }
     />
   );
 }

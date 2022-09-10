@@ -8,7 +8,6 @@ interface ProjectCardProps {
 }
 
 function ProjectCard({ project }: ProjectCardProps) {
-  console.log(project.id)
   return (
     <Link href={`/projects/${project.id}`}>
     <Card
