@@ -3,7 +3,6 @@ import Form from "react-bootstrap/Form";
 import React, {
   ChangeEvent,
   useCallback,
-  useEffect,
   useRef,
   useState,
 } from "react";
@@ -15,7 +14,6 @@ import {
 } from "../../../src/utils/validation";
 import ProjectConstraintsEnum from "../../enums/project-constraints";
 import ProjectArrayInterface from "../../interfaces/project-array-interface";
-import UserTypeInterface from "../../interfaces/user-interface";
 import ModalWrapper from "../util-components/modal-wrapper";
 import FormLengthCounter from "../util-components/form-length-counter";
 import createProjectObject from "../../defaults/default-project";
@@ -50,27 +48,24 @@ function AddProjectModal({
   }, [titleForm, projectArrayState]);
 
   const addProjectButtonHandler = useCallback(() => {
-    if (!areFormsValid) {
+    if (!areFormsValid()) {
       return;
     }
-
-    onAddProjectButtonClick(currentProjectValue);
+    const currentProjectValueCopy = {...currentProjectValue}
+    const newProjectValue = {
+      ...currentProjectValueCopy,
+      dateCreated: new Date(),
+      lastModified: new Date(),
+    }
+    onAddProjectButtonClick(newProjectValue);
+     
     resetProjectValues();
   }, [
     areFormsValid,
-    currentProjectValue,
     onAddProjectButtonClick,
     resetProjectValues,
+    currentProjectValue
   ]);
-
-  //this returns a new date on modal render
-  useEffect(() => {
-    setCurrentProjectValue((prevProjectValue) => ({
-      ...prevProjectValue,
-      dateCreated: new Date(),
-      lastModified: new Date(),
-    }));
-  }, [currentProjectValue.title]);
 
   const projectTitleFormHandler = useCallback(
     (e: ChangeEvent<HTMLInputElement>): void => {
