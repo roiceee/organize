@@ -1,31 +1,65 @@
 import type { NextPage } from "next";
-import { useCallback, useContext, useState } from "react";
-import HeadWrapper from "../components/head-wrapper";
-import AddProjectModal from "../components/projects-components/add-project-modal";
-import NoProjectCard from "../components/projects-components/no-project-card";
+import { useCallback, useContext, useEffect, useState, useMemo, useRef } from "react";
+import HeadWrapper from "../src/components/head-wrapper";
+import AddProjectModal from "../src/components/projects-components/add-project-modal";
+import NoProjectCard from "../src/components/projects-components/no-project-card";
 import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
-import ProjectArrayContext from "../contexts/project-array-context";
-import ProjectCard from "../components/projects-components/project-card";
+import UserTypeContext from "../src/contexts/user-context";
+import ProjectCard from "../src/components/projects-components/project-card";
+import ProjectArrayInterface from "../src/interfaces/project-array-interface";
+import { retrieveFromStorage } from "../src/utils/local-storage-util";
+import LoadingNotice from "../src/components/util-components/loading-notice";
+import createProjectArrayObject from "../src/defaults/default-project-array-";
+import ProjectInterface from "../src/interfaces/project-interface";
+import { saveToStorage } from "../src/utils/local-storage-util";
 
 const Home: NextPage = () => {
   const [show, setModalShow] = useState<boolean>(false);
+  const { userTypeState, setUserStateType } = useContext(UserTypeContext);
+  const [projectArrayState, setProjectArrayState] =
+    useState<ProjectArrayInterface>(createProjectArrayObject());
 
-  const { projectArrayState, setProjectArrayState } =
-    useContext(ProjectArrayContext);
-
-  const renderProjects = useCallback((): Array<JSX.Element> => {
+  const renderedProjects = useMemo((): Array<JSX.Element> | JSX.Element => {
+    if (projectArrayState === undefined) {
+      return <></>;
+    }
     const projectCards = projectArrayState.projects.map((project) => {
       return <ProjectCard key={project.id} project={project} />;
     });
     return projectCards;
   }, [projectArrayState]);
 
-  const addNewProjectButtonHandler = useCallback(
-    () => setModalShow(true),
-    [setModalShow]
-  );
+
+  const addProjectToProjectArray = useCallback((newProject: ProjectInterface): void => {
+    
+    setProjectArrayState((prevProjectArrayState) => {
+      const newProjectState = {
+        ...prevProjectArrayState,
+        projects: [...prevProjectArrayState.projects, newProject],
+      };
+      saveToStorage(userTypeState, newProjectState);
+    
+      return newProjectState;
+    });
+
+    setModalShow(false);
+  }, [
+    setModalShow,
+    setProjectArrayState,
+    userTypeState
+  ]);
+
+  useEffect(() => {
+      const projects = retrieveFromStorage(userTypeState);
+      setProjectArrayState(projects);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  if (!projectArrayState) {
+    return <LoadingNotice />;
+  }
 
   return (
     <Container>
@@ -33,21 +67,27 @@ const Home: NextPage = () => {
       <Row className="px-3 gap-2">
         <>
           {projectArrayState.projects.length === 0 && <NoProjectCard />}
-          {projectArrayState.projects.length > 0 && <h3>Projects</h3>}
-          {renderProjects()}
+          {projectArrayState.projects.length > 0 && (
+            <h3 className="my-0">Projects</h3>
+          )}
+          <div>
+            <Button
+              className="mx-auto"
+              variant="action"
+              onClick={() => setModalShow(true)}
+            >
+              Add new Project
+            </Button>
+          </div>
+          {renderedProjects}
         </>
       </Row>
-      <Row>
-        <Button
-          className="mx-auto my-3"
-          variant="action"
-          style={{ width: "280px" }}
-          onClick={addNewProjectButtonHandler}
-        >
-          Add a new Project
-        </Button>
-      </Row>
-      <AddProjectModal show={show} setModalShow={setModalShow} />
+      <AddProjectModal
+        show={show}
+        setModalShow={setModalShow}
+        projectArrayState={projectArrayState}
+        onAddProjectButtonClick={addProjectToProjectArray}
+      />
     </Container>
   );
 };

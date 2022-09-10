@@ -1,5 +1,5 @@
-import NavigationBar from "../components/navbar";
-import Footer from "../components/footer";
+import NavigationBar from "./navbar";
+import Footer from "./footer";
 
 interface LayoutProps {
   children: JSX.Element;

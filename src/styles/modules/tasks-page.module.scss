@@ -1,0 +1,45 @@
+@import "../colors.scss";
+
+
+.smallerFontSize {
+    font-size: 0.8rem;
+}
+
+.seeProjectDetails {
+    @extend .smallerFontSize;
+}
+
+.editProject {
+    @extend .smallerFontSize;
+}
+
+.deleteProject {
+    @extend .smallerFontSize;
+}
+
+
+@media (max-width: 799px) {
+    .editProject {
+        color: $action;
+    }
+    
+    .deleteProject {
+        color: $danger;
+    }
+}
+
+
+@media (min-width: 800px) {
+    .seeProjectDetails:hover {
+        color: #787878;
+    }
+    .editProject:hover {
+        color: $action;
+    }
+    
+    .deleteProject:hover {
+        color: $danger;
+    }
+}
+
+

@@ -1,15 +1,4 @@
-$primary: #360568;
-$secondary: #63328e;
-$action: #ec9706;
-$success: #28a745;
-$danger: #dc3545;
-$warning: #ffc107;
-$info: #17a2b8;
-$light: #f8f9fa;
-$dark: #343a40;
-$muted: #6c757d;
-$white: #ffffff;
-$gray: #dddddd;
+@import "./colors.scss";
 
 $theme-colors: (
     "primary": $primary,
