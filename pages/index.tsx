@@ -21,6 +21,7 @@ import LoadingNotice from "../src/components/util-components/loading-notice";
 import createProjectArrayObject from "../src/defaults/default-project-array-";
 import ProjectInterface from "../src/interfaces/project-interface";
 import { saveToStorage } from "../src/utils/local-storage-util";
+import Col from "react-bootstrap/Col";
 
 const Home: NextPage = () => {
   const [show, setModalShow] = useState<boolean>(false);
@@ -71,7 +72,20 @@ const Home: NextPage = () => {
       <Row className="sticky-wrapper position-sticky sticky-top bg-light py-3">
         {projectArrayState.projects.length === 0 && <NoProjectCard />}
         {projectArrayState.projects.length > 0 && (
-          <h3 className="my-0 mb-2">Projects</h3>
+          <Row>
+            <Col>
+              <h3 className="my-0 mb-2">Projects</h3>
+            </Col>
+            <Col>
+              <h6>Projects: {projectArrayState.projects.length}</h6>
+              <h6>
+                Total tasks:{" "}
+                {projectArrayState.projects.reduce((prev, project) => {
+                  return prev + project.tasks.length;
+                }, 0)}
+              </h6>
+            </Col>
+          </Row>
         )}
         <div>
           <Button
@@ -83,7 +97,7 @@ const Home: NextPage = () => {
           </Button>
         </div>
       </Row>
-      <Row className="px-2 gap-2 justify-content-center">
+      <Row className="px-2 gap-2 justify-content-center pt-2">
         {renderedProjects}
       </Row>
       <AddProjectModal

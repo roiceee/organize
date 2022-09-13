@@ -1,14 +1,18 @@
 import styles from "../../styles/modules/tasks-page.module.scss";
 
 
-function ProjectControl() {
+interface ProjectControlProps {
+  showProjectDetailsModal: () => void;
+}
+
+function ProjectControl({showProjectDetailsModal}: ProjectControlProps) {
 
   return (
     <>
     <div className="d-flex gap-3">
       <div className={`${styles.smallerFontSize} d-flex gap-3`}>
-        <div className={styles.seeProjectDetails} tabIndex={0}>
-          See Project Description
+        <div className={styles.seeProjectDetails} tabIndex={0} onClick={showProjectDetailsModal}>
+          See Project Details
         </div>
         <div>|</div>
         <div className={styles.editProject} tabIndex={0}>

@@ -14,15 +14,15 @@ import {
 import ProjectInterface from "../../interfaces/project-interface";
 
 interface AddTaskModalProps {
-  show: boolean;
-  setModalShow: React.Dispatch<React.SetStateAction<boolean>>;
+  showState: boolean ;
+  onHide: () => void;
   onAddTaskButtonClick: (newTask: TaskInterface) => void;
   currentProjectState: ProjectInterface;
 }
 
 function AddTaskModal({
-  show,
-  setModalShow,
+  showState,
+  onHide,
   onAddTaskButtonClick,
   currentProjectState,
 }: AddTaskModalProps) {
@@ -91,8 +91,8 @@ function AddTaskModal({
   return (
     <ModalWrapper
       modalTitle="Add Task"
-      show={show}
-      setModalShow={setModalShow}
+      showState={showState}
+      onHide={onHide}
       bodyChildren={
         <Form onSubmit={(e) => e.preventDefault()}>
           <div className="d-flex justify-content-end">

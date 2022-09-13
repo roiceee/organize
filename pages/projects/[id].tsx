@@ -20,6 +20,7 @@ import createProjectObject from "../../src/defaults/default-project";
 import createProjectArrayObject from "../../src/defaults/default-project-array-";
 import TaskCard from "../../src/components/tasks-page-components/task-card";
 import TaskInterface from "../../src/interfaces/task-interface";
+import ProjectDescriptionModal from "../../src/components/tasks-page-components/project-description";
 
 function TasksPage() {
   const router = useRouter();
@@ -29,7 +30,9 @@ function TasksPage() {
   const [currentProjectState, setCurrentProjectState] =
     useState<ProjectInterface>(createProjectObject());
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [show, setModalShow] = useState<boolean>(false);
+  const [addTaskModalState, setAddTaskModalState] = useState<boolean>(false);
+  const [projectDetailsModalState, setProjectDetailsModalState] =
+    useState<boolean>(false);
 
   const renderedTasks = useMemo((): JSX.Element | Array<JSX.Element> => {
     const taskCards = currentProjectState?.tasks.map((task) => {
@@ -37,6 +40,22 @@ function TasksPage() {
     });
     return taskCards;
   }, [currentProjectState]);
+
+  const showAddTaskModal = useCallback(() => {
+    setAddTaskModalState(true);
+  }, []);
+
+  const hideAddTaskModal = useCallback(() => {
+    setAddTaskModalState(false);
+  }, []);
+
+  const showProjectDetailsModal = useCallback(() => {
+    setProjectDetailsModalState(true);
+  }, []);
+
+  const hideProjectDetailsModal = useCallback(() => {
+    setProjectDetailsModalState(false);
+  }, []);
 
   const updateCurrentProjectOnProjectArrayState = useCallback(
     (updatedProject: ProjectInterface) => {
@@ -67,9 +86,9 @@ function TasksPage() {
         updateCurrentProjectOnProjectArrayState(newProjectState);
         return newProjectState;
       });
-      setModalShow(false);
+      hideAddTaskModal();
     },
-    [setModalShow, updateCurrentProjectOnProjectArrayState]
+    [updateCurrentProjectOnProjectArrayState, hideAddTaskModal]
   );
 
   useEffect(() => {
@@ -105,27 +124,34 @@ function TasksPage() {
   return (
     <>
       <Container>
-        <HeadWrapper title={`Organize | ${router.query.id}`} />
+        <HeadWrapper title={`Projects | ${router.query.id}`} />
         <Row className="sticky-wrapper position-sticky sticky-top bg-light py-2">
           <Row>
             <h2>{currentProjectState.title}</h2>
             <p>Last Visited: {formatDate(currentProjectState.lastModified)}</p>
-            <ProjectControl />
+            <ProjectControl showProjectDetailsModal={showProjectDetailsModal} />
           </Row>
           <hr className="mx-auto my-1 mb-2" />
           <div className="mb-2">
-            <Button variant="action" onClick={() => setModalShow(true)}>
+            <Button variant="action" onClick={showAddTaskModal}>
               Add Task
             </Button>
           </div>
         </Row>
-        <Row className="gap-2 p-2 row-cols-lg justify-content-center">{renderedTasks}</Row>
+        <Row className="gap-2 p-2 row-cols-lg justify-content-center">
+          {renderedTasks}
+        </Row>
       </Container>
       <AddTaskModal
-        show={show}
-        setModalShow={setModalShow}
+        showState={addTaskModalState}
+        onHide={hideAddTaskModal}
         onAddTaskButtonClick={addTaskToProject}
         currentProjectState={currentProjectState}
+      />
+      <ProjectDescriptionModal
+        project={currentProjectState}
+        showState={projectDetailsModalState}
+        onHide={hideProjectDetailsModal}
       />
     </>
   );

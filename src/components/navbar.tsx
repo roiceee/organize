@@ -31,6 +31,13 @@ function NavigationBar() {
         <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-$"md"`} />
         <Navbar.Collapse id="basic-navbar-nav" className="mt-2 mt-md-0">
           <Nav className="me-auto mx-md-4">
+          <Navbar.Text>
+              <Link href="/">
+                <a className="text-light text-decoration-none mx-md-3">
+                  Projects
+                </a>
+              </Link>
+            </Navbar.Text>
             <Navbar.Text>
               <Link href="#action1">
                 <a className="text-light text-decoration-none mx-md-3">
