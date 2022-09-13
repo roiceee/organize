@@ -18,6 +18,7 @@ function AddProjectModal({
   onAddProjectButtonClick,
   projectObject,
 }: AddProjectModalProps) {
+  const MODE = "add";
   return (
     <ProjectModal
       projectObject={projectObject}
@@ -26,6 +27,7 @@ function AddProjectModal({
       projectArrayState={projectArrayState}
       onActionButtonClick={onAddProjectButtonClick}
       modalTitle={"Add Project"}
+      mode={MODE}
     />
   );
 }

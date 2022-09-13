@@ -16,6 +16,8 @@ function EditProjectModal({
   onEditProjectButtonClick,
   projectObject
 }: EditProjectModalProps) {
+  const MODE = "edit";
+
   return (
     <ProjectModal
       projectObject={projectObject}
@@ -24,6 +26,7 @@ function EditProjectModal({
       projectArrayState={projectArrayState}
       onActionButtonClick={onEditProjectButtonClick}
       modalTitle={"Edit Project"}
+      mode={MODE}
     />
   );
 }

@@ -39,6 +39,30 @@ function validateExistingProject(
   return true;
 }
 
+function validateExistingProjectExceptForCurrent(
+  formElement: React.RefObject<HTMLInputElement>,
+  errorTextElementID: string,
+  projectArray: ProjectArrayInterface,
+  currentProject: ProjectInterface
+) {
+  const element: HTMLInputElement | null = formElement.current;
+  const errorTextElement: HTMLDivElement | null = document.querySelector(
+    `#${errorTextElementID}`
+  );
+
+  for (let i = 0; i < projectArray.projects.length; i++) {
+    if (currentProject.id === element?.value) {
+      continue;
+    }
+    if (projectArray.projects[i].title === element?.value) {
+      element.classList.add("invalid");
+      errorTextElement!.textContent = "Project name exists.";
+      return false;
+    }
+  }
+  return true;
+};
+
 function validateExistingTask(
   formElement: React.RefObject<HTMLInputElement>,
   errorTextElementID: string,
@@ -78,4 +102,5 @@ export {
   removeErrorFields,
   validateExistingProject,
   validateExistingTask,
+  validateExistingProjectExceptForCurrent
 };

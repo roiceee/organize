@@ -4,6 +4,7 @@ import ProjectInterface from "../../interfaces/project-interface";
 import {
   removeErrorFields,
   validateExistingProject,
+  validateExistingProjectExceptForCurrent,
   validateRequiredInput,
 } from "../../../src/utils/validation";
 import ProjectArrayInterface from "../../interfaces/project-array-interface";
@@ -18,6 +19,7 @@ interface ProjectModalProps {
   projectArrayState: ProjectArrayInterface;
   onActionButtonClick: (newProject: ProjectInterface) => void;
   modalTitle: string;
+  mode: string;
 }
 
 function ProjectModal({
@@ -26,9 +28,9 @@ function ProjectModal({
   projectArrayState,
   onActionButtonClick,
   projectObject,
-  modalTitle
+  modalTitle,
+  mode,
 }: ProjectModalProps) {
-  
   const [currentProjectValue, setCurrentProjectValue] =
     useState<ProjectInterface>(projectObject);
 
@@ -38,12 +40,40 @@ function ProjectModal({
     setCurrentProjectValue(createProjectObject());
   }, []);
 
-  const areFormsValid = useCallback((): boolean => {
+  const validateAddProject = useCallback((): boolean => {
     return (
       validateRequiredInput(titleForm, "form-title-error") &&
       validateExistingProject(titleForm, "form-title-error", projectArrayState)
     );
-  }, [titleForm, projectArrayState]);
+  }, [projectArrayState]);
+
+  const validateEditProject = useCallback((): boolean => {
+    return (
+      validateRequiredInput(titleForm, "form-title-error") &&
+      validateExistingProjectExceptForCurrent(
+        titleForm,
+        "form-title-error",
+        projectArrayState,
+        currentProjectValue
+      )
+    );
+  }, [currentProjectValue, projectArrayState]);
+
+  const areFormsValid = useCallback((): boolean => {
+    switch (mode) {
+      case "add": {
+        validateAddProject();
+      }
+      case "edit": {
+        return validateEditProject();
+      }
+    }
+    return false;
+  }, [
+    mode,
+    validateAddProject,
+    validateEditProject,
+  ]);
 
   const actionButtonHandler = useCallback(() => {
     if (!areFormsValid()) {
@@ -55,7 +85,6 @@ function ProjectModal({
       dateCreated: new Date(),
       lastModified: new Date(),
     };
-    console.log(newProjectValue)
     onActionButtonClick(newProjectValue);
 
     resetProjectValues();
