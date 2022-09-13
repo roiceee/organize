@@ -50,19 +50,37 @@ const Home: NextPage = () => {
   const addProjectToProjectArray = useCallback(
     (newProject: ProjectInterface): void => {
       setProjectArrayState((prevProjectArrayState) => {
-        const newProjectState = {
+        const newProjectArrayState = {
           ...prevProjectArrayState,
           projects: [...prevProjectArrayState.projects, newProject],
         };
-        saveToStorage(userTypeState, newProjectState);
+        saveToStorage(userTypeState, newProjectArrayState);
 
-        return newProjectState;
+        return newProjectArrayState;
       });
 
       setModalShow(false);
     },
     [setModalShow, setProjectArrayState, userTypeState]
   );
+
+  const updateEditedProjectOnProjectArray = useCallback(() => {
+    (editedProject: ProjectInterface) : void => {
+      setProjectArrayState((prevProjectArrayState) => {
+        const newProjectArrayState = {...prevProjectArrayState};
+        newProjectArrayState.projects.forEach((project, index) => {
+          if (project.id === editedProject.id) {
+            newProjectArrayState.projects[index] = editedProject;
+          }
+        })
+        saveToStorage(userTypeState, newProjectArrayState);
+
+        return newProjectArrayState;
+      });
+
+      setModalShow(false);
+    }
+  }, [])
 
   useEffect(() => {
     const projects = retrieveFromStorage(userTypeState);
@@ -115,6 +133,7 @@ const Home: NextPage = () => {
         projectArrayState={projectArrayState}
         onAddProjectButtonClick={addProjectToProjectArray}
       />
+      
     </Container>
   );
 };
