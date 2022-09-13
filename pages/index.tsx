@@ -24,10 +24,18 @@ import { saveToStorage } from "../src/utils/local-storage-util";
 import Col from "react-bootstrap/Col";
 
 const Home: NextPage = () => {
-  const [show, setModalShow] = useState<boolean>(false);
+  const [showState, setModalShow] = useState<boolean>(false);
   const { userTypeState, setUserStateType } = useContext(UserTypeContext);
   const [projectArrayState, setProjectArrayState] =
     useState<ProjectArrayInterface>(createProjectArrayObject());
+
+  const showAddProjectModal = useCallback(() => {
+    setModalShow(true);
+  }, []);
+
+  const hideAddProjectModal = useCallback(() => {
+    setModalShow(false);
+  }, []);
 
   const renderedProjects = useMemo((): Array<JSX.Element> | JSX.Element => {
     if (projectArrayState === undefined) {
@@ -87,11 +95,12 @@ const Home: NextPage = () => {
             </Col>
           </Row>
         )}
+        <hr/>
         <div>
           <Button
             className="mx-auto"
             variant="action"
-            onClick={() => setModalShow(true)}
+            onClick={showAddProjectModal}
           >
             Add new Project
           </Button>
@@ -101,8 +110,8 @@ const Home: NextPage = () => {
         {renderedProjects}
       </Row>
       <AddProjectModal
-        show={show}
-        setModalShow={setModalShow}
+        showState={showState}
+        onHide={hideAddProjectModal}
         projectArrayState={projectArrayState}
         onAddProjectButtonClick={addProjectToProjectArray}
       />

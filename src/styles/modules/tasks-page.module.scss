@@ -1,45 +1,52 @@
 @import "../colors.scss";
 
+.descriptionDiv {
+  width: 500px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hasDescription {
+    text-decoration: underline;
+    text-decoration-color: $info;
+}
 
 .smallerFontSize {
-    font-size: 0.8rem;
+  font-size: 0.8rem;
 }
 
 .seeProjectDetails {
-    @extend .smallerFontSize;
+  @extend .smallerFontSize;
 }
 
 .editProject {
-    @extend .smallerFontSize;
+  @extend .smallerFontSize;
 }
 
 .deleteProject {
-    @extend .smallerFontSize;
+  @extend .smallerFontSize;
 }
-
 
 @media (max-width: 799px) {
-    .editProject {
-        color: $action;
-    }
-    
-    .deleteProject {
-        color: $danger;
-    }
-}
+  .editProject {
+    color: $action;
+  }
 
+  .deleteProject {
+    color: $danger;
+  }
+}
 
 @media (min-width: 800px) {
-    .seeProjectDetails:hover {
-        color: #787878;
-    }
-    .editProject:hover {
-        color: $action;
-    }
-    
-    .deleteProject:hover {
-        color: $danger;
-    }
+  .seeProjectDetails:hover {
+    color: #787878;
+  }
+  .editProject:hover {
+    color: $action;
+  }
+
+  .deleteProject:hover {
+    color: $danger;
+  }
 }
-
-

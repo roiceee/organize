@@ -20,7 +20,8 @@ import createProjectObject from "../../src/defaults/default-project";
 import createProjectArrayObject from "../../src/defaults/default-project-array-";
 import TaskCard from "../../src/components/tasks-page-components/task-card";
 import TaskInterface from "../../src/interfaces/task-interface";
-import ProjectDescriptionModal from "../../src/components/tasks-page-components/project-description";
+import DescriptionModal from "../../src/components/tasks-page-components/description-modal";
+import styles from "../../src/styles/modules/tasks-page.module.scss"
 
 function TasksPage() {
   const router = useRouter();
@@ -31,7 +32,7 @@ function TasksPage() {
     useState<ProjectInterface>(createProjectObject());
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [addTaskModalState, setAddTaskModalState] = useState<boolean>(false);
-  const [projectDetailsModalState, setProjectDetailsModalState] =
+  const [descriptionModalState, setDescriptionModalState] =
     useState<boolean>(false);
 
   const renderedTasks = useMemo((): JSX.Element | Array<JSX.Element> => {
@@ -49,12 +50,12 @@ function TasksPage() {
     setAddTaskModalState(false);
   }, []);
 
-  const showProjectDetailsModal = useCallback(() => {
-    setProjectDetailsModalState(true);
+  const showDescriptionModal = useCallback(() => {
+    setDescriptionModalState(true);
   }, []);
 
-  const hideProjectDetailsModal = useCallback(() => {
-    setProjectDetailsModalState(false);
+  const hideDescriptionModal = useCallback(() => {
+    setDescriptionModalState(false);
   }, []);
 
   const updateCurrentProjectOnProjectArrayState = useCallback(
@@ -127,12 +128,30 @@ function TasksPage() {
         <HeadWrapper title={`Projects | ${router.query.id}`} />
         <Row className="sticky-wrapper position-sticky sticky-top bg-light py-2">
           <Row>
-            <h2>{currentProjectState.title}</h2>
+            <h2 style={{ overflowWrap: "break-word" }}>
+              {currentProjectState.title}
+            </h2>
+            <div
+            className={styles.descriptionDiv}
+            >
+              {currentProjectState.description === "" && (
+                <span>No description</span>
+              )}
+              {currentProjectState.description !== "" && (
+                <span className={styles.hasDescription} onClick={showDescriptionModal}>
+                  Description: {currentProjectState.description}
+                </span>
+              )}
+            </div>
             <p>Last Visited: {formatDate(currentProjectState.lastModified)}</p>
-            <ProjectControl showProjectDetailsModal={showProjectDetailsModal} />
+            <ProjectControl />
           </Row>
           <hr className="mx-auto my-1 mb-2" />
-          <div className="mb-2">
+          <div className="mb-2 d-flex gap-4 align-items-center">
+            <div>
+              Tasks: {currentProjectState.tasks.length}{" "}
+              <span style={{ fontSize: "1.6rem" }}>|</span>
+            </div>
             <Button variant="action" onClick={showAddTaskModal}>
               Add Task
             </Button>
@@ -148,10 +167,10 @@ function TasksPage() {
         onAddTaskButtonClick={addTaskToProject}
         currentProjectState={currentProjectState}
       />
-      <ProjectDescriptionModal
-        project={currentProjectState}
-        showState={projectDetailsModalState}
-        onHide={hideProjectDetailsModal}
+      <DescriptionModal
+        description={currentProjectState.description}
+        show={descriptionModalState}
+        onHide={hideDescriptionModal}
       />
     </>
   );

@@ -19,15 +19,15 @@ import FormLengthCounter from "../util-components/form-length-counter";
 import createProjectObject from "../../defaults/default-project";
 
 interface AddProjectModalProps {
-  show: boolean;
-  setModalShow: React.Dispatch<React.SetStateAction<boolean>>;
+  showState: boolean;
+  onHide: () => void
   projectArrayState: ProjectArrayInterface;
   onAddProjectButtonClick: (newProject: ProjectInterface) => void;
 }
 
 function AddProjectModal({
-  show,
-  setModalShow,
+  showState,
+  onHide,
   projectArrayState,
   onAddProjectButtonClick,
 }: AddProjectModalProps) {
@@ -96,8 +96,8 @@ function AddProjectModal({
 
   return (
     <ModalWrapper
-      show={show}
-      setModalShow={setModalShow}
+      showState={showState}
+      onHide={onHide}
       modalTitle="Add Project"
       bodyChildren={
         <Form onSubmit={(e) => e.preventDefault()}>
