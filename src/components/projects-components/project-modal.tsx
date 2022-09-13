@@ -75,24 +75,48 @@ function ProjectModal({
     validateEditProject,
   ]);
 
-  const actionButtonHandler = useCallback(() => {
-    if (!areFormsValid()) {
-      return;
-    }
+  const createNewProject = useCallback(() : ProjectInterface =>  {
     const currentProjectValueCopy = { ...currentProjectValue };
     const newProjectValue = {
       ...currentProjectValueCopy,
       dateCreated: new Date(),
       lastModified: new Date(),
     };
-    onActionButtonClick(newProjectValue);
+    return newProjectValue;
+  }, [currentProjectValue])
 
+  const updateCurrentProject = useCallback((): ProjectInterface => {
+    const currentProjectValueCopy = { ...currentProjectValue };
+    const updatedProjectValue = {
+      ...currentProjectValueCopy,
+      lastModified: new Date(),
+    };
+    return updatedProjectValue;
+  }, [currentProjectValue])
+
+  const actionButtonHandler = useCallback(() => {
+    if (!areFormsValid()) {
+      return;
+    }
+
+    let projectValue : ProjectInterface | null = null;
+    switch (mode) {
+      case "add" : projectValue = createNewProject();
+      break;
+      case "edit" : projectValue = updateCurrentProject();
+    }
+    if (projectValue === null) {
+        return;
+    }
+    onActionButtonClick(projectValue);
     resetProjectValues();
   }, [
     areFormsValid,
     onActionButtonClick,
     resetProjectValues,
-    currentProjectValue,
+    createNewProject,
+    updateCurrentProject,
+    mode
   ]);
 
   const projectTitleFormHandler = useCallback(
