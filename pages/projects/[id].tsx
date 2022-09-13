@@ -79,16 +79,15 @@ function TasksPage() {
           }
           return project;
         });
-        console.log(updatedProjects)
         const newProjectArrayState = {
           projects: updatedProjects
         };
-        console.log(newProjectArrayState)
         saveToStorage(userTypeState, newProjectArrayState);
         return newProjectArrayState;
       });
+      hideEditProjectModal();
     },
-    [userTypeState]
+    [userTypeState, hideEditProjectModal]
   );
 
   const updateLastVisited = useCallback(() => {

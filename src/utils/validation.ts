@@ -51,7 +51,7 @@ function validateExistingProjectExceptForCurrent(
   );
 
   for (let i = 0; i < projectArray.projects.length; i++) {
-    if (currentProject.id === element?.value) {
+    if (currentProject.title === element?.value) {
       continue;
     }
     if (projectArray.projects[i].title === element?.value) {

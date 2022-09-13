@@ -69,13 +69,9 @@ function ProjectModal({
       }
     }
     return false;
-  }, [
-    mode,
-    validateAddProject,
-    validateEditProject,
-  ]);
+  }, [mode, validateAddProject, validateEditProject]);
 
-  const createNewProject = useCallback(() : ProjectInterface =>  {
+  const createNewProject = useCallback((): ProjectInterface => {
     const currentProjectValueCopy = { ...currentProjectValue };
     const newProjectValue = {
       ...currentProjectValueCopy,
@@ -83,7 +79,7 @@ function ProjectModal({
       lastModified: new Date(),
     };
     return newProjectValue;
-  }, [currentProjectValue])
+  }, [currentProjectValue]);
 
   const updateCurrentProject = useCallback((): ProjectInterface => {
     const currentProjectValueCopy = { ...currentProjectValue };
@@ -92,43 +88,54 @@ function ProjectModal({
       lastModified: new Date(),
     };
     return updatedProjectValue;
-  }, [currentProjectValue])
+  }, [currentProjectValue]);
 
   const actionButtonHandler = useCallback(() => {
     if (!areFormsValid()) {
       return;
     }
 
-    let projectValue : ProjectInterface | null = null;
+    let projectValue: ProjectInterface | null = null;
     switch (mode) {
-      case "add" : projectValue = createNewProject();
-      break;
-      case "edit" : projectValue = updateCurrentProject();
+      case "add":
+        projectValue = createNewProject();
+        resetProjectValues();
+        break;
+      case "edit":
+        projectValue = updateCurrentProject();
     }
     if (projectValue === null) {
-        return;
+      return;
     }
     onActionButtonClick(projectValue);
-    resetProjectValues();
   }, [
     areFormsValid,
     onActionButtonClick,
     resetProjectValues,
     createNewProject,
     updateCurrentProject,
-    mode
+    mode,
   ]);
 
   const projectTitleFormHandler = useCallback(
     (e: ChangeEvent<HTMLInputElement>): void => {
       const value = e.target.value;
-      setCurrentProjectValue((prevProjectValue) => ({
-        ...prevProjectValue,
-        id: value,
-        title: value,
-      }));
+      switch (mode) {
+        case "add":
+          setCurrentProjectValue((prevProjectValue) => ({
+            ...prevProjectValue,
+            id: value,
+            title: value,
+          }));
+          break;
+        case "edit":
+          setCurrentProjectValue((prevProjectValue) => ({
+            ...prevProjectValue,
+            title: value,
+          }));
+      }
     },
-    [setCurrentProjectValue]
+    [setCurrentProjectValue, mode]
   );
 
   const projectDescriptionFormHandler = useCallback(
