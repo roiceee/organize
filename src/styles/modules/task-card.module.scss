@@ -1,6 +1,23 @@
+@import "../colors.scss";
+
 .prioIndicator {
     width: 8px;
     border-top-left-radius: 6px;
     border-bottom-left-radius: 6px;
+}
+
+.highPriority {
+    background-color: $danger;
+}
+
+.mediumPriority {
+    background-color: $warning;
+}
+
+.lowPriority {
+    background-color: $info;
+}
+
+.noPriority {
     background-color: black;
 }

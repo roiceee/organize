@@ -1,5 +1,12 @@
 import type { NextPage } from "next";
-import { useCallback, useContext, useEffect, useState, useMemo, useRef } from "react";
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+  useMemo,
+  useRef,
+} from "react";
 import HeadWrapper from "../src/components/head-wrapper";
 import AddProjectModal from "../src/components/projects-components/add-project-modal";
 import NoProjectCard from "../src/components/projects-components/no-project-card";
@@ -31,29 +38,26 @@ const Home: NextPage = () => {
     return projectCards;
   }, [projectArrayState]);
 
+  const addProjectToProjectArray = useCallback(
+    (newProject: ProjectInterface): void => {
+      setProjectArrayState((prevProjectArrayState) => {
+        const newProjectState = {
+          ...prevProjectArrayState,
+          projects: [...prevProjectArrayState.projects, newProject],
+        };
+        saveToStorage(userTypeState, newProjectState);
 
-  const addProjectToProjectArray = useCallback((newProject: ProjectInterface): void => {
-    
-    setProjectArrayState((prevProjectArrayState) => {
-      const newProjectState = {
-        ...prevProjectArrayState,
-        projects: [...prevProjectArrayState.projects, newProject],
-      };
-      saveToStorage(userTypeState, newProjectState);
-    
-      return newProjectState;
-    });
+        return newProjectState;
+      });
 
-    setModalShow(false);
-  }, [
-    setModalShow,
-    setProjectArrayState,
-    userTypeState
-  ]);
+      setModalShow(false);
+    },
+    [setModalShow, setProjectArrayState, userTypeState]
+  );
 
   useEffect(() => {
-      const projects = retrieveFromStorage(userTypeState);
-      setProjectArrayState(projects);
+    const projects = retrieveFromStorage(userTypeState);
+    setProjectArrayState(projects);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -64,23 +68,23 @@ const Home: NextPage = () => {
   return (
     <Container>
       <HeadWrapper title="Organize | Home" />
-      <Row className="px-3 gap-2">
-        <>
-          {projectArrayState.projects.length === 0 && <NoProjectCard />}
-          {projectArrayState.projects.length > 0 && (
-            <h3 className="my-0">Projects</h3>
-          )}
-          <div>
-            <Button
-              className="mx-auto"
-              variant="action"
-              onClick={() => setModalShow(true)}
-            >
-              Add new Project
-            </Button>
-          </div>
-          {renderedProjects}
-        </>
+      <Row className="sticky-wrapper position-sticky sticky-top bg-light py-3">
+        {projectArrayState.projects.length === 0 && <NoProjectCard />}
+        {projectArrayState.projects.length > 0 && (
+          <h3 className="my-0 mb-2">Projects</h3>
+        )}
+        <div>
+          <Button
+            className="mx-auto"
+            variant="action"
+            onClick={() => setModalShow(true)}
+          >
+            Add new Project
+          </Button>
+        </div>
+      </Row>
+      <Row className="px-2 gap-2 justify-content-center">
+        {renderedProjects}
       </Row>
       <AddProjectModal
         show={show}
