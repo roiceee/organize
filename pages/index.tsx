@@ -22,6 +22,7 @@ import createProjectArrayObject from "../src/defaults/default-project-array-";
 import ProjectInterface from "../src/interfaces/project-interface";
 import { saveToStorage } from "../src/utils/local-storage-util";
 import Col from "react-bootstrap/Col";
+import createProjectObject from "../src/defaults/default-project";
 
 const Home: NextPage = () => {
   const [showState, setModalShow] = useState<boolean>(false);
@@ -64,23 +65,6 @@ const Home: NextPage = () => {
     [setModalShow, setProjectArrayState, userTypeState]
   );
 
-  const updateEditedProjectOnProjectArray = useCallback(() => {
-    (editedProject: ProjectInterface) : void => {
-      setProjectArrayState((prevProjectArrayState) => {
-        const newProjectArrayState = {...prevProjectArrayState};
-        newProjectArrayState.projects.forEach((project, index) => {
-          if (project.id === editedProject.id) {
-            newProjectArrayState.projects[index] = editedProject;
-          }
-        })
-        saveToStorage(userTypeState, newProjectArrayState);
-
-        return newProjectArrayState;
-      });
-
-      setModalShow(false);
-    }
-  }, [])
 
   useEffect(() => {
     const projects = retrieveFromStorage(userTypeState);
@@ -128,12 +112,12 @@ const Home: NextPage = () => {
         {renderedProjects}
       </Row>
       <AddProjectModal
+        projectObject={createProjectObject()}
         showState={showState}
         onHide={hideAddProjectModal}
         projectArrayState={projectArrayState}
         onAddProjectButtonClick={addProjectToProjectArray}
       />
-      
     </Container>
   );
 };

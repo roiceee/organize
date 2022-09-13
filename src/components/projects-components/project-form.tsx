@@ -49,7 +49,7 @@ function ProjectForm({
       </Form.Group>
       <div className="d-flex justify-content-end">
         <FormLengthCounter
-          currentValue={currentProjectValue.description!.length}
+          currentValue={currentProjectValue.description.length}
           maxValue={ProjectConstraintsEnum.DescriptionLength}
         />
       </div>
@@ -58,6 +58,7 @@ function ProjectForm({
         as="textarea"
         placeholder="Project Description (Optional)"
         onChange={projectDescriptionFormHandler}
+        value={currentProjectValue.description}
         style={{ height: "100px", resize: "none" }}
         maxLength={ProjectConstraintsEnum.DescriptionLength}
       />

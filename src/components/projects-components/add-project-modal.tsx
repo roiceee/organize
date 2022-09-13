@@ -1,10 +1,10 @@
-
 import React from "react";
 import ProjectInterface from "../../interfaces/project-interface";
 import ProjectArrayInterface from "../../interfaces/project-array-interface";
 import ProjectModal from "./project-modal";
 
 interface AddProjectModalProps {
+  projectObject: ProjectInterface;
   showState: boolean;
   onHide: () => void;
   projectArrayState: ProjectArrayInterface;
@@ -16,13 +16,16 @@ function AddProjectModal({
   onHide,
   projectArrayState,
   onAddProjectButtonClick,
+  projectObject,
 }: AddProjectModalProps) {
   return (
     <ProjectModal
+      projectObject={projectObject}
       showState={showState}
       onHide={onHide}
       projectArrayState={projectArrayState}
       onActionButtonClick={onAddProjectButtonClick}
+      modalTitle={"Add Project"}
     />
   );
 }

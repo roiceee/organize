@@ -22,6 +22,7 @@ import TaskCard from "../../src/components/tasks-page-components/task-card";
 import TaskInterface from "../../src/interfaces/task-interface";
 import DescriptionModal from "../../src/components/tasks-page-components/description-modal";
 import styles from "../../src/styles/modules/tasks-page.module.scss";
+import EditProjectModal from "../../src/components/tasks-page-components/edit-project-modal";
 
 function TasksPage() {
   const router = useRouter();
@@ -33,6 +34,8 @@ function TasksPage() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [addTaskModalState, setAddTaskModalState] = useState<boolean>(false);
   const [descriptionModalState, setDescriptionModalState] =
+    useState<boolean>(false);
+  const [editProjectModalState, setEditProjectModalState] =
     useState<boolean>(false);
 
   const renderedTasks = useMemo((): JSX.Element | Array<JSX.Element> => {
@@ -58,18 +61,29 @@ function TasksPage() {
     setDescriptionModalState(false);
   }, []);
 
+  const showEditProjectModal = useCallback(() => {
+    setEditProjectModalState(true);
+  }, []);
+
+  const hideEditProjectModal = useCallback(() => {
+    setEditProjectModalState(false);
+  }, []);
+
   const updateCurrentProjectOnProjectArrayState = useCallback(
     (updatedProject: ProjectInterface) => {
       setProjectArrayState((prevProjectArrayState) => {
         const prevProjectArrayStateCopy = { ...prevProjectArrayState };
-        prevProjectArrayStateCopy.projects.forEach((project, index) => {
+        const updatedProjects = prevProjectArrayStateCopy.projects.map((project) => {
           if (project.id === updatedProject.id) {
-            prevProjectArrayStateCopy.projects[index] = updatedProject;
+            return updatedProject;
           }
+          return project;
         });
+        console.log(updatedProjects)
         const newProjectArrayState = {
-          projects: prevProjectArrayStateCopy.projects,
+          projects: updatedProjects
         };
+        console.log(newProjectArrayState)
         saveToStorage(userTypeState, newProjectArrayState);
         return newProjectArrayState;
       });
@@ -153,7 +167,7 @@ function TasksPage() {
               )}
             </div>
             <p>Last Visited: {formatDate(currentProjectState.lastModified)}</p>
-            <ProjectControl />
+            <ProjectControl editProjectHandler={showEditProjectModal}/>
           </Row>
           <hr className="mx-auto my-1 mb-2" />
           <div className="mb-2 d-flex gap-4 align-items-center">
@@ -180,6 +194,13 @@ function TasksPage() {
         description={currentProjectState.description}
         show={descriptionModalState}
         onHide={hideDescriptionModal}
+      />
+      <EditProjectModal
+        showState={editProjectModalState}
+        onHide={hideEditProjectModal}
+        projectArrayState={projectArrayState}
+        projectObject={currentProjectState}
+        onEditProjectButtonClick={updateCurrentProjectOnProjectArrayState}
       />
     </>
   );

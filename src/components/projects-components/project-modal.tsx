@@ -12,10 +12,12 @@ import createProjectObject from "../../defaults/default-project";
 import ProjectForm from "./project-form";
 
 interface ProjectModalProps {
+  projectObject: ProjectInterface;
   showState: boolean;
   onHide: () => void;
   projectArrayState: ProjectArrayInterface;
   onActionButtonClick: (newProject: ProjectInterface) => void;
+  modalTitle: string;
 }
 
 function ProjectModal({
@@ -23,10 +25,12 @@ function ProjectModal({
   onHide,
   projectArrayState,
   onActionButtonClick,
+  projectObject,
+  modalTitle
 }: ProjectModalProps) {
   
   const [currentProjectValue, setCurrentProjectValue] =
-    useState<ProjectInterface>(createProjectObject());
+    useState<ProjectInterface>(projectObject);
 
   const titleForm = useRef<HTMLInputElement>(null);
 
@@ -51,6 +55,7 @@ function ProjectModal({
       dateCreated: new Date(),
       lastModified: new Date(),
     };
+    console.log(newProjectValue)
     onActionButtonClick(newProjectValue);
 
     resetProjectValues();
@@ -92,7 +97,7 @@ function ProjectModal({
     <ModalWrapper
       showState={showState}
       onHide={onHide}
-      modalTitle="Add Project"
+      modalTitle={modalTitle}
       bodyChildren={
         <ProjectForm
           titleFormRef={titleForm}
