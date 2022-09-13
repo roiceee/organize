@@ -21,7 +21,7 @@ import createProjectArrayObject from "../../src/defaults/default-project-array-"
 import TaskCard from "../../src/components/tasks-page-components/task-card";
 import TaskInterface from "../../src/interfaces/task-interface";
 import DescriptionModal from "../../src/components/tasks-page-components/description-modal";
-import styles from "../../src/styles/modules/tasks-page.module.scss"
+import styles from "../../src/styles/modules/tasks-page.module.scss";
 
 function TasksPage() {
   const router = useRouter();
@@ -77,6 +77,14 @@ function TasksPage() {
     [userTypeState]
   );
 
+  const updateLastVisited = useCallback(() => {
+    setCurrentProjectState((prevProjectState) => {
+      const newProjectState = { ...prevProjectState, lastModified: new Date() };
+      updateCurrentProjectOnProjectArrayState(newProjectState);
+      return newProjectState;
+    });
+  }, [setCurrentProjectState, updateCurrentProjectOnProjectArrayState]);
+
   const addTaskToProject = useCallback(
     (newTask: TaskInterface) => {
       setCurrentProjectState((prevProjectState) => {
@@ -95,8 +103,8 @@ function TasksPage() {
   useEffect(() => {
     const projects = retrieveFromStorage(userTypeState);
     setProjectArrayState(projects);
+    updateLastVisited();
     return;
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -131,14 +139,15 @@ function TasksPage() {
             <h2 style={{ overflowWrap: "break-word" }}>
               {currentProjectState.title}
             </h2>
-            <div
-            className={styles.descriptionDiv}
-            >
+            <div className={styles.descriptionDiv}>
               {currentProjectState.description === "" && (
                 <span>No description</span>
               )}
               {currentProjectState.description !== "" && (
-                <span className={styles.hasDescription} onClick={showDescriptionModal}>
+                <span
+                  className={styles.hasDescription}
+                  onClick={showDescriptionModal}
+                >
                   Description: {currentProjectState.description}
                 </span>
               )}
