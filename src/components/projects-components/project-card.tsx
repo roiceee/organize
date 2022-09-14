@@ -16,9 +16,9 @@ function ProjectCard({ project }: ProjectCardProps) {
       style={{maxWidth: "400px"}}
     >
     <Card.Header className="bg-secondary text-light">
-    <h4 className="my-0">{project.title}</h4>
+    <h5 className="my-0">{project.title}</h5>
     </Card.Header>
-    <Card.Body>
+    <Card.Body className="p-2">
       <div>Tasks: {project.tasks.length}</div>
       <div>Last Visited: {formatDate(project.lastModified)}</div>
     </Card.Body>

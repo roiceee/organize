@@ -15,7 +15,7 @@ function DescriptionModal({
     <Modal
       show={show}
       onHide={onHide}
-      size="lg"
+      size="sm"
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >

@@ -23,6 +23,8 @@ import ProjectInterface from "../src/interfaces/project-interface";
 import { saveToStorage } from "../src/utils/local-storage-util";
 import Col from "react-bootstrap/Col";
 import createProjectObject from "../src/defaults/default-project";
+import Quotes from "../src/components/projects-components/quotes";
+import Overview from "../src/components/projects-components/overview";
 
 const Home: NextPage = () => {
   const [showState, setModalShow] = useState<boolean>(false);
@@ -65,7 +67,6 @@ const Home: NextPage = () => {
     [setModalShow, setProjectArrayState, userTypeState]
   );
 
-
   useEffect(() => {
     const projects = retrieveFromStorage(userTypeState);
     setProjectArrayState(projects);
@@ -79,37 +80,45 @@ const Home: NextPage = () => {
   return (
     <Container>
       <HeadWrapper title="Organize | Home" />
-      <Row className="sticky-wrapper position-sticky sticky-top bg-light py-3">
-        {projectArrayState.projects.length === 0 && <NoProjectCard />}
-        {projectArrayState.projects.length > 0 && (
-          <Row>
-            <Col>
-              <h3 className="my-0 mb-2">Projects</h3>
-            </Col>
-            <Col>
-              <h6>Projects: {projectArrayState.projects.length}</h6>
-              <h6>
-                Total tasks:{" "}
-                {projectArrayState.projects.reduce((prev, project) => {
-                  return prev + project.tasks.length;
-                }, 0)}
-              </h6>
-            </Col>
+      <Row>
+        <Col className="col-lg-5">
+          <Row className="sticky-wrapper position-sticky sticky-top bg-light py-3 ">
+            <Row className="mx-auto justify-content-center">
+              <Col>
+                <h5 className="my-0 mb-2">Welcome back, User!</h5>
+              </Col>
+              <hr />
+              <Quotes />
+              <hr />
+            </Row>
+            {projectArrayState.projects.length === 0 && <NoProjectCard />}
+            {projectArrayState.projects.length > 0 && (
+              <Overview projectArray={projectArrayState} />
+            )}
+            <div>
+              <Button
+                className="mx-auto"
+                variant="action"
+                onClick={showAddProjectModal}
+              >
+                Add new Project
+              </Button>
+            </div>
           </Row>
-        )}
-        <hr/>
-        <div>
-          <Button
-            className="mx-auto"
-            variant="action"
-            onClick={showAddProjectModal}
-          >
-            Add new Project
-          </Button>
-        </div>
-      </Row>
-      <Row className="px-2 gap-2 justify-content-center pt-2">
-        {renderedProjects}
+        </Col>
+        <Col>
+          {projectArrayState.projects.length > 0 && (
+            <Row className="px-2 gap-2 justify-content-center pt-2">
+              <div className="position-sticky sticky-top bg-light py-3">
+                <h6 className="text-center">
+                  Projects
+                </h6>
+                <hr className="my-0 w-75 mx-auto"/>
+              </div>
+              {renderedProjects}
+            </Row>
+          )}
+        </Col>
       </Row>
       <AddProjectModal
         projectObject={createProjectObject()}
