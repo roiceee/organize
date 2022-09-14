@@ -135,10 +135,8 @@ const Home: NextPage = () => {
           />
 
           <AddProjectModal
-            projectObject={createProjectObject()}
             showState={showState}
             onHide={hideAddProjectModal}
-            projectArrayState={projectArrayState}
             onAddProjectButtonClick={addProjectToProjectArray}
           />
         </Container>
