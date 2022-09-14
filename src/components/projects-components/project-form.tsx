@@ -2,11 +2,11 @@ import Form from "react-bootstrap/form";
 import FormLengthCounter from "../util-components/form-length-counter";
 import ProjectConstraintsEnum from "../../enums/project-constraints";
 import ProjectInterface from "../../interfaces/project-interface";
-import { ChangeEvent, useRef, useCallback } from "react";
+import { ChangeEvent, useRef, useCallback, useContext } from "react";
 import {removeErrorFields} from "../../utils/validation";
+import ProjectContext from "../../contexts/project-context";
 
 interface ProjectFormProps {
-  currentProjectValue: ProjectInterface;
   projectTitleFormHandler: (e: ChangeEvent<HTMLInputElement>) => void;
   titleOnFocusHandler: () => void;
   projectDescriptionFormHandler: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -14,12 +14,12 @@ interface ProjectFormProps {
 }
 
 function ProjectForm({
-  currentProjectValue,
   projectTitleFormHandler,
   projectDescriptionFormHandler,
   titleFormRef,
 }: ProjectFormProps) {
 
+  const {currentProjectState} = useContext(ProjectContext);
 
   const titleOnFocusHandler = useCallback(() => {
     removeErrorFields(titleFormRef, "form-title-error");
@@ -32,7 +32,7 @@ function ProjectForm({
         <div className="d-flex justify-content-between">
         <div>Title</div>
           <FormLengthCounter
-            currentValue={currentProjectValue.title.length}
+            currentValue={currentProjectState.title.length}
             maxValue={ProjectConstraintsEnum.TitleLength}
           />
         </div>
@@ -42,7 +42,7 @@ function ProjectForm({
           placeholder="Project title"
           onChange={projectTitleFormHandler}
           onFocus={titleOnFocusHandler}
-          value={currentProjectValue.title}
+          value={currentProjectState.title}
           ref={titleFormRef}
           maxLength={ProjectConstraintsEnum.TitleLength}
         />
@@ -51,7 +51,7 @@ function ProjectForm({
       <div className="d-flex justify-content-between">
         <div>Description</div>
         <FormLengthCounter
-          currentValue={currentProjectValue.description.length}
+          currentValue={currentProjectState.description.length}
           maxValue={ProjectConstraintsEnum.DescriptionLength}
         />
       </div>
@@ -60,7 +60,7 @@ function ProjectForm({
         as="textarea"
         placeholder="Project Description (Optional)"
         onChange={projectDescriptionFormHandler}
-        value={currentProjectValue.description}
+        value={currentProjectState.description}
         style={{ height: "100px", resize: "none" }}
         maxLength={ProjectConstraintsEnum.DescriptionLength}
       />

@@ -1,5 +1,5 @@
 import Button from "react-bootstrap/Button";
-import React, { ChangeEvent, useCallback, useRef, useState } from "react";
+import React, { ChangeEvent, useCallback, useContext, useRef, useState } from "react";
 import ProjectInterface from "../../interfaces/project-interface";
 import {
   removeErrorFields,
@@ -7,16 +7,15 @@ import {
   validateExistingProjectExceptForCurrent,
   validateRequiredInput,
 } from "../../utils/validation";
-import ProjectArrayInterface from "../../interfaces/project-array-interface";
 import ModalWrapper from "../util-components/modal-wrapper";
-import createProjectObject from "../../defaults/default-project";
+import createcurrentProjectState from "../../defaults/default-project";
 import ProjectForm from "./project-form";
+import ProjectContext from "../../contexts/project-context";
+import ProjectArrayContext from "../../contexts/project-array-context";
 
 interface ProjectModalProps {
-  projectObject: ProjectInterface;
   showState: boolean;
   onHide: () => void;
-  projectArrayState: ProjectArrayInterface;
   onActionButtonClick: (newProject: ProjectInterface) => void;
   modalTitle: string;
   mode: string;
@@ -25,18 +24,17 @@ interface ProjectModalProps {
 function ProjectModal({
   showState,
   onHide,
-  projectArrayState,
   onActionButtonClick,
-  projectObject,
   modalTitle,
   mode,
 }: ProjectModalProps) {
 
-
+  const {currentProjectState, setCurrentProjectState} = useContext(ProjectContext);
+  const {projectArrayState, setProjectArrayState} = useContext(ProjectArrayContext);
   const titleForm = useRef<HTMLInputElement>(null);
 
   const resetProjectValues = useCallback(() => {
-    setCurrentProjectValue(createProjectObject());
+    setCurrentProjectState(createcurrentProjectState());
   }, []);
 
   const validateAddProject = useCallback((): boolean => {
@@ -53,10 +51,10 @@ function ProjectModal({
         titleForm,
         "form-title-error",
         projectArrayState,
-        projectObject
+        currentProjectState
       )
     );
-  }, [projectObject, projectArrayState]);
+  }, [currentProjectState, projectArrayState]);
 
   const areFormsValid = useCallback((): boolean => {
     switch (mode) {
@@ -71,19 +69,19 @@ function ProjectModal({
   }, [mode, validateAddProject, validateEditProject]);
 
   const createNewProject = useCallback((): ProjectInterface => {
-    const currentProjectValueCopy = { ...projectObject };
+    const currentProjectValueCopy = { ...currentProjectState };
     const newProjectValue = {
       ...currentProjectValueCopy,
       dateCreated: new Date(),
       lastModified: new Date(),
     };
     return newProjectValue;
-  }, [projectObject]);
+  }, [currentProjectState]);
 
   const updateCurrentProject = useCallback((): ProjectInterface => {
     const currentProjectValueCopy = {
-      ...projectObject,
-      tasks: [...projectObject.tasks],
+      ...currentProjectState,
+      tasks: [...currentProjectState.tasks],
     };
     const updatedProjectValue = {
       ...currentProjectValueCopy,
@@ -92,7 +90,7 @@ function ProjectModal({
     };
     
     return updatedProjectValue;
-  }, [projectObject]);
+  }, [currentProjectState]);
 
   const actionButtonHandler = useCallback(() => {
     if (!areFormsValid()) {
@@ -126,31 +124,31 @@ function ProjectModal({
       const value = e.target.value;
       switch (mode) {
         case "add":
-          setCurrentProjectValue((prevProjectValue) => ({
+          setCurrentProjectState((prevProjectValue) => ({
             ...prevProjectValue,
             id: value,
             title: value,
           }));
           break;
         case "edit":
-          setCurrentProjectValue((prevProjectValue) => ({
+          setCurrentProjectState((prevProjectValue) => ({
             ...prevProjectValue,
             title: value,
           }));
       }
     },
-    [setCurrentProjectValue, mode]
+    [setCurrentProjectState, mode]
   );
 
   const projectDescriptionFormHandler = useCallback(
     (e: ChangeEvent<HTMLInputElement>): void => {
       const value = e.target.value;
-      setCurrentProjectValue((prevProjectValue) => ({
+      setCurrentProjectState((prevProjectValue) => ({
         ...prevProjectValue,
         description: value,
       }));
     },
-    [setCurrentProjectValue]
+    [setCurrentProjectState]
   );
 
   const titleOnFocusHandler = useCallback(() => {
@@ -165,7 +163,6 @@ function ProjectModal({
       bodyChildren={
         <ProjectForm
           titleFormRef={titleForm}
-          projectObject={projectObject}
           projectTitleFormHandler={projectTitleFormHandler}
           titleOnFocusHandler={titleOnFocusHandler}
           projectDescriptionFormHandler={projectDescriptionFormHandler}

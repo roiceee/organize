@@ -25,6 +25,8 @@ import EditProjectModal from "../../src/components/tasks-page-components/edit-pr
 import BodyLayoutOne from "../../src/components/body-layout-one";
 import StickyHeader from "../../src/components/util-components/sticky-header";
 import DescriptionPopover from "../../src/components/tasks-page-components/description-popover";
+import ProjectArrayContext from "../../src/contexts/project-array-context";
+import ProjectContext from "../../src/contexts/project-context";
 
 function TasksPage() {
   const router = useRouter();
@@ -130,65 +132,67 @@ function TasksPage() {
     return <ErrorNotice />;
   }
 
-  console.log(currentProjectState)
+  console.log(currentProjectState);
   return (
     <>
-      <Container>
-        <HeadWrapper title={`Projects | ${router.query.id}`} />
-        <BodyLayoutOne
-          leftElements={
-            <Row className="sticky-wrapper position-sticky sticky-top bg-light py-2">
-              <Row>
-                <h2 style={{ overflowWrap: "break-word" }}>
-                  {currentProjectState.title}
-                </h2>
-                <div className={styles.descriptionDiv}>
-                  {currentProjectState.description === "" && (
-                    <span>No description</span>
+      <ProjectArrayContext.Provider value={{projectArrayState, setProjectArrayState}}>
+        <ProjectContext.Provider value={{currentProjectState, setCurrentProjectState}}>
+          <Container>
+            <HeadWrapper title={`Projects | ${router.query.id}`} />
+            <BodyLayoutOne
+              leftElements={
+                <Row className="sticky-wrapper position-sticky sticky-top bg-light py-2">
+                  <Row>
+                    <h2 style={{ overflowWrap: "break-word" }}>
+                      {currentProjectState.title}
+                    </h2>
+                    <div className={styles.descriptionDiv}>
+                      {currentProjectState.description === "" && (
+                        <span>No description</span>
+                      )}
+                      {currentProjectState.description !== "" && (
+                        <DescriptionPopover
+                          description={currentProjectState.description}
+                        />
+                      )}
+                    </div>
+                    <p>
+                      Date created:{" "}
+                      {formatDate(currentProjectState.dateCreated)}
+                    </p>
+                    <ProjectControl editProjectHandler={showEditProjectModal} />
+                  </Row>
+                  <hr className="mx-auto my-1 mb-2" />
+                  <div>
+                    <Button variant="action" onClick={showAddTaskModal}>
+                      Add Task
+                    </Button>
+                  </div>
+                </Row>
+              }
+              rightElements={
+                <Row className="px-2 gap-2 justify-content-center pt-2">
+                  <StickyHeader title="Tasks" />
+                  {currentProjectState.tasks.length === 0 && (
+                    <p className="text-center">Create a task to get started!</p>
                   )}
-                  {currentProjectState.description !== "" && (
-                    <DescriptionPopover
-                      description={currentProjectState.description}
-                    />
-                  )}
-                </div>
-                <p>
-                  Date created: {formatDate(currentProjectState.dateCreated)}
-                </p>
-                <ProjectControl editProjectHandler={showEditProjectModal} />
-              </Row>
-              <hr className="mx-auto my-1 mb-2" />
-              <div>
-                <Button variant="action" onClick={showAddTaskModal}>
-                  Add Task
-                </Button>
-              </div>
-            </Row>
-          }
-          rightElements={
-            <Row className="px-2 gap-2 justify-content-center pt-2">
-              <StickyHeader title="Tasks" />
-              {currentProjectState.tasks.length === 0 && (
-                <p className="text-center">Create a task to get started!</p>
-              )}
-              {renderedTasks}
-            </Row>
-          }
-        />
-      </Container>
-      <AddTaskModal
-        showState={addTaskModalState}
-        onHide={hideAddTaskModal}
-        onAddTaskButtonClick={addTaskToProject}
-        currentProjectState={currentProjectState}
-      />
-      <EditProjectModal
-        showState={editProjectModalState}
-        onHide={hideEditProjectModal}
-        projectArrayState={projectArrayState}
-        projectObject={currentProjectState}
-        onEditProjectButtonClick={updateCurrentProjectOnProjectArrayState}
-      />
+                  {renderedTasks}
+                </Row>
+              }
+            />
+          </Container>
+          <AddTaskModal
+            showState={addTaskModalState}
+            onHide={hideAddTaskModal}
+            onAddTaskButtonClick={addTaskToProject}
+          />
+          <EditProjectModal
+            showState={editProjectModalState}
+            onHide={hideEditProjectModal}
+            onEditProjectButtonClick={updateCurrentProjectOnProjectArrayState}
+          />
+        </ProjectContext.Provider>
+      </ProjectArrayContext.Provider>
     </>
   );
 }

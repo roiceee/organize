@@ -4,27 +4,20 @@ import ProjectInterface from "../../interfaces/project-interface";
 interface EditProjectModalProps {
   showState: boolean;
   onHide: () => void;
-  projectArrayState: ProjectArrayInterface;
   onEditProjectButtonClick: (newProject: ProjectInterface) => void;
-  projectObject: ProjectInterface;
 }
 
 function EditProjectModal({
   showState,
   onHide,
-  projectArrayState,
   onEditProjectButtonClick,
-  projectObject
 }: EditProjectModalProps) {
   const MODE = "edit";
 
-  console.log(projectObject);
   return (
     <ProjectModal
-      projectObject={projectObject}
       showState={showState}
       onHide={onHide}
-      projectArrayState={projectArrayState}
       onActionButtonClick={onEditProjectButtonClick}
       modalTitle={"Edit Project"}
       mode={MODE}

@@ -1,9 +1,9 @@
-import { ProjectContextInterface } from "../contexts/project-context";
+import ProjectContextInterface from "../interfaces/project-context-interface";
 import createProjectObject from "./default-project";
 
 const defaultProjectContextValue: ProjectContextInterface = {
-  projectState: createProjectObject(),
-  setProjectState: () => {},
+  currentProjectState: createProjectObject(),
+  setCurrentProjectState: () => {},
 };
 
 export default defaultProjectContextValue;

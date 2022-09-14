@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useRef } from "react";
+import React, { useCallback, useState, useRef, useContext } from "react";
 import ModalWrapper from "../util-components/modal-wrapper";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -12,23 +12,24 @@ import {
   removeErrorFields,
 } from "../../utils/validation";
 import ProjectInterface from "../../interfaces/project-interface";
+import ProjectContext from "../../contexts/project-context";
 
 interface AddTaskModalProps {
   showState: boolean ;
   onHide: () => void;
   onAddTaskButtonClick: (newTask: TaskInterface) => void;
-  currentProjectState: ProjectInterface;
 }
 
 function AddTaskModal({
   showState,
   onHide,
   onAddTaskButtonClick,
-  currentProjectState,
 }: AddTaskModalProps) {
   const [currentTaskState, setCurrentTaskState] = useState<TaskInterface>(
     createTaskObject()
   );
+
+  const {currentProjectState} = useContext(ProjectContext);
   const taskTitleForm = useRef(null);
 
   const areFormsValid = useCallback((): boolean => {

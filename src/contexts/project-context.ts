@@ -1,14 +1,8 @@
-import React from "react";
-import { createContext } from "vm";
+
+import { createContext } from "react";
 import defaultProjectContextValue from "../defaults/default-project-context";
-import ProjectInterface from "../interfaces/project-interface";
+import ProjectContextInterface from "../interfaces/project-context-interface";
 
-interface ProjectContextInterface {
-    projectState : ProjectInterface;
-    setProjectState : React.Dispatch<React.SetStateAction<ProjectInterface>>;
-}
+const ProjectContext = createContext<ProjectContextInterface>(defaultProjectContextValue);
 
-
-const projectContext = createContext(defaultProjectContextValue);
-
-export type {projectContext as default, ProjectContextInterface}
+export default ProjectContext;

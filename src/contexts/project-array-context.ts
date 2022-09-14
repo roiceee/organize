@@ -1,12 +1,8 @@
-import React, { createContext } from "react";
+import { createContext } from "react";
 import defaultProjectArrayContextValue from "../defaults/default-project-array-context";
-import ProjectArrayInterface from "../interfaces/project-array-interface";
+import ProjectArrayContextInterface from "../interfaces/project-array-context-interface";
 
-interface ProjectArrayContextInterface {
-    projectArrayState: ProjectArrayInterface;
-    setProjectArrayState: React.Dispatch<React.SetStateAction<ProjectArrayInterface>>;
-}
 
-const projectArrayContext = createContext<ProjectArrayContextInterface>(defaultProjectArrayContextValue);
+const ProjectArrayContext = createContext<ProjectArrayContextInterface>(defaultProjectArrayContextValue);
 
-export type {projectArrayContext as default, ProjectArrayContextInterface}
+export default ProjectArrayContext;

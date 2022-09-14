@@ -1,4 +1,4 @@
-import { ProjectArrayContextInterface } from "../contexts/project-array-context";
+import ProjectArrayContextInterface from "../interfaces/project-array-context-interface";
 import ProjectInterface from "../interfaces/project-interface";
 
 const defaultProjectArrayContextValue : ProjectArrayContextInterface = {
