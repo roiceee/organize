@@ -23,6 +23,8 @@ import TaskInterface from "../../src/interfaces/task-interface";
 import DescriptionModal from "../../src/components/tasks-page-components/description-modal";
 import styles from "../../src/styles/modules/tasks-page.module.scss";
 import EditProjectModal from "../../src/components/tasks-page-components/edit-project-modal";
+import BodyLayoutOne from "../../src/components/body-layout-one";
+import StickyHeader from "../../src/components/util-components/sticky-header";
 
 function TasksPage() {
   const router = useRouter();
@@ -73,14 +75,17 @@ function TasksPage() {
     (updatedProject: ProjectInterface) => {
       setProjectArrayState((prevProjectArrayState) => {
         const prevProjectArrayStateCopy = { ...prevProjectArrayState };
-        const updatedProjects = prevProjectArrayStateCopy.projects.map((project) => {
-          if (project.id === updatedProject.id) {
-            return updatedProject;
+        const updatedProjects = prevProjectArrayStateCopy.projects.map(
+          (project) => {
+            if (project.id === updatedProject.id) {
+              updatedProject.lastModified = new Date();
+              return updatedProject;
+            }
+            return project;
           }
-          return project;
-        });
+        );
         const newProjectArrayState = {
-          projects: updatedProjects
+          projects: updatedProjects,
         };
         saveToStorage(userTypeState, newProjectArrayState);
         return newProjectArrayState;
@@ -89,14 +94,6 @@ function TasksPage() {
     },
     [userTypeState, hideEditProjectModal]
   );
-
-  const updateLastVisited = useCallback(() => {
-    setCurrentProjectState((prevProjectState) => {
-      const newProjectState = { ...prevProjectState, lastModified: new Date() };
-      updateCurrentProjectOnProjectArrayState(newProjectState);
-      return newProjectState;
-    });
-  }, [setCurrentProjectState, updateCurrentProjectOnProjectArrayState]);
 
   const addTaskToProject = useCallback(
     (newTask: TaskInterface) => {
@@ -116,7 +113,6 @@ function TasksPage() {
   useEffect(() => {
     const projects = retrieveFromStorage(userTypeState);
     setProjectArrayState(projects);
-    updateLastVisited();
     return;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -147,41 +143,49 @@ function TasksPage() {
     <>
       <Container>
         <HeadWrapper title={`Projects | ${router.query.id}`} />
-        <Row className="sticky-wrapper position-sticky sticky-top bg-light py-2">
-          <Row>
-            <h2 style={{ overflowWrap: "break-word" }}>
-              {currentProjectState.title}
-            </h2>
-            <div className={styles.descriptionDiv}>
-              {currentProjectState.description === "" && (
-                <span>No description</span>
+        <BodyLayoutOne
+          leftElements={
+            <Row className="sticky-wrapper position-sticky sticky-top bg-light py-2">
+              <Row>
+                <h2 style={{ overflowWrap: "break-word" }}>
+                  {currentProjectState.title}
+                </h2>
+                <div className={styles.descriptionDiv}>
+                  {currentProjectState.description === "" && (
+                    <span>No description</span>
+                  )}
+                  {currentProjectState.description !== "" && (
+                    <span
+                      className={styles.hasDescription}
+                      onClick={showDescriptionModal}
+                    >
+                      Description: {currentProjectState.description}
+                    </span>
+                  )}
+                </div>
+                <p>
+                  Date created: {formatDate(currentProjectState.dateCreated)}
+                </p>
+                <ProjectControl editProjectHandler={showEditProjectModal} />
+              </Row>
+              <hr className="mx-auto my-1 mb-2" />
+              <div>
+                <Button variant="action" onClick={showAddTaskModal}>
+                  Add Task
+                </Button>
+              </div>
+            </Row>
+          }
+          rightElements={
+            <Row className="px-2 gap-2 justify-content-center pt-2">
+              <StickyHeader title="Tasks" />
+              {currentProjectState.tasks.length === 0 && (
+                <p className="text-center">Create a task to get started!</p>
               )}
-              {currentProjectState.description !== "" && (
-                <span
-                  className={styles.hasDescription}
-                  onClick={showDescriptionModal}
-                >
-                  Description: {currentProjectState.description}
-                </span>
-              )}
-            </div>
-            <p>Last Visited: {formatDate(currentProjectState.lastModified)}</p>
-            <ProjectControl editProjectHandler={showEditProjectModal}/>
-          </Row>
-          <hr className="mx-auto my-1 mb-2" />
-          <div className="mb-2 d-flex gap-4 align-items-center">
-            <div>
-              Tasks: {currentProjectState.tasks.length}{" "}
-              <span style={{ fontSize: "1.6rem" }}>|</span>
-            </div>
-            <Button variant="action" onClick={showAddTaskModal}>
-              Add Task
-            </Button>
-          </div>
-        </Row>
-        <Row className="gap-2 p-2 row-cols-lg justify-content-center">
-          {renderedTasks}
-        </Row>
+              {renderedTasks}
+            </Row>
+          }
+        />
       </Container>
       <AddTaskModal
         showState={addTaskModalState}

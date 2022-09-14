@@ -25,6 +25,8 @@ import Col from "react-bootstrap/Col";
 import createProjectObject from "../src/defaults/default-project";
 import Quotes from "../src/components/projects-components/quotes";
 import Overview from "../src/components/projects-components/overview";
+import BodyLayoutOne from "../src/components/body-layout-one";
+import StickyHeader from "../src/components/util-components/sticky-header";
 
 const Home: NextPage = () => {
   const [showState, setModalShow] = useState<boolean>(false);
@@ -80,8 +82,9 @@ const Home: NextPage = () => {
   return (
     <Container>
       <HeadWrapper title="Organize | Home" />
-      <Row>
-        <Col className="col-lg-5">
+
+      <BodyLayoutOne
+        leftElements={
           <Row className="sticky-wrapper position-sticky sticky-top bg-light py-3 ">
             <Row className="mx-auto justify-content-center">
               <Col>
@@ -105,21 +108,20 @@ const Home: NextPage = () => {
               </Button>
             </div>
           </Row>
-        </Col>
-        <Col>
-          {projectArrayState.projects.length > 0 && (
+        }
+        rightElements={
+          <>
             <Row className="px-2 gap-2 justify-content-center pt-2">
-              <div className="position-sticky sticky-top bg-light py-3">
-                <h6 className="text-center">
-                  Projects
-                </h6>
-                <hr className="my-0 w-75 mx-auto"/>
-              </div>
+              <StickyHeader title="Projects" />
+              {projectArrayState.projects.length === 0 &&
+              <p className=" text-center">Add a project to get started!</p>
+              }
               {renderedProjects}
             </Row>
-          )}
-        </Col>
-      </Row>
+          </>
+        }
+      />
+
       <AddProjectModal
         projectObject={createProjectObject()}
         showState={showState}
