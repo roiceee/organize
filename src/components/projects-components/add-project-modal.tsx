@@ -14,17 +14,13 @@ interface AddProjectModalProps {
 function AddProjectModal({
   showState,
   onHide,
-  projectArrayState,
   onAddProjectButtonClick,
-  projectObject,
 }: AddProjectModalProps) {
   const MODE = "add";
   return (
     <ProjectModal
-      projectObject={projectObject}
       showState={showState}
       onHide={onHide}
-      projectArrayState={projectArrayState}
       onActionButtonClick={onAddProjectButtonClick}
       modalTitle={"Add Project"}
       mode={MODE}

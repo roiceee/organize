@@ -27,12 +27,16 @@ import Quotes from "../src/components/projects-components/quotes";
 import Overview from "../src/components/projects-components/overview";
 import BodyLayoutOne from "../src/components/body-layout-one";
 import StickyHeader from "../src/components/util-components/sticky-header";
+import ProjectArrayContext from "../src/contexts/project-array-context";
+import ProjectContext from "../src/contexts/project-context";
 
 const Home: NextPage = () => {
   const [showState, setModalShow] = useState<boolean>(false);
   const { userTypeState, setUserStateType } = useContext(UserTypeContext);
   const [projectArrayState, setProjectArrayState] =
     useState<ProjectArrayInterface>(createProjectArrayObject());
+  const [currentProjectState, setCurrentProjectState] =
+    useState<ProjectInterface>(createProjectObject());
 
   const showAddProjectModal = useCallback(() => {
     setModalShow(true);
@@ -80,56 +84,66 @@ const Home: NextPage = () => {
   }
 
   return (
-    <Container>
-      <HeadWrapper title="Organize | Home" />
+    <ProjectArrayContext.Provider
+      value={{ projectArrayState, setProjectArrayState }}
+    >
+      <ProjectContext.Provider
+        value={{ currentProjectState, setCurrentProjectState }}
+      >
+        <Container>
+          <HeadWrapper title="Organize | Home" />
 
-      <BodyLayoutOne
-        leftElements={
-          <Row className="sticky-wrapper position-sticky sticky-top bg-light py-3 ">
-            <Row className="mx-auto justify-content-center">
-              <Col>
-                <h5 className="my-0 mb-2">Welcome back, User!</h5>
-              </Col>
-              <hr />
-              <Quotes />
-              <hr />
-            </Row>
-            {projectArrayState.projects.length === 0 && <NoProjectCard />}
-            {projectArrayState.projects.length > 0 && (
-              <Overview projectArray={projectArrayState} />
-            )}
-            <div>
-              <Button
-                className="mx-auto"
-                variant="action"
-                onClick={showAddProjectModal}
-              >
-                Add new Project
-              </Button>
-            </div>
-          </Row>
-        }
-        rightElements={
-          <>
-            <Row className="px-2 gap-2 justify-content-center pt-2">
-              <StickyHeader title="Projects" />
-              {projectArrayState.projects.length === 0 &&
-              <p className=" text-center">Add a project to get started!</p>
-              }
-              {renderedProjects}
-            </Row>
-          </>
-        }
-      />
+          <BodyLayoutOne
+            leftElements={
+              <Row className="sticky-wrapper position-sticky sticky-top bg-light py-3 ">
+                <Row className="mx-auto justify-content-center">
+                  <Col>
+                    <h5 className="my-0 mb-2">Welcome back, User!</h5>
+                  </Col>
+                  <hr />
+                  <Quotes />
+                  <hr />
+                </Row>
+                {projectArrayState.projects.length === 0 && <NoProjectCard />}
+                {projectArrayState.projects.length > 0 && (
+                  <Overview projectArray={projectArrayState} />
+                )}
+                <div>
+                  <Button
+                    className="mx-auto"
+                    variant="action"
+                    onClick={showAddProjectModal}
+                  >
+                    Add new Project
+                  </Button>
+                </div>
+              </Row>
+            }
+            rightElements={
+              <>
+                <Row className="px-2 gap-2 justify-content-center pt-2">
+                  <StickyHeader title="Projects" />
+                  {projectArrayState.projects.length === 0 && (
+                    <p className=" text-center">
+                      Add a project to get started!
+                    </p>
+                  )}
+                  {renderedProjects}
+                </Row>
+              </>
+            }
+          />
 
-      <AddProjectModal
-        projectObject={createProjectObject()}
-        showState={showState}
-        onHide={hideAddProjectModal}
-        projectArrayState={projectArrayState}
-        onAddProjectButtonClick={addProjectToProjectArray}
-      />
-    </Container>
+          <AddProjectModal
+            projectObject={createProjectObject()}
+            showState={showState}
+            onHide={hideAddProjectModal}
+            projectArrayState={projectArrayState}
+            onAddProjectButtonClick={addProjectToProjectArray}
+          />
+        </Container>
+      </ProjectContext.Provider>
+    </ProjectArrayContext.Provider>
   );
 };
 

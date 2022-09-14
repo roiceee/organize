@@ -12,6 +12,7 @@ import createcurrentProjectState from "../../defaults/default-project";
 import ProjectForm from "./project-form";
 import ProjectContext from "../../contexts/project-context";
 import ProjectArrayContext from "../../contexts/project-array-context";
+import ProjectArrayInterface from "../../interfaces/project-array-interface";
 
 interface ProjectModalProps {
   showState: boolean;
@@ -35,7 +36,7 @@ function ProjectModal({
 
   const resetProjectValues = useCallback(() => {
     setCurrentProjectState(createcurrentProjectState());
-  }, []);
+  }, [setCurrentProjectState]);
 
   const validateAddProject = useCallback((): boolean => {
     return (

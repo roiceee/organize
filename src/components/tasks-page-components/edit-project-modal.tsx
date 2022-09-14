@@ -1,5 +1,4 @@
 import ProjectModal from "../projects-components/project-modal";
-import ProjectArrayInterface from "../../interfaces/project-array-interface";
 import ProjectInterface from "../../interfaces/project-interface";
 interface EditProjectModalProps {
   showState: boolean;

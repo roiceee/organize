@@ -42,7 +42,7 @@ function NavigationBar() {
           <Navbar.Text>
               <Link href="/">
                 <a className="text-light text-decoration-none mx-md-3" onClick={closeNavbar}>
-                  Projects
+                  Home
                 </a>
               </Link>
             </Navbar.Text>

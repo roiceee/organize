@@ -20,7 +20,7 @@ function ProjectCard({ project }: ProjectCardProps) {
     </Card.Header>
     <Card.Body className="p-2">
       <div>Tasks: {project.tasks.length}</div>
-      <div>Last Visited: {formatDate(project.lastModified)}</div>
+      <div>Last Modified: {formatDate(project.lastModified)}</div>
     </Card.Body>
     </Card>
     </Link>
