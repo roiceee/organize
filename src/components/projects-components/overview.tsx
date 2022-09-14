@@ -1,8 +1,7 @@
-import Container from "react-bootstrap/Container";
 import ProjectArrayInterface from "../../interfaces/project-array-interface";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Popover from "react-bootstrap/Popover";
-
+import styles from "../../styles/modules/util-styles.module.scss"
 interface OverviewProps {
   projectArray: ProjectArrayInterface;
 }
@@ -17,7 +16,7 @@ function Overview({ projectArray }: OverviewProps) {
           <Popover id="popover-overview">
             <Popover.Header as="h3">Overview</Popover.Header>
             <Popover.Body>
-              <div>Total projects: {projectArray.projects.length}</div>
+              <div>Projects: {projectArray.projects.length}</div>
               <div>
                 Total tasks:{" "}
                 {projectArray.projects.reduce((prev, project) => {
@@ -28,7 +27,7 @@ function Overview({ projectArray }: OverviewProps) {
           </Popover>
         }
       >
-        <span style={{width: "fit-content"}} className="my-2">See overview &gt;</span>
+        <span style={{width: "fit-content"}} className={`${styles.underlineAction} my-2`}>See overview &gt;</span>
       </OverlayTrigger>
     </>
   );

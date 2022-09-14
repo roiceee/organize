@@ -1,0 +1,16 @@
+@import "../colors.scss";
+
+.underlinePrimary {
+    text-decoration: underline;
+    text-decoration-color: $primary;
+}
+
+.underlineSecondary {
+    text-decoration: underline;
+    text-decoration-color: $secondary;
+}
+
+.underlineAction {
+    text-decoration: underline;
+    text-decoration-color: $action;
+}

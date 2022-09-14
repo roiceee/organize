@@ -95,7 +95,8 @@ function AddTaskModal({
       onHide={onHide}
       bodyChildren={
         <Form onSubmit={(e) => e.preventDefault()}>
-          <div className="d-flex justify-content-end">
+          <div className="d-flex justify-content-between">
+            <div>Title</div>
             <FormLengthCounter
               currentValue={currentTaskState.title.length}
               maxValue={TaskConstraintsEnum.TitleLength}
@@ -104,7 +105,7 @@ function AddTaskModal({
 
           <Form.Control
             type="text"
-            placeholder="Task Name"
+            placeholder="Task title"
             maxLength={TaskConstraintsEnum.TitleLength}
             value={currentTaskState.title}
             onChange={taskTitleFormHandler}

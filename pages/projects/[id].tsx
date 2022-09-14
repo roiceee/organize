@@ -20,11 +20,11 @@ import createProjectObject from "../../src/defaults/default-project";
 import createProjectArrayObject from "../../src/defaults/default-project-array-";
 import TaskCard from "../../src/components/tasks-page-components/task-card";
 import TaskInterface from "../../src/interfaces/task-interface";
-import DescriptionModal from "../../src/components/tasks-page-components/description-modal";
 import styles from "../../src/styles/modules/tasks-page.module.scss";
 import EditProjectModal from "../../src/components/tasks-page-components/edit-project-modal";
 import BodyLayoutOne from "../../src/components/body-layout-one";
 import StickyHeader from "../../src/components/util-components/sticky-header";
+import DescriptionPopover from "../../src/components/tasks-page-components/description-popover";
 
 function TasksPage() {
   const router = useRouter();
@@ -35,8 +35,7 @@ function TasksPage() {
     useState<ProjectInterface>(createProjectObject());
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [addTaskModalState, setAddTaskModalState] = useState<boolean>(false);
-  const [descriptionModalState, setDescriptionModalState] =
-    useState<boolean>(false);
+
   const [editProjectModalState, setEditProjectModalState] =
     useState<boolean>(false);
 
@@ -53,14 +52,6 @@ function TasksPage() {
 
   const hideAddTaskModal = useCallback(() => {
     setAddTaskModalState(false);
-  }, []);
-
-  const showDescriptionModal = useCallback(() => {
-    setDescriptionModalState(true);
-  }, []);
-
-  const hideDescriptionModal = useCallback(() => {
-    setDescriptionModalState(false);
   }, []);
 
   const showEditProjectModal = useCallback(() => {
@@ -92,7 +83,7 @@ function TasksPage() {
       });
       hideEditProjectModal();
     },
-    [userTypeState, hideEditProjectModal]
+    [userTypeState, hideEditProjectModal, setProjectArrayState]
   );
 
   const addTaskToProject = useCallback(
@@ -139,6 +130,7 @@ function TasksPage() {
     return <ErrorNotice />;
   }
 
+  console.log(currentProjectState)
   return (
     <>
       <Container>
@@ -155,12 +147,9 @@ function TasksPage() {
                     <span>No description</span>
                   )}
                   {currentProjectState.description !== "" && (
-                    <span
-                      className={styles.hasDescription}
-                      onClick={showDescriptionModal}
-                    >
-                      Description: {currentProjectState.description}
-                    </span>
+                    <DescriptionPopover
+                      description={currentProjectState.description}
+                    />
                   )}
                 </div>
                 <p>
@@ -192,11 +181,6 @@ function TasksPage() {
         onHide={hideAddTaskModal}
         onAddTaskButtonClick={addTaskToProject}
         currentProjectState={currentProjectState}
-      />
-      <DescriptionModal
-        description={currentProjectState.description}
-        show={descriptionModalState}
-        onHide={hideDescriptionModal}
       />
       <EditProjectModal
         showState={editProjectModalState}

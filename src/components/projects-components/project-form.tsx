@@ -29,7 +29,8 @@ function ProjectForm({
   return (
     <Form onSubmit={(e) => e.preventDefault()}>
       <Form.Group>
-        <div className="d-flex justify-content-end">
+        <div className="d-flex justify-content-between">
+        <div>Title</div>
           <FormLengthCounter
             currentValue={currentProjectValue.title.length}
             maxValue={ProjectConstraintsEnum.TitleLength}
@@ -38,7 +39,7 @@ function ProjectForm({
         <Form.Control
           id="title"
           type="text"
-          placeholder="Project name"
+          placeholder="Project title"
           onChange={projectTitleFormHandler}
           onFocus={titleOnFocusHandler}
           value={currentProjectValue.title}
@@ -47,7 +48,8 @@ function ProjectForm({
         />
         <div id="form-title-error" className="error my-1"></div>
       </Form.Group>
-      <div className="d-flex justify-content-end">
+      <div className="d-flex justify-content-between">
+        <div>Description</div>
         <FormLengthCounter
           currentValue={currentProjectValue.description.length}
           maxValue={ProjectConstraintsEnum.DescriptionLength}

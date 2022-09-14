@@ -18,6 +18,7 @@ function EditProjectModal({
 }: EditProjectModalProps) {
   const MODE = "edit";
 
+  console.log(projectObject);
   return (
     <ProjectModal
       projectObject={projectObject}

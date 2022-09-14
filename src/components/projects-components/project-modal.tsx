@@ -6,7 +6,7 @@ import {
   validateExistingProject,
   validateExistingProjectExceptForCurrent,
   validateRequiredInput,
-} from "../../../src/utils/validation";
+} from "../../utils/validation";
 import ProjectArrayInterface from "../../interfaces/project-array-interface";
 import ModalWrapper from "../util-components/modal-wrapper";
 import createProjectObject from "../../defaults/default-project";
@@ -31,8 +31,7 @@ function ProjectModal({
   modalTitle,
   mode,
 }: ProjectModalProps) {
-  const [currentProjectValue, setCurrentProjectValue] =
-    useState<ProjectInterface>(projectObject);
+
 
   const titleForm = useRef<HTMLInputElement>(null);
 
@@ -54,10 +53,10 @@ function ProjectModal({
         titleForm,
         "form-title-error",
         projectArrayState,
-        currentProjectValue
+        projectObject
       )
     );
-  }, [currentProjectValue, projectArrayState]);
+  }, [projectObject, projectArrayState]);
 
   const areFormsValid = useCallback((): boolean => {
     switch (mode) {
@@ -72,23 +71,28 @@ function ProjectModal({
   }, [mode, validateAddProject, validateEditProject]);
 
   const createNewProject = useCallback((): ProjectInterface => {
-    const currentProjectValueCopy = { ...currentProjectValue };
+    const currentProjectValueCopy = { ...projectObject };
     const newProjectValue = {
       ...currentProjectValueCopy,
       dateCreated: new Date(),
       lastModified: new Date(),
     };
     return newProjectValue;
-  }, [currentProjectValue]);
+  }, [projectObject]);
 
   const updateCurrentProject = useCallback((): ProjectInterface => {
-    const currentProjectValueCopy = { ...currentProjectValue };
+    const currentProjectValueCopy = {
+      ...projectObject,
+      tasks: [...projectObject.tasks],
+    };
     const updatedProjectValue = {
       ...currentProjectValueCopy,
+      tasks: [...currentProjectValueCopy.tasks],
       lastModified: new Date(),
     };
+    
     return updatedProjectValue;
-  }, [currentProjectValue]);
+  }, [projectObject]);
 
   const actionButtonHandler = useCallback(() => {
     if (!areFormsValid()) {
@@ -161,7 +165,7 @@ function ProjectModal({
       bodyChildren={
         <ProjectForm
           titleFormRef={titleForm}
-          currentProjectValue={currentProjectValue}
+          projectObject={projectObject}
           projectTitleFormHandler={projectTitleFormHandler}
           titleOnFocusHandler={titleOnFocusHandler}
           projectDescriptionFormHandler={projectDescriptionFormHandler}
