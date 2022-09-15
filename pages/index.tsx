@@ -29,6 +29,7 @@ import BodyLayoutOne from "../src/components/body-layout-one";
 import StickyHeader from "../src/components/util-components/sticky-header";
 import ProjectArrayContext from "../src/contexts/project-array-context";
 import ProjectContext from "../src/contexts/project-context";
+import utilStyles from "../src/styles/modules/util-styles.module.scss"
 
 const Home: NextPage = () => {
   const [showState, setModalShow] = useState<boolean>(false);
@@ -125,7 +126,7 @@ const Home: NextPage = () => {
                   <StickyHeader title="Projects" />
                   {projectArrayState.projects.length === 0 && (
                     <p className=" text-center">
-                      Add a project to get started!
+                      <span onClick={showAddProjectModal} className={utilStyles.underlineAction}>Add a project</span> to get started!
                     </p>
                   )}
                   {renderedProjects}
