@@ -46,14 +46,6 @@ function ProjectModal({
   }, [setProjectFormState]);
 
   const validateAddProject = useCallback((): boolean => {
-    console.log(
-      validateRequiredInput(titleForm, "form-title-error") &&
-        validateExistingProject(
-          titleForm,
-          "form-title-error",
-          projectArrayState
-        )
-    );
     return (
       validateRequiredInput(titleForm, "form-title-error") &&
       validateExistingProject(titleForm, "form-title-error", projectArrayState)

@@ -1,17 +1,5 @@
 @import "../colors.scss";
 
-.descriptionDiv {
-  width: 500px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.hasDescription {
-    text-decoration: underline;
-    text-decoration-color: $info;
-}
-
 .smallerFontSize {
   font-size: 0.8rem;
 }

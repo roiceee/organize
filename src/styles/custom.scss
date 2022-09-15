@@ -15,5 +15,12 @@ $theme-colors: (
     "gray": $gray,
 );
 
+.accordion-button {
+    padding: 8px!important;
+}
+
+.accordion-body {
+    padding: 8px!important;
+}
 
 @import "~bootstrap/scss/bootstrap";

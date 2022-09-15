@@ -24,7 +24,7 @@ import { saveToStorage } from "../src/utils/local-storage-util";
 import Col from "react-bootstrap/Col";
 import createProjectObject from "../src/defaults/default-project";
 import Quotes from "../src/components/projects-components/quotes";
-import Overview from "../src/components/projects-components/overview";
+import Overview from "../src/components/projects-components/overview-accordion";
 import BodyLayoutOne from "../src/components/body-layout-one";
 import StickyHeader from "../src/components/util-components/sticky-header";
 import ProjectArrayContext from "../src/contexts/project-array-context";

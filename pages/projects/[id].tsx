@@ -20,11 +20,10 @@ import createProjectObject from "../../src/defaults/default-project";
 import createProjectArrayObject from "../../src/defaults/default-project-array-";
 import TaskCard from "../../src/components/tasks-page-components/task-card";
 import TaskInterface from "../../src/interfaces/task-interface";
-import styles from "../../src/styles/modules/tasks-page.module.scss";
 import EditProjectModal from "../../src/components/tasks-page-components/edit-project-modal";
 import BodyLayoutOne from "../../src/components/body-layout-one";
 import StickyHeader from "../../src/components/util-components/sticky-header";
-import DescriptionPopover from "../../src/components/tasks-page-components/description-popover";
+import DescriptionPopover from "../../src/components/tasks-page-components/description-accordion";
 import ProjectArrayContext from "../../src/contexts/project-array-context";
 import ProjectContext from "../../src/contexts/project-context";
 
@@ -135,8 +134,12 @@ function TasksPage() {
   console.log(currentProjectState);
   return (
     <>
-      <ProjectArrayContext.Provider value={{projectArrayState, setProjectArrayState}}>
-        <ProjectContext.Provider value={{currentProjectState, setCurrentProjectState}}>
+      <ProjectArrayContext.Provider
+        value={{ projectArrayState, setProjectArrayState }}
+      >
+        <ProjectContext.Provider
+          value={{ currentProjectState, setCurrentProjectState }}
+        >
           <Container>
             <HeadWrapper title={`Projects | ${router.query.id}`} />
             <BodyLayoutOne
@@ -146,20 +149,18 @@ function TasksPage() {
                     <h2 style={{ overflowWrap: "break-word" }}>
                       {currentProjectState.title}
                     </h2>
-                    <div className={styles.descriptionDiv}>
-                      {currentProjectState.description === "" && (
-                        <span>No description</span>
-                      )}
-                      {currentProjectState.description !== "" && (
-                        <DescriptionPopover
-                          description={currentProjectState.description}
-                        />
-                      )}
-                    </div>
-                    <p>
+                    <div>
                       Date created:{" "}
                       {formatDate(currentProjectState.dateCreated)}
-                    </p>
+                    </div>
+                    {currentProjectState.description === "" && (
+                      <span>No description</span>
+                    )}
+                    {currentProjectState.description !== "" && (
+                      <DescriptionPopover
+                        description={currentProjectState.description}
+                      />
+                    )}
                     <ProjectControl editProjectHandler={showEditProjectModal} />
                   </Row>
                   <hr className="mx-auto my-1 mb-2" />
