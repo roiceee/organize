@@ -55,6 +55,7 @@ function validateExistingProjectExceptForCurrent(
       continue;
     }
     if (projectArray.projects[i].title === element?.value) {
+      console.log(projectArray.projects[i].title === element?.value)
       element.classList.add("invalid");
       errorTextElement!.textContent = "Project name exists.";
       return false;

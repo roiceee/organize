@@ -1,5 +1,11 @@
 import Button from "react-bootstrap/Button";
-import React, { ChangeEvent, useCallback, useContext, useRef, useState } from "react";
+import React, {
+  ChangeEvent,
+  useCallback,
+  useContext,
+  useRef,
+  useState,
+} from "react";
 import ProjectInterface from "../../interfaces/project-interface";
 import {
   removeErrorFields,
@@ -29,18 +35,25 @@ function ProjectModal({
   modalTitle,
   mode,
 }: ProjectModalProps) {
-
-  const {currentProjectState, setCurrentProjectState} = useContext(ProjectContext);
-  const {projectArrayState, setProjectArrayState} = useContext(ProjectArrayContext);
+  const { currentProjectState } = useContext(ProjectContext);
+  const { projectArrayState } = useContext(ProjectArrayContext);
+  const [projectFormState, setProjectFormState] =
+    useState<ProjectInterface>(currentProjectState);
   const titleForm = useRef<HTMLInputElement>(null);
 
   const resetProjectValues = useCallback(() => {
-    setCurrentProjectState(createcurrentProjectState());
-  }, [setCurrentProjectState]);
+    setProjectFormState(createcurrentProjectState());
+  }, [setProjectFormState]);
 
   const validateAddProject = useCallback((): boolean => {
-    console.log(validateRequiredInput(titleForm, "form-title-error") &&
-    validateExistingProject(titleForm, "form-title-error", projectArrayState))
+    console.log(
+      validateRequiredInput(titleForm, "form-title-error") &&
+        validateExistingProject(
+          titleForm,
+          "form-title-error",
+          projectArrayState
+        )
+    );
     return (
       validateRequiredInput(titleForm, "form-title-error") &&
       validateExistingProject(titleForm, "form-title-error", projectArrayState)
@@ -72,28 +85,28 @@ function ProjectModal({
   }, [mode, validateAddProject, validateEditProject]);
 
   const createNewProject = useCallback((): ProjectInterface => {
-    const currentProjectValueCopy = { ...currentProjectState };
+    const currentProjectValueCopy = { ...projectFormState };
     const newProjectValue = {
       ...currentProjectValueCopy,
       dateCreated: new Date(),
       lastModified: new Date(),
     };
     return newProjectValue;
-  }, [currentProjectState]);
+  }, [projectFormState]);
 
   const updateCurrentProject = useCallback((): ProjectInterface => {
     const currentProjectValueCopy = {
-      ...currentProjectState,
-      tasks: [...currentProjectState.tasks],
+      ...projectFormState,
+      tasks: [...projectFormState.tasks],
     };
     const updatedProjectValue = {
       ...currentProjectValueCopy,
       tasks: [...currentProjectValueCopy.tasks],
       lastModified: new Date(),
     };
-    
+
     return updatedProjectValue;
-  }, [currentProjectState]);
+  }, [projectFormState]);
 
   const actionButtonHandler = useCallback(() => {
     if (!areFormsValid()) {
@@ -127,31 +140,31 @@ function ProjectModal({
       const value = e.target.value;
       switch (mode) {
         case "add":
-          setCurrentProjectState((prevProjectValue) => ({
+          setProjectFormState((prevProjectValue) => ({
             ...prevProjectValue,
             id: value,
             title: value,
           }));
           break;
         case "edit":
-          setCurrentProjectState((prevProjectValue) => ({
+          setProjectFormState((prevProjectValue) => ({
             ...prevProjectValue,
             title: value,
           }));
       }
     },
-    [setCurrentProjectState, mode]
+    [setProjectFormState, mode]
   );
 
   const projectDescriptionFormHandler = useCallback(
     (e: ChangeEvent<HTMLInputElement>): void => {
       const value = e.target.value;
-      setCurrentProjectState((prevProjectValue) => ({
+      setProjectFormState((prevProjectValue) => ({
         ...prevProjectValue,
         description: value,
       }));
     },
-    [setCurrentProjectState]
+    [setProjectFormState]
   );
 
   const titleOnFocusHandler = useCallback(() => {
@@ -165,6 +178,7 @@ function ProjectModal({
       modalTitle={modalTitle}
       bodyChildren={
         <ProjectForm
+          projectFormState={projectFormState}
           titleFormRef={titleForm}
           projectTitleFormHandler={projectTitleFormHandler}
           titleOnFocusHandler={titleOnFocusHandler}

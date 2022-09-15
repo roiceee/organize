@@ -7,6 +7,7 @@ import {removeErrorFields} from "../../utils/validation";
 import ProjectContext from "../../contexts/project-context";
 
 interface ProjectFormProps {
+  projectFormState: ProjectInterface,
   projectTitleFormHandler: (e: ChangeEvent<HTMLInputElement>) => void;
   titleOnFocusHandler: () => void;
   projectDescriptionFormHandler: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -14,12 +15,12 @@ interface ProjectFormProps {
 }
 
 function ProjectForm({
+  projectFormState,
   projectTitleFormHandler,
   projectDescriptionFormHandler,
   titleFormRef,
 }: ProjectFormProps) {
 
-  const {currentProjectState} = useContext(ProjectContext);
 
   const titleOnFocusHandler = useCallback(() => {
     removeErrorFields(titleFormRef, "form-title-error");
@@ -32,7 +33,7 @@ function ProjectForm({
         <div className="d-flex justify-content-between">
         <div>Title</div>
           <FormLengthCounter
-            currentValue={currentProjectState.title.length}
+            currentValue={projectFormState.title.length}
             maxValue={ProjectConstraintsEnum.TitleLength}
           />
         </div>
@@ -42,7 +43,7 @@ function ProjectForm({
           placeholder="Project title"
           onChange={projectTitleFormHandler}
           onFocus={titleOnFocusHandler}
-          value={currentProjectState.title}
+          value={projectFormState.title}
           ref={titleFormRef}
           maxLength={ProjectConstraintsEnum.TitleLength}
         />
@@ -51,7 +52,7 @@ function ProjectForm({
       <div className="d-flex justify-content-between">
         <div>Description</div>
         <FormLengthCounter
-          currentValue={currentProjectState.description.length}
+          currentValue={projectFormState.description.length}
           maxValue={ProjectConstraintsEnum.DescriptionLength}
         />
       </div>
@@ -60,7 +61,7 @@ function ProjectForm({
         as="textarea"
         placeholder="Project Description (Optional)"
         onChange={projectDescriptionFormHandler}
-        value={currentProjectState.description}
+        value={projectFormState.description}
         style={{ height: "100px", resize: "none" }}
         maxLength={ProjectConstraintsEnum.DescriptionLength}
       />

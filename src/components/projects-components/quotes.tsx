@@ -23,7 +23,10 @@ function Quotes() {
   const FadeOutBeforeQuoteRefresh: number = INTERVALMS - 1000;
 
   const fadeOutHandler = useCallback(() => {
-    const quoteElement = quoteRef.current!;
+    const quoteElement = quoteRef.current;
+    if (quoteElement === null) {
+      return;
+    }
     if (quoteElement.classList.contains(styles.fadeIn)) {
       quoteElement.classList.remove(styles.fadeIn);
     }
@@ -31,7 +34,10 @@ function Quotes() {
   }, []);
 
   const fadeInHandler = useCallback(() => {
-    const quoteElement = quoteRef.current!;
+    const quoteElement = quoteRef.current;
+    if (quoteElement === null) {
+      return;
+    }
     if (quoteElement.classList.contains(styles.fadeOut)) {
       quoteElement.classList.remove(styles.fadeOut);
     }
