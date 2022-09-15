@@ -29,7 +29,7 @@ import BodyLayoutOne from "../src/components/body-layout-one";
 import StickyHeader from "../src/components/util-components/sticky-header";
 import ProjectArrayContext from "../src/contexts/project-array-context";
 import ProjectContext from "../src/contexts/project-context";
-import utilStyles from "../src/styles/modules/util-styles.module.scss"
+import utilStyles from "../src/styles/modules/util-styles.module.scss";
 
 const Home: NextPage = () => {
   const [showState, setModalShow] = useState<boolean>(false);
@@ -38,6 +38,7 @@ const Home: NextPage = () => {
     useState<ProjectArrayInterface>(createProjectArrayObject());
   const [currentProjectState, setCurrentProjectState] =
     useState<ProjectInterface>(createProjectObject());
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const showAddProjectModal = useCallback(() => {
     setModalShow(true);
@@ -77,10 +78,11 @@ const Home: NextPage = () => {
   useEffect(() => {
     const projects = retrieveFromStorage(userTypeState);
     setProjectArrayState(projects);
+    setIsLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (!projectArrayState) {
+  if (isLoading) {
     return <LoadingNotice />;
   }
 
@@ -126,7 +128,13 @@ const Home: NextPage = () => {
                   <StickyHeader title="Projects" />
                   {projectArrayState.projects.length === 0 && (
                     <p className=" text-center">
-                      <span onClick={showAddProjectModal} className={utilStyles.underlineAction}>Add a project</span> to get started!
+                      <span
+                        onClick={showAddProjectModal}
+                        className={utilStyles.underlineAction}
+                      >
+                        Add a project
+                      </span>{" "}
+                      to get started!
                     </p>
                   )}
                   {renderedProjects}

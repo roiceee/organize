@@ -26,6 +26,7 @@ import StickyHeader from "../../src/components/util-components/sticky-header";
 import DescriptionPopover from "../../src/components/tasks-page-components/description-accordion";
 import ProjectArrayContext from "../../src/contexts/project-array-context";
 import ProjectContext from "../../src/contexts/project-context";
+import GoBackLink from "../../src/components/tasks-page-components/go-back-link";
 
 function TasksPage() {
   const router = useRouter();
@@ -130,8 +131,6 @@ function TasksPage() {
     }
     return <ErrorNotice />;
   }
-
-  console.log(currentProjectState);
   return (
     <>
       <ProjectArrayContext.Provider
@@ -146,6 +145,7 @@ function TasksPage() {
               leftElements={
                 <Row className="sticky-wrapper position-sticky sticky-top bg-light py-2">
                   <Row>
+                    <GoBackLink/>
                     <h2 style={{ overflowWrap: "break-word" }}>
                       {currentProjectState.title}
                     </h2>
