@@ -17,7 +17,7 @@ function DescriptionPopover({ description }: DescriptionPopoverProps) {
   return (
     <OverlayTrigger trigger="click" placement="bottom" overlay={popover}>
       <div style={{ width: "fit-content" }} className={styles.underlineAction}>
-        See Project Description &gt;
+        See Project Description
       </div>
     </OverlayTrigger>
   );

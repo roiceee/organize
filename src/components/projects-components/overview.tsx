@@ -27,7 +27,7 @@ function Overview({ projectArray }: OverviewProps) {
           </Popover>
         }
       >
-        <span style={{width: "fit-content"}} className={`${styles.underlineAction} my-2`}>See overview &gt;</span>
+        <span style={{width: "fit-content"}} className={`${styles.underlineAction} my-2`}>See overview</span>
       </OverlayTrigger>
     </>
   );

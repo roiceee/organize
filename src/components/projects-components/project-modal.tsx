@@ -39,6 +39,8 @@ function ProjectModal({
   }, [setCurrentProjectState]);
 
   const validateAddProject = useCallback((): boolean => {
+    console.log(validateRequiredInput(titleForm, "form-title-error") &&
+    validateExistingProject(titleForm, "form-title-error", projectArrayState))
     return (
       validateRequiredInput(titleForm, "form-title-error") &&
       validateExistingProject(titleForm, "form-title-error", projectArrayState)
@@ -60,7 +62,7 @@ function ProjectModal({
   const areFormsValid = useCallback((): boolean => {
     switch (mode) {
       case "add": {
-        validateAddProject();
+        return validateAddProject();
       }
       case "edit": {
         return validateEditProject();
