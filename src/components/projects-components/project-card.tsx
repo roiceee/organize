@@ -1,5 +1,6 @@
 import ProjectInterface from "../../interfaces/project-interface";
 import styles from "../../styles/modules/project-card.module.css";
+import utilStyles from "../../styles/modules/util-styles.module.scss"
 import Card from "react-bootstrap/Card"
 import formatDate from "../../../src/utils/dateFormatter";
 import Link from "next/link"
@@ -11,7 +12,7 @@ function ProjectCard({ project }: ProjectCardProps) {
   return (
     <Link href={`/projects/${project.id}`}>
     <Card
-      className={`${styles.cardWrapper} bg-white px-0 border border-2`}
+      className={`${styles.cardWrapper} ${utilStyles.hoverable} bg-white px-0 border border-2`}
       tabIndex={0}
       style={{maxWidth: "400px"}}
     >

@@ -72,11 +72,13 @@ function validateExistingTask(
   const errorTextElement: HTMLDivElement | null = document.querySelector(
     `#${errorTextElementID}`
   );
-
+    if (errorTextElement === null) {
+      return false;
+    }
   for (let i = 0; i < project.tasks.length; i++) {
     if (project.tasks[i].title === element?.value) {
       element.classList.add("invalid");
-      errorTextElement!.textContent = "Task name exists.";
+      errorTextElement.textContent = "Task name exists.";
       return false;
     }
   }
@@ -91,8 +93,11 @@ function removeErrorFields(
   const errorTextElement: HTMLDivElement | null = document.querySelector(
     `#${errorTextElementID}`
   );
-  if (element!.classList.contains("invalid")) {
-    element!.classList.remove("invalid");
+  if (element === null || element === undefined) {
+    return;
+  }
+  if (element.classList.contains("invalid")) {
+    element.classList.remove("invalid");
   }
   errorTextElement!.textContent = "";
 }

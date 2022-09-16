@@ -15,7 +15,7 @@ import ProjectInterface from "../../interfaces/project-interface";
 import ProjectContext from "../../contexts/project-context";
 
 interface AddTaskModalProps {
-  showState: boolean ;
+  showState: boolean;
   onHide: () => void;
   onAddTaskButtonClick: (newTask: TaskInterface) => void;
 }
@@ -29,7 +29,7 @@ function AddTaskModal({
     createTaskObject()
   );
 
-  const {currentProjectState} = useContext(ProjectContext);
+  const { currentProjectState } = useContext(ProjectContext);
   const taskTitleForm = useRef(null);
 
   const areFormsValid = useCallback((): boolean => {
@@ -105,6 +105,7 @@ function AddTaskModal({
           </div>
 
           <Form.Control
+            autoFocus
             type="text"
             placeholder="Task title"
             maxLength={TaskConstraintsEnum.TitleLength}

@@ -27,6 +27,8 @@ import DescriptionPopover from "../../src/components/tasks-page-components/descr
 import ProjectArrayContext from "../../src/contexts/project-array-context";
 import ProjectContext from "../../src/contexts/project-context";
 import GoBackLink from "../../src/components/tasks-page-components/go-back-link";
+import utilStyles from "../../src/styles/modules/util-styles.module.scss";
+import TaskViewModal from "../../src/components/tasks-page-components/task-view-modal";
 
 function TasksPage() {
   const router = useRouter();
@@ -37,16 +39,8 @@ function TasksPage() {
     useState<ProjectInterface>(createProjectObject());
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [addTaskModalState, setAddTaskModalState] = useState<boolean>(false);
-
   const [editProjectModalState, setEditProjectModalState] =
     useState<boolean>(false);
-
-  const renderedTasks = useMemo((): JSX.Element | Array<JSX.Element> => {
-    const taskCards = currentProjectState?.tasks.map((task) => {
-      return <TaskCard key={task.title} task={task} />;
-    });
-    return taskCards;
-  }, [currentProjectState]);
 
   const showAddTaskModal = useCallback(() => {
     setAddTaskModalState(true);
@@ -63,6 +57,18 @@ function TasksPage() {
   const hideEditProjectModal = useCallback(() => {
     setEditProjectModalState(false);
   }, []);
+
+  const renderedTasks = useMemo((): JSX.Element | Array<JSX.Element> => {
+    const taskCards = currentProjectState?.tasks.map((task) => {
+      return (
+        <TaskCard
+          key={task.title}
+          task={task}
+        />
+      );
+    });
+    return taskCards;
+  }, [currentProjectState]);
 
   const updateCurrentProjectOnProjectArrayState = useCallback(
     (updatedProject: ProjectInterface) => {
@@ -145,7 +151,7 @@ function TasksPage() {
               leftElements={
                 <Row className="sticky-wrapper position-sticky sticky-top bg-light py-2">
                   <Row>
-                    <GoBackLink/>
+                    <GoBackLink />
                     <h2 style={{ overflowWrap: "break-word" }}>
                       {currentProjectState.title}
                     </h2>
@@ -175,7 +181,15 @@ function TasksPage() {
                 <Row className="px-2 gap-2 justify-content-center pt-2">
                   <StickyHeader title="Tasks" />
                   {currentProjectState.tasks.length === 0 && (
-                    <p className="text-center">Create a task to get started!</p>
+                    <p className="text-center">
+                      <span
+                        className={utilStyles.underlineAction}
+                        onClick={showAddTaskModal}
+                      >
+                        Create a task
+                      </span>{" "}
+                      to get started!
+                    </p>
                   )}
                   {renderedTasks}
                 </Row>
@@ -192,6 +206,7 @@ function TasksPage() {
             onHide={hideEditProjectModal}
             onEditProjectButtonClick={updateCurrentProjectOnProjectArrayState}
           />
+          
         </ProjectContext.Provider>
       </ProjectArrayContext.Provider>
     </>

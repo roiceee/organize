@@ -3,15 +3,15 @@ import FormLengthCounter from "../util-components/form-length-counter";
 import ProjectConstraintsEnum from "../../enums/project-constraints";
 import ProjectInterface from "../../interfaces/project-interface";
 import { ChangeEvent, useRef, useCallback, useContext } from "react";
-import {removeErrorFields} from "../../utils/validation";
+import { removeErrorFields } from "../../utils/validation";
 import ProjectContext from "../../contexts/project-context";
 
 interface ProjectFormProps {
-  projectFormState: ProjectInterface,
+  projectFormState: ProjectInterface;
   projectTitleFormHandler: (e: ChangeEvent<HTMLInputElement>) => void;
   titleOnFocusHandler: () => void;
   projectDescriptionFormHandler: (e: ChangeEvent<HTMLInputElement>) => void;
-  titleFormRef: React.RefObject<HTMLInputElement>
+  titleFormRef: React.RefObject<HTMLInputElement>;
 }
 
 function ProjectForm({
@@ -20,24 +20,22 @@ function ProjectForm({
   projectDescriptionFormHandler,
   titleFormRef,
 }: ProjectFormProps) {
-
-
   const titleOnFocusHandler = useCallback(() => {
     removeErrorFields(titleFormRef, "form-title-error");
   }, [titleFormRef]);
-  
 
   return (
     <Form onSubmit={(e) => e.preventDefault()}>
       <Form.Group>
         <div className="d-flex justify-content-between">
-        <div>Title</div>
+          <div>Title</div>
           <FormLengthCounter
             currentValue={projectFormState.title.length}
             maxValue={ProjectConstraintsEnum.TitleLength}
           />
         </div>
         <Form.Control
+          autoFocus
           id="title"
           type="text"
           placeholder="Project title"

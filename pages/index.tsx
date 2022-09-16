@@ -132,7 +132,7 @@ const Home: NextPage = () => {
                         onClick={showAddProjectModal}
                         className={utilStyles.underlineAction}
                       >
-                        Add a project
+                        Create a project
                       </span>{" "}
                       to get started!
                     </p>
