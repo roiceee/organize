@@ -179,7 +179,7 @@ function TasksPage() {
               }
               rightElements={
                 <Row className="px-2 gap-2 justify-content-center pt-2">
-                  <StickyHeader title="Tasks" />
+                  <StickyHeader title="Tasks" counter={currentProjectState.tasks.length}/>
                   {currentProjectState.tasks.length === 0 && (
                     <p className="text-center">
                       <span
