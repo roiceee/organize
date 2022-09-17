@@ -3,7 +3,7 @@ import TaskConstraintsEnum from "../../enums/task-constraints";
 import TaskInterface from "../../interfaces/task-interface";
 import FormLengthCounter from "../util-components/form-length-counter";
 import { removeErrorFields } from "../../utils/validation";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 
 interface TaskFormProps {
   formTaskState: TaskInterface;
@@ -75,6 +75,15 @@ function TaskForm({
       <div className="d-flex gap-2">
         <div>Priority: </div>
         <div key={`inline-radio`} className="mb-2 gap-1">
+        <Form.Check
+            inline
+            label="None"
+            name="priority"
+            type="radio"
+            value=""
+            onChange={priorityFormHandler}
+            checked={"" === formTaskState.priority}
+          />
           <Form.Check
             inline
             label="Low"
@@ -82,6 +91,7 @@ function TaskForm({
             type="radio"
             value="low"
             onChange={priorityFormHandler}
+            checked={"low" === formTaskState.priority}
           />
           <Form.Check
             inline
@@ -90,6 +100,7 @@ function TaskForm({
             type="radio"
             value="medium"
             onChange={priorityFormHandler}
+            checked={"medium" === formTaskState.priority}
           />
           <Form.Check
             inline
@@ -98,6 +109,8 @@ function TaskForm({
             type="radio"
             value="high"
             onChange={priorityFormHandler}
+            className="check"
+            checked={"high" === formTaskState.priority}
           />
         </div>
       </div>

@@ -58,13 +58,6 @@ function TasksPage() {
     setEditProjectModalState(false);
   }, []);
 
-  const renderedTasks = useMemo((): JSX.Element | Array<JSX.Element> => {
-    const taskCards = currentProjectState?.tasks.map((task) => {
-      return <TaskCard key={task.title} task={task} />;
-    });
-    return taskCards;
-  }, [currentProjectState]);
-
   const updateCurrentProjectOnProjectArrayState = useCallback(
     (updatedProject: ProjectInterface) => {
       setProjectArrayState((prevProjectArrayState) => {
@@ -103,6 +96,34 @@ function TasksPage() {
     },
     [updateCurrentProjectOnProjectArrayState, hideAddTaskModal]
   );
+
+  const updateTaskOnCurrentProject = useCallback(
+    (updatedTask: TaskInterface) => {
+      setCurrentProjectState((prevProjectState) => {
+        const tasksCopy = prevProjectState.tasks.slice(0);
+        const updatedTasksCopy = tasksCopy.map((task) => {
+          if (task.id === updatedTask.id) {
+            return updatedTask;
+          }
+          return task;
+        });
+        const newProjectState = {
+          ...prevProjectState,
+          tasks: updatedTasksCopy,
+        };
+        updateCurrentProjectOnProjectArrayState(newProjectState);
+        return newProjectState;
+      });
+    },
+    [updateCurrentProjectOnProjectArrayState]
+  );
+
+  const renderedTasks = useMemo((): JSX.Element | Array<JSX.Element> => {
+    const taskCards = currentProjectState?.tasks.map((task) => {
+      return <TaskCard key={task.id} task={task} editTaskHandler={updateTaskOnCurrentProject}/>;
+    });
+    return taskCards;
+  }, [currentProjectState, updateTaskOnCurrentProject]);
 
   useEffect(() => {
     const projects = retrieveFromStorage(userTypeState);

@@ -43,10 +43,11 @@ function AddTaskModal({
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setCurrentTaskState((prevTaskState) => ({
         ...prevTaskState,
+        id: e.target.value + currentProjectState.tasks.length,
         title: e.target.value,
       }));
     },
-    []
+    [currentProjectState.tasks.length]
   );
 
   const taskDescriptionFormHandler = useCallback(
