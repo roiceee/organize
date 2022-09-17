@@ -27,7 +27,7 @@ function ProjectForm({
   return (
     <Form onSubmit={(e) => e.preventDefault()}>
       <Form.Group>
-        <div className="d-flex justify-content-between">
+        <div className="d-flex justify-content-between mb-1">
           <div>Title (required)</div>
           <FormLengthCounter
             currentValue={projectFormState.title.length}
@@ -47,7 +47,7 @@ function ProjectForm({
         />
         <div id="form-title-error" className="error my-1"></div>
       </Form.Group>
-      <div className="d-flex justify-content-between">
+      <div className="d-flex justify-content-between mb-1">
         <div>Description</div>
         <FormLengthCounter
           currentValue={projectFormState.description.length}

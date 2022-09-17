@@ -106,7 +106,7 @@ function AddTaskModal({
       onHide={onHide}
       bodyChildren={
         <Form onSubmit={(e) => e.preventDefault()}>
-          <div className="d-flex justify-content-between">
+          <div className="d-flex justify-content-between mb-1">
             <div>Title (required)</div>
             <FormLengthCounter
               currentValue={currentTaskState.title.length}
@@ -124,7 +124,7 @@ function AddTaskModal({
             ref={taskTitleForm}
           />
           <div className="error my-1" id="task-title-error"></div>
-          <div className="d-flex justify-content-between">
+          <div className="d-flex justify-content-between mb-1">
             <div>Description</div>
             <FormLengthCounter
               currentValue={currentTaskState.description.length}
