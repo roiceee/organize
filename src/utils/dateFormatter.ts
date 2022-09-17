@@ -3,9 +3,9 @@ function formatDate(date: Date | undefined | string): string {
     date = new Date(date);
   }
   return date!.toLocaleDateString("en-US", {
-    weekday: "long",
+    weekday: "short",
     year: "numeric",
-    month: "long",
+    month: "short",
     day: "numeric",
   });
 }

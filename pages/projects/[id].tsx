@@ -28,7 +28,7 @@ import ProjectArrayContext from "../../src/contexts/project-array-context";
 import ProjectContext from "../../src/contexts/project-context";
 import GoBackLink from "../../src/components/tasks-page-components/go-back-link";
 import utilStyles from "../../src/styles/modules/util-styles.module.scss";
-import TaskViewModal from "../../src/components/tasks-page-components/task-view-modal";
+import Col from "react-bootstrap/Col";
 
 function TasksPage() {
   const router = useRouter();
@@ -120,7 +120,13 @@ function TasksPage() {
 
   const renderedTasks = useMemo((): JSX.Element | Array<JSX.Element> => {
     const taskCards = currentProjectState?.tasks.map((task) => {
-      return <TaskCard key={task.id} task={task} editTaskHandler={updateTaskOnCurrentProject}/>;
+      return (
+        <TaskCard
+          key={task.id}
+          task={task}
+          editTaskHandler={updateTaskOnCurrentProject}
+        />
+      );
     });
     return taskCards;
   }, [currentProjectState, updateTaskOnCurrentProject]);
@@ -166,8 +172,18 @@ function TasksPage() {
             <BodyLayoutOne
               leftElements={
                 <Row className="sticky-wrapper position-sticky sticky-top bg-light py-2">
+                  <div className="d-flex justify-content-between">
+                    <div>
+                      <GoBackLink />
+                    </div>
+                    <div>
+                      <ProjectControl
+                        editProjectHandler={showEditProjectModal}
+                      />
+                    </div>
+                  </div>
+
                   <Row>
-                    <GoBackLink />
                     <h2 style={{ overflowWrap: "break-word" }}>
                       {currentProjectState.title}
                     </h2>
@@ -180,15 +196,14 @@ function TasksPage() {
                     )}
                     {currentProjectState.description !== "" && (
                       <DescriptionPopover
-                        title="Project Description"
+                        title="Show Project Description"
                         description={currentProjectState.description}
                       />
                     )}
-                    <ProjectControl editProjectHandler={showEditProjectModal} />
                   </Row>
-                  <hr className="mx-auto my-1 mb-2" />
-                  <div>
-                    <Button variant="action" onClick={showAddTaskModal}>
+                  <hr className="mx-auto my-1 mb-3" />
+                  <div className="text-center">
+                    <Button variant="action w-75" onClick={showAddTaskModal}>
                       Add Task
                     </Button>
                   </div>

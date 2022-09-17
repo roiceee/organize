@@ -1,11 +1,7 @@
 @import "../colors.scss";
 
 .smallerFontSize {
-  font-size: 0.8rem;
-}
-
-.seeProjectDetails {
-  @extend .smallerFontSize;
+  font-size: 0.9rem;
 }
 
 .editProject {
@@ -18,7 +14,7 @@
 
 @media (max-width: 799px) {
   .editProject {
-    color: $action;
+    color: $info;
   }
 
   .deleteProject {
@@ -27,14 +23,12 @@
 }
 
 @media (min-width: 800px) {
-  .seeProjectDetails:hover {
-    color: #787878;
-  }
-  .editProject:hover {
-    color: $action;
+
+  .editProject {
+    color: $info;
   }
 
-  .deleteProject:hover {
+  .deleteProject{
     color: $danger;
   }
 }

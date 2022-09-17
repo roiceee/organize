@@ -57,10 +57,17 @@ function TaskViewModal({
       size="lg"
       aria-labelledby="task-view-modal"
     >
-      <Modal.Header closeButton>
+      <Modal.Header className="bg-primary text-light ">
         <Modal.Title id="task-view-modal" style={{ fontSize: "1rem" }}>
-          Task Details ({!isOnEditState && "Viewing Mode"}{isOnEditState && "Edit Mode"})
+          Task Details ({!isOnEditState && "Viewing Mode"}
+          {isOnEditState && "Edit Mode"})
         </Modal.Title>
+        <button
+          type="button"
+          className="btn-close btn-close-white"
+          aria-label="Close"
+          onClick={onHide}
+        ></button>
       </Modal.Header>
       {!isOnEditState && (
         <>
@@ -72,26 +79,26 @@ function TaskViewModal({
               </div>
               <hr className="my-2" />
               <DescriptionPopover
-                title="Task Description"
+                title="Show Task Description"
                 description={processDescription(task.description)}
               />
-              <div className={`${getTaskUnderlineColor()}`}>
+              <div className={`${getTaskUnderlineColor()} mb-1`}>
                 <b>Priority:</b> {processPriority(task.priority)}
               </div>
-              <div>
+              <div className="mb-1">
                 <b>Status:</b> {processTaskStatus(task.isDone)}
               </div>
-              <div>
+              <div className="mb-1">
                 <b>Deadline:</b> {processDeadline(task.deadline)}
               </div>
             </div>
           </Modal.Body>
           <Modal.Footer>
             <>
+              <Button variant="gray">Delete</Button>
               <Button variant="warning" onClick={setToEditMode}>
                 Edit
               </Button>
-              <Button variant="danger">Delete</Button>
             </>
           </Modal.Footer>
         </>

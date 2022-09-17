@@ -1,9 +1,9 @@
 import ProjectInterface from "../../interfaces/project-interface";
-import styles from "../../styles/modules/project-card.module.css";
-import utilStyles from "../../styles/modules/util-styles.module.scss"
-import Card from "react-bootstrap/Card"
+import styles from "../../styles/modules/project-card.module.scss";
+import utilStyles from "../../styles/modules/util-styles.module.scss";
 import formatDate from "../../utils/dateFormatter";
-import Link from "next/link"
+import Link from "next/link";
+import Container from "react-bootstrap/Container";
 interface ProjectCardProps {
   project: ProjectInterface;
 }
@@ -11,19 +11,26 @@ interface ProjectCardProps {
 function ProjectCard({ project }: ProjectCardProps) {
   return (
     <Link href={`/projects/${project.id}`}>
-    <Card
-      className={`${styles.cardWrapper} ${utilStyles.hoverable} bg-white px-0 border border-2`}
-      tabIndex={0}
-      style={{maxWidth: "400px"}}
-    >
-    <Card.Header className="bg-secondary text-light">
-    <h5 className="my-0">{project.title}</h5>
-    </Card.Header>
-    <Card.Body className="p-2">
-      <div>Tasks: {project.tasks.length}</div>
-      <div>Last Modified: {formatDate(project.lastModified)}</div>
-    </Card.Body>
-    </Card>
+      <Container
+        className={`${styles.cardWrapper} ${styles.rounded} ${utilStyles.hoverable} bg-white px-0 border border-1`}
+        tabIndex={0}
+        style={{ maxWidth: "400px" }}
+      >
+        <div className="d-flex gap-1">
+          <div className={styles.verticalLine}></div>
+          <div className="p-1">
+            <h4 className="my-0 mb-2">{project.title}</h4>
+            <div style={{ fontSize: "0.9rem" }}>
+              <div>
+                <b>Tasks:</b> {project.tasks.length}
+              </div>
+              <div>
+                <b>Last Modified:</b> {formatDate(project.lastModified)}
+              </div>
+            </div>
+          </div>
+        </div>
+      </Container>
     </Link>
   );
 }

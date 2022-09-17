@@ -108,8 +108,8 @@ function AddTaskModal({
         />
       }
       footerChildren={
-        <Button variant="secondary" onClick={addTaskButtonHandler}>
-          Add Task
+        <Button variant="action" onClick={addTaskButtonHandler}>
+          Confirm
         </Button>
       }
     />

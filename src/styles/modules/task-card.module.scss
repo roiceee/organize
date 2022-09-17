@@ -1,5 +1,9 @@
 @import "../colors.scss";
 
+.rounded {
+    border-radius: 6px;
+}
+
 .prioIndicator {
     width: 8px;
     border-top-left-radius: 6px;
@@ -19,5 +23,5 @@
 }
 
 .noPriority {
-    background-color: black;
+    background-color: $dark;
 }

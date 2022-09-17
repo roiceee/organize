@@ -111,9 +111,9 @@ const Home: NextPage = () => {
                 {projectArrayState.projects.length > 0 && (
                   <Overview projectArray={projectArrayState} />
                 )}
-                <div>
+                <div className="text-center">
                   <Button
-                    className="mx-auto"
+                    className="mx-auto w-75"
                     variant="action"
                     onClick={showAddProjectModal}
                   >

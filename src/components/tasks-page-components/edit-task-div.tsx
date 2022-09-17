@@ -93,8 +93,8 @@ function EditTaskDiv({ task, onEditTaskButtonClick, onCancelEditButtonClick }: E
       />
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={editTaskButtonHandler}>Confirm</Button>
-        <Button onClick={onCancelEditButtonClick}>Cancel</Button>
+      <Button variant="gray" onClick={onCancelEditButtonClick}>Cancel</Button>
+        <Button variant="action" onClick={editTaskButtonHandler}>Confirm</Button>
       </Modal.Footer>
     </>
   );

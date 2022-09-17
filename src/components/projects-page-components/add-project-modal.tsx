@@ -118,7 +118,7 @@ function AddProjectModal({
         />
       }
       footerChildren={
-        <Button variant="secondary" onClick={actionButtonHandler}>
+        <Button variant="action" onClick={actionButtonHandler}>
           Confirm
         </Button>
       }

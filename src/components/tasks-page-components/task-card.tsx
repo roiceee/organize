@@ -1,5 +1,4 @@
 import TaskInterface from "../../interfaces/task-interface";
-import formatDate from "../../utils/dateFormatter";
 import styles from "../../styles/modules/task-card.module.scss";
 import utilStyles from "../../styles/modules/util-styles.module.scss";
 import _ from "lodash";
@@ -44,7 +43,7 @@ function TaskCard({ task, editTaskHandler }: TaskCardProps) {
     <>
       <div
         onClick={showTaskViewModal}
-        className={`rounded-2 border border-1 bg-white d-flex p-0 gap-2 ${utilStyles.hoverable}`}
+        className={`border border-1 bg-white d-flex p-0 gap-2 ${utilStyles.hoverable} ${styles.rounded}`}
         style={{
           maxWidth: "500px",
           overflowWrap: "break-word",

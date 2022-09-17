@@ -9,7 +9,7 @@ function Overview({ projectArray }: OverviewProps) {
     <>
       <Accordion className="mb-3">
         <Accordion.Item eventKey="0">
-          <Accordion.Header>Overview</Accordion.Header>
+          <Accordion.Header>Show Overview</Accordion.Header>
           <Accordion.Body>
             <div>Projects: {projectArray.projects.length}</div>
             <div>
