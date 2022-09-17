@@ -10,7 +10,7 @@ function GoBackLink() {
           height="20"
           viewBox="0 0 24 24"
           fill="none"
-          stroke="#0081FB"
+          stroke="#00BACD"
           strokeWidth="1"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -18,7 +18,7 @@ function GoBackLink() {
           <path d="M15 18l-6-6 6-6" />
         </svg>
         <a
-          className="text-decoration-none text-secondary"
+          className="text-decoration-none text-info"
           style={{ fontSize: "0.9rem" }}
         >
           Go Back
