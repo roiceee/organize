@@ -1,26 +1,127 @@
-import React from "react";
+import Button from "react-bootstrap/Button";
+import React, {
+  ChangeEvent,
+  useCallback,
+  useContext,
+  useRef,
+  useState,
+} from "react";
 import ProjectInterface from "../../interfaces/project-interface";
-import ProjectModal from "./project-modal";
+import {
+  removeErrorFields,
+  validateExistingProject,
+  validateRequiredInput,
+} from "../../utils/validation";
+import ModalWrapper from "../util-components/modal-wrapper";
+import createcurrentProjectState from "../../defaults/default-project";
+import ProjectForm from "./project-form";
+import ProjectArrayContext from "../../contexts/project-array-context";
+import createProjectObject from "../../defaults/default-project";
 
 interface AddProjectModalProps {
   showState: boolean;
   onHide: () => void;
-  onAddProjectButtonClick: (newProject: ProjectInterface) => void;
+  onActionButtonClick: (newProject: ProjectInterface) => void;
 }
 
 function AddProjectModal({
   showState,
   onHide,
-  onAddProjectButtonClick,
+  onActionButtonClick,
 }: AddProjectModalProps) {
-  const MODE = "add";
+  const { projectArrayState } = useContext(ProjectArrayContext);
+  const [projectFormState, setProjectFormState] = useState<ProjectInterface>(
+    createProjectObject()
+  );
+  const titleForm = useRef<HTMLInputElement>(null);
+
+  const resetProjectValues = useCallback(() => {
+    setProjectFormState(createcurrentProjectState());
+  }, [setProjectFormState]);
+
+  const areFormsValid = useCallback((): boolean => {
+    return (
+      validateRequiredInput(titleForm, "form-title-error") &&
+      validateExistingProject(titleForm, "form-title-error", projectArrayState)
+    );
+  }, [projectArrayState]);
+
+  const createNewProject = useCallback((): ProjectInterface => {
+    const currentProjectValueCopy = { ...projectFormState };
+    const newProjectValue = {
+      ...currentProjectValueCopy,
+      dateCreated: new Date(),
+      lastModified: new Date(),
+    };
+    return newProjectValue;
+  }, [projectFormState]);
+
+  const actionButtonHandler = useCallback(() => {
+    if (!areFormsValid()) {
+      return;
+    }
+
+    let projectValue: ProjectInterface | null = createNewProject();
+    resetProjectValues();
+
+    if (projectValue === null) {
+      return;
+    }
+    onActionButtonClick(projectValue);
+  }, [
+    areFormsValid,
+    onActionButtonClick,
+    resetProjectValues,
+    createNewProject,
+  ]);
+
+  const projectTitleFormHandler = useCallback(
+    (e: ChangeEvent<HTMLInputElement>): void => {
+      const value = e.target.value;
+
+      setProjectFormState((prevProjectValue) => ({
+        ...prevProjectValue,
+        id: value,
+        title: value,
+      }));
+    },
+    [setProjectFormState]
+  );
+
+  const projectDescriptionFormHandler = useCallback(
+    (e: ChangeEvent<HTMLInputElement>): void => {
+      const value = e.target.value;
+      setProjectFormState((prevProjectValue) => ({
+        ...prevProjectValue,
+        description: value,
+      }));
+    },
+    [setProjectFormState]
+  );
+
+  const titleOnFocusHandler = useCallback(() => {
+    removeErrorFields(titleForm, "form-title-error");
+  }, [titleForm]);
+
   return (
-    <ProjectModal
+    <ModalWrapper
       showState={showState}
       onHide={onHide}
-      onActionButtonClick={onAddProjectButtonClick}
-      modalTitle={"Add Project"}
-      mode={MODE}
+      modalTitle="Add New Project"
+      bodyChildren={
+        <ProjectForm
+          projectFormState={projectFormState}
+          titleFormRef={titleForm}
+          projectTitleFormHandler={projectTitleFormHandler}
+          titleOnFocusHandler={titleOnFocusHandler}
+          projectDescriptionFormHandler={projectDescriptionFormHandler}
+        />
+      }
+      footerChildren={
+        <Button variant="secondary" onClick={actionButtonHandler}>
+          Confirm
+        </Button>
+      }
     />
   );
 }

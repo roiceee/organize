@@ -146,7 +146,7 @@ const Home: NextPage = () => {
           <AddProjectModal
             showState={showState}
             onHide={hideAddProjectModal}
-            onAddProjectButtonClick={addProjectToProjectArray}
+            onActionButtonClick={addProjectToProjectArray}
           />
         </Container>
       </ProjectContext.Provider>

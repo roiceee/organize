@@ -203,7 +203,7 @@ function TasksPage() {
           <EditProjectModal
             showState={editProjectModalState}
             onHide={hideEditProjectModal}
-            onEditProjectButtonClick={updateCurrentProjectOnProjectArrayState}
+            onActionButtonClick={updateCurrentProjectOnProjectArrayState}
           />
         </ProjectContext.Provider>
       </ProjectArrayContext.Provider>
