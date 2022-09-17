@@ -1,18 +1,37 @@
 @import "../colors.scss";
 
-.underlinePrimary {
+.underline {
     text-decoration: underline;
+}
+
+.underlinePrimary {
+    @extend .underline;
     text-decoration-color: $primary;
 }
 
 .underlineSecondary {
-    text-decoration: underline;
+    @extend .underline;
     text-decoration-color: $secondary;
 }
 
 .underlineAction {
-    text-decoration: underline;
+    @extend .underline;
     text-decoration-color: $action;
+}
+
+.underlineDanger {
+    @extend .underline;
+    text-decoration-color: $danger;
+}
+
+.underlineWarning {
+    @extend .underline;
+    text-decoration-color: $warning;
+}
+
+.underlineInfo {
+    @extend .underline;
+    text-decoration-color: $info;
 }
 
 @media all and (min-width: 1000px) {

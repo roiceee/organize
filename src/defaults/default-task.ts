@@ -3,6 +3,7 @@ import TaskInterface from "../interfaces/task-interface";
 function createTaskObject() : TaskInterface {
     return {
         title: "",
+        description: "",
         isDone: false,
         deadline: "",
         priority: ""

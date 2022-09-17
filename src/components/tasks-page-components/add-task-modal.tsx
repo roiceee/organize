@@ -57,6 +57,16 @@ function AddTaskModal({
     []
   );
 
+  const taskDescriptionFormHandler = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setCurrentTaskState((prevTaskState) => ({
+        ...prevTaskState,
+        description: e.target.value,
+      }));
+    },
+    []
+  );
+
   const deadLineFormHandler = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setCurrentTaskState((prevTaskState) => ({
@@ -97,13 +107,12 @@ function AddTaskModal({
       bodyChildren={
         <Form onSubmit={(e) => e.preventDefault()}>
           <div className="d-flex justify-content-between">
-            <div>Title</div>
+            <div>Title (required)</div>
             <FormLengthCounter
               currentValue={currentTaskState.title.length}
               maxValue={TaskConstraintsEnum.TitleLength}
             />
           </div>
-
           <Form.Control
             autoFocus
             type="text"
@@ -115,6 +124,22 @@ function AddTaskModal({
             ref={taskTitleForm}
           />
           <div className="error my-1" id="task-title-error"></div>
+          <div className="d-flex justify-content-between">
+            <div>Description</div>
+            <FormLengthCounter
+              currentValue={currentTaskState.description.length}
+              maxValue={TaskConstraintsEnum.DescriptionLength}
+            />
+          </div>
+          <Form.Control
+            as="textarea"
+            placeholder="Task Description"
+            className="mb-2"
+            style={{ height: "90px" }}
+            maxLength={TaskConstraintsEnum.DescriptionLength}
+            value={currentTaskState.description}
+            onChange={taskDescriptionFormHandler}
+          />
           <div className="d-flex gap-2 align-items-center">
             <div>Deadline:</div>
             <Form.Control

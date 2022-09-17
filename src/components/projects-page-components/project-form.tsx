@@ -28,7 +28,7 @@ function ProjectForm({
     <Form onSubmit={(e) => e.preventDefault()}>
       <Form.Group>
         <div className="d-flex justify-content-between">
-          <div>Title</div>
+          <div>Title (required)</div>
           <FormLengthCounter
             currentValue={projectFormState.title.length}
             maxValue={ProjectConstraintsEnum.TitleLength}
@@ -60,7 +60,7 @@ function ProjectForm({
         placeholder="Project Description (Optional)"
         onChange={projectDescriptionFormHandler}
         value={projectFormState.description}
-        style={{ height: "100px", resize: "none" }}
+        style={{ height: "90px"}}
         maxLength={ProjectConstraintsEnum.DescriptionLength}
       />
     </Form>

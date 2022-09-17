@@ -5,8 +5,11 @@ import utilStyles from "../../styles/modules/util-styles.module.scss";
 import _ from "lodash";
 import TaskViewModal from "./task-view-modal";
 import { useCallback, useState } from "react";
-import { processDeadline, processPriority } from "../../utils/task-utils";
-
+import {
+  processDeadline,
+  processPriority,
+  processTaskStatus,
+} from "../../utils/task-utils";
 
 interface TaskCardProps {
   task: TaskInterface;
@@ -48,19 +51,26 @@ function TaskCard({ task }: TaskCardProps) {
         }}
       >
         <div className={`${styles.prioIndicator} ${getPriorityColor()}`}></div>
-        <div>
+        <div className="p-1">
           <h5>{task.title}</h5>
-          <div>
-            Deadline:{" "}
-            {processDeadline(task.deadline)}
-          </div>
-          <div>
-            Priority:{" "}
-           {processPriority(task.priority)}
+          <div style={{fontSize: "0.9rem"}}>
+            <div>
+              <b>Status:</b> {processTaskStatus(task.isDone)}
+            </div>
+            <div>
+              <b>Priority:</b> {processPriority(task.priority)}
+            </div>
+            <div>
+              <b>Deadline:</b> {processDeadline(task.deadline)}
+            </div>
           </div>
         </div>
       </div>
-      <TaskViewModal task={task} show={taskViewModalState} onHide={hideTaskViewModal} />
+      <TaskViewModal
+        task={task}
+        show={taskViewModalState}
+        onHide={hideTaskViewModal}
+      />
     </>
   );
 }

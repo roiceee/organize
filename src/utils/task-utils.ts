@@ -13,4 +13,8 @@ function processTaskStatus(status: boolean) {
   return !status ? "Not Done" : "Done";
 }
 
-export { processDeadline, processPriority, processTaskStatus };
+function processDescription(description: string) {
+  return description === "" ? "No Description" : description;
+}
+
+export { processDeadline, processPriority, processTaskStatus, processDescription };

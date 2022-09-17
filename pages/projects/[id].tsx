@@ -60,12 +60,7 @@ function TasksPage() {
 
   const renderedTasks = useMemo((): JSX.Element | Array<JSX.Element> => {
     const taskCards = currentProjectState?.tasks.map((task) => {
-      return (
-        <TaskCard
-          key={task.title}
-          task={task}
-        />
-      );
+      return <TaskCard key={task.title} task={task} />;
     });
     return taskCards;
   }, [currentProjectState]);
@@ -164,6 +159,7 @@ function TasksPage() {
                     )}
                     {currentProjectState.description !== "" && (
                       <DescriptionPopover
+                        title="Project Description"
                         description={currentProjectState.description}
                       />
                     )}
@@ -179,7 +175,10 @@ function TasksPage() {
               }
               rightElements={
                 <Row className="px-2 gap-2 justify-content-center pt-2">
-                  <StickyHeader title="Tasks" counter={currentProjectState.tasks.length}/>
+                  <StickyHeader
+                    title="Tasks"
+                    counter={currentProjectState.tasks.length}
+                  />
                   {currentProjectState.tasks.length === 0 && (
                     <p className="text-center">
                       <span
@@ -206,7 +205,6 @@ function TasksPage() {
             onHide={hideEditProjectModal}
             onEditProjectButtonClick={updateCurrentProjectOnProjectArrayState}
           />
-          
         </ProjectContext.Provider>
       </ProjectArrayContext.Provider>
     </>

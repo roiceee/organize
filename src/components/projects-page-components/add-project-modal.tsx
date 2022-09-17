@@ -1,6 +1,5 @@
 import React from "react";
 import ProjectInterface from "../../interfaces/project-interface";
-import ProjectArrayInterface from "../../interfaces/project-array-interface";
 import ProjectModal from "./project-modal";
 
 interface AddProjectModalProps {

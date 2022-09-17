@@ -1,4 +1,4 @@
-import ProjectModal from "../projects-components/project-modal";
+import ProjectModal from "../projects-page-components/project-modal";
 import ProjectInterface from "../../interfaces/project-interface";
 interface EditProjectModalProps {
   showState: boolean;

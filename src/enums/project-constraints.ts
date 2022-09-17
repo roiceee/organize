@@ -1,6 +1,6 @@
 enum ProjectConstraintsEnum {
     TitleLength = 80,
-    DescriptionLength = 100,
+    DescriptionLength = 300,
 }
 
 

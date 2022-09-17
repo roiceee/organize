@@ -8,13 +8,13 @@ import {
   useRef,
 } from "react";
 import HeadWrapper from "../src/components/head-wrapper";
-import AddProjectModal from "../src/components/projects-components/add-project-modal";
-import NoProjectCard from "../src/components/projects-components/no-project-card";
+import AddProjectModal from "../src/components/projects-page-components/add-project-modal";
+import NoProjectCard from "../src/components/projects-page-components/no-project-card";
 import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import UserTypeContext from "../src/contexts/user-context";
-import ProjectCard from "../src/components/projects-components/project-card";
+import ProjectCard from "../src/components/projects-page-components/project-card";
 import ProjectArrayInterface from "../src/interfaces/project-array-interface";
 import { retrieveFromStorage } from "../src/utils/local-storage-util";
 import LoadingNotice from "../src/components/util-components/loading-notice";
@@ -23,8 +23,8 @@ import ProjectInterface from "../src/interfaces/project-interface";
 import { saveToStorage } from "../src/utils/local-storage-util";
 import Col from "react-bootstrap/Col";
 import createProjectObject from "../src/defaults/default-project";
-import Quotes from "../src/components/projects-components/quotes";
-import Overview from "../src/components/projects-components/overview-accordion";
+import Quotes from "../src/components/projects-page-components/quotes";
+import Overview from "../src/components/projects-page-components/overview-accordion";
 import BodyLayoutOne from "../src/components/body-layout-one";
 import StickyHeader from "../src/components/util-components/sticky-header";
 import ProjectArrayContext from "../src/contexts/project-array-context";
