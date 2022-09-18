@@ -29,6 +29,7 @@ import ProjectContext from "../../src/contexts/project-context";
 import GoBackLink from "../../src/components/tasks-page-components/go-back-link";
 import utilStyles from "../../src/styles/modules/util-styles.module.scss";
 import Col from "react-bootstrap/Col";
+import DeleteProjectModal from "../../src/components/tasks-page-components/delete-project-modal";
 
 function TasksPage() {
   const router = useRouter();
@@ -40,6 +41,8 @@ function TasksPage() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [addTaskModalState, setAddTaskModalState] = useState<boolean>(false);
   const [editProjectModalState, setEditProjectModalState] =
+    useState<boolean>(false);
+  const [deleteProjectModalState, setDeleteProjectModalState] =
     useState<boolean>(false);
 
   const showAddTaskModal = useCallback(() => {
@@ -56,6 +59,14 @@ function TasksPage() {
 
   const hideEditProjectModal = useCallback(() => {
     setEditProjectModalState(false);
+  }, []);
+
+  const showDeleteProjectModal = useCallback(() => {
+    setDeleteProjectModalState(true);
+  }, []);
+
+  const hideDeleteProjectModal = useCallback(() => {
+    setDeleteProjectModalState(false);
   }, []);
 
   const updateCurrentProjectOnProjectArrayState = useCallback(
@@ -179,6 +190,7 @@ function TasksPage() {
                     <div>
                       <ProjectControl
                         editProjectHandler={showEditProjectModal}
+                        deleteProjectHandler={showDeleteProjectModal}
                       />
                     </div>
                   </div>
@@ -240,6 +252,11 @@ function TasksPage() {
             showState={editProjectModalState}
             onHide={hideEditProjectModal}
             onActionButtonClick={updateCurrentProjectOnProjectArrayState}
+          />
+          <DeleteProjectModal
+          show={deleteProjectModalState}
+          onHide={hideDeleteProjectModal}
+          
           />
         </ProjectContext.Provider>
       </ProjectArrayContext.Provider>
