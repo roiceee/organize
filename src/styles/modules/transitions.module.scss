@@ -26,3 +26,18 @@
  	opacity: 1;
   }
 }
+
+.fadeInScrollButton {
+  @extend .fadeIn;
+  animation: fadeInScrollButton 0.3s;
+  opacity: 60%;
+}
+
+@keyframes fadeInScrollButton {
+  from {
+  	opacity: 0;
+  }
+  to {
+ 	opacity: 60%;
+  }
+}

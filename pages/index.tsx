@@ -1,12 +1,5 @@
 import type { NextPage } from "next";
-import {
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-  useMemo,
-  useRef,
-} from "react";
+import { useCallback, useContext, useEffect, useState, useMemo } from "react";
 import HeadWrapper from "../src/components/head-wrapper";
 import AddProjectModal from "../src/components/projects-page-components/add-project-modal";
 import NoProjectCard from "../src/components/projects-page-components/no-project-card";
@@ -30,6 +23,7 @@ import StickyHeader from "../src/components/util-components/sticky-header";
 import ProjectArrayContext from "../src/contexts/project-array-context";
 import ProjectContext from "../src/contexts/project-context";
 import utilStyles from "../src/styles/modules/util-styles.module.scss";
+import ScrollToTopButton from "../src/components/util-components/scroll-to-top-button";
 
 const Home: NextPage = () => {
   const [showState, setModalShow] = useState<boolean>(false);
@@ -145,12 +139,12 @@ const Home: NextPage = () => {
               </>
             }
           />
-
           <AddProjectModal
             showState={showState}
             onHide={hideAddProjectModal}
             onActionButtonClick={addProjectToProjectArray}
           />
+          <ScrollToTopButton />
         </Container>
       </ProjectContext.Provider>
     </ProjectArrayContext.Provider>

@@ -30,6 +30,7 @@ import GoBackLink from "../../src/components/tasks-page-components/go-back-link"
 import utilStyles from "../../src/styles/modules/util-styles.module.scss";
 import Col from "react-bootstrap/Col";
 import DeleteProjectModal from "../../src/components/tasks-page-components/delete-project-modal";
+import ScrollToTopButton from "../../src/components/util-components/scroll-to-top-button";
 
 function TasksPage() {
   const router = useRouter();
@@ -288,6 +289,7 @@ function TasksPage() {
             onHide={hideDeleteProjectModal}
             onDeleteProjectButtonClick={deleteProject}
           />
+          <ScrollToTopButton/>
         </ProjectContext.Provider>
       </ProjectArrayContext.Provider>
     </>
