@@ -125,7 +125,10 @@ const Home: NextPage = () => {
             rightElements={
               <>
                 <Row className="px-2 gap-2 justify-content-center pt-2">
-                  <StickyHeader title="Projects" counter={projectArrayState.projects.length}/>
+                  <StickyHeader
+                    title="Projects"
+                    counter={projectArrayState.projects.length}
+                  />
                   {projectArrayState.projects.length === 0 && (
                     <p className=" text-center">
                       <span

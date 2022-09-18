@@ -129,6 +129,16 @@ function TasksPage() {
     [updateCurrentProjectOnProjectArrayState]
   );
 
+  const deleteProject = useCallback((projectToBeDeleted: ProjectInterface) => {
+    const newProjectArray: ProjectArrayInterface = {
+      projects: projectArrayState.projects.filter((project) => {
+        return projectToBeDeleted.id !== project.id;
+      }),
+    };
+    saveToStorage(userTypeState, newProjectArray);
+    window.location.href = "/";
+  }, [projectArrayState.projects, userTypeState]);
+
   const renderedTasks = useMemo((): JSX.Element | Array<JSX.Element> => {
     const taskCards = currentProjectState?.tasks.map((task) => {
       return (
@@ -254,9 +264,9 @@ function TasksPage() {
             onActionButtonClick={updateCurrentProjectOnProjectArrayState}
           />
           <DeleteProjectModal
-          show={deleteProjectModalState}
-          onHide={hideDeleteProjectModal}
-          
+            show={deleteProjectModalState}
+            onHide={hideDeleteProjectModal}
+            onDeleteProjectButtonClick={deleteProject}
           />
         </ProjectContext.Provider>
       </ProjectArrayContext.Provider>
