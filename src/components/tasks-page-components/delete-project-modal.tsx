@@ -16,7 +16,7 @@ function DeleteProjectModal({ show, onHide, onDeleteProjectButtonClick }: Delete
       aria-labelledby="delete-project-modal"
       centered
     >
-      <Modal.Header closeButton>
+      <Modal.Header className="bg-light" closeButton>
         <Modal.Title id="delete-project-modal">Delete Project</Modal.Title>
       </Modal.Header>
       <Modal.Body>

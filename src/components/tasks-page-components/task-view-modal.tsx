@@ -27,6 +27,7 @@ function TaskViewModal({
   editTaskHandler,
 }: TaskViewModalProps) {
   const [isOnEditState, setIsOnEditState] = useState<boolean>(false);
+  const [isOnDeleteState, setIsOnDeleteState] = useState<boolean>(false);
 
   const setToEditMode = useCallback(() => {
     setIsOnEditState(true);
@@ -34,6 +35,14 @@ function TaskViewModal({
 
   const setToViewMode = useCallback(() => {
     setIsOnEditState(false);
+  }, []);
+
+  const setToDeleteMode = useCallback(() => {
+    setIsOnDeleteState(true);
+  }, []);
+
+  const cancelDeleteMode = useCallback(() => {
+    setIsOnDeleteState(false);
   }, []);
 
   const getTaskUnderlineColor = useCallback(() => {
@@ -94,12 +103,27 @@ function TaskViewModal({
             </div>
           </Modal.Body>
           <Modal.Footer>
-            <>
-              <Button variant="gray">Delete</Button>
-              <Button variant="warning" onClick={setToEditMode}>
-                Edit
-              </Button>
-            </>
+            {!isOnDeleteState && (
+              <>
+                <Button variant="gray" onClick={setToDeleteMode}>
+                  Delete
+                </Button>
+                <Button variant="warning" onClick={setToEditMode}>
+                  Edit
+                </Button>
+              </>
+            )}
+            {isOnDeleteState && (
+              <>
+              <h6 className="mx-3">Delete this task?</h6>
+                <Button variant="gray" onClick={cancelDeleteMode}>
+                  Cancel
+                </Button>
+                <Button variant="danger">
+                  Delete
+                </Button>
+              </>
+            )}
           </Modal.Footer>
         </>
       )}
