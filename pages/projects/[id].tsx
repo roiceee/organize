@@ -129,15 +129,34 @@ function TasksPage() {
     [updateCurrentProjectOnProjectArrayState]
   );
 
-  const deleteProject = useCallback((projectToBeDeleted: ProjectInterface) => {
-    const newProjectArray: ProjectArrayInterface = {
-      projects: projectArrayState.projects.filter((project) => {
-        return projectToBeDeleted.id !== project.id;
-      }),
-    };
-    saveToStorage(userTypeState, newProjectArray);
-    window.location.href = "/";
-  }, [projectArrayState.projects, userTypeState]);
+  const deleteProject = useCallback(
+    (projectToBeDeleted: ProjectInterface) => {
+      const newProjectArray: ProjectArrayInterface = {
+        projects: projectArrayState.projects.filter((project) => {
+          return projectToBeDeleted.id !== project.id;
+        }),
+      };
+      saveToStorage(userTypeState, newProjectArray);
+      window.location.href = "/";
+    },
+    [projectArrayState.projects, userTypeState]
+  );
+
+  const deleteTask = useCallback(
+    (taskToBeDeleted: TaskInterface) => {
+      setCurrentProjectState((prevProjectState) => {
+        const newProjectState: ProjectInterface = {
+          ...prevProjectState,
+          tasks: prevProjectState.tasks.filter((task) => {
+            return taskToBeDeleted.id !== task.id;
+          }),
+        };
+        updateCurrentProjectOnProjectArrayState(newProjectState);
+        return newProjectState;
+      });
+    },
+    [updateCurrentProjectOnProjectArrayState]
+  );
 
   const renderedTasks = useMemo((): JSX.Element | Array<JSX.Element> => {
     const taskCards = currentProjectState?.tasks.map((task) => {
@@ -146,11 +165,12 @@ function TasksPage() {
           key={task.id}
           task={task}
           editTaskHandler={updateTaskOnCurrentProject}
+          deleteTaskHandler={deleteTask}
         />
       );
     });
     return taskCards;
-  }, [currentProjectState, updateTaskOnCurrentProject]);
+  }, [currentProjectState, updateTaskOnCurrentProject, deleteTask]);
 
   useEffect(() => {
     const projects = retrieveFromStorage(userTypeState);

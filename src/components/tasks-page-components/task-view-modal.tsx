@@ -18,6 +18,7 @@ interface TaskViewModalProps {
   show: boolean;
   onHide: () => void;
   editTaskHandler: (updatedTask: TaskInterface) => void;
+  deleteTaskHandler: (taskToBeDeleted: TaskInterface) => void;
 }
 
 function TaskViewModal({
@@ -25,6 +26,7 @@ function TaskViewModal({
   show,
   onHide,
   editTaskHandler,
+  deleteTaskHandler,
 }: TaskViewModalProps) {
   const [isOnEditState, setIsOnEditState] = useState<boolean>(false);
   const [isOnDeleteState, setIsOnDeleteState] = useState<boolean>(false);
@@ -44,6 +46,10 @@ function TaskViewModal({
   const cancelDeleteMode = useCallback(() => {
     setIsOnDeleteState(false);
   }, []);
+
+  const deleteTaskButtonHandler = useCallback(() => {
+    deleteTaskHandler(task);
+  }, [deleteTaskHandler, task]);
 
   const getTaskUnderlineColor = useCallback(() => {
     switch (task.priority) {
@@ -115,13 +121,11 @@ function TaskViewModal({
             )}
             {isOnDeleteState && (
               <>
-              <h6 className="mx-3">Delete this task?</h6>
+                <h6 className="mx-3">Delete this task?</h6>
                 <Button variant="gray" onClick={cancelDeleteMode}>
                   Cancel
                 </Button>
-                <Button variant="danger">
-                  Delete
-                </Button>
+                <Button variant="danger" onClick={deleteTaskButtonHandler}>Confirm Delete</Button>
               </>
             )}
           </Modal.Footer>

@@ -13,9 +13,10 @@ import {
 interface TaskCardProps {
   task: TaskInterface;
   editTaskHandler: (updatedTask: TaskInterface) => void;
+  deleteTaskHandler: (taskToDelete:  TaskInterface) => void;
 }
 
-function TaskCard({ task, editTaskHandler }: TaskCardProps) {
+function TaskCard({ task, editTaskHandler, deleteTaskHandler }: TaskCardProps) {
   const [taskViewModalState, setTaskViewModalState] = useState<boolean>(false);
 
   const showTaskViewModal = useCallback(() => {
@@ -71,6 +72,7 @@ function TaskCard({ task, editTaskHandler }: TaskCardProps) {
         show={taskViewModalState}
         onHide={hideTaskViewModal}
         editTaskHandler={editTaskHandler}
+        deleteTaskHandler={deleteTaskHandler}
       />
     </>
   );
