@@ -9,7 +9,6 @@ import React, {
 import ProjectInterface from "../../interfaces/project-interface";
 import {
   removeErrorFields,
-  validateExistingProject,
   validateRequiredInput,
 } from "../../utils/validation";
 import ModalWrapper from "../util-components/modal-wrapper";
@@ -42,10 +41,9 @@ function AddProjectModal({
 
   const areFormsValid = useCallback((): boolean => {
     return (
-      validateRequiredInput(titleForm, "form-title-error") &&
-      validateExistingProject(titleForm, "form-title-error", projectArrayState)
+      validateRequiredInput(titleForm, "form-title-error")
     );
-  }, [projectArrayState]);
+  }, []);
 
   const createNewProject = useCallback((): ProjectInterface => {
     const currentProjectValueCopy = { ...projectFormState };

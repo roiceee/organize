@@ -125,7 +125,7 @@ function TaskViewModal({
                 <Button variant="gray" onClick={cancelDeleteMode}>
                   Cancel
                 </Button>
-                <Button variant="danger" onClick={deleteTaskButtonHandler}>Confirm Delete</Button>
+                <Button variant="danger" onClick={deleteTaskButtonHandler}>Delete</Button>
               </>
             )}
           </Modal.Footer>

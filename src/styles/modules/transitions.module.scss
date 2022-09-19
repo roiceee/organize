@@ -41,3 +41,17 @@
  	opacity: 60%;
   }
 }
+
+.fadeInFaster {
+	animation: fadeInFaster 0.3s;
+  	opacity: 1;
+}
+
+@keyframes fadeInFaster {
+  from {
+  	opacity: 0;
+  }
+  to {
+ 	opacity: 1;
+  }
+}

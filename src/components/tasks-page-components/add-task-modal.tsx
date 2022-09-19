@@ -31,14 +31,9 @@ function AddTaskModal({
 
   const areFormsValid = useCallback((): boolean => {
     return (
-      validateRequiredInput(taskTitleFormRef, "task-title-error") &&
-      validateExistingTask(
-        taskTitleFormRef,
-        "task-title-error",
-        currentProjectState
-      )
+      validateRequiredInput(taskTitleFormRef, "task-title-error")
     );
-  }, [taskTitleFormRef, currentProjectState]);
+  }, [taskTitleFormRef]);
 
   const taskTitleFormHandler = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
