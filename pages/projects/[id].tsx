@@ -160,7 +160,12 @@ function TasksPage() {
 
   const createDeletedTaskUndoAlert = useCallback(
     (deletedTask: TaskInterface) => {
-      return <DeletedTaskAlert task={deletedTask} onUndoButtonClick={undoLastDeletedTask}/>;
+      return (
+        <DeletedTaskAlert
+          task={deletedTask}
+          onUndoButtonClick={undoLastDeletedTask}
+        />
+      );
     },
     [undoLastDeletedTask]
   );
@@ -255,8 +260,12 @@ function TasksPage() {
                       {currentProjectState.title}
                     </h2>
                     <div>
-                      Date created:{" "}
+                      <b>Date created:</b>{" "}
                       {formatDate(currentProjectState.dateCreated)}
+                    </div>
+                    <div>
+                      <b>Last modified:</b>{" "}
+                      {formatDate(currentProjectState.lastModified)}
                     </div>
                     {currentProjectState.description === "" && (
                       <span>No description</span>

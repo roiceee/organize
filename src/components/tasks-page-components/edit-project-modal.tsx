@@ -107,7 +107,7 @@ function EditProjectModal({
       centered
     >
       <Modal.Header className="bg-warning" closeButton>
-        <Modal.Title id="edit-project-modal">Delete Project</Modal.Title>
+        <Modal.Title id="edit-project-modal">Edit Project</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <ProjectForm

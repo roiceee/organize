@@ -14,7 +14,11 @@ function ProjectCard({ project }: ProjectCardProps) {
       <Container
         className={`${styles.cardWrapper} ${styles.rounded} ${utilStyles.hoverable} bg-white px-0 border border-1`}
         tabIndex={0}
-        style={{ maxWidth: "400px" }}
+        style={{
+          maxWidth: "400px",
+          overflowWrap: "break-word",
+          wordBreak: "break-word",
+        }}
       >
         <div className="d-flex gap-1">
           <div className={styles.verticalLine}></div>
