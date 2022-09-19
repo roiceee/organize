@@ -8,7 +8,10 @@ import { useState, useEffect, useCallback } from "react";
 import ProjectArrayContext from "../src/contexts/project-array-context";
 import ProjectArrayInterface from "../src/interfaces/project-array-interface";
 import createProjectArrayObject from "../src/defaults/default-project-array-";
-import { retrieveFromStorage, saveToStorage } from "../src/utils/local-storage-util";
+import {
+  retrieveFromStorage,
+  saveToStorage,
+} from "../src/utils/local-storage-util";
 import LoadingNotice from "../src/components/util-components/loading-notice";
 import UndoDeletedProjectContext from "../src/contexts/undo-deleted-project-context";
 
@@ -23,15 +26,8 @@ function MyApp({ Component, pageProps }: AppProps) {
   const [undoDeletedProjectAlertState, setUndoDeletedProjectAlertState] =
     useState<boolean>(false);
 
-
-  useEffect(() => {
-    console.log(projectArrayState.deletedProjects);
-    console.log(undoDeletedProjectAlertState)
-  });
-
   useEffect(() => {
     const projects = retrieveFromStorage(userTypeState);
-    console.log(projects)
     setProjectArrayState(projects);
     setIsLoading(false);
   }, [userTypeState]);
@@ -49,9 +45,14 @@ function MyApp({ Component, pageProps }: AppProps) {
       <ProjectArrayContext.Provider
         value={{ projectArrayState, setProjectArrayState }}
       >
-        <UndoDeletedProjectContext.Provider value={{undoDeletedProjectAlertState, setUndoDeletedProjectAlertState}}>
+        <UndoDeletedProjectContext.Provider
+          value={{
+            undoDeletedProjectAlertState,
+            setUndoDeletedProjectAlertState,
+          }}
+        >
           <Layout>
-              <Component {...pageProps} />
+            <Component {...pageProps} />
           </Layout>
         </UndoDeletedProjectContext.Provider>
       </ProjectArrayContext.Provider>
