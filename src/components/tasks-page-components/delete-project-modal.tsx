@@ -32,7 +32,7 @@ function DeleteProjectModal({
       aria-labelledby="delete-project-modal"
       centered
     >
-      <Modal.Header className="bg-light" closeButton>
+      <Modal.Header className="bg-danger" closeButton>
         <Modal.Title id="delete-project-modal">Delete Project</Modal.Title>
       </Modal.Header>
       <Modal.Body>Are you sure you want to delete this project?</Modal.Body>

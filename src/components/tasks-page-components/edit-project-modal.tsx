@@ -12,7 +12,7 @@ import {
   validateExistingProjectExceptForCurrent,
   validateRequiredInput,
 } from "../../utils/validation";
-import ModalWrapper from "../util-components/modal-wrapper";
+import Modal from "react-bootstrap/Modal";
 import ProjectForm from "../projects-page-components/project-form";
 import ProjectContext from "../../contexts/project-context";
 import ProjectArrayContext from "../../contexts/project-array-context";
@@ -99,11 +99,17 @@ function EditProjectModal({
   }, [titleForm]);
 
   return (
-    <ModalWrapper
-      showState={showState}
+    <Modal
+      show={showState}
       onHide={onHide}
-      modalTitle="Edit Project"
-      bodyChildren={
+      size="lg"
+      aria-labelledby="edit-project-modal"
+      centered
+    >
+      <Modal.Header className="bg-warning" closeButton>
+        <Modal.Title id="edit-project-modal">Delete Project</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
         <ProjectForm
           projectFormState={projectFormState}
           titleFormRef={titleForm}
@@ -111,13 +117,13 @@ function EditProjectModal({
           titleOnFocusHandler={titleOnFocusHandler}
           projectDescriptionFormHandler={projectDescriptionFormHandler}
         />
-      }
-      footerChildren={
-        <Button variant="secondary" onClick={actionButtonHandler}>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="action" onClick={actionButtonHandler}>
           Confirm
         </Button>
-      }
-    />
+      </Modal.Footer>
+    </Modal>
   );
 }
 
