@@ -76,6 +76,7 @@ function EditProjectModal({
       const value = e.target.value;
       setProjectFormState((prevProjectValue) => ({
         ...prevProjectValue,
+        id: value,
         title: value,
       }));
     },

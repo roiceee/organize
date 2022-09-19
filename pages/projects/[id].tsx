@@ -28,9 +28,9 @@ import ProjectArrayContext from "../../src/contexts/project-array-context";
 import ProjectContext from "../../src/contexts/project-context";
 import GoBackLink from "../../src/components/tasks-page-components/go-back-link";
 import utilStyles from "../../src/styles/modules/util-styles.module.scss";
-import Col from "react-bootstrap/Col";
 import DeleteProjectModal from "../../src/components/tasks-page-components/delete-project-modal";
 import ScrollToTopButton from "../../src/components/util-components/scroll-to-top-button";
+import DeletedTaskAlert from "../../src/components/util-components/deleted-task-alert";
 
 function TasksPage() {
   const router = useRouter();
@@ -130,6 +130,21 @@ function TasksPage() {
     [updateCurrentProjectOnProjectArrayState]
   );
 
+  const undoLastDeletedTask = useCallback(() => {
+    setCurrentProjectState((prevProjectState) => {
+      const deletedTasks = prevProjectState.deletedTasks.slice(0);
+      const recentlyDeletedTask = deletedTasks.pop();
+      if (recentlyDeletedTask === undefined) {
+        return prevProjectState;
+      }
+      return {
+        ...prevProjectState,
+        tasks: [...prevProjectState.tasks, recentlyDeletedTask],
+        deletedTasks: deletedTasks,
+      };
+    });
+  }, []);
+
   const deleteProject = useCallback(
     (projectToBeDeleted: ProjectInterface) => {
       const newProjectArray: ProjectArrayInterface = {
@@ -143,6 +158,13 @@ function TasksPage() {
     [projectArrayState.projects, userTypeState]
   );
 
+  const createDeletedTaskUndoAlert = useCallback(
+    (deletedTask: TaskInterface) => {
+      return <DeletedTaskAlert task={deletedTask} onUndoButtonClick={undoLastDeletedTask}/>;
+    },
+    [undoLastDeletedTask]
+  );
+
   const deleteTask = useCallback(
     (taskToBeDeleted: TaskInterface) => {
       setCurrentProjectState((prevProjectState) => {
@@ -151,12 +173,14 @@ function TasksPage() {
           tasks: prevProjectState.tasks.filter((task) => {
             return taskToBeDeleted.id !== task.id;
           }),
+          deletedTasks: [taskToBeDeleted],
         };
         updateCurrentProjectOnProjectArrayState(newProjectState);
         return newProjectState;
       });
+      createDeletedTaskUndoAlert(taskToBeDeleted);
     },
-    [updateCurrentProjectOnProjectArrayState]
+    [updateCurrentProjectOnProjectArrayState, createDeletedTaskUndoAlert]
   );
 
   const renderedTasks = useMemo((): JSX.Element | Array<JSX.Element> => {
@@ -289,7 +313,7 @@ function TasksPage() {
             onHide={hideDeleteProjectModal}
             onDeleteProjectButtonClick={deleteProject}
           />
-          <ScrollToTopButton/>
+          <ScrollToTopButton />
         </ProjectContext.Provider>
       </ProjectArrayContext.Provider>
     </>

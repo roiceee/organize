@@ -3,9 +3,10 @@ import styles from "../../styles/modules/scroll-top-button.module.scss";
 import transitionStyles from "../../styles/modules/transitions.module.scss";
 
 function ScrollToTopButton() {
-  const scrollButton = useRef<HTMLButtonElement>(null);
+  const scrollButtonRef = useRef<HTMLButtonElement>(null);
 
   const scrollFunction = useCallback(() => {
+    const scrollButton = scrollButtonRef.current;
     if (scrollButton === null) {
       return;
     }
@@ -13,10 +14,10 @@ function ScrollToTopButton() {
       document.body.scrollTop > 300 ||
       document.documentElement.scrollTop > 300
     ) {
-      scrollButton.current!.style.display = "block";
-      scrollButton.current!.classList.add(transitionStyles.fadeInScrollButton);
+      scrollButton.style.display = "block";
+      scrollButton.classList.add(transitionStyles.fadeInScrollButton);
     } else {
-      scrollButton.current!.style.display = "none";
+      scrollButton.style.display = "none";
     }
   }, []);
 
@@ -33,7 +34,7 @@ function ScrollToTopButton() {
   }, [scrollFunction]);
   return (
     <button
-      ref={scrollButton}
+      ref={scrollButtonRef}
       className={`${styles.buttonStyle} rounded-circle`}
       onClick={scrollToTop}
     >

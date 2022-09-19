@@ -1,4 +1,5 @@
 interface TaskInterface {
+    type: "task";
     id: string;
     title: string;
     description: string;

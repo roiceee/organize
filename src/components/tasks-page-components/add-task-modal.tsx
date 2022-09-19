@@ -9,6 +9,7 @@ import {
 } from "../../utils/validation";
 import ProjectContext from "../../contexts/project-context";
 import TaskForm from "./task-form";
+import generateUniqueID from "../../utils/unique-id";
 
 interface AddTaskModalProps {
   showState: boolean;
@@ -43,11 +44,10 @@ function AddTaskModal({
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setCurrentTaskState((prevTaskState) => ({
         ...prevTaskState,
-        id: e.target.value + currentProjectState.tasks.length,
         title: e.target.value,
       }));
     },
-    [currentProjectState.tasks.length]
+    []
   );
 
   const taskDescriptionFormHandler = useCallback(
@@ -80,6 +80,15 @@ function AddTaskModal({
     []
   );
 
+  const createNewTask = useCallback((): TaskInterface => {
+    const currentTaskCopy = { ...currentTaskState };
+    const newTask = {
+      ...currentTaskCopy,
+      id: generateUniqueID(),
+    };
+    return newTask;
+  }, [currentTaskState]);
+
   const resetTaskValues = useCallback(() => {
     setCurrentTaskState(createTaskObject());
   }, []);
@@ -88,9 +97,10 @@ function AddTaskModal({
     if (!areFormsValid()) {
       return;
     }
-    onAddTaskButtonClick(currentTaskState);
+    const newTask = createNewTask();
+    onAddTaskButtonClick(newTask);
     resetTaskValues();
-  }, [currentTaskState, onAddTaskButtonClick, resetTaskValues, areFormsValid]);
+  }, [onAddTaskButtonClick, resetTaskValues, areFormsValid, createNewTask]);
 
   return (
     <ModalWrapper

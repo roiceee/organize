@@ -17,6 +17,7 @@ import createcurrentProjectState from "../../defaults/default-project";
 import ProjectForm from "./project-form";
 import ProjectArrayContext from "../../contexts/project-array-context";
 import createProjectObject from "../../defaults/default-project";
+import generateUniqueID from "../../utils/unique-id";
 
 interface AddProjectModalProps {
   showState: boolean;
@@ -50,6 +51,7 @@ function AddProjectModal({
     const currentProjectValueCopy = { ...projectFormState };
     const newProjectValue = {
       ...currentProjectValueCopy,
+      id: generateUniqueID(),
       dateCreated: new Date(),
       lastModified: new Date(),
     };
@@ -81,7 +83,6 @@ function AddProjectModal({
 
       setProjectFormState((prevProjectValue) => ({
         ...prevProjectValue,
-        id: value,
         title: value,
       }));
     },
