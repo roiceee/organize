@@ -10,9 +10,7 @@ import ProjectArrayInterface from "../src/interfaces/project-array-interface";
 import createProjectArrayObject from "../src/defaults/default-project-array-";
 import { retrieveFromStorage, saveToStorage } from "../src/utils/local-storage-util";
 import LoadingNotice from "../src/components/util-components/loading-notice";
-import UndoProjectAlert from "../src/components/util-components/undo-project-alert";
 import UndoDeletedProjectContext from "../src/contexts/undo-deleted-project-context";
-import ProjectInterface from "../src/interfaces/project-interface";
 
 function MyApp({ Component, pageProps }: AppProps) {
   //isLoggedIn value is set to false by default to use localStorage by default
@@ -27,12 +25,13 @@ function MyApp({ Component, pageProps }: AppProps) {
 
 
   useEffect(() => {
-    console.log(projectArrayState);
+    console.log(projectArrayState.deletedProjects);
     console.log(undoDeletedProjectAlertState)
   });
 
   useEffect(() => {
     const projects = retrieveFromStorage(userTypeState);
+    console.log(projects)
     setProjectArrayState(projects);
     setIsLoading(false);
   }, [userTypeState]);

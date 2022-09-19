@@ -1,7 +1,7 @@
 import ProjectInterface from "./project-interface"
 
 interface ProjectArrayInterface {
-    projects: ProjectInterface[]
+    projects: ProjectInterface[];
     deletedProjects: ProjectInterface[];
   }
 

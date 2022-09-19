@@ -89,6 +89,8 @@ const Home: NextPage = () => {
     [projectArrayState, userTypeState, setProjectArrayState]
   );
 
+  console.log(projectArrayState)
+
   return (
     <ProjectContext.Provider
       value={{ currentProjectState, setCurrentProjectState }}
@@ -151,7 +153,8 @@ const Home: NextPage = () => {
           onActionButtonClick={addProjectToProjectArray}
         />
         <ScrollToTopButton />
-        {projectArrayState.deletedProjects.length > 0 && (
+        {
+        projectArrayState.deletedProjects.length > 0 &&  (
                 <>
                   <UndoProjectAlert
                     project={
