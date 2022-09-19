@@ -145,22 +145,30 @@ function TasksPage() {
 
   const deleteProject = useCallback(
     (projectToBeDeleted: ProjectInterface) => {
-      
-      const projectArrayCopy = { ...projectArrayState };
-      const newProjectArray: ProjectArrayInterface = {
-        projects: projectArrayCopy.projects.filter((project) => {
-          return projectToBeDeleted.id !== project.id;
-        }),
-        deletedProjects: [
-          ...projectArrayCopy.deletedProjects,
-          projectToBeDeleted,
-        ],
-      };
-      saveToStorage(userTypeState, newProjectArray);
+      setProjectArrayState((prevProjectArrayState) => {
+        const projectArrayCopy = { ...prevProjectArrayState };
+        const newProjectArray: ProjectArrayInterface = {
+          projects: projectArrayCopy.projects.filter((project) => {
+            return projectToBeDeleted.id !== project.id;
+          }),
+          deletedProjects: [
+            ...projectArrayCopy.deletedProjects,
+            projectToBeDeleted,
+          ],
+        };
+        saveToStorage(userTypeState, newProjectArray);
+        return newProjectArray;
+      });
+
       setUndoDeletedProjectAlertState(true);
       router.push("/");
     },
-    [userTypeState, projectArrayState, setUndoDeletedProjectAlertState, router]
+    [
+      userTypeState,
+      setUndoDeletedProjectAlertState,
+      router,
+      setProjectArrayState,
+    ]
   );
 
   const deleteTask = useCallback(
@@ -178,10 +186,7 @@ function TasksPage() {
       });
       showUndoDeletedTaskAlertState();
     },
-    [
-      updateCurrentProjectOnProjectArrayState,
-      showUndoDeletedTaskAlertState,
-    ]
+    [updateCurrentProjectOnProjectArrayState, showUndoDeletedTaskAlertState]
   );
 
   const undoDeletedTask = useCallback(
