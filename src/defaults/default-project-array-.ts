@@ -3,7 +3,8 @@ import ProjectInterface from "../interfaces/project-interface";
 
 function createProjectArrayObject() : ProjectArrayInterface {
     return {
-        projects: new Array<ProjectInterface>()
+        projects: new Array<ProjectInterface>(),
+        deletedProjects: new Array<ProjectInterface>()
     }
 }
 

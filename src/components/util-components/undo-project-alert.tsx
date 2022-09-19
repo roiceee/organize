@@ -1,25 +1,25 @@
-import { useCallback, useEffect } from "react";
+import ProjectInterface from "../../interfaces/project-interface";
 import Alert from "react-bootstrap/Alert";
-import TaskInterface from "../../interfaces/task-interface";
 import styles from "../../styles/modules/transitions.module.scss";
-
-interface DeletedTaskAlertProps {
+import { useCallback, useEffect } from "react";
+interface UndoAlertProps {
   show: boolean;
   onHide: () => void;
-  task: TaskInterface;
-  onUndoButtonClick: (deletedTask: TaskInterface) => void;
+  project: ProjectInterface;
+  onUndoButtonClick: (deletedProject: ProjectInterface) => void;
 }
 
-function UndoDeletedTaskAlert({
+function UndoProjectAlert({
   show,
   onHide,
-  task,
+  project,
   onUndoButtonClick,
-}: DeletedTaskAlertProps) {
+}: UndoAlertProps) {
   const undoButtonHandler = useCallback(() => {
-    onUndoButtonClick(task);
+    onUndoButtonClick(project);
     onHide();
-  }, [onUndoButtonClick, task, onHide]);
+  }, [onUndoButtonClick, project, onHide]);
+
 
   useEffect(() => {
     setTimeout(() => {
@@ -45,8 +45,10 @@ function UndoDeletedTaskAlert({
           <div className="mx-3 d-flex justify-content-between">
             <div>
               {" "}
-              Task &quot;
-              {task.title.length > 8 ? task.title.substring(0, 8) : task.title}
+              Project &quot;
+              {project.title.length > 8
+                ? project.title.substring(0, 8)
+                : project.title}
               &quot; deleted.{" "}
               <span onClick={undoButtonHandler} className="text-secondary">
                 Undo
@@ -62,4 +64,4 @@ function UndoDeletedTaskAlert({
   );
 }
 
-export default UndoDeletedTaskAlert;
+export default UndoProjectAlert;

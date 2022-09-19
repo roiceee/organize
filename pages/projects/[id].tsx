@@ -17,7 +17,6 @@ import HeadWrapper from "../../src/components/head-wrapper";
 import AddTaskModal from "../../src/components/tasks-page-components/add-task-modal";
 import Button from "react-bootstrap/Button";
 import createProjectObject from "../../src/defaults/default-project";
-import createProjectArrayObject from "../../src/defaults/default-project-array-";
 import TaskCard from "../../src/components/tasks-page-components/task-card";
 import TaskInterface from "../../src/interfaces/task-interface";
 import EditProjectModal from "../../src/components/tasks-page-components/edit-project-modal";
@@ -31,12 +30,13 @@ import utilStyles from "../../src/styles/modules/util-styles.module.scss";
 import DeleteProjectModal from "../../src/components/tasks-page-components/delete-project-modal";
 import ScrollToTopButton from "../../src/components/util-components/scroll-to-top-button";
 import UndoDeletedTaskAlert from "../../src/components/util-components/undo-task-alert";
+import UndoDeletedProjectContext from "../../src/contexts/undo-deleted-project-context";
 
 function TasksPage() {
   const router = useRouter();
   const { userTypeState, setUserStateType } = useContext(UserTypeContext);
-  const [projectArrayState, setProjectArrayState] =
-    useState<ProjectArrayInterface>(createProjectArrayObject());
+  const { projectArrayState, setProjectArrayState } =
+    useContext(ProjectArrayContext);
   const [currentProjectState, setCurrentProjectState] =
     useState<ProjectInterface>(createProjectObject());
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -47,6 +47,8 @@ function TasksPage() {
     useState<boolean>(false);
   const [undoDeletedTaskAlertState, setUndoDeletedTaskAlertState] =
     useState<boolean>(false);
+  const { undoDeletedProjectAlertState, setUndoDeletedProjectAlertState } =
+    useContext(UndoDeletedProjectContext);
 
   const showAddTaskModal = useCallback(() => {
     setAddTaskModalState(true);
@@ -95,6 +97,7 @@ function TasksPage() {
         );
         const newProjectArrayState = {
           projects: updatedProjects,
+          deletedProjects: [...prevProjectArrayState.deletedProjects],
         };
         saveToStorage(userTypeState, newProjectArrayState);
         return newProjectArrayState;
@@ -142,15 +145,22 @@ function TasksPage() {
 
   const deleteProject = useCallback(
     (projectToBeDeleted: ProjectInterface) => {
+      
+      const projectArrayCopy = { ...projectArrayState };
       const newProjectArray: ProjectArrayInterface = {
-        projects: projectArrayState.projects.filter((project) => {
+        projects: projectArrayCopy.projects.filter((project) => {
           return projectToBeDeleted.id !== project.id;
         }),
+        deletedProjects: [
+          ...projectArrayCopy.deletedProjects,
+          projectToBeDeleted,
+        ],
       };
       saveToStorage(userTypeState, newProjectArray);
-      window.location.href = "/";
+      setUndoDeletedProjectAlertState(true);
+      router.push("/");
     },
-    [projectArrayState.projects, userTypeState]
+    [userTypeState, projectArrayState, setUndoDeletedProjectAlertState, router]
   );
 
   const deleteTask = useCallback(
@@ -167,14 +177,10 @@ function TasksPage() {
         return newProjectState;
       });
       showUndoDeletedTaskAlertState();
-      setTimeout(() => {
-        hideUndoDeletedTaskAlertState();
-      }, 10000);
     },
     [
       updateCurrentProjectOnProjectArrayState,
       showUndoDeletedTaskAlertState,
-      hideUndoDeletedTaskAlertState,
     ]
   );
 
@@ -239,110 +245,106 @@ function TasksPage() {
   }
   return (
     <>
-      <ProjectArrayContext.Provider
-        value={{ projectArrayState, setProjectArrayState }}
+      <ProjectContext.Provider
+        value={{ currentProjectState, setCurrentProjectState }}
       >
-        <ProjectContext.Provider
-          value={{ currentProjectState, setCurrentProjectState }}
-        >
-          <Container>
-            <HeadWrapper title={`${currentProjectState.title} - Organize `} />
-            <BodyLayoutOne
-              leftElements={
-                <Row className="sticky-wrapper position-sticky sticky-top bg-light py-2">
-                  <div className="d-flex justify-content-between">
-                    <div>
-                      <GoBackLink />
-                    </div>
-                    <div>
-                      <ProjectControl
-                        editProjectHandler={showEditProjectModal}
-                        deleteProjectHandler={showDeleteProjectModal}
-                      />
-                    </div>
+        <Container>
+          <HeadWrapper title={`${currentProjectState.title} - Organize `} />
+          <BodyLayoutOne
+            leftElements={
+              <Row className="sticky-wrapper position-sticky sticky-top bg-light py-2">
+                <div className="d-flex justify-content-between">
+                  <div>
+                    <GoBackLink />
                   </div>
-                  <Row>
-                    <h2 style={{ overflowWrap: "break-word" }}>
-                      {currentProjectState.title}
-                    </h2>
-                    <div>
-                      <b>Date created:</b>{" "}
-                      {formatDate(currentProjectState.dateCreated)}
-                    </div>
-                    <div>
-                      <b>Last modified:</b>{" "}
-                      {formatDate(currentProjectState.lastModified)}
-                    </div>
-                    {currentProjectState.description === "" && (
-                      <span>No description</span>
-                    )}
-                    {currentProjectState.description !== "" && (
-                      <DescriptionPopover
-                        title="Show Project Description"
-                        description={currentProjectState.description}
-                      />
-                    )}
-                  </Row>
-                  <hr className="mx-auto my-1 mb-3" />
-                  <div className="text-center">
-                    <Button variant="action w-75" onClick={showAddTaskModal}>
-                      Add Task
-                    </Button>
+                  <div>
+                    <ProjectControl
+                      editProjectHandler={showEditProjectModal}
+                      deleteProjectHandler={showDeleteProjectModal}
+                    />
                   </div>
-                </Row>
-              }
-              rightElements={
-                <Row className="px-2 gap-2 justify-content-center pt-2">
-                  <StickyHeader
-                    title="Tasks"
-                    counter={currentProjectState.tasks.length}
-                  />
-                  {currentProjectState.tasks.length === 0 && (
-                    <p className="text-center">
-                      <span
-                        className={utilStyles.underlineAction}
-                        onClick={showAddTaskModal}
-                      >
-                        Create a task
-                      </span>{" "}
-                      to get started!
-                    </p>
+                </div>
+                <Row>
+                  <h2 style={{ overflowWrap: "break-word" }}>
+                    {currentProjectState.title}
+                  </h2>
+                  <div>
+                    <b>Date created:</b>{" "}
+                    {formatDate(currentProjectState.dateCreated)}
+                  </div>
+                  <div>
+                    <b>Last modified:</b>{" "}
+                    {formatDate(currentProjectState.lastModified)}
+                  </div>
+                  {currentProjectState.description === "" && (
+                    <span>No description</span>
                   )}
-                  {renderedTasks}
+                  {currentProjectState.description !== "" && (
+                    <DescriptionPopover
+                      title="Show Project Description"
+                      description={currentProjectState.description}
+                    />
+                  )}
                 </Row>
-              }
-            />
-          </Container>
-          <AddTaskModal
-            showState={addTaskModalState}
-            onHide={hideAddTaskModal}
-            onAddTaskButtonClick={addTaskToProject}
+                <hr className="mx-auto my-1 mb-3" />
+                <div className="text-center">
+                  <Button variant="action w-75" onClick={showAddTaskModal}>
+                    Add Task
+                  </Button>
+                </div>
+              </Row>
+            }
+            rightElements={
+              <Row className="px-2 gap-2 justify-content-center pt-2">
+                <StickyHeader
+                  title="Tasks"
+                  counter={currentProjectState.tasks.length}
+                />
+                {currentProjectState.tasks.length === 0 && (
+                  <p className="text-center">
+                    <span
+                      className={utilStyles.underlineAction}
+                      onClick={showAddTaskModal}
+                    >
+                      Create a task
+                    </span>{" "}
+                    to get started!
+                  </p>
+                )}
+                {renderedTasks}
+              </Row>
+            }
           />
-          <EditProjectModal
-            showState={editProjectModalState}
-            onHide={hideEditProjectModal}
-            onActionButtonClick={updateCurrentProjectOnProjectArrayState}
+        </Container>
+        <AddTaskModal
+          showState={addTaskModalState}
+          onHide={hideAddTaskModal}
+          onAddTaskButtonClick={addTaskToProject}
+        />
+        <EditProjectModal
+          showState={editProjectModalState}
+          onHide={hideEditProjectModal}
+          onActionButtonClick={updateCurrentProjectOnProjectArrayState}
+        />
+        <DeleteProjectModal
+          show={deleteProjectModalState}
+          onHide={hideDeleteProjectModal}
+          onDeleteProjectButtonClick={deleteProject}
+        />
+        <ScrollToTopButton />
+        {currentProjectState.deletedTasks.length > 0 && (
+          <UndoDeletedTaskAlert
+            show={undoDeletedTaskAlertState}
+            onHide={hideUndoDeletedTaskAlertState}
+            task={
+              currentProjectState.deletedTasks[
+                currentProjectState.deletedTasks.length - 1
+              ]
+            }
+            onUndoButtonClick={undoDeletedTask}
           />
-          <DeleteProjectModal
-            show={deleteProjectModalState}
-            onHide={hideDeleteProjectModal}
-            onDeleteProjectButtonClick={deleteProject}
-          />
-          <ScrollToTopButton />
-          {currentProjectState.deletedTasks.length > 0 && (
-            <UndoDeletedTaskAlert
-              show={undoDeletedTaskAlertState}
-              onHide={hideUndoDeletedTaskAlertState}
-              task={
-                currentProjectState.deletedTasks[
-                  currentProjectState.deletedTasks.length - 1
-                ]
-              }
-              onUndoButtonClick={undoDeletedTask}
-            />
-          )}
-        </ProjectContext.Provider>
-      </ProjectArrayContext.Provider>
+        )}
+      </ProjectContext.Provider>
     </>
   );
 }

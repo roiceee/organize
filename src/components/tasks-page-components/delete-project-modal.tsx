@@ -3,9 +3,6 @@ import Button from "react-bootstrap/Button";
 import ProjectInterface from "../../interfaces/project-interface";
 import { useCallback, useContext } from "react";
 import ProjectContext from "../../contexts/project-context";
-import Link from "next/link";
-import { saveToStorage } from "../../utils/local-storage-util";
-import UserTypeContext from "../../contexts/user-context";
 
 interface DeleteProjectModalProps {
   show: boolean;
