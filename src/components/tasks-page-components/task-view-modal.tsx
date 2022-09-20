@@ -20,7 +20,7 @@ interface TaskViewModalProps {
   onHide: () => void;
   editTaskHandler: (updatedTask: TaskInterface) => void;
   deleteTaskHandler: (taskToBeDeleted: TaskInterface) => void;
-  setTaskToDoneHandler: () => void;
+  taskIsDoneToggler: (isDone: boolean, task: TaskInterface) => void;
 }
 
 function TaskViewModal({
@@ -29,11 +29,11 @@ function TaskViewModal({
   onHide,
   editTaskHandler,
   deleteTaskHandler,
+  taskIsDoneToggler
 }: TaskViewModalProps) {
   const [isOnEditState, setIsOnEditState] = useState<boolean>(false);
   const [isOnDeleteState, setIsOnDeleteState] = useState<boolean>(false);
   const [taskState, setTaskState] = useState<TaskInterface>(task);
-  const [hasLoaded, setHasLoaded] = useState<boolean>(false);
 
   const setToEditMode = useCallback(() => {
     setIsOnEditState(true);
@@ -55,17 +55,6 @@ function TaskViewModal({
     deleteTaskHandler(task);
   }, [deleteTaskHandler, task]);
 
-  const taskIsDoneToggler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    const isChecked = e.target.checked;
-    setTaskState((prevTaskState) => {
-      const taskStateCopy = { ...prevTaskState };
-      const newTaskState = {
-        ...taskStateCopy,
-        isDone: isChecked,
-      };
-      return newTaskState;
-    });
-  }, []);
 
   const getTaskUnderlineColor = useCallback(() => {
     switch (task.priority) {
@@ -80,14 +69,12 @@ function TaskViewModal({
     }
   }, [task.priority]);
 
-  useEffect(() => {
-    if (!hasLoaded) {
-      setHasLoaded(true);
-      return;
-    }
-    editTaskHandler(taskState);
-  }, [editTaskHandler, taskState, hasLoaded]);
-
+ 
+    const markIsDoneHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+      const isChecked = e.target.checked;
+      taskIsDoneToggler(isChecked, task)
+    }, [taskIsDoneToggler, task])
+ 
   return (
     <Modal
       show={show}
@@ -114,24 +101,24 @@ function TaskViewModal({
             <div>
               <div></div>
               <div style={{ fontSize: "1.3rem", overflowWrap: "break-word" }}>
-                <b>Title:</b> {taskState.title}
+                <b>Title:</b> {task.title}
               </div>
               <hr className="my-2" />
               <DescriptionPopover
                 title="Show Task Description"
-                description={processDescription(taskState.description)}
+                description={processDescription(task.description)}
               />
               <div className="mb-1">
                 <b>Priority:</b>{" "}
                 <span className={`${getTaskUnderlineColor()}`}>
-                  {processPriority(taskState.priority)}
+                  {processPriority(task.priority)}
                 </span>
               </div>
               <div className="mb-1">
-                <b>Status:</b> {processTaskStatus(taskState.isDone)}
+                <b>Status:</b> {processTaskStatus(task.isDone)}
               </div>
               <div className="mb-1">
-                <b>Deadline:</b> {processDeadline(taskState.deadline)}
+                <b>Deadline:</b> {processDeadline(task.deadline)}
               </div>
             </div>
           </Modal.Body>
@@ -142,8 +129,8 @@ function TaskViewModal({
                   <Form.Check
                     type="checkbox"
                     label="Mark as Done"
-                    onChange={taskIsDoneToggler}
-                    checked={taskState.isDone}
+                    onChange={markIsDoneHandler}
+                    checked={task.isDone}
                   />
                 </div>
                 <Button variant="gray" onClick={setToDeleteMode}>
@@ -170,8 +157,7 @@ function TaskViewModal({
       )}
       {isOnEditState && (
         <EditTaskDiv
-          currentTaskState={taskState}
-          setCurrentTaskState={setTaskState}
+          task={task}
           onEditTaskButtonClick={editTaskHandler}
           onCancelEditButtonClick={setToViewMode}
         />

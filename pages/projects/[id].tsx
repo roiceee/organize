@@ -1,5 +1,12 @@
 import { useRouter } from "next/router";
-import { useContext, useEffect, useState, useMemo, useCallback, ChangeEvent } from "react";
+import {
+  useContext,
+  useEffect,
+  useState,
+  useMemo,
+  useCallback,
+  ChangeEvent,
+} from "react";
 import UserTypeContext from "../../src/contexts/user-context";
 import ProjectInterface from "../../src/interfaces/project-interface";
 import ProjectArrayInterface from "../../src/interfaces/project-array-interface";
@@ -143,6 +150,13 @@ function TasksPage() {
     [updateCurrentProjectOnProjectArrayState]
   );
 
+  const taskIsDoneToggler = useCallback(
+    (isDone: boolean, task: TaskInterface) => {
+      const updatedTask = { ...task, isDone: isDone };
+      updateTaskOnCurrentProject(updatedTask);
+    },
+    [updateTaskOnCurrentProject]
+  );
 
   const deleteProject = useCallback(
     (projectToBeDeleted: ProjectInterface) => {
@@ -215,6 +229,7 @@ function TasksPage() {
           task={task}
           editTaskHandler={updateTaskOnCurrentProject}
           deleteTaskHandler={deleteTask}
+          taskIsDoneToggler={taskIsDoneToggler}
         />
       );
     });

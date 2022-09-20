@@ -3,7 +3,7 @@ import styles from "../../styles/modules/task-card.module.scss";
 import utilStyles from "../../styles/modules/util-styles.module.scss";
 import _ from "lodash";
 import TaskViewModal from "./task-view-modal";
-import { useCallback, useState } from "react";
+import { ChangeEvent, useCallback, useState } from "react";
 import {
   processDeadline,
   processPriority,
@@ -13,10 +13,16 @@ import {
 interface TaskCardProps {
   task: TaskInterface;
   editTaskHandler: (updatedTask: TaskInterface) => void;
-  deleteTaskHandler: (taskToDelete:  TaskInterface) => void;
+  deleteTaskHandler: (taskToDelete: TaskInterface) => void;
+  taskIsDoneToggler: (isDone: boolean, task: TaskInterface) => void;
 }
 
-function TaskCard({ task, editTaskHandler, deleteTaskHandler }: TaskCardProps) {
+function TaskCard({
+  task,
+  editTaskHandler,
+  deleteTaskHandler,
+  taskIsDoneToggler,
+}: TaskCardProps) {
   const [taskViewModalState, setTaskViewModalState] = useState<boolean>(false);
 
   const showTaskViewModal = useCallback(() => {
@@ -54,7 +60,7 @@ function TaskCard({ task, editTaskHandler, deleteTaskHandler }: TaskCardProps) {
         <div className={`${styles.prioIndicator} ${getPriorityColor()}`}></div>
         <div className="p-1">
           <h5>{task.title}</h5>
-          <div style={{fontSize: "0.9rem"}}>
+          <div style={{ fontSize: "0.9rem" }}>
             <div>
               <b>Status:</b> {processTaskStatus(task.isDone)}
             </div>
@@ -73,6 +79,7 @@ function TaskCard({ task, editTaskHandler, deleteTaskHandler }: TaskCardProps) {
         onHide={hideTaskViewModal}
         editTaskHandler={editTaskHandler}
         deleteTaskHandler={deleteTaskHandler}
+        taskIsDoneToggler={taskIsDoneToggler}
       />
     </>
   );
