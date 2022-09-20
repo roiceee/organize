@@ -2,25 +2,26 @@ import { useCallback, useRef, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import TaskInterface from "../../interfaces/task-interface";
-import {
-  validateRequiredInput
-} from "../../utils/validation";
+import { validateRequiredInput } from "../../utils/validation";
 import TaskForm from "./task-form";
 
 interface EditTaskDivProps {
-  task: TaskInterface;
+  currentTaskState: TaskInterface;
+  setCurrentTaskState: React.Dispatch<React.SetStateAction<TaskInterface>>;
   onEditTaskButtonClick: (updatedTask: TaskInterface) => void;
   onCancelEditButtonClick: () => void;
 }
 
-function EditTaskDiv({ task, onEditTaskButtonClick, onCancelEditButtonClick }: EditTaskDivProps) {
-  const [currentTaskState, setCurrentTaskState] = useState<TaskInterface>(task);
+function EditTaskDiv({
+  currentTaskState,
+  setCurrentTaskState,
+  onEditTaskButtonClick,
+  onCancelEditButtonClick,
+}: EditTaskDivProps) {
   const taskTitleFormRef = useRef(null);
 
   const areFormsValid = useCallback((): boolean => {
-    return (
-      validateRequiredInput(taskTitleFormRef, "task-title-error")
-    );
+    return validateRequiredInput(taskTitleFormRef, "task-title-error");
   }, [taskTitleFormRef]);
 
   const taskTitleFormHandler = useCallback(
@@ -30,7 +31,7 @@ function EditTaskDiv({ task, onEditTaskButtonClick, onCancelEditButtonClick }: E
         title: e.target.value,
       }));
     },
-    []
+    [setCurrentTaskState]
   );
 
   const taskDescriptionFormHandler = useCallback(
@@ -40,7 +41,7 @@ function EditTaskDiv({ task, onEditTaskButtonClick, onCancelEditButtonClick }: E
         description: e.target.value,
       }));
     },
-    []
+    [setCurrentTaskState]
   );
 
   const deadLineFormHandler = useCallback(
@@ -50,7 +51,7 @@ function EditTaskDiv({ task, onEditTaskButtonClick, onCancelEditButtonClick }: E
         deadline: e.target.value,
       }));
     },
-    []
+    [setCurrentTaskState]
   );
 
   const priorityFormHandler = useCallback(
@@ -60,7 +61,7 @@ function EditTaskDiv({ task, onEditTaskButtonClick, onCancelEditButtonClick }: E
         priority: e.target.value,
       }));
     },
-    []
+    [setCurrentTaskState]
   );
 
   const editTaskButtonHandler = useCallback(() => {
@@ -69,23 +70,32 @@ function EditTaskDiv({ task, onEditTaskButtonClick, onCancelEditButtonClick }: E
     }
     onEditTaskButtonClick(currentTaskState);
     onCancelEditButtonClick();
-  }, [currentTaskState, onEditTaskButtonClick, areFormsValid, onCancelEditButtonClick]);
-  
+  }, [
+    currentTaskState,
+    onEditTaskButtonClick,
+    areFormsValid,
+    onCancelEditButtonClick,
+  ]);
+
   return (
     <>
-    <Modal.Body>
-      <TaskForm
-        formTaskState={currentTaskState}
-        taskTitleFormRef={taskTitleFormRef}
-        titleFormHandler={taskTitleFormHandler}
-        descriptionFormHandler={taskDescriptionFormHandler}
-        deadlineFormHandler={deadLineFormHandler}
-        priorityFormHandler={priorityFormHandler}
-      />
+      <Modal.Body>
+        <TaskForm
+          formTaskState={currentTaskState}
+          taskTitleFormRef={taskTitleFormRef}
+          titleFormHandler={taskTitleFormHandler}
+          descriptionFormHandler={taskDescriptionFormHandler}
+          deadlineFormHandler={deadLineFormHandler}
+          priorityFormHandler={priorityFormHandler}
+        />
       </Modal.Body>
       <Modal.Footer>
-      <Button variant="gray" onClick={onCancelEditButtonClick}>Cancel</Button>
-        <Button variant="action" onClick={editTaskButtonHandler}>Confirm</Button>
+        <Button variant="gray" onClick={onCancelEditButtonClick}>
+          Cancel
+        </Button>
+        <Button variant="action" onClick={editTaskButtonHandler}>
+          Confirm
+        </Button>
       </Modal.Footer>
     </>
   );

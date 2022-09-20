@@ -10,7 +10,7 @@ function processPriority(priority: string) {
 }
 
 function processTaskStatus(status: boolean) {
-  return !status ? "Not Done" : "Done";
+  return !status ? "Pending" : "Done";
 }
 
 function processDescription(description: string) {

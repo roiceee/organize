@@ -1,14 +1,15 @@
+import { useCallback, useState } from "react";
 import TaskInterface from "../../interfaces/task-interface";
 import styles from "../../styles/modules/task-card.module.scss";
 import utilStyles from "../../styles/modules/util-styles.module.scss";
-import _ from "lodash";
-import TaskViewModal from "./task-view-modal";
-import { ChangeEvent, useCallback, useState } from "react";
+import { getPriorityColor, getStatusColor } from "../../styles/style-scripts/task-styles-util";
 import {
   processDeadline,
   processPriority,
-  processTaskStatus,
+  processTaskStatus
 } from "../../utils/task-utils";
+import TaskViewModal from "./task-view-modal";
+
 
 interface TaskCardProps {
   task: TaskInterface;
@@ -33,18 +34,7 @@ function TaskCard({
     setTaskViewModalState(false);
   }, []);
 
-  const getPriorityColor = useCallback(() => {
-    switch (task.priority) {
-      case "low":
-        return styles.lowPriority;
-      case "medium":
-        return styles.mediumPriority;
-      case "high":
-        return styles.highPriority;
-      default:
-        return styles.noPriority;
-    }
-  }, [task.priority]);
+
 
   return (
     <>
@@ -57,12 +47,12 @@ function TaskCard({
           wordBreak: "break-word",
         }}
       >
-        <div className={`${styles.prioIndicator} ${getPriorityColor()}`}></div>
+        <div className={`${styles.prioIndicator} ${getPriorityColor(task.priority)}`}></div>
         <div className="p-1">
           <h5>{task.title}</h5>
           <div style={{ fontSize: "0.9rem" }}>
             <div>
-              <b>Status:</b> {processTaskStatus(task.isDone)}
+              <b>Status:</b> <span className={getStatusColor(task.isDone)}>{processTaskStatus(task.isDone)}</span>
             </div>
             <div>
               <b>Priority:</b> {processPriority(task.priority)}

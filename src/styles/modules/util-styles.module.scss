@@ -4,6 +4,19 @@
     text-decoration: underline;
 }
 
+.colorSuccess {
+    color: $success;
+}
+
+.colorDanger {
+    color: $danger;
+}
+
+.underlineSuccess {
+    @extend .underline;
+    text-decoration-color: $success;
+}
+
 .underlinePrimary {
     @extend .underline;
     text-decoration-color: $primary;
