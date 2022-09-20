@@ -1,18 +1,17 @@
+import { ChangeEvent, useCallback, useState } from "react";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import TaskInterface from "../../interfaces/task-interface";
-import _ from "lodash";
+import utilStyles from "../../styles/modules/util-styles.module.scss";
 import {
   processDeadline,
   processDescription,
   processPriority,
-  processTaskStatus,
+  processTaskStatus
 } from "../../utils/task-utils";
-import utilStyles from "../../styles/modules/util-styles.module.scss";
-import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
-import Button from "react-bootstrap/Button";
 import DescriptionPopover from "./description-accordion";
 import EditTaskDiv from "./edit-task-div";
-import Form from "react-bootstrap/Form";
 
 interface TaskViewModalProps {
   task: TaskInterface;
@@ -33,7 +32,6 @@ function TaskViewModal({
 }: TaskViewModalProps) {
   const [isOnEditState, setIsOnEditState] = useState<boolean>(false);
   const [isOnDeleteState, setIsOnDeleteState] = useState<boolean>(false);
-  const [taskState, setTaskState] = useState<TaskInterface>(task);
 
   const setToEditMode = useCallback(() => {
     setIsOnEditState(true);

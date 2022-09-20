@@ -1,5 +1,5 @@
-import ProjectArrayInterface from "../../interfaces/project-array-interface";
 import Accordion from "react-bootstrap/Accordion";
+import ProjectArrayInterface from "../../interfaces/project-array-interface";
 interface OverviewProps {
   projectArray: ProjectArrayInterface;
 }

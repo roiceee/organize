@@ -1,43 +1,39 @@
 import { useRouter } from "next/router";
 import {
-  useContext,
-  useEffect,
-  useState,
-  useMemo,
-  useCallback,
-  ChangeEvent,
+  useCallback, useContext,
+  useEffect, useMemo, useState
 } from "react";
-import UserTypeContext from "../../src/contexts/user-context";
-import ProjectInterface from "../../src/interfaces/project-interface";
-import ProjectArrayInterface from "../../src/interfaces/project-array-interface";
-import formatDate from "../../src/utils/dateFormatter";
-import LoadingNotice from "../../src/components/util-components/loading-notice";
-import {
-  retrieveFromStorage,
-  saveToStorage,
-} from "../../src/utils/local-storage-util";
+import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
-import ProjectControl from "../../src/components/tasks-page-components/project-control";
-import ErrorNotice from "../../src/components/util-components/error-notice";
+import BodyLayoutOne from "../../src/components/body-layout-one";
 import HeadWrapper from "../../src/components/head-wrapper";
 import AddTaskModal from "../../src/components/tasks-page-components/add-task-modal";
-import Button from "react-bootstrap/Button";
-import createProjectObject from "../../src/defaults/default-project";
-import TaskCard from "../../src/components/tasks-page-components/task-card";
-import TaskInterface from "../../src/interfaces/task-interface";
-import EditProjectModal from "../../src/components/tasks-page-components/edit-project-modal";
-import BodyLayoutOne from "../../src/components/body-layout-one";
-import StickyHeader from "../../src/components/util-components/sticky-header";
+import DeleteProjectModal from "../../src/components/tasks-page-components/delete-project-modal";
 import DescriptionPopover from "../../src/components/tasks-page-components/description-accordion";
+import EditProjectModal from "../../src/components/tasks-page-components/edit-project-modal";
+import GoBackLink from "../../src/components/tasks-page-components/go-back-link";
+import ProjectControl from "../../src/components/tasks-page-components/project-control";
+import TaskCard from "../../src/components/tasks-page-components/task-card";
+import ErrorNotice from "../../src/components/util-components/error-notice";
+import LoadingNotice from "../../src/components/util-components/loading-notice";
+import ScrollToTopButton from "../../src/components/util-components/scroll-to-top-button";
+import StickyHeader from "../../src/components/util-components/sticky-header";
+import UndoDeletedTaskAlert from "../../src/components/util-components/undo-task-alert";
 import ProjectArrayContext from "../../src/contexts/project-array-context";
 import ProjectContext from "../../src/contexts/project-context";
-import GoBackLink from "../../src/components/tasks-page-components/go-back-link";
-import utilStyles from "../../src/styles/modules/util-styles.module.scss";
-import DeleteProjectModal from "../../src/components/tasks-page-components/delete-project-modal";
-import ScrollToTopButton from "../../src/components/util-components/scroll-to-top-button";
-import UndoDeletedTaskAlert from "../../src/components/util-components/undo-task-alert";
 import UndoDeletedProjectContext from "../../src/contexts/undo-deleted-project-context";
+import UserTypeContext from "../../src/contexts/user-context";
+import createProjectObject from "../../src/defaults/default-project";
+import ProjectArrayInterface from "../../src/interfaces/project-array-interface";
+import ProjectInterface from "../../src/interfaces/project-interface";
+import TaskInterface from "../../src/interfaces/task-interface";
+import utilStyles from "../../src/styles/modules/util-styles.module.scss";
+import formatDate from "../../src/utils/dateFormatter";
+import {
+  retrieveFromStorage,
+  saveToStorage
+} from "../../src/utils/local-storage-util";
 
 function TasksPage() {
   const router = useRouter();

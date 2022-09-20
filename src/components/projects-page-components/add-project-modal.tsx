@@ -29,7 +29,6 @@ function AddProjectModal({
   onHide,
   onActionButtonClick,
 }: AddProjectModalProps) {
-  const { projectArrayState } = useContext(ProjectArrayContext);
   const [projectFormState, setProjectFormState] = useState<ProjectInterface>(
     createProjectObject()
   );

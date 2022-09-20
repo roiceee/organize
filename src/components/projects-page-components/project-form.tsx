@@ -1,10 +1,9 @@
+import { ChangeEvent, useCallback } from "react";
 import Form from "react-bootstrap/form";
-import FormLengthCounter from "../util-components/form-length-counter";
 import ProjectConstraintsEnum from "../../enums/project-constraints";
 import ProjectInterface from "../../interfaces/project-interface";
-import { ChangeEvent, useRef, useCallback, useContext } from "react";
 import { removeErrorFields } from "../../utils/validation";
-import ProjectContext from "../../contexts/project-context";
+import FormLengthCounter from "../util-components/form-length-counter";
 
 interface ProjectFormProps {
   projectFormState: ProjectInterface;
@@ -60,7 +59,7 @@ function ProjectForm({
         placeholder="Project Description (Optional)"
         onChange={projectDescriptionFormHandler}
         value={projectFormState.description}
-        style={{ height: "90px"}}
+        style={{ height: "90px" }}
         maxLength={ProjectConstraintsEnum.DescriptionLength}
       />
     </Form>

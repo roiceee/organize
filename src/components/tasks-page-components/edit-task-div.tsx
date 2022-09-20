@@ -1,13 +1,11 @@
-import { useState, useCallback, useContext, useRef } from "react";
-import ProjectContext from "../../contexts/project-context";
-import TaskInterface from "../../interfaces/task-interface";
-import TaskForm from "./task-form";
-import Modal from "react-bootstrap/Modal"
-import {
-  validateRequiredInput,
-  validateExistingTaskExceptForCurrent,
-} from "../../utils/validation";
+import { useCallback, useRef, useState } from "react";
 import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import TaskInterface from "../../interfaces/task-interface";
+import {
+  validateRequiredInput
+} from "../../utils/validation";
+import TaskForm from "./task-form";
 
 interface EditTaskDivProps {
   task: TaskInterface;

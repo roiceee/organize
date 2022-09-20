@@ -1,9 +1,9 @@
+import Link from "next/link";
+import Container from "react-bootstrap/Container";
 import ProjectInterface from "../../interfaces/project-interface";
 import styles from "../../styles/modules/project-card.module.scss";
 import utilStyles from "../../styles/modules/util-styles.module.scss";
 import formatDate from "../../utils/dateFormatter";
-import Link from "next/link";
-import Container from "react-bootstrap/Container";
 interface ProjectCardProps {
   project: ProjectInterface;
 }

@@ -1,5 +1,5 @@
-import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
 
 interface BodyLayoutOne {
   leftElements: JSX.Element | Array<JSX.Element>;
@@ -8,8 +8,8 @@ interface BodyLayoutOne {
 
 function BodyLayoutOne({ leftElements, rightElements }: BodyLayoutOne) {
   return (
-    <Row >
-      <Col lg={5} >{leftElements}</Col>
+    <Row>
+      <Col lg={5}>{leftElements}</Col>
       <Col>{rightElements}</Col>
     </Row>
   );

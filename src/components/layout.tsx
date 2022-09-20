@@ -1,5 +1,5 @@
-import NavigationBar from "./navbar";
 import Footer from "./footer";
+import NavigationBar from "./navbar";
 
 interface LayoutProps {
   children: JSX.Element;
@@ -13,9 +13,7 @@ function Layout({ children }: LayoutProps) {
       >
         <div>
           <NavigationBar />
-          <div>
-          {children}
-          </div>
+          <div>{children}</div>
         </div>
         <div>
           <Footer />
