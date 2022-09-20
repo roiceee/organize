@@ -10,7 +10,6 @@ import ProjectArrayInterface from "../src/interfaces/project-array-interface";
 import createProjectArrayObject from "../src/defaults/default-project-array-";
 import {
   retrieveFromStorage,
-  saveToStorage,
 } from "../src/utils/local-storage-util";
 import LoadingNotice from "../src/components/util-components/loading-notice";
 import UndoDeletedProjectContext from "../src/contexts/undo-deleted-project-context";

@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useContext, useEffect, useState, useMemo, useCallback } from "react";
+import { useContext, useEffect, useState, useMemo, useCallback, ChangeEvent } from "react";
 import UserTypeContext from "../../src/contexts/user-context";
 import ProjectInterface from "../../src/interfaces/project-interface";
 import ProjectArrayInterface from "../../src/interfaces/project-array-interface";
@@ -142,6 +142,7 @@ function TasksPage() {
     },
     [updateCurrentProjectOnProjectArrayState]
   );
+
 
   const deleteProject = useCallback(
     (projectToBeDeleted: ProjectInterface) => {

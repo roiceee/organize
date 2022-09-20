@@ -8,10 +8,11 @@ import {
   processTaskStatus,
 } from "../../utils/task-utils";
 import utilStyles from "../../styles/modules/util-styles.module.scss";
-import { useCallback, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import Button from "react-bootstrap/Button";
 import DescriptionPopover from "./description-accordion";
 import EditTaskDiv from "./edit-task-div";
+import Form from "react-bootstrap/Form";
 
 interface TaskViewModalProps {
   task: TaskInterface;
@@ -19,6 +20,7 @@ interface TaskViewModalProps {
   onHide: () => void;
   editTaskHandler: (updatedTask: TaskInterface) => void;
   deleteTaskHandler: (taskToBeDeleted: TaskInterface) => void;
+  setTaskToDoneHandler: () => void;
 }
 
 function TaskViewModal({
@@ -30,6 +32,8 @@ function TaskViewModal({
 }: TaskViewModalProps) {
   const [isOnEditState, setIsOnEditState] = useState<boolean>(false);
   const [isOnDeleteState, setIsOnDeleteState] = useState<boolean>(false);
+  const [taskState, setTaskState] = useState<TaskInterface>(task);
+  const [hasLoaded, setHasLoaded] = useState<boolean>(false);
 
   const setToEditMode = useCallback(() => {
     setIsOnEditState(true);
@@ -51,6 +55,18 @@ function TaskViewModal({
     deleteTaskHandler(task);
   }, [deleteTaskHandler, task]);
 
+  const taskIsDoneToggler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    const isChecked = e.target.checked;
+    setTaskState((prevTaskState) => {
+      const taskStateCopy = { ...prevTaskState };
+      const newTaskState = {
+        ...taskStateCopy,
+        isDone: isChecked,
+      };
+      return newTaskState;
+    });
+  }, []);
+
   const getTaskUnderlineColor = useCallback(() => {
     switch (task.priority) {
       case "high":
@@ -60,9 +76,17 @@ function TaskViewModal({
       case "low":
         return utilStyles.underlineInfo;
       default:
-        return utilStyles.underline;
+        return "";
     }
   }, [task.priority]);
+
+  useEffect(() => {
+    if (!hasLoaded) {
+      setHasLoaded(true);
+      return;
+    }
+    editTaskHandler(taskState);
+  }, [editTaskHandler, taskState, hasLoaded]);
 
   return (
     <Modal
@@ -90,27 +114,38 @@ function TaskViewModal({
             <div>
               <div></div>
               <div style={{ fontSize: "1.3rem", overflowWrap: "break-word" }}>
-                <b>Title:</b> {task.title}
+                <b>Title:</b> {taskState.title}
               </div>
               <hr className="my-2" />
               <DescriptionPopover
                 title="Show Task Description"
-                description={processDescription(task.description)}
+                description={processDescription(taskState.description)}
               />
-              <div className={`${getTaskUnderlineColor()} mb-1`}>
-                <b>Priority:</b> {processPriority(task.priority)}
+              <div className="mb-1">
+                <b>Priority:</b>{" "}
+                <span className={`${getTaskUnderlineColor()}`}>
+                  {processPriority(taskState.priority)}
+                </span>
               </div>
               <div className="mb-1">
-                <b>Status:</b> {processTaskStatus(task.isDone)}
+                <b>Status:</b> {processTaskStatus(taskState.isDone)}
               </div>
               <div className="mb-1">
-                <b>Deadline:</b> {processDeadline(task.deadline)}
+                <b>Deadline:</b> {processDeadline(taskState.deadline)}
               </div>
             </div>
           </Modal.Body>
           <Modal.Footer>
             {!isOnDeleteState && (
               <>
+                <div style={{ marginRight: "auto" }} className="d-flex gap-2">
+                  <Form.Check
+                    type="checkbox"
+                    label="Mark as Done"
+                    onChange={taskIsDoneToggler}
+                    checked={taskState.isDone}
+                  />
+                </div>
                 <Button variant="gray" onClick={setToDeleteMode}>
                   Delete
                 </Button>
@@ -125,7 +160,9 @@ function TaskViewModal({
                 <Button variant="gray" onClick={cancelDeleteMode}>
                   Cancel
                 </Button>
-                <Button variant="danger" onClick={deleteTaskButtonHandler}>Delete</Button>
+                <Button variant="danger" onClick={deleteTaskButtonHandler}>
+                  Delete
+                </Button>
               </>
             )}
           </Modal.Footer>
@@ -133,7 +170,8 @@ function TaskViewModal({
       )}
       {isOnEditState && (
         <EditTaskDiv
-          task={task}
+          currentTaskState={taskState}
+          setCurrentTaskState={setTaskState}
           onEditTaskButtonClick={editTaskHandler}
           onCancelEditButtonClick={setToViewMode}
         />
