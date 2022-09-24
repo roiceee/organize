@@ -31,7 +31,8 @@ const Home: NextPage = () => {
   const [currentProjectState, setCurrentProjectState] =
     useState<ProjectInterface>(createProjectObject());
   const [showState, setModalShow] = useState<boolean>(false);
-  const {undoDeletedProjectAlertState, setUndoDeletedProjectAlertState} = useContext(UndoDeletedProjectContext);
+  const { undoDeletedProjectAlertState, setUndoDeletedProjectAlertState } =
+    useContext(UndoDeletedProjectContext);
 
   const showAddProjectModal = useCallback(() => {
     setModalShow(true);
@@ -43,7 +44,7 @@ const Home: NextPage = () => {
 
   const hideUndoDeletedProjectAlert = useCallback(() => {
     setUndoDeletedProjectAlertState(false);
-  }, [setUndoDeletedProjectAlertState])
+  }, [setUndoDeletedProjectAlertState]);
 
   const renderedProjects = useMemo((): Array<JSX.Element> | JSX.Element => {
     if (projectArrayState === undefined) {
@@ -78,15 +79,13 @@ const Home: NextPage = () => {
         const newProjectArrayState: ProjectArrayInterface = {
           ...prevProjectArrayState,
           projects: [...prevProjectArrayState.projects, projectToBeRestored],
-          deletedProjects: prevProjectArrayState.deletedProjects.filter((project) => {
-            return projectToBeRestored.id !== project.id;
-          }),
+          recentlyDeletedProject: null,
         };
-        saveToStorage(userTypeState, projectArrayState)
+        saveToStorage(userTypeState, newProjectArrayState);
         return newProjectArrayState;
       });
     },
-    [projectArrayState, userTypeState, setProjectArrayState]
+    [userTypeState, setProjectArrayState]
   );
 
   return (
@@ -151,21 +150,16 @@ const Home: NextPage = () => {
           onActionButtonClick={addProjectToProjectArray}
         />
         <ScrollToTopButton />
-        {
-        projectArrayState.deletedProjects.length > 0 &&  (
-                <>
-                  <UndoProjectAlert
-                    project={
-                      projectArrayState.deletedProjects[
-                        projectArrayState.deletedProjects.length - 1
-                      ]
-                    }
-                    show={undoDeletedProjectAlertState}
-                    onHide={hideUndoDeletedProjectAlert}
-                    onUndoButtonClick={undoDeletedProject}
-                  />
-                </>
-              )}
+        {projectArrayState.recentlyDeletedProject !== null && (
+          <>
+            <UndoProjectAlert
+              project={projectArrayState.recentlyDeletedProject}
+              show={undoDeletedProjectAlertState}
+              onHide={hideUndoDeletedProjectAlert}
+              onUndoButtonClick={undoDeletedProject}
+            />
+          </>
+        )}
       </Container>
     </ProjectContext.Provider>
   );

@@ -1,8 +1,8 @@
-import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button";
-import ProjectInterface from "../../interfaces/project-interface";
 import { useCallback, useContext } from "react";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 import ProjectContext from "../../contexts/project-context";
+import ProjectInterface from "../../interfaces/project-interface";
 
 interface DeleteProjectModalProps {
   show: boolean;
@@ -15,7 +15,6 @@ function DeleteProjectModal({
   onHide,
   onDeleteProjectButtonClick,
 }: DeleteProjectModalProps) {
-
   const { currentProjectState } = useContext(ProjectContext);
 
   const deleteProjectButtonHandler = useCallback(() => {
@@ -37,9 +36,9 @@ function DeleteProjectModal({
         <Button variant="gray" onClick={onHide}>
           Cancel
         </Button>
-          <Button variant="action" onClick={deleteProjectButtonHandler}>
-            Delete
-          </Button>
+        <Button variant="action" onClick={deleteProjectButtonHandler}>
+          Delete
+        </Button>
       </Modal.Footer>
     </Modal>
   );

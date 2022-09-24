@@ -3,16 +3,15 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import TaskInterface from "../../interfaces/task-interface";
-import utilStyles from "../../styles/modules/util-styles.module.scss";
 import {
   getPriorityColor,
-  getStatusColor,
+  getStatusColor
 } from "../../styles/style-scripts/task-styles-util";
 import {
   processDeadline,
   processDescription,
   processPriority,
-  processTaskStatus,
+  processTaskStatus
 } from "../../utils/task-utils";
 import DescriptionPopover from "./description-accordion";
 import EditTaskDiv from "./edit-task-div";
@@ -36,7 +35,6 @@ function TaskViewModal({
 }: TaskViewModalProps) {
   const [isOnEditState, setIsOnEditState] = useState<boolean>(false);
   const [isOnDeleteState, setIsOnDeleteState] = useState<boolean>(false);
-  const [currentTaskState, setCurrentTaskState] = useState<TaskInterface>(task);
 
   const setToEditMode = useCallback(() => {
     setIsOnEditState(true);
@@ -62,11 +60,6 @@ function TaskViewModal({
     (e: ChangeEvent<HTMLInputElement>) => {
       const isChecked = e.target.checked;
 
-      setCurrentTaskState((prevTaskState) => ({
-        ...prevTaskState,
-        isDone: isChecked,
-      }));
-
       taskIsDoneToggler(isChecked, task);
     },
     [taskIsDoneToggler, task]
@@ -80,9 +73,7 @@ function TaskViewModal({
       size="lg"
       aria-labelledby="task-view-modal"
     >
-      <Modal.Header
-        className={`${getPriorityColor(currentTaskState.priority)} text-light`}
-      >
+      <Modal.Header className={`${getPriorityColor(task.priority)} text-light`}>
         <Modal.Title id="task-view-modal" style={{ fontSize: "1rem" }}>
           Task Details ({!isOnEditState && "Viewing Mode"}
           {isOnEditState && "Edit Mode"})
@@ -105,19 +96,19 @@ function TaskViewModal({
               <hr className="my-2" />
               <DescriptionPopover
                 title="Show Task Description"
-                description={processDescription(currentTaskState.description)}
+                description={processDescription(task.description)}
               />
               <div className="mb-1">
                 <b>Status:</b>{" "}
-                <span className={getStatusColor(currentTaskState.isDone)}>
-                  {processTaskStatus(currentTaskState.isDone)}
+                <span className={getStatusColor(task.isDone)}>
+                  {processTaskStatus(task.isDone)}
                 </span>
               </div>
               <div className="mb-1">
-                <b>Priority:</b> {processPriority(currentTaskState.priority)}
+                <b>Priority:</b> {processPriority(task.priority)}
               </div>
               <div className="mb-1">
-                <b>Deadline:</b> {processDeadline(currentTaskState.deadline)}
+                <b>Deadline:</b> {processDeadline(task.deadline)}
               </div>
             </div>
           </Modal.Body>
@@ -156,8 +147,7 @@ function TaskViewModal({
       )}
       {isOnEditState && (
         <EditTaskDiv
-          currentTaskState={currentTaskState}
-          setCurrentTaskState={setCurrentTaskState}
+          task={task}
           onEditTaskButtonClick={editTaskHandler}
           onCancelEditButtonClick={setToViewMode}
         />

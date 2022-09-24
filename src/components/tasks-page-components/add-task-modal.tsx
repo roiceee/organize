@@ -1,15 +1,11 @@
-import React, { useCallback, useState, useRef, useContext } from "react";
-import ModalWrapper from "../util-components/modal-wrapper";
+import React, { useCallback, useRef, useState } from "react";
 import Button from "react-bootstrap/Button";
-import TaskInterface from "../../interfaces/task-interface";
 import createTaskObject from "../../defaults/default-task";
-import {
-  validateExistingTask,
-  validateRequiredInput,
-} from "../../utils/validation";
-import ProjectContext from "../../contexts/project-context";
-import TaskForm from "./task-form";
+import TaskInterface from "../../interfaces/task-interface";
 import generateUniqueID from "../../utils/unique-id";
+import { validateRequiredInput } from "../../utils/validation";
+import ModalWrapper from "../util-components/modal-wrapper";
+import TaskForm from "./task-form";
 
 interface AddTaskModalProps {
   showState: boolean;
@@ -25,14 +21,10 @@ function AddTaskModal({
   const [currentTaskState, setCurrentTaskState] = useState<TaskInterface>(
     createTaskObject()
   );
-
-  const { currentProjectState } = useContext(ProjectContext);
   const taskTitleFormRef = useRef(null);
 
   const areFormsValid = useCallback((): boolean => {
-    return (
-      validateRequiredInput(taskTitleFormRef, "task-title-error")
-    );
+    return validateRequiredInput(taskTitleFormRef, "task-title-error");
   }, [taskTitleFormRef]);
 
   const taskTitleFormHandler = useCallback(

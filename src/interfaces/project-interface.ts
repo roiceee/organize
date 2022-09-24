@@ -8,7 +8,7 @@ interface ProjectInterface {
   dateCreated: Date | string;
   lastModified: Date | string;
   tasks: Array<TaskInterface>;
-  deletedTasks: Array<TaskInterface>;
+  recentlyDeletedTask: TaskInterface | null;
 }
 
 export default ProjectInterface;

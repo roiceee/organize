@@ -6,15 +6,13 @@ import { validateRequiredInput } from "../../utils/validation";
 import TaskForm from "./task-form";
 
 interface EditTaskDivProps {
-  currentTaskState: TaskInterface;
-  setCurrentTaskState: React.Dispatch<React.SetStateAction<TaskInterface>>;
+  task: TaskInterface;
   onEditTaskButtonClick: (updatedTask: TaskInterface) => void;
   onCancelEditButtonClick: () => void;
 }
 
 function EditTaskDiv({
-  currentTaskState,
-  setCurrentTaskState,
+  task,
   onEditTaskButtonClick,
   onCancelEditButtonClick,
 }: EditTaskDivProps) {
@@ -24,54 +22,56 @@ function EditTaskDiv({
     return validateRequiredInput(taskTitleFormRef, "task-title-error");
   }, [taskTitleFormRef]);
 
+  const [taskFormState, setTaskFormState] = useState<TaskInterface>(task);
+
   const taskTitleFormHandler = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      setCurrentTaskState((prevTaskState) => ({
-        ...prevTaskState,
+      setTaskFormState((prevTaskFormState) => ({
+        ...prevTaskFormState,
         title: e.target.value,
       }));
     },
-    [setCurrentTaskState]
+    [setTaskFormState]
   );
 
   const taskDescriptionFormHandler = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      setCurrentTaskState((prevTaskState) => ({
-        ...prevTaskState,
+      setTaskFormState((prevTaskFormState) => ({
+        ...prevTaskFormState,
         description: e.target.value,
       }));
     },
-    [setCurrentTaskState]
+    [setTaskFormState]
   );
 
   const deadLineFormHandler = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      setCurrentTaskState((prevTaskState) => ({
-        ...prevTaskState,
+      setTaskFormState((prevTaskFormState) => ({
+        ...prevTaskFormState,
         deadline: e.target.value,
       }));
     },
-    [setCurrentTaskState]
+    [setTaskFormState]
   );
 
   const priorityFormHandler = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      setCurrentTaskState((prevTaskState) => ({
-        ...prevTaskState,
+      setTaskFormState((prevTaskFormState) => ({
+        ...prevTaskFormState,
         priority: e.target.value,
       }));
     },
-    [setCurrentTaskState]
+    [setTaskFormState]
   );
 
   const editTaskButtonHandler = useCallback(() => {
     if (!areFormsValid()) {
       return;
     }
-    onEditTaskButtonClick(currentTaskState);
+    onEditTaskButtonClick(taskFormState);
     onCancelEditButtonClick();
   }, [
-    currentTaskState,
+    taskFormState,
     onEditTaskButtonClick,
     areFormsValid,
     onCancelEditButtonClick,
@@ -81,7 +81,7 @@ function EditTaskDiv({
     <>
       <Modal.Body>
         <TaskForm
-          formTaskState={currentTaskState}
+          formTaskState={taskFormState}
           taskTitleFormRef={taskTitleFormRef}
           titleFormHandler={taskTitleFormHandler}
           descriptionFormHandler={taskDescriptionFormHandler}

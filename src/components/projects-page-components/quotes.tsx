@@ -1,9 +1,4 @@
-import {
-  useCallback,
-  useEffect,
-  useRef,
-  useState
-} from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import data from "../../data/quotes.json";
 import styles from "../../styles/modules/transitions.module.scss";
 interface QuoteStateInterface {

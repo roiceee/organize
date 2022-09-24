@@ -1,22 +1,17 @@
+import { ChangeEvent, useCallback, useRef, useState } from "react";
 import Button from "react-bootstrap/Button";
-import React, {
-  ChangeEvent,
-  useCallback,
-  useContext,
-  useRef,
-  useState,
-} from "react";
+import {
+  default as createcurrentProjectState,
+  default as createProjectObject
+} from "../../defaults/default-project";
 import ProjectInterface from "../../interfaces/project-interface";
+import generateUniqueID from "../../utils/unique-id";
 import {
   removeErrorFields,
-  validateRequiredInput,
+  validateRequiredInput
 } from "../../utils/validation";
 import ModalWrapper from "../util-components/modal-wrapper";
-import createcurrentProjectState from "../../defaults/default-project";
 import ProjectForm from "./project-form";
-import ProjectArrayContext from "../../contexts/project-array-context";
-import createProjectObject from "../../defaults/default-project";
-import generateUniqueID from "../../utils/unique-id";
 
 interface AddProjectModalProps {
   showState: boolean;
@@ -39,9 +34,7 @@ function AddProjectModal({
   }, [setProjectFormState]);
 
   const areFormsValid = useCallback((): boolean => {
-    return (
-      validateRequiredInput(titleForm, "form-title-error")
-    );
+    return validateRequiredInput(titleForm, "form-title-error");
   }, []);
 
   const createNewProject = useCallback((): ProjectInterface => {

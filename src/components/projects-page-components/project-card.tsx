@@ -1,11 +1,11 @@
 import Link from "next/link";
 import Container from "react-bootstrap/Container";
+import dateSVG from "../../images/calendar.svg";
+import taskSVG from "../../images/paper.svg";
 import ProjectInterface from "../../interfaces/project-interface";
 import styles from "../../styles/modules/project-card.module.scss";
 import utilStyles from "../../styles/modules/util-styles.module.scss";
 import formatDate from "../../utils/dateFormatter";
-import taskSVG from "../../images/paper.svg";
-import dateSVG from "../../images/calendar.svg";
 import CardDetailRow from "../util-components/card-detail-row";
 
 interface ProjectCardProps {

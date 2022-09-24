@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import styles from "../../styles/modules/scroll-top-button.module.scss";
 import transitionStyles from "../../styles/modules/transitions.module.scss";
 

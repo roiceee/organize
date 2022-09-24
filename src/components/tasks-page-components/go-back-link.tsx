@@ -17,10 +17,7 @@ function GoBackLink() {
         >
           <path d="M15 18l-6-6 6-6" />
         </svg>
-        <a
-          className="text-decoration text-dark"
-          style={{ fontSize: "0.9rem" }}
-        >
+        <a className="text-decoration text-dark" style={{ fontSize: "0.9rem" }}>
           Go Back
         </a>
       </div>

@@ -1,21 +1,21 @@
 import { useCallback, useState } from "react";
+import checkSVG from "../../images/check.svg";
+import clockSVG from "../../images/clock.svg";
+import prioritySVG from "../../images/priority.svg";
 import TaskInterface from "../../interfaces/task-interface";
 import styles from "../../styles/modules/task-card.module.scss";
 import utilStyles from "../../styles/modules/util-styles.module.scss";
 import {
   getPriorityColor,
-  getStatusColor,
+  getStatusColor
 } from "../../styles/style-scripts/task-styles-util";
 import {
   processDeadline,
   processPriority,
-  processTaskStatus,
+  processTaskStatus
 } from "../../utils/task-utils";
 import CardDetailRow from "../util-components/card-detail-row";
 import TaskViewModal from "./task-view-modal";
-import checkSVG from "../../images/check.svg";
-import prioritySVG from "../../images/priority.svg";
-import clockSVG from "../../images/clock.svg";
 
 interface TaskCardProps {
   task: TaskInterface;

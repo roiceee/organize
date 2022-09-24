@@ -1,8 +1,5 @@
 import { useRouter } from "next/router";
-import {
-  useCallback, useContext,
-  useEffect, useMemo, useState
-} from "react";
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -100,7 +97,7 @@ function TasksPage() {
         );
         const newProjectArrayState = {
           projects: updatedProjects,
-          deletedProjects: [...prevProjectArrayState.deletedProjects],
+          recentlyDeletedProject: prevProjectArrayState.recentlyDeletedProject,
         };
         saveToStorage(userTypeState, newProjectArrayState);
         return newProjectArrayState;
@@ -162,15 +159,11 @@ function TasksPage() {
           projects: projectArrayCopy.projects.filter((project) => {
             return projectToBeDeleted.id !== project.id;
           }),
-          deletedProjects: [
-            ...projectArrayCopy.deletedProjects,
-            projectToBeDeleted,
-          ],
+          recentlyDeletedProject: projectToBeDeleted,
         };
         saveToStorage(userTypeState, newProjectArray);
         return newProjectArray;
       });
-
       setUndoDeletedProjectAlertState(true);
       router.push("/");
     },
@@ -190,7 +183,7 @@ function TasksPage() {
           tasks: prevProjectState.tasks.filter((task) => {
             return taskToBeDeleted.id !== task.id;
           }),
-          deletedTasks: [...prevProjectState.deletedTasks, taskToBeDeleted],
+          recentlyDeletedTask: taskToBeDeleted,
         };
         updateCurrentProjectOnProjectArrayState(newProjectState);
         return newProjectState;
@@ -206,9 +199,7 @@ function TasksPage() {
         const newProjectState: ProjectInterface = {
           ...prevProjectState,
           tasks: [...prevProjectState.tasks, taskToBeRestored],
-          deletedTasks: prevProjectState.deletedTasks.filter((task) => {
-            return taskToBeRestored.id !== task.id;
-          }),
+          recentlyDeletedTask: null,
         };
         updateCurrentProjectOnProjectArrayState(newProjectState);
         return newProjectState;
@@ -230,7 +221,12 @@ function TasksPage() {
       );
     });
     return taskCards;
-  }, [currentProjectState, updateTaskOnCurrentProject, deleteTask]);
+  }, [
+    currentProjectState,
+    updateTaskOnCurrentProject,
+    deleteTask,
+    taskIsDoneToggler,
+  ]);
 
   useEffect(() => {
     const projects = retrieveFromStorage(userTypeState);
@@ -349,15 +345,11 @@ function TasksPage() {
           onDeleteProjectButtonClick={deleteProject}
         />
         <ScrollToTopButton />
-        {currentProjectState.deletedTasks.length > 0 && (
+        {currentProjectState.recentlyDeletedTask !== null && (
           <UndoDeletedTaskAlert
             show={undoDeletedTaskAlertState}
             onHide={hideUndoDeletedTaskAlertState}
-            task={
-              currentProjectState.deletedTasks[
-                currentProjectState.deletedTasks.length - 1
-              ]
-            }
+            task={currentProjectState.recentlyDeletedTask}
             onUndoButtonClick={undoDeletedTask}
           />
         )}

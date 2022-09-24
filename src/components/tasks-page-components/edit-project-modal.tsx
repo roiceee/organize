@@ -1,21 +1,21 @@
-import Button from "react-bootstrap/Button";
-import React, {
+import {
   ChangeEvent,
   useCallback,
   useContext,
   useRef,
-  useState,
+  useState
 } from "react";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import ProjectArrayContext from "../../contexts/project-array-context";
+import ProjectContext from "../../contexts/project-context";
 import ProjectInterface from "../../interfaces/project-interface";
 import {
   removeErrorFields,
   validateExistingProjectExceptForCurrent,
-  validateRequiredInput,
+  validateRequiredInput
 } from "../../utils/validation";
-import Modal from "react-bootstrap/Modal";
 import ProjectForm from "../projects-page-components/project-form";
-import ProjectContext from "../../contexts/project-context";
-import ProjectArrayContext from "../../contexts/project-array-context";
 
 interface AddProjectModalProps {
   showState: boolean;

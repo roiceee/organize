@@ -1,9 +1,9 @@
+import { useCallback } from "react";
 import Form from "react-bootstrap/Form";
 import TaskConstraintsEnum from "../../enums/task-constraints";
 import TaskInterface from "../../interfaces/task-interface";
-import FormLengthCounter from "../util-components/form-length-counter";
 import { removeErrorFields } from "../../utils/validation";
-import { useCallback, useEffect } from "react";
+import FormLengthCounter from "../util-components/form-length-counter";
 
 interface TaskFormProps {
   formTaskState: TaskInterface;
@@ -75,7 +75,7 @@ function TaskForm({
       <div className="d-flex gap-2">
         <div>Priority: </div>
         <div key={`inline-radio`} className="mb-2 gap-1">
-        <Form.Check
+          <Form.Check
             inline
             label="None"
             name="priority"
