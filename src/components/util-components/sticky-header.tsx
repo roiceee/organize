@@ -1,5 +1,5 @@
-import TaskSorter from "../tasks-page-components/task-sorter";
-
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 interface StickyHeaderProps {
   title: string;
   counter: number;
@@ -8,16 +8,17 @@ interface StickyHeaderProps {
 
 function StickyHeader({ title, counter, sorter }: StickyHeaderProps) {
   return (
-    <div className="position-sticky sticky-top bg-light py-3">
-      <div className="d-flex justify-content-around align-items-center">
-        <h6 className="text-center my-0">
-          {title} ({counter})
-        </h6>
-        {(sorter !== undefined || sorter !== null) && sorter}
-      </div>
-
+    <Row className="position-sticky sticky-top bg-light py-3">
+      <Row className="d-flex justify-content-around align-items-center">
+        <Col xs={4}>
+          <h6 className="text-center my-0">
+            {title} ({counter})
+          </h6>
+        </Col>
+        <Col>{(sorter !== undefined || sorter !== null) && sorter}</Col>
+      </Row>
       <hr className="my-0 mx-auto" />
-    </div>
+    </Row>
   );
 }
 

@@ -23,6 +23,7 @@ import ProjectContext from "../../src/contexts/project-context";
 import UndoDeletedProjectContext from "../../src/contexts/undo-deleted-project-context";
 import UserTypeContext from "../../src/contexts/user-context";
 import createProjectObject from "../../src/defaults/default-project";
+import TaskSortMethods from "../../src/enums/task-sorter-methods";
 import ProjectArrayInterface from "../../src/interfaces/project-array-interface";
 import ProjectInterface from "../../src/interfaces/project-interface";
 import TaskInterface from "../../src/interfaces/task-interface";
@@ -30,8 +31,14 @@ import utilStyles from "../../src/styles/modules/util-styles.module.scss";
 import formatDate from "../../src/utils/dateFormatter";
 import {
   retrieveFromStorage,
-  saveToStorage
+  saveToStorage,
 } from "../../src/utils/local-storage-util";
+import {
+  sortByDateCreated,
+  sortByDeadline,
+  sortByPriority,
+  sortByTitle,
+} from "../../src/utils/sorter";
 
 function TasksPage() {
   const router = useRouter();
@@ -50,6 +57,9 @@ function TasksPage() {
     useState<boolean>(false);
   const { undoDeletedProjectAlertState, setUndoDeletedProjectAlertState } =
     useContext(UndoDeletedProjectContext);
+  const [sortState, setSortState] = useState<string>(
+    TaskSortMethods.dateCreated
+  );
 
   const showAddTaskModal = useCallback(() => {
     setAddTaskModalState(true);
@@ -209,8 +219,42 @@ function TasksPage() {
     [updateCurrentProjectOnProjectArrayState]
   );
 
+  const sortTasks = useCallback(
+    (sortMethod: string) => {
+      const projectTasksCopy = currentProjectState.tasks.slice(0);
+      let sortedTasks: Array<TaskInterface> = new Array<TaskInterface>();
+      switch (sortMethod) {
+        case TaskSortMethods.dateCreated:
+          sortedTasks = sortByDateCreated(projectTasksCopy);
+          break;
+        case TaskSortMethods.deadline:
+          sortedTasks = sortByDeadline(projectTasksCopy);
+          break;
+        case TaskSortMethods.priority:
+          sortedTasks = sortByPriority(projectTasksCopy);
+          break;
+        case TaskSortMethods.title:
+          sortedTasks = sortByTitle(projectTasksCopy);
+      }
+      return sortedTasks;
+    },
+    [currentProjectState]
+  );
+
+  const changeSortState = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      setSortState(() => {
+        const newSortState = e.currentTarget.id;
+        sortTasks(newSortState);
+        return newSortState;
+      });
+    },
+    [sortTasks]
+  );
+
+  
   const renderedTasks = useMemo((): JSX.Element | Array<JSX.Element> => {
-    const taskCards = currentProjectState?.tasks.map((task) => {
+    const taskCards = sortTasks(sortState).map((task) => {
       return (
         <TaskCard
           key={task.id}
@@ -223,29 +267,27 @@ function TasksPage() {
     });
     return taskCards;
   }, [
-    currentProjectState,
     updateTaskOnCurrentProject,
     deleteTask,
     taskIsDoneToggler,
+    sortState,
+    sortTasks,
   ]);
 
   useEffect(() => {
-    const projects = retrieveFromStorage(userTypeState);
-    setProjectArrayState(projects);
-    return;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
+    if (!router.query.id) {
+      return;
+    }
     if (!projectArrayState) {
       return;
     }
     const matchedProject = projectArrayState.projects.find((project) => {
       return project.id === router.query.id;
     });
+    console.log(matchedProject)
     setCurrentProjectState(matchedProject!);
     setIsLoading(false);
-  }, [router.query.id, projectArrayState]);
+  }, [router.query.id, projectArrayState, router]);
 
   if (isLoading) {
     return <LoadingNotice />;
@@ -313,7 +355,12 @@ function TasksPage() {
                 <StickyHeader
                   title="Tasks"
                   counter={currentProjectState.tasks.length}
-                  sorter={<TaskSorter/>}
+                  sorter={
+                    <TaskSorter
+                      sortState={sortState}
+                      changeSortStateHandler={changeSortState}
+                    />
+                  }
                 />
                 {currentProjectState.tasks.length === 0 && (
                   <p className="text-center">
