@@ -47,6 +47,11 @@
     text-decoration-color: $info;
 }
 
+.rotateOnActive:active {
+    transition: 0.1s;
+    transform: rotate(360deg);
+}
+
 @media all and (min-width: 1000px) {
     .hoverable:hover {
         transition: 0.2s;

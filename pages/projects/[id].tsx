@@ -29,10 +29,7 @@ import ProjectInterface from "../../src/interfaces/project-interface";
 import TaskInterface from "../../src/interfaces/task-interface";
 import utilStyles from "../../src/styles/modules/util-styles.module.scss";
 import formatDate from "../../src/utils/dateFormatter";
-import {
-  retrieveFromStorage,
-  saveToStorage,
-} from "../../src/utils/local-storage-util";
+import { saveToStorage } from "../../src/utils/local-storage-util";
 import {
   sortByDateCreated,
   sortByDeadline,
@@ -57,9 +54,10 @@ function TasksPage() {
     useState<boolean>(false);
   const { undoDeletedProjectAlertState, setUndoDeletedProjectAlertState } =
     useContext(UndoDeletedProjectContext);
-  const [sortState, setSortState] = useState<string>(
+  const [sortMethodState, setSortMethodState] = useState<string>(
     TaskSortMethods.dateCreated
   );
+  const [sortOrderState, setSortOrderState] = useState<boolean>(false);
 
   const showAddTaskModal = useCallback(() => {
     setAddTaskModalState(true);
@@ -92,6 +90,14 @@ function TasksPage() {
   const hideUndoDeletedTaskAlertState = useCallback(() => {
     setUndoDeletedTaskAlertState(false);
   }, []);
+
+  const arraySortInverterToggle = useCallback(() => {
+    if (!sortOrderState) {
+      setSortOrderState(true);
+      return;
+    }
+    setSortOrderState(false);
+  }, [sortOrderState])
 
   const updateCurrentProjectOnProjectArrayState = useCallback(
     (updatedProject: ProjectInterface) => {
@@ -243,7 +249,7 @@ function TasksPage() {
 
   const changeSortState = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
-      setSortState(() => {
+      setSortMethodState(() => {
         const newSortState = e.currentTarget.id;
         sortTasks(newSortState);
         return newSortState;
@@ -252,9 +258,8 @@ function TasksPage() {
     [sortTasks]
   );
 
-  
   const renderedTasks = useMemo((): JSX.Element | Array<JSX.Element> => {
-    const taskCards = sortTasks(sortState).map((task) => {
+    const taskCards = sortTasks(sortMethodState).map((task) => {
       return (
         <TaskCard
           key={task.id}
@@ -265,13 +270,17 @@ function TasksPage() {
         />
       );
     });
+    if (!sortOrderState) {
+      return taskCards.reverse();
+    }
     return taskCards;
   }, [
     updateTaskOnCurrentProject,
     deleteTask,
     taskIsDoneToggler,
-    sortState,
+    sortMethodState,
     sortTasks,
+    sortOrderState
   ]);
 
   useEffect(() => {
@@ -284,7 +293,7 @@ function TasksPage() {
     const matchedProject = projectArrayState.projects.find((project) => {
       return project.id === router.query.id;
     });
-    console.log(matchedProject)
+    console.log(matchedProject);
     setCurrentProjectState(matchedProject!);
     setIsLoading(false);
   }, [router.query.id, projectArrayState, router]);
@@ -357,8 +366,9 @@ function TasksPage() {
                   counter={currentProjectState.tasks.length}
                   sorter={
                     <TaskSorter
-                      sortState={sortState}
+                      sortState={sortMethodState}
                       changeSortStateHandler={changeSortState}
+                      arraySortInverterHandler={arraySortInverterToggle}
                     />
                   }
                 />
