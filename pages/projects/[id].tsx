@@ -12,6 +12,7 @@ import EditProjectModal from "../../src/components/tasks-page-components/edit-pr
 import GoBackLink from "../../src/components/tasks-page-components/go-back-link";
 import ProjectControl from "../../src/components/tasks-page-components/project-control";
 import TaskCard from "../../src/components/tasks-page-components/task-card";
+import TaskSorter from "../../src/components/tasks-page-components/task-sorter";
 import ErrorNotice from "../../src/components/util-components/error-notice";
 import LoadingNotice from "../../src/components/util-components/loading-notice";
 import ScrollToTopButton from "../../src/components/util-components/scroll-to-top-button";
@@ -282,11 +283,11 @@ function TasksPage() {
                     {currentProjectState.title}
                   </h2>
                   <div>
-                    <b>Date created:</b>{" "}
+                    <b>Date Created:</b>{" "}
                     {formatDate(currentProjectState.dateCreated)}
                   </div>
                   <div>
-                    <b>Last modified:</b>{" "}
+                    <b>Last Modified:</b>{" "}
                     {formatDate(currentProjectState.lastModified)}
                   </div>
                   {currentProjectState.description === "" && (
@@ -312,6 +313,7 @@ function TasksPage() {
                 <StickyHeader
                   title="Tasks"
                   counter={currentProjectState.tasks.length}
+                  sorter={<TaskSorter/>}
                 />
                 {currentProjectState.tasks.length === 0 && (
                   <p className="text-center">

@@ -10,7 +10,8 @@ function BodyLayoutOne({ leftElements, rightElements }: BodyLayoutOne) {
   return (
     <Row>
       <Col lg={5}>{leftElements}</Col>
-      <Col>{rightElements}</Col>
+      <Col lg={1}></Col>
+      <Col lg={5}>{rightElements}</Col>
     </Row>
   );
 }

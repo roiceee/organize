@@ -62,7 +62,7 @@ function NavigationBar() {
                 </a>
               </Link>
             </Navbar.Text>
-            <Navbar.Text>
+            {/* <Navbar.Text>
               <Link href="#action1">
                 <a
                   className="text-light text-decoration-none mx-md-3"
@@ -71,7 +71,7 @@ function NavigationBar() {
                   Sign in
                 </a>
               </Link>
-            </Navbar.Text>
+            </Navbar.Text> */}
             <Navbar.Text>
               <Link href="/about">
                 <a
