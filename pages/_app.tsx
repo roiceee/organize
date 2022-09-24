@@ -8,7 +8,6 @@ import UserTypeContext from "../src/contexts/user-context";
 import createProjectArrayObject from "../src/defaults/default-project-array-";
 import ProjectArrayInterface from "../src/interfaces/project-array-interface";
 import UserTypeInterface from "../src/interfaces/user-interface";
-import "../src/styles/globals.css";
 import "../src/styles/globals.scss";
 import { retrieveFromStorage } from "../src/utils/local-storage-util";
 

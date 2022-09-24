@@ -69,8 +69,9 @@ function AddTaskModal({
 
   const createNewTask = useCallback((): TaskInterface => {
     const currentTaskCopy = { ...currentTaskState };
-    const newTask = {
+    const newTask : TaskInterface = {
       ...currentTaskCopy,
+      dateCreated: new Date(),
       id: generateUniqueID(),
     };
     return newTask;

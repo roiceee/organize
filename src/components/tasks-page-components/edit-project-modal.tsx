@@ -106,7 +106,7 @@ function EditProjectModal({
       aria-labelledby="edit-project-modal"
       centered
     >
-      <Modal.Header className="bg-warning" closeButton>
+      <Modal.Header className="bg-secondary text-light" closeButton>
         <Modal.Title id="edit-project-modal">Edit Project</Modal.Title>
       </Modal.Header>
       <Modal.Body>

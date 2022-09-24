@@ -7,6 +7,7 @@ import {
   getPriorityColor,
   getStatusColor
 } from "../../styles/style-scripts/task-styles-util";
+import formatDate from "../../utils/dateFormatter";
 import {
   processDeadline,
   processDescription,
@@ -106,6 +107,9 @@ function TaskViewModal({
               </div>
               <div className="mb-1">
                 <b>Priority:</b> {processPriority(task.priority)}
+              </div>
+              <div className="mb-1">
+                <b>Date Created: </b> {formatDate(task.dateCreated)}
               </div>
               <div className="mb-1">
                 <b>Deadline:</b> {processDeadline(task.deadline)}

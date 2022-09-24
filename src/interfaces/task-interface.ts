@@ -4,6 +4,7 @@ interface TaskInterface {
     title: string;
     description: string;
     isDone: boolean;
+    dateCreated: string | Date;
     deadline: string;
     priority: string;
 }
