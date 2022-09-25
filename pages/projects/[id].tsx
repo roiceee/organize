@@ -314,7 +314,7 @@ function TasksPage() {
         value={{ currentProjectState, setCurrentProjectState }}
       >
         <Container>
-          <HeadWrapper title={`${currentProjectState.title.substring(0,8)}... - Organize `} />
+          <HeadWrapper title={`${currentProjectState.title.substring(0,12)}... - Organize `} />
           <BodyLayoutOne
             leftElements={
               <Row className="sticky-wrapper position-sticky sticky-top bg-light py-2">
