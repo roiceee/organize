@@ -1,5 +1,5 @@
 import TaskInterface from "../interfaces/task-interface";
-function sortByDateCreated(array: Array<TaskInterface>) {
+function taskSortByDateCreated(array: Array<TaskInterface>) {
   return array.sort((a, b) => {
     if (a.dateCreated < b.dateCreated) {
       return 1;
@@ -11,7 +11,19 @@ function sortByDateCreated(array: Array<TaskInterface>) {
   });
 }
 
-function sortByDeadline(array: Array<TaskInterface>) {
+function taskSortByTitle(array: Array<TaskInterface>) {
+  return array.sort((a, b) => {
+    if (a.title < b.title) {
+      return 1;
+    }
+    if (a.title > b.title) {
+      return -1;
+    }
+    return 0;
+  });
+}
+
+function taskSortByDeadline(array: Array<TaskInterface>) {
   return array.sort((a, b) => {
     if (a.deadline < b.deadline) {
       return 1;
@@ -23,7 +35,7 @@ function sortByDeadline(array: Array<TaskInterface>) {
   });
 }
 
-function sortByPriority(array: Array<TaskInterface>) {
+function taskSortByPriority(array: Array<TaskInterface>) {
   function convertPriorityToNumber(priority: string): number {
     switch (priority) {
       case "low":
@@ -49,16 +61,10 @@ function sortByPriority(array: Array<TaskInterface>) {
   });
 }
 
-function sortByTitle(array: Array<TaskInterface>) {
-  return array.sort((a, b) => {
-    if (a.title > b.title) {
-      return 1;
-    }
-    if (a.title < b.title) {
-      return -1;
-    }
-    return 0;
-  });
-}
+export {
+  taskSortByDateCreated,
+  taskSortByDeadline,
+  taskSortByPriority,
+  taskSortByTitle,
+};
 
-export { sortByDateCreated, sortByDeadline, sortByPriority, sortByTitle };

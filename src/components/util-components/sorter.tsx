@@ -2,23 +2,27 @@ import _ from "lodash";
 import Image from "next/image";
 import { useCallback } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
-import TaskSortMethods from "../../enums/task-sorter-methods";
 import invertIcon from "../../images/invert.svg";
 import utilStyles from "../../styles/modules/util-styles.module.scss";
 
-interface TaskSorterProps {
+
+interface SorterProps {
   sortState: string;
   changeSortStateHandler: (e: React.MouseEvent<HTMLButtonElement>) => void;
   arraySortInverterHandler: () => void;
+  sortingMethodsEnum: Object;
 }
 
-function TaskSorter({
+function Sorter({
   sortState,
   changeSortStateHandler,
   arraySortInverterHandler,
-}: TaskSorterProps) {
+  sortingMethodsEnum,
+  
+}: SorterProps) {
+    //filter id string to display proper dropdown text
   const filterSortID = useCallback((ID: string) => {
-    return _.startCase(_.toLower(ID.replaceAll(/(task|sort|-)/g, " ").trim()));
+    return _.startCase(_.toLower(ID.replaceAll(/(sort|-)/g, " ").trim()));
   }, []);
 
   return (
@@ -39,7 +43,7 @@ function TaskSorter({
         </Dropdown.Toggle>
 
         <Dropdown.Menu style={{ fontSize: "0.8rem" }}>
-          {Object.values(TaskSortMethods).map((value, index) => {
+          {Object.values(sortingMethodsEnum).map((value, index) => {
             return (
               <Dropdown.Item
                 key={value}
@@ -63,4 +67,4 @@ function TaskSorter({
   );
 }
 
-export default TaskSorter;
+export default Sorter;

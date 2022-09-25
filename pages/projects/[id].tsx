@@ -12,12 +12,11 @@ import EditProjectModal from "../../src/components/tasks-page-components/edit-pr
 import GoBackLink from "../../src/components/tasks-page-components/go-back-link";
 import ProjectControl from "../../src/components/tasks-page-components/project-control";
 import TaskCard from "../../src/components/tasks-page-components/task-card";
-import TaskSorter from "../../src/components/tasks-page-components/task-sorter";
 import ErrorNotice from "../../src/components/util-components/error-notice";
 import LoadingNotice from "../../src/components/util-components/loading-notice";
 import ScrollToTopButton from "../../src/components/util-components/scroll-to-top-button";
 import StickyHeader from "../../src/components/util-components/sticky-header";
-import UndoDeletedTaskAlert from "../../src/components/util-components/undo-task-alert";
+import UndoDeletedTaskAlert from "../../src/components/tasks-page-components/undo-task-alert";
 import ProjectArrayContext from "../../src/contexts/project-array-context";
 import ProjectContext from "../../src/contexts/project-context";
 import UndoDeletedProjectContext from "../../src/contexts/undo-deleted-project-context";
@@ -31,11 +30,12 @@ import utilStyles from "../../src/styles/modules/util-styles.module.scss";
 import formatDate from "../../src/utils/dateFormatter";
 import { saveToStorage } from "../../src/utils/local-storage-util";
 import {
-  sortByDateCreated,
-  sortByDeadline,
-  sortByPriority,
-  sortByTitle,
-} from "../../src/utils/sorter";
+  taskSortByDateCreated,
+  taskSortByDeadline,
+  taskSortByPriority,
+  taskSortByTitle,
+} from "../../src/utils/task-sorts";
+import Sorter from "../../src/components/util-components/sorter";
 
 function TasksPage() {
   const router = useRouter();
@@ -227,20 +227,20 @@ function TasksPage() {
 
   const sortTasks = useCallback(
     (sortMethod: string) => {
-      const projectTasksCopy = currentProjectState.tasks.slice(0);
+      const tasksCopy = currentProjectState.tasks.slice(0);
       let sortedTasks: Array<TaskInterface> = new Array<TaskInterface>();
       switch (sortMethod) {
         case TaskSortMethods.dateCreated:
-          sortedTasks = sortByDateCreated(projectTasksCopy);
+          sortedTasks = taskSortByDateCreated(tasksCopy);
           break;
         case TaskSortMethods.deadline:
-          sortedTasks = sortByDeadline(projectTasksCopy);
+          sortedTasks = taskSortByDeadline(tasksCopy);
           break;
         case TaskSortMethods.priority:
-          sortedTasks = sortByPriority(projectTasksCopy);
+          sortedTasks = taskSortByPriority(tasksCopy);
           break;
         case TaskSortMethods.title:
-          sortedTasks = sortByTitle(projectTasksCopy);
+          sortedTasks = taskSortByTitle(tasksCopy);
       }
       return sortedTasks;
     },
@@ -249,13 +249,9 @@ function TasksPage() {
 
   const changeSortState = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
-      setSortMethodState(() => {
-        const newSortState = e.currentTarget.id;
-        sortTasks(newSortState);
-        return newSortState;
-      });
+      setSortMethodState(e.currentTarget.id);
     },
-    [sortTasks]
+    []
   );
 
   const renderedTasks = useMemo((): JSX.Element | Array<JSX.Element> => {
@@ -365,10 +361,11 @@ function TasksPage() {
                   title="Tasks"
                   counter={currentProjectState.tasks.length}
                   sorter={
-                    <TaskSorter
+                    <Sorter
                       sortState={sortMethodState}
                       changeSortStateHandler={changeSortState}
                       arraySortInverterHandler={arraySortInverterToggle}
+                      sortingMethodsEnum={TaskSortMethods}
                     />
                   }
                 />

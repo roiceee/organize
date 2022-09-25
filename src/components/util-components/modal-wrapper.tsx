@@ -1,5 +1,6 @@
 import Modal from "react-bootstrap/Modal";
 
+//this is a util component used by other components that utilizes the same modal structure
 interface ModalWrapperProps {
   modalTitle: string;
   bodyChildren: JSX.Element | Array<JSX.Element>;

@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import ProjectInterface from "../../interfaces/project-interface";
-import UndoDeletedAlert from "./undo-deleted-alert";
+import UndoDeletedAlert from "../util-components/undo-deleted-alert";
 interface UndoAlertProps {
   show: boolean;
   onHide: () => void;

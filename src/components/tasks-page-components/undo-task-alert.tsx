@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import TaskInterface from "../../interfaces/task-interface";
-import UndoDeletedAlert from "./undo-deleted-alert";
+import UndoDeletedAlert from "../util-components/undo-deleted-alert";
 
 interface UndoDeletedTaskAlertProps {
   show: boolean;

@@ -1,5 +1,7 @@
 import Alert from "react-bootstrap/Alert";
 import styles from "../../styles/modules/transitions.module.scss";
+
+//this is a util component used by undo-deleted-project and undo-deleted-task components
 interface UndoAlertProps {
   label: string;
   show: boolean;

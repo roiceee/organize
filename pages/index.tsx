@@ -11,18 +11,25 @@ import NoProjectCard from "../src/components/projects-page-components/no-project
 import Overview from "../src/components/projects-page-components/overview-accordion";
 import ProjectCard from "../src/components/projects-page-components/project-card";
 import Quotes from "../src/components/projects-page-components/quotes";
+import UndoProjectAlert from "../src/components/projects-page-components/undo-project-alert";
 import ScrollToTopButton from "../src/components/util-components/scroll-to-top-button";
+import Sorter from "../src/components/util-components/sorter";
 import StickyHeader from "../src/components/util-components/sticky-header";
-import UndoProjectAlert from "../src/components/util-components/undo-project-alert";
 import ProjectArrayContext from "../src/contexts/project-array-context";
 import ProjectContext from "../src/contexts/project-context";
 import UndoDeletedProjectContext from "../src/contexts/undo-deleted-project-context";
 import UserTypeContext from "../src/contexts/user-context";
 import createProjectObject from "../src/defaults/default-project";
+import ProjectSortMethods from "../src/enums/project-sorter-methods";
 import ProjectArrayInterface from "../src/interfaces/project-array-interface";
 import ProjectInterface from "../src/interfaces/project-interface";
 import utilStyles from "../src/styles/modules/util-styles.module.scss";
 import { saveToStorage } from "../src/utils/local-storage-util";
+import {
+  projectSortByDateCreated,
+  projectSortByNumberOfTasks,
+  projectSortByTitle,
+} from "../src/utils/project-sorts";
 
 const Home: NextPage = () => {
   const { userTypeState, setUserStateType } = useContext(UserTypeContext);
@@ -33,6 +40,10 @@ const Home: NextPage = () => {
   const [showState, setModalShow] = useState<boolean>(false);
   const { undoDeletedProjectAlertState, setUndoDeletedProjectAlertState } =
     useContext(UndoDeletedProjectContext);
+  const [sortMethodState, setSortMethodState] = useState<string>(
+    ProjectSortMethods.dateCreated
+  );
+  const [sortOrderState, setSortOrderState] = useState<boolean>(false);
 
   const showAddProjectModal = useCallback(() => {
     setModalShow(true);
@@ -46,15 +57,55 @@ const Home: NextPage = () => {
     setUndoDeletedProjectAlertState(false);
   }, [setUndoDeletedProjectAlertState]);
 
+  const arraySortInverterToggle = useCallback(() => {
+    if (!sortOrderState) {
+      setSortOrderState(true);
+      return;
+    }
+    setSortOrderState(false);
+  }, [sortOrderState]);
+
+  const sortProjects = useCallback(
+    (sortState: string): Array<ProjectInterface> => {
+      const projectsCopy = projectArrayState.projects.slice(0);
+      let sortedProjects: Array<ProjectInterface> =
+        new Array<ProjectInterface>();
+
+      switch (sortState) {
+        case ProjectSortMethods.dateCreated:
+          sortedProjects = projectSortByDateCreated(projectsCopy);
+          break;
+        case ProjectSortMethods.numOfTasks:
+          sortedProjects = projectSortByNumberOfTasks(projectsCopy);
+          break;
+        case ProjectSortMethods.title:
+          sortedProjects = projectSortByTitle(projectsCopy);
+          break;
+      }
+      return sortedProjects;
+    },
+    [projectArrayState.projects]
+  );
+
+  const changeSortState = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      setSortMethodState(e.currentTarget.id);
+    },
+    []
+  );
+
   const renderedProjects = useMemo((): Array<JSX.Element> | JSX.Element => {
     if (projectArrayState === undefined) {
       return <></>;
     }
-    const projectCards = projectArrayState.projects.map((project) => {
+    const projectCards = sortProjects(sortMethodState).map((project) => {
       return <ProjectCard key={project.id} project={project} />;
     });
+    if (!sortOrderState) {
+      return projectCards.reverse();
+    }
     return projectCards;
-  }, [projectArrayState]);
+  }, [projectArrayState, sortMethodState, sortProjects, sortOrderState]);
 
   const addProjectToProjectArray = useCallback(
     (newProject: ProjectInterface): void => {
@@ -127,6 +178,14 @@ const Home: NextPage = () => {
                 <StickyHeader
                   title="Projects"
                   counter={projectArrayState.projects.length}
+                  sorter={
+                    <Sorter
+                      sortState={sortMethodState}
+                      changeSortStateHandler={changeSortState}
+                      arraySortInverterHandler={arraySortInverterToggle}
+                      sortingMethodsEnum={ProjectSortMethods}
+                    />
+                  }
                 />
                 {projectArrayState.projects.length === 0 && (
                   <p className=" text-center">
