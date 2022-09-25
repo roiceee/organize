@@ -39,7 +39,7 @@ function Overview({ projectArray }: OverviewProps) {
             <div>
               Total tasks: {getTotalProjects()}
             </div>
-            <div style={{ fontSize: "0.8rem" }}>
+            <div style={{ fontSize: "0.9rem" }}>
               Total Pending tasks: {getPendingTasks()}
             </div>
           </Accordion.Body>

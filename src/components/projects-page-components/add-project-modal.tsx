@@ -2,13 +2,13 @@ import { ChangeEvent, useCallback, useRef, useState } from "react";
 import Button from "react-bootstrap/Button";
 import {
   default as createcurrentProjectState,
-  default as createProjectObject
+  default as createProjectObject,
 } from "../../defaults/default-project";
 import ProjectInterface from "../../interfaces/project-interface";
 import generateUniqueID from "../../utils/unique-id";
 import {
   removeErrorFields,
-  validateRequiredInput
+  validateRequiredInput,
 } from "../../utils/validation";
 import ModalWrapper from "../util-components/modal-wrapper";
 import ProjectForm from "./project-form";

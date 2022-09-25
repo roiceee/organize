@@ -101,6 +101,7 @@ function TasksPage() {
 
   const updateCurrentProjectOnProjectArrayState = useCallback(
     (updatedProject: ProjectInterface) => {
+      console.log(updatedProject)
       setProjectArrayState((prevProjectArrayState) => {
         const prevProjectArrayStateCopy = { ...prevProjectArrayState };
         const updatedProjects = prevProjectArrayStateCopy.projects.map(
@@ -255,6 +256,9 @@ function TasksPage() {
   );
 
   const renderedTasks = useMemo((): JSX.Element | Array<JSX.Element> => {
+    if (currentProjectState === undefined) {
+      return <></>;
+    }
     const taskCards = sortTasks(sortMethodState).map((task) => {
       return (
         <TaskCard
@@ -277,6 +281,7 @@ function TasksPage() {
     sortMethodState,
     sortTasks,
     sortOrderState,
+    currentProjectState,
   ]);
 
   useEffect(() => {
@@ -289,7 +294,6 @@ function TasksPage() {
     const matchedProject = projectArrayState.projects.find((project) => {
       return project.id === router.query.id;
     });
-    console.log(matchedProject);
     setCurrentProjectState(matchedProject!);
     setIsLoading(false);
   }, [router.query.id, projectArrayState, router]);
@@ -361,19 +365,21 @@ function TasksPage() {
                   mainDescriptionDiv={
                     <div className="fw-bolder my-1">
                       {currentProjectState.tasks.length + " Tasks"}
-                      <div
-                        className="fw-normal"
-                        style={{ fontSize: "0.8rem" }}
-                      >
-                        (
-                        {currentProjectState.tasks.reduce((acc, task) => {
-                          if (task.isDone) {
-                            return acc + 0;
-                          }
-                          return acc + 1;
-                        }, 0)}{" "}
-                        pending)
-                      </div>
+                      {currentProjectState.tasks.length > 0 && (
+                        <div
+                          className="fw-normal"
+                          style={{ fontSize: "0.8rem" }}
+                        >
+                          (
+                          {currentProjectState.tasks.reduce((acc, task) => {
+                            if (task.isDone) {
+                              return acc + 0;
+                            }
+                            return acc + 1;
+                          }, 0)}{" "}
+                          pending)
+                        </div>
+                      )}
                     </div>
                   }
                   sorter={
