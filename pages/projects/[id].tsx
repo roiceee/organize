@@ -97,7 +97,7 @@ function TasksPage() {
       return;
     }
     setSortOrderState(false);
-  }, [sortOrderState])
+  }, [sortOrderState]);
 
   const updateCurrentProjectOnProjectArrayState = useCallback(
     (updatedProject: ProjectInterface) => {
@@ -276,7 +276,7 @@ function TasksPage() {
     taskIsDoneToggler,
     sortMethodState,
     sortTasks,
-    sortOrderState
+    sortOrderState,
   ]);
 
   useEffect(() => {
@@ -358,8 +358,24 @@ function TasksPage() {
             rightElements={
               <Row className="px-2 gap-2 justify-content-center pt-2">
                 <StickyHeader
-                  title="Tasks"
-                  counter={currentProjectState.tasks.length}
+                  mainDescriptionDiv={
+                    <div className="fw-bolder my-1">
+                      {currentProjectState.tasks.length + " Tasks"}
+                      <div
+                        className="fw-normal"
+                        style={{ fontSize: "0.8rem" }}
+                      >
+                        (
+                        {currentProjectState.tasks.reduce((acc, task) => {
+                          if (task.isDone) {
+                            return acc + 0;
+                          }
+                          return acc + 1;
+                        }, 0)}{" "}
+                        pending)
+                      </div>
+                    </div>
+                  }
                   sorter={
                     <Sorter
                       sortState={sortMethodState}

@@ -1,18 +1,16 @@
 import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 interface StickyHeaderProps {
-  title: string;
-  counter: number;
+  mainDescriptionDiv: JSX.Element;
   sorter?: JSX.Element;
 }
 
-function StickyHeader({ title, counter, sorter }: StickyHeaderProps) {
+function StickyHeader({mainDescriptionDiv, sorter }: StickyHeaderProps) {
   return (
     <Row className="position-sticky sticky-top bg-light py-3">
-      <div className="d-flex justify-content-around align-items-center">
-        <h6 className="text-center my-0">
-          {title} ({counter})
-        </h6>
+      <div className="d-flex justify-content-around align-items-center gap-3">
+        <div className="text-center my-0">
+          {mainDescriptionDiv}
+        </div>
 
         <div>{(sorter !== undefined || sorter !== null) && sorter}</div>
       </div>

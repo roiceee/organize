@@ -176,8 +176,11 @@ const Home: NextPage = () => {
             <>
               <Row className="px-2 gap-2 justify-content-center pt-2">
                 <StickyHeader
-                  title="Projects"
-                  counter={projectArrayState.projects.length}
+                  mainDescriptionDiv={
+                    <div className="fw-bolder">
+                      {projectArrayState.projects.length + " Projects"}
+                    </div>
+                  }
                   sorter={
                     <Sorter
                       sortState={sortMethodState}
