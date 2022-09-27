@@ -1,60 +1,69 @@
 @import "../colors.scss";
 
 .underline {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 .colorSuccess {
-    color: $success;
+  color: $success;
 }
 
 .colorDanger {
-    color: $danger;
+  color: $danger;
+}
+
+.colorAction {
+    color: $action;
 }
 
 .underlineSuccess {
-    @extend .underline;
-    text-decoration-color: $success;
+  @extend .underline;
+  text-decoration-color: $success;
 }
 
 .underlinePrimary {
-    @extend .underline;
-    text-decoration-color: $primary;
+  @extend .underline;
+  text-decoration-color: $primary;
 }
 
 .underlineSecondary {
-    @extend .underline;
-    text-decoration-color: $secondary;
+  @extend .underline;
+  text-decoration-color: $secondary;
 }
 
 .underlineAction {
-    @extend .underline;
-    text-decoration-color: $action;
+  @extend .underline;
+  text-decoration-color: $action;
 }
 
 .underlineDanger {
-    @extend .underline;
-    text-decoration-color: $danger;
+  @extend .underline;
+  text-decoration-color: $danger;
 }
 
 .underlineWarning {
-    @extend .underline;
-    text-decoration-color: $warning;
+  @extend .underline;
+  text-decoration-color: $warning;
 }
 
 .underlineInfo {
-    @extend .underline;
-    text-decoration-color: $info;
+  @extend .underline;
+  text-decoration-color: $info;
 }
 
 .rotateOnActive:active {
-    transition: 0.1s;
-    transform: rotate(360deg);
+  transition: 0.1s;
+  transform: rotate(360deg);
+}
+
+.shadowBottom {
+  box-shadow: 0px 15px 10px -15px rgb(173, 173, 173);
 }
 
 @media all and (min-width: 1000px) {
-    .hoverable:hover {
-        transition: 0.2s;
-        box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
-    }
+  .hoverable:hover {
+    transition: 0.2s;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+      rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  }
 }

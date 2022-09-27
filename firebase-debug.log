@@ -1,0 +1,21 @@
+[debug] [2022-09-25T15:29:22.568Z] ----------------------------------------------------------------------
+[debug] [2022-09-25T15:29:22.569Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\jroic\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2022-09-25T15:29:22.570Z] CLI Version:   11.10.0
+[debug] [2022-09-25T15:29:22.570Z] Platform:      win32
+[debug] [2022-09-25T15:29:22.570Z] Node Version:  v16.15.1
+[debug] [2022-09-25T15:29:22.570Z] Time:          Sun Sep 25 2022 23:29:22 GMT+0800 (Philippine Standard Time)
+[debug] [2022-09-25T15:29:22.571Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2022-09-25T15:29:22.577Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2022-09-25T15:29:22.577Z] > authorizing via signed-in user (jroicealdeza@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\jroic\OneDrive\Documents\Dev Files\Web Projects\Draft Sites\organize
+

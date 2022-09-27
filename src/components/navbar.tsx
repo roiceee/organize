@@ -25,11 +25,12 @@ function NavigationBar() {
       bg="primary"
       expand="md"
       variant="dark"
-      className="mb-3 text-light"
+      className="mb-2 text-light"
     >
       <Container>
         <div className="d-flex">
           <Image
+          style={{height: "30px", width: "30px"}}
             src="/organize-icon.png"
             alt="organize icon"
             width={30}

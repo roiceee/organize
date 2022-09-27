@@ -363,7 +363,7 @@ function TasksPage() {
               <Row className="px-2 gap-2 justify-content-center pt-2">
                 <StickyHeader
                   mainDescriptionDiv={
-                    <div className="fw-bolder my-1">
+                    <div className={`my-1 ${utilStyles.colorAction}`} >
                       {currentProjectState.tasks.length + " Tasks"}
                       {currentProjectState.tasks.length > 0 && (
                         <div

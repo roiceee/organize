@@ -7,7 +7,6 @@ import Row from "react-bootstrap/Row";
 import BodyLayoutOne from "../src/components/body-layout-one";
 import HeadWrapper from "../src/components/head-wrapper";
 import AddProjectModal from "../src/components/projects-page-components/add-project-modal";
-import NoProjectCard from "../src/components/projects-page-components/no-project-card";
 import Overview from "../src/components/projects-page-components/overview-accordion";
 import ProjectCard from "../src/components/projects-page-components/project-card";
 import Quotes from "../src/components/projects-page-components/quotes";
@@ -151,13 +150,12 @@ const Home: NextPage = () => {
             <Row className="sticky-wrapper position-sticky sticky-top bg-light py-3 ">
               <Row className="mx-auto justify-content-center">
                 <Col>
-                  <h5 className="my-0 mb-2">Welcome back, User!</h5>
+                  <h5 className="my-0 mb-2">Welcome back, {userTypeState.userInformation.name}!</h5>
                 </Col>
                 <hr />
                 <Quotes />
                 <hr />
               </Row>
-              {projectArrayState.projects.length === 0 && <NoProjectCard />}
               {projectArrayState.projects.length > 0 && (
                 <Overview projectArray={projectArrayState} />
               )}
@@ -177,7 +175,7 @@ const Home: NextPage = () => {
               <Row className="px-2 gap-2 justify-content-center pt-2">
                 <StickyHeader
                   mainDescriptionDiv={
-                    <div className="fw-bolder">
+                    <div className={`${utilStyles.colorAction}`}>
                       {projectArrayState.projects.length + " Projects"}
                     </div>
                   }

@@ -1,5 +1,10 @@
 interface UserTypeInterface {
+    userInformation: {
+        name: string | null;
+        email: string | null;
+        photoURL: string;
+    }
     isLoggedIn: boolean
 }
 
-export type {UserTypeInterface as default}
+export default UserTypeInterface;
