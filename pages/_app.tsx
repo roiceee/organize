@@ -10,7 +10,10 @@ import ProjectArrayInterface from "../src/interfaces/project-array-interface";
 import UserTypeInterface from "../src/interfaces/user-interface";
 import "../src/styles/globals.scss";
 import { retrieveFromStorage } from "../src/utils/local-storage-util";
-import createDefaultUser from "../src/defaults/default-user";
+import {
+  createDefaultUser,
+  createEmptyUser,
+} from "../src/defaults/default-user";
 import UserDiv from "../src/components/user-div";
 import { initializeApp } from "firebase/app";
 import firebaseConfig from "../src/firebase/credentials";
@@ -19,16 +22,14 @@ import {
   getAuth,
   signInWithPopup,
   GoogleAuthProvider,
-  setPersistence,
-  browserLocalPersistence,
-  UserCredential,
+  User,
   signOut,
 } from "firebase/auth";
 
 function MyApp({ Component, pageProps }: AppProps) {
   //isLoggedIn value is set to false by default to use localStorage by default
   const [userTypeState, setUserStateType] = useState<UserTypeInterface>(
-    createDefaultUser()
+    createEmptyUser()
   );
   const [projectArrayState, setProjectArrayState] =
     useState<ProjectArrayInterface>(createProjectArrayObject());
@@ -39,13 +40,12 @@ function MyApp({ Component, pageProps }: AppProps) {
   const app = initializeApp(firebaseConfig);
   const auth = getAuth();
 
-  const destructureUserToTypeState = useCallback((userAuth: UserCredential) => {
+  const destructureUserToTypeState = useCallback((userAuth: User) => {
     setUserStateType({
       userInformation: {
-        name: userAuth.user.displayName,
-        email: userAuth.user.email,
-        photoURL:
-          userAuth.user.photoURL === null ? userIcon : userAuth.user.photoURL,
+        name: userAuth.displayName,
+        email: userAuth.email,
+        photoURL: userAuth.photoURL === null ? userIcon : userAuth.photoURL,
       },
       isLoggedIn: true,
     });
@@ -54,12 +54,12 @@ function MyApp({ Component, pageProps }: AppProps) {
   const userSignIn = useCallback(async () => {
     const provider = new GoogleAuthProvider();
     try {
-      const user = await signInWithPopup(auth, provider);
-      destructureUserToTypeState(user);
+      signInWithPopup(auth, provider);
     } catch {
       console.log("error");
     }
-  }, [auth, destructureUserToTypeState]);
+    console.log(auth);
+  }, [auth]);
 
   const userSignOut = useCallback(async () => {
     signOut(auth)
@@ -67,13 +67,22 @@ function MyApp({ Component, pageProps }: AppProps) {
       .catch((error) => {
         console.log(error);
       });
-    setUserStateType(createDefaultUser());
   }, [auth]);
+
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      if (!user) {
+        setUserStateType(createDefaultUser());
+        return;
+      }
+      destructureUserToTypeState(user);
+    });
+    setIsLoading(false);
+  }, [auth, destructureUserToTypeState]);
 
   useEffect(() => {
     const projects = retrieveFromStorage(userTypeState);
     setProjectArrayState(projects);
-    setIsLoading(false);
   }, [userTypeState]);
 
   if (isLoading) {

@@ -12,4 +12,15 @@ function createDefaultUser() : UserTypeInterface{
     }
 }
 
-export default createDefaultUser;
+function createEmptyUser() : UserTypeInterface{
+    return {
+        userInformation: {
+            name: "",
+            email: "",
+            photoURL: profileIcon
+        },
+        isLoggedIn: false,
+    }
+}
+
+export  {createDefaultUser, createEmptyUser};

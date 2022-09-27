@@ -30,7 +30,6 @@ function NavigationBar() {
       <Container>
         <div className="d-flex">
           <Image
-          style={{height: "30px", width: "30px"}}
             src="/organize-icon.png"
             alt="organize icon"
             width={30}
