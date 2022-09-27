@@ -58,7 +58,6 @@ function MyApp({ Component, pageProps }: AppProps) {
     } catch {
       console.log("error");
     }
-    console.log(auth);
   }, [auth]);
 
   const userSignOut = useCallback(async () => {
@@ -73,17 +72,19 @@ function MyApp({ Component, pageProps }: AppProps) {
     auth.onAuthStateChanged((user) => {
       if (!user) {
         setUserStateType(createDefaultUser());
+        setIsLoading(false);
         return;
       }
       destructureUserToTypeState(user);
+      setIsLoading(false);
     });
-    setIsLoading(false);
   }, [auth, destructureUserToTypeState]);
 
   useEffect(() => {
     const projects = retrieveFromStorage(userTypeState);
     setProjectArrayState(projects);
   }, [userTypeState]);
+
 
   if (isLoading) {
     return (
