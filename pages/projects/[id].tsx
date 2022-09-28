@@ -36,6 +36,7 @@ import {
   taskSortByTitle,
 } from "../../src/utils/task-sorts";
 import Sorter from "../../src/components/util-components/sorter";
+import TaskCalendar from "../../src/components/task-calendar";
 
 function TasksPage() {
   const router = useRouter();
@@ -357,6 +358,7 @@ function TasksPage() {
                     Add Task
                   </Button>
                 </div>
+                <TaskCalendar/>
               </Row>
             }
             rightElements={
