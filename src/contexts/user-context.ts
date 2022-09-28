@@ -1,14 +1,15 @@
-import React, { createContext} from "react";
+import React, { createContext } from "react";
+import { createDefaultUser } from "../defaults/default-user";
 import UserTypeInterface from "../interfaces/user-interface";
 
 interface UserContextInterface {
-    userTypeState: UserTypeInterface;
-    setUserStateType: React.Dispatch<React.SetStateAction<UserTypeInterface>>;
+  userTypeState: UserTypeInterface;
+  setUserStateType: React.Dispatch<React.SetStateAction<UserTypeInterface>>;
 }
 
 const UserTypeContext = createContext<UserContextInterface>({
-   userTypeState: {isLoggedIn: false },
-   setUserStateType: () => {}
-})
+  userTypeState: { userInformation: createDefaultUser(), isLoggedIn: false },
+  setUserStateType: () => {},
+});
 
 export default UserTypeContext;

@@ -21,11 +21,11 @@ function SignOutModal({ show, onHide, signOutHandler }: SignOutModalProps) {
       show={show}
       onHide={onHide}
       size="sm"
-      aria-labelledby="delete-project-modal"
+      aria-labelledby="sign-out-modal"
       centered
     >
       <Modal.Header closeButton>
-        <Modal.Title id="delete-project-modal">Sign Out</Modal.Title>
+        <Modal.Title id="sign-out-modal">Sign Out</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <div className="mb-2">Are you sure you want to sign out?</div>
