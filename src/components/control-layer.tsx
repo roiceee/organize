@@ -18,9 +18,11 @@ import ProjectArrayContext from "../contexts/project-array-context";
 import UndoDeletedProjectContext from "../contexts/undo-deleted-project-context";
 import UserTypeContext from "../contexts/user-context";
 import UserSignInContext from "../contexts/user-sign-in-context";
+import IsAppLoadingContext from "../contexts/is-app-loading-context";
+import Layout from "./layout";
+import LoadingNotice from "./util-components/loading-notice";
 
 //this is where the providers and global state and contexts are added so that app.tsx is not convoluted
-
 interface ControlLayerProps {
   children: JSX.Element;
 }
@@ -31,7 +33,7 @@ function ControlLayer({ children }: ControlLayerProps) {
   );
   const [projectArrayState, setProjectArrayState] =
     useState<ProjectArrayInterface>(createProjectArrayObject());
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isAppLoading, setIsAppLoading] = useState<boolean>(true);
   const [undoDeletedProjectAlertState, setUndoDeletedProjectAlertState] =
     useState<boolean>(false);
 
@@ -50,56 +52,63 @@ function ControlLayer({ children }: ControlLayerProps) {
   }, []);
 
   const userSignIn = useCallback(async () => {
-    const provider = new GoogleAuthProvider();
     try {
-      signInWithPopup(auth, provider);
+    const provider = new GoogleAuthProvider();
+     const result = await signInWithPopup(auth, provider);
     } catch {
       console.log("error");
     }
   }, [auth]);
 
   const userSignOut = useCallback(async () => {
-    signOut(auth)
-      .then(() => {})
-      .catch((error) => {
-        console.log(error);
-      });
+    try {
+      const result = signOut(auth)
+        .then(() => {})
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch {
+      console.log("error");
+    }
   }, [auth]);
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
       if (!user) {
         setUserStateType(createDefaultUser());
-        setIsLoading(false);
+        setIsAppLoading(false);
         return;
       }
       destructureUserToTypeState(user);
-      setIsLoading(false);
+      setIsAppLoading(false);
     });
   }, [auth, destructureUserToTypeState]);
 
   useEffect(() => {
     const projects = retrieveFromStorage(userTypeState);
     setProjectArrayState(projects);
-  }, [userTypeState]);
+  }, [userTypeState, isAppLoading]);
+
   return (
     <>
-      <UserTypeContext.Provider value={{ userTypeState, setUserStateType }}>
-        <ProjectArrayContext.Provider
-          value={{ projectArrayState, setProjectArrayState }}
-        >
-          <UndoDeletedProjectContext.Provider
-            value={{
-              undoDeletedProjectAlertState,
-              setUndoDeletedProjectAlertState,
-            }}
+      <IsAppLoadingContext.Provider value={isAppLoading}>
+        <UserTypeContext.Provider value={{ userTypeState, setUserStateType }}>
+          <ProjectArrayContext.Provider
+            value={{ projectArrayState, setProjectArrayState }}
           >
-            <UserSignInContext.Provider value={{ userSignIn, userSignOut }}>
-              {children}
-            </UserSignInContext.Provider>
-          </UndoDeletedProjectContext.Provider>
-        </ProjectArrayContext.Provider>
-      </UserTypeContext.Provider>
+            <UndoDeletedProjectContext.Provider
+              value={{
+                undoDeletedProjectAlertState,
+                setUndoDeletedProjectAlertState,
+              }}
+            >
+              <UserSignInContext.Provider value={{ userSignIn, userSignOut }}>
+                {children}
+              </UserSignInContext.Provider>
+            </UndoDeletedProjectContext.Provider>
+          </ProjectArrayContext.Provider>
+        </UserTypeContext.Provider>
+      </IsAppLoadingContext.Provider>
     </>
   );
 }

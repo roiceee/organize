@@ -1,8 +1,6 @@
 import { useCallback, useContext } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import ProjectContext from "../../contexts/project-context";
-import ProjectInterface from "../../interfaces/project-interface";
 
 interface SignOutModalProps {
   show: boolean;

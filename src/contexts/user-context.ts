@@ -8,7 +8,7 @@ interface UserContextInterface {
 }
 
 const UserTypeContext = createContext<UserContextInterface>({
-  userTypeState: { userInformation: createDefaultUser(), isLoggedIn: false },
+  userTypeState: createDefaultUser(),
   setUserStateType: () => {},
 });
 
