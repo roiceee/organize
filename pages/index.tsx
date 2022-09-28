@@ -11,6 +11,7 @@ import Overview from "../src/components/projects-page-components/overview-accord
 import ProjectCard from "../src/components/projects-page-components/project-card";
 import Quotes from "../src/components/projects-page-components/quotes";
 import UndoProjectAlert from "../src/components/projects-page-components/undo-project-alert";
+import TaskCalendar from "../src/components/task-calendar";
 import ScrollToTopButton from "../src/components/util-components/scroll-to-top-button";
 import Sorter from "../src/components/util-components/sorter";
 import StickyHeader from "../src/components/util-components/sticky-header";
@@ -43,6 +44,7 @@ const Home: NextPage = () => {
     ProjectSortMethods.dateCreated
   );
   const [sortOrderState, setSortOrderState] = useState<boolean>(false);
+  
 
   const showAddProjectModal = useCallback(() => {
     setModalShow(true);
@@ -168,6 +170,7 @@ const Home: NextPage = () => {
                   Add new Project
                 </Button>
               </div>
+              <TaskCalendar/>
             </Row>
           }
           rightElements={
