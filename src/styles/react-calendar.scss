@@ -90,13 +90,13 @@
     background-color: #e6e6e6;
   }
   .react-calendar__tile--now {
-    text-decoration: underline;
-    text-decoration-color: $action;
+   border: 2px solid!important;
+   border-color: $action!important;
   }
-  .react-calendar__tile--now:enabled:hover,
-  .react-calendar__tile--now:enabled:focus {
-    background: $action;
-  }
+  // .react-calendar__tile--now:enabled:hover,
+  // .react-calendar__tile--now:enabled:focus {
+  //   background: $action;
+  // }
   .react-calendar__tile--hasActive {
     background: #76baff;
   }
