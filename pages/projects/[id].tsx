@@ -56,7 +56,7 @@ function TasksPage() {
   const { undoDeletedProjectAlertState, setUndoDeletedProjectAlertState } =
     useContext(UndoDeletedProjectContext);
   const [sortMethodState, setSortMethodState] = useState<string>(
-    TaskSortMethods.dateCreated
+    TaskSortMethods.deadline
   );
   const [sortOrderState, setSortOrderState] = useState<boolean>(false);
 

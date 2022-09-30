@@ -7,12 +7,13 @@ import styles from "../../styles/modules/task-card.module.scss";
 import utilStyles from "../../styles/modules/util-styles.module.scss";
 import {
   getPriorityColor,
-  getStatusColor
+  getStatusColor,
+  getDeadlineColor
 } from "../../styles/style-scripts/task-styles-util";
 import {
   processDeadline,
   processPriority,
-  processTaskStatus
+  processTaskStatus,
 } from "../../utils/task-utils";
 import CardDetailRow from "../util-components/card-detail-row";
 import TaskViewModal from "./task-view-modal";
@@ -52,9 +53,7 @@ function TaskCard({
         }}
       >
         <div
-          className={`${styles.prioIndicator} ${getPriorityColor(
-            task.priority
-          )}`}
+          className={`${styles.prioIndicator} ${getPriorityColor(task)}`}
         ></div>
         <div className="p-1">
           <h5>{task.title}</h5>
@@ -62,7 +61,7 @@ function TaskCard({
             <CardDetailRow
               label="Status"
               valueSpan={
-                <span className={getStatusColor(task.isDone)}>
+                <span className={getStatusColor(task)}>
                   {processTaskStatus(task.isDone)}
                 </span>
               }
@@ -75,7 +74,7 @@ function TaskCard({
             />
             <CardDetailRow
               label="Deadline"
-              valueSpan={<span>{processDeadline(task.deadline)}</span>}
+              valueSpan={<span className={getDeadlineColor(task)}>{processDeadline(task.deadline)}</span>}
               svg={clockSVG}
             />
           </div>

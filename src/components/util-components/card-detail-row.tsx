@@ -5,11 +5,12 @@ interface CardDetailRowProps {
   label: string;
   valueSpan: ReactElement;
   svg: any;
+  className?: string;
 }
 
-function CardDetailRow({ label, valueSpan, svg }: CardDetailRowProps) {
+function CardDetailRow({ label, valueSpan, svg, className }: CardDetailRowProps) {
   return (
-    <div className="d-flex align-items-center gap-2">
+    <div className={`d-flex align-items-center gap-2 ${className}`}>
       <>
         <div className="d-flex align-items-center gap-1">
           <>

@@ -5,7 +5,8 @@ import Modal from "react-bootstrap/Modal";
 import TaskInterface from "../../interfaces/task-interface";
 import {
   getPriorityColor,
-  getStatusColor
+  getStatusColor,
+  getDeadlineColor
 } from "../../styles/style-scripts/task-styles-util";
 import formatDate from "../../utils/dateFormatter";
 import {
@@ -74,7 +75,7 @@ function TaskViewModal({
       size="lg"
       aria-labelledby="task-view-modal"
     >
-      <Modal.Header className={`${getPriorityColor(task.priority)} text-light`}>
+      <Modal.Header className={`${getPriorityColor(task)} text-light`}>
         <Modal.Title id="task-view-modal" style={{ fontSize: "1rem" }}>
           Task Details ({!isOnEditState && "Viewing Mode"}
           {isOnEditState && "Edit Mode"})
@@ -101,7 +102,7 @@ function TaskViewModal({
               />
               <div className="mb-1">
                 <b>Status:</b>{" "}
-                <span className={getStatusColor(task.isDone)}>
+                <span className={getStatusColor(task)}>
                   {processTaskStatus(task.isDone)}
                 </span>
               </div>
@@ -112,7 +113,7 @@ function TaskViewModal({
                 <b>Date Created: </b> {formatDate(task.dateCreated)}
               </div>
               <div className="mb-1">
-                <b>Deadline:</b> {processDeadline(task.deadline)}
+                <b>Deadline:</b> <span className={getDeadlineColor(task)}>{processDeadline(task.deadline)}</span>
               </div>
             </div>
           </Modal.Body>
