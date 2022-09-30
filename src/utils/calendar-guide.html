@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <table>
+      <thead>
+        <tr>
+          <th>Prop name</th>
+          <th>Description</th>
+          <th>Default value</th>
+          <th>Example values</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>activeStartDate</td>
+          <td>
+            The beginning of a period that shall be displayed. If you wish to
+            use React-Calendar in an uncontrolled way, use
+            <code>defaultActiveStartDate</code> instead.
+          </td>
+          <td>(today)</td>
+          <td><code>new Date(2017, 0, 1)</code></td>
+        </tr>
+        <tr>
+          <td>allowPartialRange</td>
+          <td>
+            Whether to call onChange with only partial result given
+            <code>selectRange</code> prop.
+          </td>
+          <td><code>false</code></td>
+          <td><code>true</code></td>
+        </tr>
+        <tr>
+          <td>calendarType</td>
+          <td>
+            Type of calendar that should be used. Can be
+            <code>"ISO 8601"</code>, <code>"US"</code>, <code>"Arabic"</code>,
+            or <code>"Hebrew"</code>. Setting to <code>"US"</code> or
+            <code>"Hebrew"</code> will change the first day of the week to
+            Sunday. Setting to <code>"Arabic"</code> will change the first day
+            of the week to Saturday. Setting to <code>"Arabic"</code> or
+            <code>"Hebrew"</code> will make weekends appear on Friday to
+            Saturday.
+          </td>
+          <td>Type of calendar most commonly used in a given locale</td>
+          <td><code>"ISO 8601"</code></td>
+        </tr>
+        <tr>
+          <td>className</td>
+          <td>
+            Class name(s) that will be added along with
+            <code>"react-calendar"</code> to the main React-Calendar
+            <code>&lt;div&gt;</code> element.
+          </td>
+          <td>n/a</td>
+          <td>
+            <ul>
+              <li>String: <code>"class1 class2"</code></li>
+              <li>
+                Array of strings: <code>["class1", "class2 class3"]</code>
+              </li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td>defaultActiveStartDate</td>
+          <td>
+            The beginning of a period that shall be displayed by default. If you
+            wish to use React-Calendar in a controlled way, use
+            <code>activeStartDate</code> instead.
+          </td>
+          <td>(today)</td>
+          <td><code>new Date(2017, 0, 1)</code></td>
+        </tr>
+        <tr>
+          <td>defaultValue</td>
+          <td>
+            Calendar value that shall be selected initially. Can be either one
+            value or an array of two values. If you wish to use React-Calendar
+            in a controlled way, use <code>value</code> instead.
+          </td>
+          <td>n/a</td>
+          <td>
+            <ul>
+              <li>Date: <code>new Date()</code></li>
+              <li>
+                An array of dates:
+                <code>[new Date(2017, 0, 1), new Date(2017, 7, 1)]</code>
+              </li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td>defaultView</td>
+          <td>
+            Determines which calendar view shall be opened initially. Does not
+            disable navigation. Can be <code>"month"</code>,
+            <code>"year"</code>, <code>"decade"</code> or
+            <code>"century"</code>. If you wish to use React-Calendar in a
+            controlled way, use <code>view</code> instead.
+          </td>
+          <td>The most detailed view allowed</td>
+          <td><code>"year"</code></td>
+        </tr>
+        <tr>
+          <td>formatDay</td>
+          <td>
+            Function called to override default formatting of day tile labels.
+            Can be used to use your own formatting function.
+          </td>
+          <td>(default formatter)</td>
+          <td><code>(locale, date) =&gt; formatDate(date, 'd')</code></td>
+        </tr>
+        <tr>
+          <td>formatLongDate</td>
+          <td>
+            Function called to override default formatting of day tile
+            <code>abbr</code> labels. Can be used to use your own formatting
+            function.
+          </td>
+          <td>(default formatter)</td>
+          <td>
+            <code>(locale, date) =&gt; formatDate(date, 'dd MMM YYYY')</code>
+          </td>
+        </tr>
+        <tr>
+          <td>formatMonth</td>
+          <td>
+            Function called to override default formatting of month names. Can
+            be used to use your own formatting function.
+          </td>
+          <td>(default formatter)</td>
+          <td><code>(locale, date) =&gt; formatDate(date, 'MMM')</code></td>
+        </tr>
+        <tr>
+          <td>formatMonthYear</td>
+          <td>
+            Function called to override default formatting of months and years.
+            Can be used to use your own formatting function.
+          </td>
+          <td>(default formatter)</td>
+          <td>
+            <code>(locale, date) =&gt; formatDate(date, 'MMMM YYYY')</code>
+          </td>
+        </tr>
+        <tr>
+          <td>formatShortWeekday</td>
+          <td>
+            Function called to override default formatting of weekday names
+            (shortened). Can be used to use your own formatting function.
+          </td>
+          <td>(default formatter)</td>
+          <td><code>(locale, date) =&gt; formatDate(date, 'dd')</code></td>
+        </tr>
+        <tr>
+          <td>formatWeekday</td>
+          <td>
+            Function called to override default formatting of weekday names. Can
+            be used to use your own formatting function.
+          </td>
+          <td>(default formatter)</td>
+          <td><code>(locale, date) =&gt; formatDate(date, 'dd')</code></td>
+        </tr>
+        <tr>
+          <td>formatYear</td>
+          <td>
+            Function called to override default formatting of year in the top
+            navigation section. Can be used to use your own formatting function.
+          </td>
+          <td>(default formatter)</td>
+          <td><code>(locale, date) =&gt; formatDate(date, 'YYYY')</code></td>
+        </tr>
+        <tr>
+          <td>goToRangeStartOnSelect</td>
+          <td>
+            Whether to go to the beginning of the range when selecting the end
+            of the range.
+          </td>
+          <td><code>true</code></td>
+          <td><code>false</code></td>
+        </tr>
+        <tr>
+          <td>inputRef</td>
+          <td>
+            A prop that behaves like
+            <a
+              href="https://reactjs.org/docs/refs-and-the-dom.html"
+              rel="nofollow"
+              >ref</a
+            >, but it's passed to main <code>&lt;div&gt;</code> rendered by
+            <code>&lt;Calendar&gt;</code> component.
+          </td>
+          <td>n/a</td>
+          <td>
+            <ul>
+              <li>
+                Function:<br /><code
+                  >(ref) =&gt; { this.myCalendar = ref; }</code
+                >
+              </li>
+              <li>
+                Ref created using <code>React.createRef</code>:<br /><code
+                  >this.ref = React.createRef();</code
+                ><br />…<br /><code>inputRef={this.ref}</code>
+              </li>
+              <li>
+                Ref created using <code>React.useRef</code>:<br /><code
+                  >const ref = React.useRef();</code
+                ><br />…<br /><code>inputRef={ref}</code>
+              </li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td>locale</td>
+          <td>
+            Locale that should be used by the calendar. Can be any
+            <a
+              href="https://en.wikipedia.org/wiki/IETF_language_tag"
+              rel="nofollow"
+              >IETF language tag</a
+            >.
+          </td>
+          <td>User's browser settings</td>
+          <td><code>"hu-HU"</code></td>
+        </tr>
+        <tr>
+          <td>maxDate</td>
+          <td>
+            Maximum date that the user can select. Periods partially overlapped
+            by maxDate will also be selectable, although React-Calendar will
+            ensure that no later date is selected.
+          </td>
+          <td>n/a</td>
+          <td>Date: <code>new Date()</code></td>
+        </tr>
+        <tr>
+          <td>maxDetail</td>
+          <td>
+            The most detailed view that the user shall see. View defined here
+            also becomes the one on which clicking an item will select a date
+            and pass it to onChange. Can be <code>"month"</code>,
+            <code>"year"</code>, <code>"decade"</code> or
+            <code>"century"</code>.
+          </td>
+          <td><code>"month"</code></td>
+          <td><code>"year"</code></td>
+        </tr>
+        <tr>
+          <td>minDate</td>
+          <td>
+            Minimum date that the user can select. Periods partially overlapped
+            by minDate will also be selectable, although React-Calendar will
+            ensure that no earlier date is selected.
+          </td>
+          <td>n/a</td>
+          <td>Date: <code>new Date()</code></td>
+        </tr>
+        <tr>
+          <td>minDetail</td>
+          <td>
+            The least detailed view that the user shall see. Can be
+            <code>"month"</code>, <code>"year"</code>, <code>"decade"</code> or
+            <code>"century"</code>.
+          </td>
+          <td><code>"century"</code></td>
+          <td><code>"decade"</code></td>
+        </tr>
+        <tr>
+          <td>navigationAriaLabel</td>
+          <td>
+            <code>aria-label</code> attribute of a label rendered on calendar
+            navigation bar.
+          </td>
+          <td>n/a</td>
+          <td><code>"Go up"</code></td>
+        </tr>
+        <tr>
+          <td>navigationAriaLive</td>
+          <td>
+            <code>aria-live</code> attribute of a label rendered on calendar
+            navigation bar.
+          </td>
+          <td><code>undefined</code></td>
+          <td><code>"polite"</code></td>
+        </tr>
+        <tr>
+          <td>navigationLabel</td>
+          <td>Content of a label rendered on calendar navigation bar.</td>
+          <td>(default label)</td>
+          <td>
+            <code
+              >({ date, label, locale, view }) =&gt; `Current view: ${view},
+              date: ${date.toLocaleDateString(locale)}`
+            </code>
+          </td>
+        </tr>
+        <tr>
+          <td>nextAriaLabel</td>
+          <td>
+            <code>aria-label</code> attribute of the "next" button on the
+            navigation pane.
+          </td>
+          <td>n/a</td>
+          <td><code>"Next"</code></td>
+        </tr>
+        <tr>
+          <td>nextLabel</td>
+          <td>
+            Content of the "next" button on the navigation pane. Setting the
+            value explicitly to null will hide the icon.
+          </td>
+          <td><code>"›"</code></td>
+          <td>
+            <ul>
+              <li>String: <code>"›"</code></li>
+              <li>React element: <code>&lt;NextIcon /&gt;</code></li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td>next2AriaLabel</td>
+          <td>
+            <code>aria-label</code> attribute of the "next on higher level"
+            button on the navigation pane.
+          </td>
+          <td>n/a</td>
+          <td><code>"Jump forwards"</code></td>
+        </tr>
+        <tr>
+          <td>next2Label</td>
+          <td>
+            Content of the "next on higher level" button on the navigation pane.
+            Setting the value explicitly to null will hide the icon.
+          </td>
+          <td><code>"»"</code></td>
+          <td>
+            <ul>
+              <li>String: <code>"»"</code></li>
+              <li>React element: <code>&lt;DoubleNextIcon /&gt;</code></li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td>onActiveStartDateChange</td>
+          <td>
+            Function called when the user navigates from one view to another
+            using previous/next button. Note that this function will not be
+            called when e.g. drilling up from January 2021 to 2021 or drilling
+            down the other way around.<br /><code>action</code> signifies the
+            reason for active start date change and can be one of the following
+            values: <code>"prev"</code>, <code>"prev2"</code>,
+            <code>"next"</code>, <code>"next2"</code>, <code>"drillUp"</code>,
+            <code>"drillDown"</code>, <code>"onChange"</code>.
+          </td>
+          <td>n/a</td>
+          <td>
+            <code
+              >({ action, activeStartDate, value, view }) =&gt; alert('Changed
+              view to: ', activeStartDate, view)</code
+            >
+          </td>
+        </tr>
+        <tr>
+          <td>onChange</td>
+          <td>
+            Function called when the user clicks an item (day on month view,
+            month on year view and so on) on the most detailed view available.
+          </td>
+          <td>n/a</td>
+          <td>
+            <code>(value, event) =&gt; alert('New date is: ', value)</code>
+          </td>
+        </tr>
+        <tr>
+          <td>onViewChange</td>
+          <td>
+            Function called when the user navigates from one view to another
+            using drill up button or by clicking a tile.<br /><code
+              >action</code
+            >
+            signifies the reason for view change and can be one of the following
+            values: <code>"prev"</code>, <code>"prev2"</code>,
+            <code>"next"</code>, <code>"next2"</code>, <code>"drillUp"</code>,
+            <code>"drillDown"</code>, <code>"onChange"</code>.
+          </td>
+          <td>n/a</td>
+          <td>
+            <code
+              >({ action, activeStartDate, value, view }) =&gt; alert('New view
+              is: ', view)</code
+            >
+          </td>
+        </tr>
+        <tr>
+          <td>onClickDay</td>
+          <td>Function called when the user clicks a day.</td>
+          <td>n/a</td>
+          <td>
+            <code>(value, event) =&gt; alert('Clicked day: ', value)</code>
+          </td>
+        </tr>
+        <tr>
+          <td>onClickDecade</td>
+          <td>Function called when the user clicks a decade.</td>
+          <td>n/a</td>
+          <td>
+            <code>(value, event) =&gt; alert('Clicked decade: ', value)</code>
+          </td>
+        </tr>
+        <tr>
+          <td>onClickMonth</td>
+          <td>Function called when the user clicks a month.</td>
+          <td>n/a</td>
+          <td>
+            <code>(value, event) =&gt; alert('Clicked month: ', value)</code>
+          </td>
+        </tr>
+        <tr>
+          <td>onClickWeekNumber</td>
+          <td>Function called when the user clicks a week number.</td>
+          <td>n/a</td>
+          <td>
+            <code
+              >(weekNumber, date, event) =&gt; alert('Clicked week: ',
+              weekNumber, 'that starts on: ', date)</code
+            >
+          </td>
+        </tr>
+        <tr>
+          <td>onClickYear</td>
+          <td>Function called when the user clicks a year.</td>
+          <td>n/a</td>
+          <td>
+            <code>(value, event) =&gt; alert('Clicked year: ', value)</code>
+          </td>
+        </tr>
+        <tr>
+          <td>onDrillDown</td>
+          <td>Function called when the user drills down by clicking a tile.</td>
+          <td>n/a</td>
+          <td>
+            <code
+              >({ activeStartDate, view }) =&gt; alert('Drilled down to: ',
+              activeStartDate, view)</code
+            >
+          </td>
+        </tr>
+        <tr>
+          <td>onDrillUp</td>
+          <td>
+            Function called when the user drills up by clicking drill up button.
+          </td>
+          <td>n/a</td>
+          <td>
+            <code
+              >({ activeStartDate, view }) =&gt; alert('Drilled up to: ',
+              activeStartDate, view)</code
+            >
+          </td>
+        </tr>
+        <tr>
+          <td>prevAriaLabel</td>
+          <td>
+            <code>aria-label</code> attribute of the "previous" button on the
+            navigation pane.
+          </td>
+          <td>n/a</td>
+          <td><code>"Previous"</code></td>
+        </tr>
+        <tr>
+          <td>prevLabel</td>
+          <td>
+            Content of the "previous" button on the navigation pane. Setting the
+            value explicitly to null will hide the icon.
+          </td>
+          <td><code>"‹"</code></td>
+          <td>
+            <ul>
+              <li>String: <code>"‹"</code></li>
+              <li>React element: <code>&lt;PreviousIcon /&gt;</code></li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td>prev2AriaLabel</td>
+          <td>
+            <code>aria-label</code> attribute of the "previous on higher level"
+            button on the navigation pane.
+          </td>
+          <td>n/a</td>
+          <td><code>"Jump backwards"</code></td>
+        </tr>
+        <tr>
+          <td>prev2Label</td>
+          <td>
+            Content of the "previous on higher level" button on the navigation
+            pane. Setting the value explicitly to null will hide the icon.
+          </td>
+          <td><code>"«"</code></td>
+          <td>
+            <ul>
+              <li>String: <code>"«"</code></li>
+              <li>React element: <code>&lt;DoublePreviousIcon /&gt;</code></li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td>returnValue</td>
+          <td>
+            Which dates shall be passed by the calendar to the onChange function
+            and onClick{Period} functions. Can be <code>"start"</code>,
+            <code>"end"</code> or <code>"range"</code>. The latter will cause an
+            array with start and end values to be passed.
+          </td>
+          <td><code>"start"</code></td>
+          <td><code>"range"</code></td>
+        </tr>
+        <tr>
+          <td>showDoubleView</td>
+          <td>
+            Whether to show two months/years/… at a time instead of one.
+            Defaults <code>showFixedNumberOfWeeks</code> prop to be
+            <code>true</code>.
+          </td>
+          <td><code>false</code></td>
+          <td><code>true</code></td>
+        </tr>
+        <tr>
+          <td>showFixedNumberOfWeeks</td>
+          <td>
+            Whether to always show fixed number of weeks (6). Forces
+            <code>showNeighboringMonth</code> prop to be <code>true</code>.
+          </td>
+          <td><code>false</code></td>
+          <td><code>true</code></td>
+        </tr>
+        <tr>
+          <td>showNavigation</td>
+          <td>
+            Whether a navigation bar with arrows and title shall be rendered.
+          </td>
+          <td><code>true</code></td>
+          <td><code>false</code></td>
+        </tr>
+        <tr>
+          <td>showNeighboringMonth</td>
+          <td>
+            Whether days from previous or next month shall be rendered if the
+            month doesn't start on the first day of the week or doesn't end on
+            the last day of the week, respectively.
+          </td>
+          <td><code>true</code></td>
+          <td><code>false</code></td>
+        </tr>
+        <tr>
+          <td>selectRange</td>
+          <td>
+            Whether the user shall select two dates forming a range instead of
+            just one. Note: This feature will make React-Calendar return array
+            with two dates regardless of returnValue setting.
+          </td>
+          <td><code>false</code></td>
+          <td><code>true</code></td>
+        </tr>
+        <tr>
+          <td>showWeekNumbers</td>
+          <td>
+            Whether week numbers shall be shown at the left of MonthView or not.
+          </td>
+          <td><code>false</code></td>
+          <td><code>true</code></td>
+        </tr>
+        <tr>
+          <td>tileClassName</td>
+          <td>
+            Class name(s) that will be applied to a given calendar item (day on
+            month view, month on year view and so on).
+          </td>
+          <td>n/a</td>
+          <td>
+            <ul>
+              <li>String: <code>"class1 class2"</code></li>
+              <li>
+                Array of strings: <code>["class1", "class2 class3"]</code>
+              </li>
+              <li>
+                Function:
+                <code
+                  >({ activeStartDate, date, view }) =&gt; view === 'month'
+                  &amp;&amp; date.getDay() === 3 ? 'wednesday' : null</code
+                >
+              </li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td>tileContent</td>
+          <td>
+            Allows to render custom content within a given calendar item (day on
+            month view, month on year view and so on).
+          </td>
+          <td>n/a</td>
+          <td>
+            <ul>
+              <li>String: <code>"Sample"</code></li>
+              <li>React element: <code>&lt;TileContent /&gt;</code></li>
+              <li>
+                Function:
+                <code
+                  >({ activeStartDate, date, view }) =&gt; view === 'month'
+                  &amp;&amp; date.getDay() === 0 ? &lt;p&gt;It's
+                  Sunday!&lt;/p&gt; : null</code
+                >
+              </li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td>tileDisabled</td>
+          <td>
+            Pass a function to determine if a certain day should be displayed as
+            disabled.
+          </td>
+          <td>n/a</td>
+          <td>
+            <ul>
+              <li>
+                Function:
+                <code
+                  >({activeStartDate, date, view }) =&gt; date.getDay() ===
+                  0</code
+                >
+              </li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td>value</td>
+          <td>
+            Calendar value. Can be either one value or an array of two values.
+            If you wish to use React-Calendar in an uncontrolled way, use
+            <code>defaultValue</code> instead.
+          </td>
+          <td>n/a</td>
+          <td>
+            <ul>
+              <li>Date: <code>new Date()</code></li>
+              <li>
+                An array of dates:
+                <code>[new Date(2017, 0, 1), new Date(2017, 7, 1)]</code>
+              </li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td>view</td>
+          <td>
+            Determines which calendar view shall be opened. Does not disable
+            navigation. Can be <code>"month"</code>, <code>"year"</code>,
+            <code>"decade"</code> or <code>"century"</code>. If you wish to use
+            React-Calendar in an uncontrolled way, use
+            <code>defaultView</code> instead.
+          </td>
+          <td>The most detailed view allowed</td>
+          <td><code>"year"</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>

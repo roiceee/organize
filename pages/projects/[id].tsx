@@ -102,7 +102,6 @@ function TasksPage() {
 
   const updateCurrentProjectOnProjectArrayState = useCallback(
     (updatedProject: ProjectInterface) => {
-      console.log(updatedProject)
       setProjectArrayState((prevProjectArrayState) => {
         const prevProjectArrayStateCopy = { ...prevProjectArrayState };
         const updatedProjects = prevProjectArrayStateCopy.projects.map(

@@ -30,6 +30,7 @@ function UndoDeletedAlert({
             transform: "translateX(-50%)",
             width: "80vw",
             maxWidth: "400px",
+            zIndex: "2147483638",
           }}
           className={`p-2 ${styles.fadeInFaster} shadow`}
         >

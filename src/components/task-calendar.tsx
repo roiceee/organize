@@ -1,7 +1,22 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useContext, useMemo } from "react";
 import Calendar from "react-calendar";
+import ProjectArrayContext from "../contexts/project-array-context";
 function TaskCalendar() {
+  const { projectArrayState } = useContext(ProjectArrayContext);
   const [show, setShow] = useState<boolean>(true);
+
+  const daysWithTasks = useMemo(() => {
+    const days = new Array();
+    projectArrayState.projects.forEach((project) => {
+      project.tasks.map((task) => {
+        if (task.deadline === "") {
+          return;
+        }
+        days.push(new Date(task.deadline));
+      });
+    });
+    return days;
+  }, [projectArrayState.projects]);
 
   const showTaskCalendar = useCallback(() => {
     setShow(true);
@@ -11,6 +26,7 @@ function TaskCalendar() {
     setShow(false);
   }, []);
 
+  console.log(daysWithTasks);
   return (
     <div className="mx-auto my-3">
       {!show && (
@@ -30,7 +46,18 @@ function TaskCalendar() {
             Hide Task Calendar
           </div>
           <div className="d-flex flex-column justify-content-center align-items-center">
-            <Calendar />
+            <Calendar
+              tileClassName={({ activeStartDate, date, view }) => {
+                return daysWithTasks.map((day) => {
+                  return day.toDateString() === date.toDateString()
+                    ? "text-danger"
+                    : "";
+                });
+              }}
+              onClickDay={(value) => {
+                console.log("Clicked day: " + new Date(value).toDateString());
+              }}
+            />
           </div>
         </>
       )}
