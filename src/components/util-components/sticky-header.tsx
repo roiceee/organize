@@ -7,7 +7,7 @@ interface StickyHeaderProps {
 
 function StickyHeader({mainDescriptionDiv, sorter }: StickyHeaderProps) {
   return (
-    <Row className={`position-sticky sticky-top bg-light mb-2 pt-2 pt-lg-2 ${utilStyles.shadowBottom}`}>
+    <Row className={`position-sticky sticky-top bg-white mb-2 pt-2 pt-lg-2`}>
       <div className="d-flex justify-content-around align-items-center gap-3">
         <div className="text-center my-0">
           {mainDescriptionDiv}

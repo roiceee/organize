@@ -317,7 +317,7 @@ function TasksPage() {
           <HeadWrapper title={`${currentProjectState.title.substring(0,12)}... - Organize `} />
           <BodyLayoutOne
             leftElements={
-              <Row className="sticky-wrapper position-sticky sticky-top bg-light py-2">
+              <Row className="sticky-wrapper position-sticky sticky-top bg-light p-2 bg-white rounded-2 border">
                 <div className="d-flex justify-content-between">
                   <div>
                     <GoBackLink />
@@ -341,27 +341,22 @@ function TasksPage() {
                     <b>Last Modified:</b>{" "}
                     {formatDate(currentProjectState.lastModified)}
                   </div>
-                  {currentProjectState.description === "" && (
-                    <span>No description</span>
-                  )}
-                  {currentProjectState.description !== "" && (
-                    <DescriptionPopover
-                      title="Show Project Description"
-                      description={currentProjectState.description}
-                    />
-                  )}
                 </Row>
-                <hr className="mx-auto my-1 mb-3" />
+                <hr className="mx-auto my-1 mb-2" />
                 <div className="text-center">
-                  <Button variant="action w-75" onClick={showAddTaskModal}>
+                  <Button variant="action w-75 mb-2" onClick={showAddTaskModal}>
                     Add Task
                   </Button>
                 </div>
+                <DescriptionPopover
+                      title="Show Project Description"
+                      description={currentProjectState.description}
+                    />
                 <TaskCalendar/>
               </Row>
             }
             rightElements={
-              <Row className="px-2 gap-2 justify-content-center pt-2">
+              <Row className="p-2 gap-2 justify-content-center bg-white border rounded-2">
                 <StickyHeader
                   mainDescriptionDiv={
                     <div className={`my-1 ${utilStyles.colorAction}`} >

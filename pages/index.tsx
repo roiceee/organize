@@ -44,7 +44,6 @@ const Home: NextPage = () => {
     ProjectSortMethods.dateCreated
   );
   const [sortOrderState, setSortOrderState] = useState<boolean>(false);
-  
 
   const showAddProjectModal = useCallback(() => {
     setModalShow(true);
@@ -149,33 +148,35 @@ const Home: NextPage = () => {
 
         <BodyLayoutOne
           leftElements={
-            <Row className="sticky-wrapper position-sticky sticky-top bg-light py-3 ">
+            <Row className="sticky-wrapper position-sticky sticky-top bg-white border rounded-2 py-3 ">
               <Row className="mx-auto justify-content-center">
                 <Col>
-                  <h5 className="my-0 mb-2">Welcome back, {userTypeState.userInformation.name}!</h5>
+                  <h5 className="my-0 mb-2">
+                    Welcome back, {userTypeState.userInformation.name}!
+                  </h5>
                 </Col>
                 <hr />
                 <Quotes />
-                <hr />
-              </Row>
-              {projectArrayState.projects.length > 0 && (
-                <Overview projectArray={projectArrayState} />
-              )}
-              <div className="text-center">
+                <hr className="mb-2"/>
+                <div className="text-center mb-2">
                 <Button
-                  className="mx-auto w-75"
+                  className="mx-auto w-75 my-2"
                   variant="action"
                   onClick={showAddProjectModal}
                 >
                   Add new Project
                 </Button>
               </div>
-              <TaskCalendar/>
+              </Row>
+              {projectArrayState.projects.length > 0 && (
+                <Overview projectArray={projectArrayState} />
+              )}
+              <TaskCalendar />
             </Row>
           }
           rightElements={
             <>
-              <Row className="px-2 gap-2 justify-content-center pt-2">
+              <Row className="p-2 gap-2 justify-content-center bg-white border rounded-2">
                 <StickyHeader
                   mainDescriptionDiv={
                     <div className={`${utilStyles.colorAction}`}>

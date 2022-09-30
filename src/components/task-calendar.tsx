@@ -1,9 +1,14 @@
 import { useState, useCallback, useContext, useMemo } from "react";
 import Calendar from "react-calendar";
 import ProjectArrayContext from "../contexts/project-array-context";
+import TaskCalendarModal from "./util-components/task-calendar-modal";
+import Accordion from "react-bootstrap/Accordion";
+
 function TaskCalendar() {
   const { projectArrayState } = useContext(ProjectArrayContext);
-  const [show, setShow] = useState<boolean>(true);
+  const [clickedDateState, setClickedDateState] = useState<Date>(new Date());
+  const [showCalendarState, setShowCalendarState] = useState<boolean>(true);
+  const [showModalState, setShowModalState] = useState<boolean>(false);
 
   const daysWithTasks = useMemo(() => {
     const days = new Array();
@@ -19,49 +24,58 @@ function TaskCalendar() {
   }, [projectArrayState.projects]);
 
   const showTaskCalendar = useCallback(() => {
-    setShow(true);
+    setShowCalendarState(true);
   }, []);
 
   const hideTaskCalendar = useCallback(() => {
-    setShow(false);
+    setShowCalendarState(false);
   }, []);
 
-  console.log(daysWithTasks);
+  const showTaskCalendarModal = useCallback(() => {
+    setShowModalState(true);
+  }, []);
+
+  const hideTaskCalendarModal = useCallback(() => {
+    setShowModalState(false);
+  }, []);
+
+  const calendarDayClickHandler = useCallback(
+    (date: Date) => {
+      setClickedDateState(date);
+      showTaskCalendarModal();
+    },
+    [showTaskCalendarModal]
+  );
+
   return (
-    <div className="mx-auto my-3">
-      {!show && (
-        <div style={{ fontSize: "0.8rem" }}>
-          <span onClick={showTaskCalendar} className="text-primary">
-            Show Task Calendar
-          </span>
-        </div>
-      )}
-      {show && (
-        <>
-          <div
-            onClick={hideTaskCalendar}
-            style={{ fontSize: "0.8rem" }}
-            className="text-primary mb-1"
-          >
-            Hide Task Calendar
-          </div>
-          <div className="d-flex flex-column justify-content-center align-items-center">
-            <Calendar
-              tileClassName={({ activeStartDate, date, view }) => {
-                return daysWithTasks.map((day) => {
-                  return day.toDateString() === date.toDateString()
-                    ? "text-danger"
-                    : "";
-                });
-              }}
-              onClickDay={(value) => {
-                console.log("Clicked day: " + new Date(value).toDateString());
-              }}
-            />
-          </div>
-        </>
-      )}
-    </div>
+    <>
+      <Accordion defaultActiveKey="1">
+        <Accordion.Item eventKey="1">
+          <Accordion.Header>Show Task Calendar</Accordion.Header>
+          <Accordion.Body>
+            <div className="d-flex flex-column justify-content-center align-items-center">
+              <Calendar
+                tileClassName={({ date }) => {
+                  return daysWithTasks.map((day) => {
+                    return day.toDateString() === date.toDateString()
+                      ? "text-danger fw-bold"
+                      : "";
+                  });
+                }}
+                onClickDay={(value) => {
+                  calendarDayClickHandler(value);
+                }}
+              />
+            </div>
+          </Accordion.Body>
+        </Accordion.Item>
+      </Accordion>
+      <TaskCalendarModal
+        show={showModalState}
+        onHide={hideTaskCalendarModal}
+        date={clickedDateState}
+      />
+    </>
   );
 }
 

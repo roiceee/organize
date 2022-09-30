@@ -28,7 +28,7 @@ function Overview({ projectArray }: OverviewProps) {
 
   return (
     <>
-      <Accordion className="mb-3">
+      <Accordion className="mb-1">
         <Accordion.Item eventKey="0">
           <Accordion.Header>Show Overview</Accordion.Header>
           <Accordion.Body>
