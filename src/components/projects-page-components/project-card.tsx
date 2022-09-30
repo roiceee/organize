@@ -15,7 +15,7 @@ interface ProjectCardProps {
 function ProjectCard({ project }: ProjectCardProps) {
   return (
     <Link href={`/projects/${project.id}`}>
-      <Container
+      <div
         className={`${styles.cardWrapper} ${styles.rounded} ${utilStyles.hoverable} bg-white px-0 border border-1`}
         tabIndex={0}
         style={{
@@ -42,7 +42,7 @@ function ProjectCard({ project }: ProjectCardProps) {
             </div>
           </div>
         </div>
-      </Container>
+      </div>
     </Link>
   );
 }

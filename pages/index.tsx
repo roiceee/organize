@@ -176,7 +176,7 @@ const Home: NextPage = () => {
           }
           rightElements={
             <>
-              <Row className="p-2 gap-2 justify-content-center bg-white border rounded-2">
+              <Row className="p-2 pb-4 gap-2 justify-content-center bg-white border rounded-2">
                 <StickyHeader
                   mainDescriptionDiv={
                     <div className={`${utilStyles.colorAction}`}>

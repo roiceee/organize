@@ -33,7 +33,7 @@ function Sorter({
         <Dropdown drop="down">
           <Dropdown.Toggle
             variant="outline-light"
-            className="text-dark p-2"
+            className="text-dark p-2 border-0"
             id="sort-task-dropdown"
             style={{ fontSize: "0.8rem" }}
             title="task-sorter"

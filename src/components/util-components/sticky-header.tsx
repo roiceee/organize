@@ -1,5 +1,4 @@
 import Row from "react-bootstrap/Row";
-import utilStyles from "../../styles/modules/util-styles.module.scss"
 interface StickyHeaderProps {
   mainDescriptionDiv: JSX.Element;
   sorter?: JSX.Element;
@@ -7,7 +6,7 @@ interface StickyHeaderProps {
 
 function StickyHeader({mainDescriptionDiv, sorter }: StickyHeaderProps) {
   return (
-    <Row className={`position-sticky sticky-top bg-white mb-2 pt-2 pt-lg-2`}>
+    <Row className={`position-sticky sticky-top bg-white mb-2 pt-2 pt-lg-2`} >
       <div className="d-flex justify-content-around align-items-center gap-3">
         <div className="text-center my-0">
           {mainDescriptionDiv}
@@ -15,7 +14,7 @@ function StickyHeader({mainDescriptionDiv, sorter }: StickyHeaderProps) {
 
         <div>{(sorter !== undefined || sorter !== null) && sorter}</div>
       </div>
-      {/* <hr className="my-0 mx-auto" /> */}
+      <hr className="my-0 mx-auto" />
     </Row>
   );
 }
