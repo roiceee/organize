@@ -23,6 +23,7 @@ function TaskCalendarModal({ show, onHide, date }: TaskCalendarModalProps) {
           }
           tasks.push(
             <TaskCalendarCard
+              number={tasks.length + 1}
               key={task.id}
               projectID={project.id}
               task={task}

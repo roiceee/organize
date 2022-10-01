@@ -3,9 +3,13 @@ import Calendar from "react-calendar";
 import ProjectArrayContext from "../contexts/project-array-context";
 import TaskCalendarModal from "./util-components/task-calendar-modal";
 import Accordion from "react-bootstrap/Accordion";
+import TaskCalendarToggleContext from "../contexts/task-calendar-toggle-context";
 
 function TaskCalendar() {
   const { projectArrayState } = useContext(ProjectArrayContext);
+  const { showCalendarState, setShowCalendarState } = useContext(
+    TaskCalendarToggleContext
+  );
   const [clickedDateState, setClickedDateState] = useState<Date>(new Date());
   const [showModalState, setShowModalState] = useState<boolean>(false);
 
@@ -22,7 +26,6 @@ function TaskCalendar() {
     return days;
   }, [projectArrayState.projects]);
 
-
   const showTaskCalendarModal = useCallback(() => {
     setShowModalState(true);
   }, []);
@@ -30,6 +33,14 @@ function TaskCalendar() {
   const hideTaskCalendarModal = useCallback(() => {
     setShowModalState(false);
   }, []);
+
+  const taskCalendarAccordionToggleHandler = useCallback(() => {
+    if (!showCalendarState) {
+      setShowCalendarState(true);
+      return;
+    }
+    setShowCalendarState(false);
+  }, [setShowCalendarState, showCalendarState])
 
   const calendarDayClickHandler = useCallback(
     (date: Date) => {
@@ -41,9 +52,9 @@ function TaskCalendar() {
 
   return (
     <>
-      <Accordion defaultActiveKey="1">
+      <Accordion defaultActiveKey={showCalendarState ? "1" : ""}>
         <Accordion.Item eventKey="1">
-          <Accordion.Header>Show Task Calendar</Accordion.Header>
+          <Accordion.Header onClick={taskCalendarAccordionToggleHandler}>Show Task Calendar</Accordion.Header>
           <Accordion.Body>
             <div className="d-flex flex-column justify-content-center align-items-center">
               <Calendar

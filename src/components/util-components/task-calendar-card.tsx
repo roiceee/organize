@@ -5,12 +5,14 @@ import Image from "next/image";
 import utilStyles from "../../styles/modules/util-styles.module.scss";
 
 interface TaskCalendarCardProps {
+  number: number;
   projectID: string;
   task: TaskInterface;
   closeModal: () => void;
 }
 
 function TaskCalendarCard({
+  number,
   projectID,
   task,
   closeModal,
@@ -29,7 +31,9 @@ function TaskCalendarCard({
               textOverflow: "ellipsis",
             }}
           >
+            {number}.{" "} 
             {task.title}
+            
           </div>
           <div
             className="d-flex gap-1 align-items-center"

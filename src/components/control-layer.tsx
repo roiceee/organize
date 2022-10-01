@@ -19,7 +19,7 @@ import UndoDeletedProjectContext from "../contexts/undo-deleted-project-context"
 import UserTypeContext from "../contexts/user-context";
 import UserSignInContext from "../contexts/user-sign-in-context";
 import IsAppLoadingContext from "../contexts/is-app-loading-context";
-
+import TaskCalendarToggleContext from "../contexts/task-calendar-toggle-context";
 
 //this is where the providers and global state and contexts are added so that app.tsx is not convoluted
 interface ControlLayerProps {
@@ -35,6 +35,7 @@ function ControlLayer({ children }: ControlLayerProps) {
   const [isAppLoading, setIsAppLoading] = useState<boolean>(true);
   const [undoDeletedProjectAlertState, setUndoDeletedProjectAlertState] =
     useState<boolean>(false);
+  const [showCalendarState, setShowCalendarState] = useState<boolean>(true);
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth();
@@ -101,9 +102,13 @@ function ControlLayer({ children }: ControlLayerProps) {
                 setUndoDeletedProjectAlertState,
               }}
             >
-              <UserSignInContext.Provider value={{ userSignIn, userSignOut }}>
-                {children}
-              </UserSignInContext.Provider>
+              <TaskCalendarToggleContext.Provider
+                value={{ showCalendarState, setShowCalendarState }}
+              >
+                <UserSignInContext.Provider value={{ userSignIn, userSignOut }}>
+                  {children}
+                </UserSignInContext.Provider>
+              </TaskCalendarToggleContext.Provider>
             </UndoDeletedProjectContext.Provider>
           </ProjectArrayContext.Provider>
         </UserTypeContext.Provider>
