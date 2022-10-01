@@ -25,6 +25,9 @@ function taskSortByTitle(array: Array<TaskInterface>) {
 
 function taskSortByDeadline(array: Array<TaskInterface>) {
   return array.sort((a, b) => {
+    if (a.deadline === "") {
+      return -1;
+    }
     if (a.deadline < b.deadline) {
       return 1;
     }

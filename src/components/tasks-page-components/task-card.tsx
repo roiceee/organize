@@ -62,19 +62,19 @@ function TaskCard({
               label="Status"
               valueSpan={
                 <span className={getStatusColor(task)}>
-                  {processTaskStatus(task.isDone)}
+                  {processTaskStatus(task)}
                 </span>
               }
               svg={checkSVG}
             />
             <CardDetailRow
               label="Priority"
-              valueSpan={<span>{processPriority(task.priority)}</span>}
+              valueSpan={<span>{processPriority(task)}</span>}
               svg={prioritySVG}
             />
             <CardDetailRow
               label="Deadline"
-              valueSpan={<span className={getDeadlineColor(task)}>{processDeadline(task.deadline)}</span>}
+              valueSpan={<span className={getDeadlineColor(task)}>{processDeadline(task)}</span>}
               svg={clockSVG}
             />
           </div>

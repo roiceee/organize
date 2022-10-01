@@ -103,17 +103,17 @@ function TaskViewModal({
               <div className="mb-1">
                 <b>Status:</b>{" "}
                 <span className={getStatusColor(task)}>
-                  {processTaskStatus(task.isDone)}
+                  {processTaskStatus(task)}
                 </span>
               </div>
               <div className="mb-1">
-                <b>Priority:</b> {processPriority(task.priority)}
+                <b>Priority:</b> {processPriority(task)}
               </div>
               <div className="mb-1">
                 <b>Date Created: </b> {formatDate(task.dateCreated)}
               </div>
               <div className="mb-1">
-                <b>Deadline:</b> <span className={getDeadlineColor(task)}>{processDeadline(task.deadline)}</span>
+                <b>Deadline:</b> <span className={getDeadlineColor(task)}>{processDeadline(task)}</span>
               </div>
             </div>
           </Modal.Body>

@@ -13,7 +13,7 @@ function TaskCalendar() {
     const days = new Array();
     projectArrayState.projects.forEach((project) => {
       project.tasks.map((task) => {
-        if (task.deadline === "") {
+        if (task.deadline === "" || task.isDone) {
           return;
         }
         days.push(new Date(task.deadline));

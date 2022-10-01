@@ -26,12 +26,12 @@ function DescriptionPopover({ title, project, task }: DescriptionPopoverProps) {
               <div>
                 <b>Last Modified:</b> {formatDate(project.lastModified)}
               </div>
-              <div><b>Description:</b> {processDescription(project.description)}</div>
+              <div>
+                <b>Description:</b> {processDescription(project)}
+              </div>
             </>
           )}
-          {task !== undefined && (
-            <div>{processDescription(task.description)}</div>
-          )}
+          {task !== undefined && <div>{processDescription(task)}</div>}
         </Accordion.Body>
       </Accordion.Item>
     </Accordion>

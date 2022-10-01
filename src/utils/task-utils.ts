@@ -1,20 +1,32 @@
 import formatDate from "./dateFormatter";
 import _ from "lodash";
+import TaskInterface from "../interfaces/task-interface";
+import ProjectInterface from "../interfaces/project-interface";
 
-function processDeadline(deadline: Date | string) {
-  return deadline === "" ? "None" : formatDate(deadline);
+function processDeadline(task: TaskInterface) {
+  if (new Date(task.deadline) <= new Date()) {
+    return task.isDone
+      ? formatDate(task.deadline)
+      : formatDate(task.deadline) + " (DUE)";
+  }
+  return task.deadline === "" ? "None" : formatDate(task.deadline);
 }
 
-function processPriority(priority: string) {
-  return priority === "" ? "Not specified" : _.capitalize(priority);
+function processPriority(task: TaskInterface) {
+  return task.priority === "" ? "Not specified" : _.capitalize(task.priority);
 }
 
-function processTaskStatus(status: boolean) {
-  return !status ? "Pending" : "Done";
+function processTaskStatus(task: TaskInterface) {
+  return task.isDone ? "Done" : "Pending";
 }
 
-function processDescription(description: string) {
-  return description === "" ? "No Description" : description;
+function processDescription(element: TaskInterface | ProjectInterface) {
+  return element.description === "" ? "No Description" : element.description;
 }
 
-export { processDeadline, processPriority, processTaskStatus, processDescription };
+export {
+  processDeadline,
+  processPriority,
+  processTaskStatus,
+  processDescription,
+};

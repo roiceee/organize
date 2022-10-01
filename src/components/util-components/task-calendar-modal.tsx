@@ -3,6 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import ProjectArrayContext from "../../contexts/project-array-context";
 import formatDate from "../../utils/dateFormatter";
 import TaskCalendarCard from "./task-calendar-card";
+import CloseButton from "react-bootstrap/CloseButton";
 
 interface TaskCalendarModalProps {
   show: boolean;
@@ -17,12 +18,22 @@ function TaskCalendarModal({ show, onHide, date }: TaskCalendarModalProps) {
     projectArrayState.projects.forEach((project) => {
       project.tasks.forEach((task) => {
         if (new Date(task.deadline).toDateString() === date.toDateString()) {
-          tasks.push(<TaskCalendarCard key={task.id} projectID={project.id} task={task} />);
+          if (task.isDone) {
+            return;
+          }
+          tasks.push(
+            <TaskCalendarCard
+              key={task.id}
+              projectID={project.id}
+              task={task}
+              closeModal={onHide}
+            />
+          );
         }
       });
     });
     return tasks;
-  }, [date, projectArrayState.projects]);
+  }, [date, projectArrayState.projects, onHide]);
 
   return (
     <>
@@ -33,12 +44,14 @@ function TaskCalendarModal({ show, onHide, date }: TaskCalendarModalProps) {
         onHide={onHide}
         centered
       >
-        <Modal.Header closeButton>
+        <Modal.Header className="bg-primary text-light">
           <Modal.Title style={{ fontSize: "1.1rem" }}>
             <>Tasks due on {formatDate(date)}</>
           </Modal.Title>
+          <CloseButton variant="white" onClick={onHide} />
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body style={{ maxHeight: "280px", overflowY: "scroll" }}>
+          <>{tasksDueOnSelectedDate.length === 0 && <div>None</div>}</>
           <>{tasksDueOnSelectedDate}</>
         </Modal.Body>
       </Modal>
