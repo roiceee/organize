@@ -7,7 +7,6 @@ import Accordion from "react-bootstrap/Accordion";
 function TaskCalendar() {
   const { projectArrayState } = useContext(ProjectArrayContext);
   const [clickedDateState, setClickedDateState] = useState<Date>(new Date());
-  const [showCalendarState, setShowCalendarState] = useState<boolean>(true);
   const [showModalState, setShowModalState] = useState<boolean>(false);
 
   const daysWithTasks = useMemo(() => {
@@ -23,13 +22,6 @@ function TaskCalendar() {
     return days;
   }, [projectArrayState.projects]);
 
-  const showTaskCalendar = useCallback(() => {
-    setShowCalendarState(true);
-  }, []);
-
-  const hideTaskCalendar = useCallback(() => {
-    setShowCalendarState(false);
-  }, []);
 
   const showTaskCalendarModal = useCallback(() => {
     setShowModalState(true);

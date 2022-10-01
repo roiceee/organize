@@ -157,16 +157,16 @@ const Home: NextPage = () => {
                 </Col>
                 <hr />
                 <Quotes />
-                <hr className="mb-2"/>
+                <hr className="mb-2" />
                 <div className="text-center mb-2">
-                <Button
-                  className="mx-auto w-75 my-2"
-                  variant="action"
-                  onClick={showAddProjectModal}
-                >
-                  Add new Project
-                </Button>
-              </div>
+                  <Button
+                    className="mx-auto w-75 my-2"
+                    variant="action"
+                    onClick={showAddProjectModal}
+                  >
+                    Add new Project
+                  </Button>
+                </div>
               </Row>
               {projectArrayState.projects.length > 0 && (
                 <Overview projectArray={projectArrayState} />
@@ -180,7 +180,9 @@ const Home: NextPage = () => {
                 <StickyHeader
                   mainDescriptionDiv={
                     <div className={`${utilStyles.colorAction}`}>
-                      {projectArrayState.projects.length + " Projects"}
+                      {projectArrayState.projects.length <= 1
+                        ? projectArrayState.projects.length + " Project"
+                        : projectArrayState.projects.length + " Projects"}
                     </div>
                   }
                   sorter={

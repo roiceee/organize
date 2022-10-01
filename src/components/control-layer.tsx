@@ -19,8 +19,7 @@ import UndoDeletedProjectContext from "../contexts/undo-deleted-project-context"
 import UserTypeContext from "../contexts/user-context";
 import UserSignInContext from "../contexts/user-sign-in-context";
 import IsAppLoadingContext from "../contexts/is-app-loading-context";
-import Layout from "./layout";
-import LoadingNotice from "./util-components/loading-notice";
+
 
 //this is where the providers and global state and contexts are added so that app.tsx is not convoluted
 interface ControlLayerProps {
@@ -53,8 +52,8 @@ function ControlLayer({ children }: ControlLayerProps) {
 
   const userSignIn = useCallback(async () => {
     try {
-    const provider = new GoogleAuthProvider();
-     const result = await signInWithPopup(auth, provider);
+      const provider = new GoogleAuthProvider();
+      const result = await signInWithPopup(auth, provider);
     } catch {
       console.log("error");
     }

@@ -38,6 +38,8 @@ import {
 import Sorter from "../../src/components/util-components/sorter";
 import TaskCalendar from "../../src/components/task-calendar";
 
+
+//this dynamic page's path uses the projects' projectIDs 
 function TasksPage() {
   const router = useRouter();
   const { userTypeState, setUserStateType } = useContext(UserTypeContext);
@@ -284,6 +286,7 @@ function TasksPage() {
     currentProjectState,
   ]);
 
+  //this page's route uses the projectID
   useEffect(() => {
     if (!router.query.id) {
       return;
@@ -333,14 +336,6 @@ function TasksPage() {
                   <h2 style={{ overflowWrap: "break-word" }}>
                     {currentProjectState.title}
                   </h2>
-                  <div>
-                    <b>Date Created:</b>{" "}
-                    {formatDate(currentProjectState.dateCreated)}
-                  </div>
-                  <div>
-                    <b>Last Modified:</b>{" "}
-                    {formatDate(currentProjectState.lastModified)}
-                  </div>
                 </Row>
                 <hr className="mx-auto my-1 mb-2" />
                 <div className="text-center">
@@ -350,7 +345,7 @@ function TasksPage() {
                 </div>
                 <DescriptionPopover
                       title="Show Project Description"
-                      description={currentProjectState.description}
+                      project={currentProjectState}
                     />
                 <TaskCalendar/>
               </Row>

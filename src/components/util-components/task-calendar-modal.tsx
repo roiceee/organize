@@ -2,6 +2,7 @@ import { useContext, useMemo } from "react";
 import Modal from "react-bootstrap/Modal";
 import ProjectArrayContext from "../../contexts/project-array-context";
 import formatDate from "../../utils/dateFormatter";
+import TaskCalendarCard from "./task-calendar-card";
 
 interface TaskCalendarModalProps {
   show: boolean;
@@ -12,15 +13,15 @@ function TaskCalendarModal({ show, onHide, date }: TaskCalendarModalProps) {
   const { projectArrayState } = useContext(ProjectArrayContext);
 
   const tasksDueOnSelectedDate = useMemo(() => {
-    const selectedTasks: Array<JSX.Element> = new Array();
+    const tasks: Array<JSX.Element> = new Array();
     projectArrayState.projects.forEach((project) => {
       project.tasks.forEach((task) => {
         if (new Date(task.deadline).toDateString() === date.toDateString()) {
-          selectedTasks.push(<p>{task.title}</p>);
+          tasks.push(<TaskCalendarCard key={task.id} projectID={project.id} task={task} />);
         }
       });
     });
-    return selectedTasks;
+    return tasks;
   }, [date, projectArrayState.projects]);
 
   return (

@@ -98,7 +98,7 @@ function TaskViewModal({
               <hr className="my-2" />
               <DescriptionPopover
                 title="Show Task Description"
-                description={processDescription(task.description)}
+                task={task}
               />
               <div className="mb-1">
                 <b>Status:</b>{" "}
