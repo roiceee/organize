@@ -1,26 +1,22 @@
-import { initializeApp } from "firebase/app";
 import {
-  getAuth,
-  User,
   GoogleAuthProvider,
   signInWithPopup,
-  signOut,
+  signOut, User
 } from "firebase/auth";
-import {getDatabase} from "firebase/database";
 import { useCallback, useEffect, useState } from "react";
-import createProjectArrayObject from "../defaults/default-project-array-";
-import { createDefaultUser, createEmptyUser } from "../defaults/default-user";
-import firebaseConfig from "../firebase/credentials";
-import ProjectArrayInterface from "../interfaces/project-array-interface";
-import UserTypeInterface from "../interfaces/user-interface";
-import { retrieveFromStorage } from "../utils/local-storage-util";
-import userIcon from "../images/user-icon.svg";
+import IsAppLoadingContext from "../contexts/is-app-loading-context";
 import ProjectArrayContext from "../contexts/project-array-context";
+import TaskCalendarToggleContext from "../contexts/task-calendar-toggle-context";
 import UndoDeletedProjectContext from "../contexts/undo-deleted-project-context";
 import UserTypeContext from "../contexts/user-context";
 import UserSignInContext from "../contexts/user-sign-in-context";
-import IsAppLoadingContext from "../contexts/is-app-loading-context";
-import TaskCalendarToggleContext from "../contexts/task-calendar-toggle-context";
+import createProjectArrayObject from "../defaults/default-project-array-";
+import { createDefaultUser, createEmptyUser } from "../defaults/default-user";
+import { auth } from "../firebase/init";
+import userIcon from "../images/user-icon.svg";
+import ProjectArrayInterface from "../interfaces/project-array-interface";
+import UserTypeInterface from "../interfaces/user-interface";
+import { retrieveFromStorage } from "../utils/storage";
 
 //this is where the providers and global state and contexts are added so that app.tsx is not convoluted
 interface ControlLayerProps {
@@ -38,13 +34,10 @@ function ControlLayer({ children }: ControlLayerProps) {
     useState<boolean>(false);
   const [showCalendarState, setShowCalendarState] = useState<boolean>(true);
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth();
-  const database = getDatabase(app);
-
   const destructureUserToTypeState = useCallback((userAuth: User) => {
     setUserStateType({
       userInformation: {
+        uid: userAuth.uid,
         name: userAuth.displayName,
         email: userAuth.email,
         photoURL: userAuth.photoURL === null ? userIcon : userAuth.photoURL,
@@ -60,7 +53,7 @@ function ControlLayer({ children }: ControlLayerProps) {
     } catch {
       console.log("error");
     }
-  }, [auth]);
+  }, []);
 
   const userSignOut = useCallback(async () => {
     try {
@@ -72,7 +65,7 @@ function ControlLayer({ children }: ControlLayerProps) {
     } catch {
       console.log("error");
     }
-  }, [auth]);
+  }, []);
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
@@ -84,11 +77,15 @@ function ControlLayer({ children }: ControlLayerProps) {
       destructureUserToTypeState(user);
       setIsAppLoading(false);
     });
-  }, [auth, destructureUserToTypeState]);
+  }, [, destructureUserToTypeState]);
 
   useEffect(() => {
-    const projects = retrieveFromStorage(userTypeState);
-    setProjectArrayState(projects);
+    async function getProjectArray() {
+      const projects = await retrieveFromStorage(userTypeState);
+      console.log(projects)
+      setProjectArrayState(projects);
+    }
+    getProjectArray();
   }, [userTypeState, isAppLoading]);
 
   return (

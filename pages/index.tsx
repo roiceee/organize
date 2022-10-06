@@ -24,7 +24,7 @@ import ProjectSortMethods from "../src/enums/project-sorter-methods";
 import ProjectArrayInterface from "../src/interfaces/project-array-interface";
 import ProjectInterface from "../src/interfaces/project-interface";
 import utilStyles from "../src/styles/modules/util-styles.module.scss";
-import { saveToStorage } from "../src/utils/local-storage-util";
+import { saveToStorage } from "../src/utils/storage";
 import {
   projectSortByDateCreated,
   projectSortByNumberOfTasks,

@@ -30,7 +30,7 @@ import ProjectArrayInterface from "../../src/interfaces/project-array-interface"
 import ProjectInterface from "../../src/interfaces/project-interface";
 import TaskInterface from "../../src/interfaces/task-interface";
 import utilStyles from "../../src/styles/modules/util-styles.module.scss";
-import { saveToStorage } from "../../src/utils/local-storage-util";
+import { saveToStorage } from "../../src/utils/storage";
 import {
   taskSortByDateCreated,
   taskSortByDeadline,
