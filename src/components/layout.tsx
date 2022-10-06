@@ -1,17 +1,14 @@
 import { useCallback, useContext, useEffect, useState } from "react";
 import IsAppLoadingContext from "../contexts/is-app-loading-context";
 import UserTypeContext from "../contexts/user-context";
-import UserSignInContext from "../contexts/user-sign-in-context";
 import Footer from "./footer";
 import NavigationBar from "./navbar";
-import UserDiv from "./user-div";
 import LoadingNotice from "./util-components/loading-notice";
 import UserNotSignedInAlert from "./util-components/user-not-signed-in-alert";
 interface LayoutProps {
   children: JSX.Element;
 }
 function Layout({ children }: LayoutProps) {
-  const { userSignIn, userSignOut } = useContext(UserSignInContext);
   const [userNotSignedInAlertState, setUserNotSignedInAlertState] =
     useState(false);
   const { userTypeState } = useContext(UserTypeContext);
@@ -42,7 +39,7 @@ function Layout({ children }: LayoutProps) {
   ]);
 
   if (isAppLoading) {
-    return <LoadingNotice/>
+    return <LoadingNotice />;
   }
 
   return (
@@ -53,12 +50,11 @@ function Layout({ children }: LayoutProps) {
       >
         <div>
           <NavigationBar />
-          <div className="my-1">
+          <div>
             <UserNotSignedInAlert
               show={userNotSignedInAlertState}
               onHide={hideUserNotSignedInAlert}
             />
-            <UserDiv signInHandler={userSignIn} signOutHandler={userSignOut} />
           </div>
           <div>{children}</div>
         </div>

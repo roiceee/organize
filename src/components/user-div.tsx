@@ -1,9 +1,7 @@
-import Container from "react-bootstrap/Container";
 import Image from "next/image";
 import { useCallback, useContext, useState } from "react";
+import Dropdown from "react-bootstrap/Dropdown";
 import UserTypeContext from "../contexts/user-context";
-import userIcon from "../images/user-icon.svg";
-import Button from "react-bootstrap/Button";
 import SignOutModal from "./util-components/sign-out-modal";
 
 interface UserDivProps {
@@ -25,9 +23,8 @@ function UserDiv({ signInHandler, signOutHandler }: UserDivProps) {
 
   return (
     <>
-      <Container style={{ fontSize: "0.9rem" }}>
-        <div className={`d-flex justify-content-end align-items-center gap-2`}>
-          <div>{userTypeState.userInformation.email}</div>
+      <div style={{ fontSize: "0.9rem" }}>
+        <div className={`d-flex justify-content-end align-items-center`}>
           <Image
             className="rounded-circle"
             alt="user profile picture"
@@ -35,7 +32,35 @@ function UserDiv({ signInHandler, signOutHandler }: UserDivProps) {
             width={24}
             src={userTypeState.userInformation.photoURL}
           />
-          {!userTypeState.isLoggedIn && (
+          <Dropdown drop="start">
+            <Dropdown.Toggle
+              variant="none"
+              className="border border-0 d-flex align-items-center text-white"
+            ></Dropdown.Toggle>
+            <Dropdown.Menu style={{ zIndex: "2147483638" }}>
+              <Dropdown.ItemText>
+                {userTypeState.userInformation.email}
+              </Dropdown.ItemText>
+              <Dropdown.Divider />
+              {!userTypeState.isLoggedIn && (
+                <Dropdown.Item
+                  onClick={signInHandler}
+                  className="fw-bold text-black"
+                >
+                  Sign In
+                </Dropdown.Item>
+              )}
+              {userTypeState.isLoggedIn && (
+                <Dropdown.Item
+                  onClick={showSignOutModal}
+                  className="fw-bold text-black"
+                >
+                  Sign Out
+                </Dropdown.Item>
+              )}
+            </Dropdown.Menu>
+          </Dropdown>
+          {/* {!userTypeState.isLoggedIn && (
             <Button
               variant="outline-action"
               style={{ fontSize: "0.9rem", transform: "scale(0.9)" }}
@@ -44,19 +69,9 @@ function UserDiv({ signInHandler, signOutHandler }: UserDivProps) {
             >
               Sign in
             </Button>
-          )}
-          {userTypeState.isLoggedIn && (
-            <Button
-              variant="outline-gray"
-              style={{ fontSize: "0.9rem", transform: "scale(0.9)" }}
-              className="mx-1"
-              onClick={showSignOutModal}
-            >
-              Sign out
-            </Button>
-          )}
+          )} */}
         </div>
-      </Container>
+      </div>
       <SignOutModal
         show={showModal}
         onHide={hideSignOutModal}

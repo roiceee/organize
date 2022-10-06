@@ -1,13 +1,24 @@
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useRef } from "react";
+import { useCallback, useContext, useRef, useState } from "react";
 import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
+import UserSignInContext from "../contexts/user-sign-in-context";
+import homeIcon from "../images/home.svg";
+import aboutIcon from "../images/info.svg";
+import UserDiv from "./user-div";
+
+enum NavigationBarConstants {
+  titleCollapseBreakPoint = 310,
+}
 
 function NavigationBar() {
   const navbarCollapseToggle = useRef<HTMLButtonElement>(null);
 
+  const [viewportSizeState, setViewportSizeState] = useState(
+    Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
+  );
+  const { userSignIn, userSignOut } = useContext(UserSignInContext);
   const closeNavbar = useCallback(() => {
     const collapseButton = navbarCollapseToggle.current;
     if (collapseButton === null) {
@@ -19,6 +30,14 @@ function NavigationBar() {
     collapseButton.click();
   }, [navbarCollapseToggle]);
 
+  onresize = () => {
+    setViewportSizeState(
+      Math.max(
+        document.documentElement.clientWidth || 0,
+        window.innerWidth || 0
+      )
+    );
+  };
   return (
     <Navbar
       key="md"
@@ -42,48 +61,38 @@ function NavigationBar() {
               className="mx-2"
               onClick={closeNavbar}
             >
-              Organize
+              {viewportSizeState >
+              NavigationBarConstants.titleCollapseBreakPoint
+                ? "Organize"
+                : ""}
             </div>
           </Link>
         </div>
-        <Navbar.Toggle
-          ref={navbarCollapseToggle}
-          aria-controls={`offcanvasNavbar-expand-$"md"`}
-        />
-        <Navbar.Collapse id="basic-navbar-nav" className="mt-2 mt-md-0">
-          <Nav className="me-auto mx-md-4">
-            <Navbar.Text>
-              <Link href="/">
-                <a
-                  className="text-light text-decoration-none mx-md-3"
-                  onClick={closeNavbar}
-                >
-                  Home
-                </a>
-              </Link>
-            </Navbar.Text>
-            {/* <Navbar.Text>
-              <Link href="#action1">
-                <a
-                  className="text-light text-decoration-none mx-md-3"
-                  onClick={closeNavbar}
-                >
-                  Sign in
-                </a>
-              </Link>
-            </Navbar.Text> */}
-            <Navbar.Text>
-              <Link href="/about">
-                <a
-                  className="text-light text-decoration-none mx-md-3 "
-                  onClick={closeNavbar}
-                >
-                  About
-                </a>
-              </Link>
-            </Navbar.Text>
-          </Nav>
-        </Navbar.Collapse>
+        <div className="d-flex gap-3 align-items-center">
+          <Navbar.Text className="mt-1">
+            <Link href="/">
+              <a
+                className="text-light text-decoration-none"
+                onClick={closeNavbar}
+              >
+                <Image src={homeIcon} alt="Home" />
+              </a>
+            </Link>
+          </Navbar.Text>
+          <Navbar.Text className="mt-1">
+            <Link href="/about">
+              <a
+                className="text-light text-decoration-none"
+                onClick={closeNavbar}
+              >
+                <Image src={aboutIcon} alt="About" />
+              </a>
+            </Link>
+          </Navbar.Text>
+          <Navbar.Text style={{ marginLeft: "12px" }}>
+            <UserDiv signInHandler={userSignIn} signOutHandler={userSignOut} />
+          </Navbar.Text>
+        </div>
       </Container>
     </Navbar>
   );
