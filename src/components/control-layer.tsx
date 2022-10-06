@@ -1,3 +1,4 @@
+import { create } from "domain";
 import {
   GoogleAuthProvider,
   signInWithPopup,
@@ -16,7 +17,7 @@ import { auth } from "../firebase/init";
 import userIcon from "../images/user-icon.svg";
 import ProjectArrayInterface from "../interfaces/project-array-interface";
 import UserTypeInterface from "../interfaces/user-interface";
-import { retrieveFromStorage } from "../utils/storage";
+import { retrieveFromStorage, retrieveLastUserSessionType, saveLastUserSession } from "../utils/storage";
 
 //this is where the providers and global state and contexts are added so that app.tsx is not convoluted
 interface ControlLayerProps {
@@ -24,15 +25,14 @@ interface ControlLayerProps {
 }
 
 function ControlLayer({ children }: ControlLayerProps) {
-  const [userTypeState, setUserStateType] = useState<UserTypeInterface>(
-    createEmptyUser()
-  );
+  const [userTypeState, setUserStateType] = useState<UserTypeInterface>(createDefaultUser());
   const [projectArrayState, setProjectArrayState] =
     useState<ProjectArrayInterface>(createProjectArrayObject());
   const [isAppLoading, setIsAppLoading] = useState<boolean>(true);
   const [undoDeletedProjectAlertState, setUndoDeletedProjectAlertState] =
     useState<boolean>(false);
   const [showCalendarState, setShowCalendarState] = useState<boolean>(true);
+  const [loadOtherEffects, setLoadOtherEffects] = useState(false);
 
   const destructureUserToTypeState = useCallback((userAuth: User) => {
     setUserStateType({
@@ -68,6 +68,12 @@ function ControlLayer({ children }: ControlLayerProps) {
   }, []);
 
   useEffect(() => {
+    setUserStateType(retrieveLastUserSessionType());
+    setLoadOtherEffects(true);
+  }, [])
+
+
+  useEffect(() => {
     auth.onAuthStateChanged((user) => {
       if (!user) {
         setUserStateType(createDefaultUser());
@@ -77,16 +83,26 @@ function ControlLayer({ children }: ControlLayerProps) {
       destructureUserToTypeState(user);
       setIsAppLoading(false);
     });
-  }, [, destructureUserToTypeState]);
+  }, [destructureUserToTypeState]);
 
   useEffect(() => {
+    if (!loadOtherEffects) {
+        return;
+    }
     async function getProjectArray() {
       const projects = await retrieveFromStorage(userTypeState);
-      console.log(projects)
       setProjectArrayState(projects);
     }
     getProjectArray();
-  }, [userTypeState, isAppLoading]);
+  }, [userTypeState, isAppLoading, loadOtherEffects]);
+
+  useEffect(() => {
+    if (!loadOtherEffects) {
+      return;
+    }
+    saveLastUserSession(userTypeState);
+  }, [userTypeState, loadOtherEffects])
+
 
   return (
     <>

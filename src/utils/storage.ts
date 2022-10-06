@@ -1,5 +1,6 @@
 import { child, get, ref, set } from "firebase/database";
 import createProjectArrayObject from "../defaults/default-project-array-";
+import { createDefaultUser } from "../defaults/default-user";
 import LocalStorageKeyEnum from "../enums/local-storage-key";
 import { database } from "../firebase/init";
 import ProjectArrayInterface from "../interfaces/project-array-interface";
@@ -8,19 +9,36 @@ import UserTypeInterface from "../interfaces/user-interface";
 
 const databaseRef = ref(database);
 
+function saveLastUserSession(userType: UserTypeInterface) {
+  localStorage.setItem(
+    LocalStorageKeyEnum.IsLastSessionLoggedInKey,
+    JSON.stringify(userType)
+  );
+}
+
+function retrieveLastUserSessionType() : UserTypeInterface {
+  const userType = localStorage.getItem(LocalStorageKeyEnum.IsLastSessionLoggedInKey);
+  if (userType === null) {
+    return createDefaultUser();
+  }
+  return JSON.parse(userType);
+}
+
 function saveToLocalStorage(project: ProjectArrayInterface): void {
-  localStorage.setItem(LocalStorageKeyEnum.Key, JSON.stringify(project));
+  localStorage.setItem(LocalStorageKeyEnum.ProjectKey, JSON.stringify(project));
 }
 
 async function retrieveFromLocalStorage(): Promise<ProjectArrayInterface> {
-  const objectString = localStorage.getItem(LocalStorageKeyEnum.Key);
+  const objectString = localStorage.getItem(LocalStorageKeyEnum.ProjectKey);
   if (objectString === null) {
     return createProjectArrayObject();
   }
   return JSON.parse(objectString);
 }
 
-async function retrieveFromFirebase(userType: UserTypeInterface) : Promise<ProjectArrayInterface> {
+async function retrieveFromFirebase(
+  userType: UserTypeInterface
+): Promise<ProjectArrayInterface> {
   let projectArray = "";
   await get(child(databaseRef, "users/" + userType.userInformation.uid))
     .then((snapshot) => {
@@ -33,6 +51,9 @@ async function retrieveFromFirebase(userType: UserTypeInterface) : Promise<Proje
     .catch((error) => {
       console.error(error);
     });
+  if (projectArray === "") {
+    return createProjectArrayObject();
+  }
   return JSON.parse(projectArray);
 }
 
@@ -45,7 +66,10 @@ function saveToStorage(
     saveToLocalStorage(projectArray);
     return;
   }
-  set(ref(database, "users/" + userType.userInformation.uid), JSON.stringify(projectArray));
+  set(
+    ref(database, "users/" + userType.userInformation.uid),
+    JSON.stringify(projectArray)
+  );
 }
 
 //if user is logged in, then retrieve from firebase cloud storage. Otherwise, retrieve from LocalStorage.
@@ -55,9 +79,7 @@ async function retrieveFromStorage(
   if (!userType.isLoggedIn) {
     return await retrieveFromLocalStorage();
   }
-
   return await retrieveFromFirebase(userType);
 }
 
-export { saveToStorage, retrieveFromStorage };
-
+export { saveToStorage, retrieveFromStorage, saveLastUserSession, retrieveLastUserSessionType };

@@ -1,5 +1,6 @@
 enum LocalStorageKeyEnum {
-    Key = "LOCALPROJECT"
+    ProjectKey = "LOCALPROJECT",
+    IsLastSessionLoggedInKey = "LastUserSession"
 }
 
 export default LocalStorageKeyEnum

@@ -74,12 +74,20 @@ function UserDiv({ signInHandler, signOutHandler }: UserDivProps) {
                 </Dropdown.Item>
               )}
               {userTypeState.isLoggedIn && (
-                <Dropdown.Item
-                  onClick={showSignOutModal}
-                  className={`fw-bold text-black ${utilStyles.textWhiteOnActive}`}
-                >
-                  Sign Out
-                </Dropdown.Item>
+                <>
+                  <Dropdown.Item
+                    onClick={signInHandler}
+                    className={`fw-bold text-black ${utilStyles.textWhiteOnActive}`}
+                  >
+                    Change Account
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={showSignOutModal}
+                    className={`fw-bold text-danger ${utilStyles.textWhiteOnActive}`}
+                  >
+                    Sign Out
+                  </Dropdown.Item>
+                </>
               )}
             </Dropdown.Menu>
           </Dropdown>
