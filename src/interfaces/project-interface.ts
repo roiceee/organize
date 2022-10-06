@@ -4,9 +4,9 @@ interface ProjectInterface {
   type: "project";
   id: string;
   title: string;
-  description: string | string;
-  dateCreated: Date | string;
-  lastModified: Date | string;
+  description: string;
+  dateCreated: string;
+  lastModified: string;
   tasks: Array<TaskInterface>;
   recentlyDeletedTask: TaskInterface | null;
 }

@@ -108,7 +108,7 @@ function TasksPage() {
         const updatedProjects = prevProjectArrayStateCopy.projects.map(
           (project) => {
             if (project.id === updatedProject.id) {
-              updatedProject.lastModified = new Date();
+              updatedProject.lastModified = new Date().toString();
               return updatedProject;
             }
             return project;

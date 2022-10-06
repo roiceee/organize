@@ -42,8 +42,8 @@ function AddProjectModal({
     const newProjectValue = {
       ...currentProjectValueCopy,
       id: generateUniqueID(),
-      dateCreated: new Date(),
-      lastModified: new Date(),
+      dateCreated: new Date().toString(),
+      lastModified: new Date().toString(),
     };
     return newProjectValue;
   }, [projectFormState]);

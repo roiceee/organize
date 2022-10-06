@@ -2,8 +2,10 @@ import { create } from "domain";
 import {
   GoogleAuthProvider,
   signInWithPopup,
-  signOut, User
+  signOut,
+  User,
 } from "firebase/auth";
+import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import IsAppLoadingContext from "../contexts/is-app-loading-context";
 import ProjectArrayContext from "../contexts/project-array-context";
@@ -17,7 +19,11 @@ import { auth } from "../firebase/init";
 import userIcon from "../images/user-icon.svg";
 import ProjectArrayInterface from "../interfaces/project-array-interface";
 import UserTypeInterface from "../interfaces/user-interface";
-import { retrieveFromStorage, retrieveLastUserSessionType, saveLastUserSession } from "../utils/storage";
+import {
+  retrieveFromStorage,
+  retrieveLastUserSessionType,
+  saveLastUserSession,
+} from "../utils/storage";
 
 //this is where the providers and global state and contexts are added so that app.tsx is not convoluted
 interface ControlLayerProps {
@@ -25,7 +31,9 @@ interface ControlLayerProps {
 }
 
 function ControlLayer({ children }: ControlLayerProps) {
-  const [userTypeState, setUserStateType] = useState<UserTypeInterface>(createDefaultUser());
+  const [userTypeState, setUserStateType] = useState<UserTypeInterface>(
+    createDefaultUser()
+  );
   const [projectArrayState, setProjectArrayState] =
     useState<ProjectArrayInterface>(createProjectArrayObject());
   const [isAppLoading, setIsAppLoading] = useState<boolean>(true);
@@ -33,6 +41,7 @@ function ControlLayer({ children }: ControlLayerProps) {
     useState<boolean>(false);
   const [showCalendarState, setShowCalendarState] = useState<boolean>(true);
   const [loadOtherEffects, setLoadOtherEffects] = useState(false);
+  const router = useRouter();
 
   const destructureUserToTypeState = useCallback((userAuth: User) => {
     setUserStateType({
@@ -53,7 +62,8 @@ function ControlLayer({ children }: ControlLayerProps) {
     } catch {
       console.log("error");
     }
-  }, []);
+    router.push("/");
+  }, [router]);
 
   const userSignOut = useCallback(async () => {
     try {
@@ -65,13 +75,13 @@ function ControlLayer({ children }: ControlLayerProps) {
     } catch {
       console.log("error");
     }
-  }, []);
+    router.push("/");
+  }, [router]);
 
   useEffect(() => {
     setUserStateType(retrieveLastUserSessionType());
     setLoadOtherEffects(true);
-  }, [])
-
+  }, []);
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
@@ -87,7 +97,7 @@ function ControlLayer({ children }: ControlLayerProps) {
 
   useEffect(() => {
     if (!loadOtherEffects) {
-        return;
+      return;
     }
     async function getProjectArray() {
       const projects = await retrieveFromStorage(userTypeState);
@@ -101,8 +111,7 @@ function ControlLayer({ children }: ControlLayerProps) {
       return;
     }
     saveLastUserSession(userTypeState);
-  }, [userTypeState, loadOtherEffects])
-
+  }, [userTypeState, loadOtherEffects]);
 
   return (
     <>

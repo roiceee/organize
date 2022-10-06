@@ -14,10 +14,13 @@ function projectSortByNumberOfTasks(array: Array<ProjectInterface>) {
 
 function projectSortByDateCreated(array: Array<ProjectInterface>) {
   return array.sort((a, b) => {
-    if (a.dateCreated < b.dateCreated) {
+    const aDateCreated = new Date(a.dateCreated);
+    const bDateCreated = new Date(b.dateCreated);
+
+    if (aDateCreated < bDateCreated) {
       return 1;
     }
-    if (a.dateCreated > b.dateCreated) {
+    if (aDateCreated > bDateCreated) {
       return -1;
     }
     return 0;
@@ -37,8 +40,7 @@ function projectSortByTitle(array: Array<ProjectInterface>) {
 }
 
 export {
-    projectSortByNumberOfTasks,
-    projectSortByDateCreated,
-    projectSortByTitle,
+  projectSortByNumberOfTasks,
+  projectSortByDateCreated,
+  projectSortByTitle,
 };
-

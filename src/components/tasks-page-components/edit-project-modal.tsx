@@ -54,7 +54,7 @@ function EditProjectModal({
     const updatedProjectValue = {
       ...currentProjectValueCopy,
       tasks: [...currentProjectValueCopy.tasks],
-      lastModified: new Date(),
+      lastModified: new Date().toString(),
     };
 
     return updatedProjectValue;

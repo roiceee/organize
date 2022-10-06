@@ -28,10 +28,13 @@ function taskSortByDeadline(array: Array<TaskInterface>) {
     if (a.deadline === "") {
       return -1;
     }
-    if (a.deadline < b.deadline) {
+    const aDeadline = new Date(a.deadline);
+    const bDeadline = new Date(b.deadline);
+
+    if (aDeadline < bDeadline) {
       return 1;
     }
-    if (a.deadline > b.deadline) {
+    if (aDeadline > bDeadline) {
       return -1;
     }
     return 0;
@@ -70,4 +73,3 @@ export {
   taskSortByPriority,
   taskSortByTitle,
 };
-
