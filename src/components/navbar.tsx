@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useContext, useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import UserSignInContext from "../contexts/user-sign-in-context";
@@ -19,16 +19,6 @@ function NavigationBar() {
     Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
   );
   const { userSignIn, userSignOut } = useContext(UserSignInContext);
-  const closeNavbar = useCallback(() => {
-    const collapseButton = navbarCollapseToggle.current;
-    if (collapseButton === null) {
-      return;
-    }
-    if (collapseButton.classList.contains("collapsed")) {
-      return;
-    }
-    collapseButton.click();
-  }, [navbarCollapseToggle]);
 
   onresize = () => {
     setViewportSizeState(
@@ -56,11 +46,7 @@ function NavigationBar() {
             className="d-inline-block my-auto"
           />
           <Link href="/">
-            <div
-              style={{ fontSize: "1.25rem" }}
-              className="mx-2"
-              onClick={closeNavbar}
-            >
+            <div style={{ fontSize: "1.25rem" }} className="mx-2">
               {viewportSizeState >
               NavigationBarConstants.titleCollapseBreakPoint
                 ? "Organize"
@@ -71,20 +57,14 @@ function NavigationBar() {
         <div className="d-flex gap-3 align-items-center">
           <Navbar.Text className="mt-1">
             <Link href="/">
-              <a
-                className="text-light text-decoration-none"
-                onClick={closeNavbar}
-              >
+              <a className="text-light text-decoration-none">
                 <Image src={homeIcon} alt="Home" />
               </a>
             </Link>
           </Navbar.Text>
           <Navbar.Text className="mt-1">
             <Link href="/about">
-              <a
-                className="text-light text-decoration-none"
-                onClick={closeNavbar}
-              >
+              <a className="text-light text-decoration-none">
                 <Image src={aboutIcon} alt="About" />
               </a>
             </Link>

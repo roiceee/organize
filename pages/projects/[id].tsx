@@ -37,9 +37,9 @@ import {
 } from "../../src/utils/task-sorts";
 import Sorter from "../../src/components/util-components/sorter";
 import TaskCalendar from "../../src/components/task-calendar";
+import _ from "lodash";
 
-
-//this dynamic page's path uses the projects' projectIDs 
+//this dynamic page's path uses the projects' projectIDs
 function TasksPage() {
   const router = useRouter();
   const { userTypeState, setUserStateType } = useContext(UserTypeContext);
@@ -317,7 +317,12 @@ function TasksPage() {
         value={{ currentProjectState, setCurrentProjectState }}
       >
         <Container>
-          <HeadWrapper title={`${currentProjectState.title.substring(0,12)}... - Organize `} />
+          <HeadWrapper
+            title={`${_.truncate(currentProjectState.title, {
+              length: 12,
+              omission: "...",
+            })} - Organize`}
+          />
           <BodyLayoutOne
             leftElements={
               <Row className="sticky-wrapper position-sticky sticky-top bg-light p-2 bg-white rounded-2 border">
@@ -344,17 +349,17 @@ function TasksPage() {
                   </Button>
                 </div>
                 <DescriptionPopover
-                      title="Show Project Description"
-                      project={currentProjectState}
-                    />
-                <TaskCalendar/>
+                  title="Show Project Description"
+                  project={currentProjectState}
+                />
+                <TaskCalendar />
               </Row>
             }
             rightElements={
               <Row className="p-2 pb-4 gap-2 justify-content-center bg-white border rounded-2">
                 <StickyHeader
                   mainDescriptionDiv={
-                    <div className={`my-1 ${utilStyles.colorAction}`} >
+                    <div className={`my-1 ${utilStyles.colorAction}`}>
                       {currentProjectState.tasks.length + " Tasks"}
                       {currentProjectState.tasks.length > 0 && (
                         <div
