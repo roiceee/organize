@@ -1,9 +1,11 @@
+import { StaticImageData } from "next/image";
+
 interface UserTypeInterface {
     userInformation: {
         uid: string;
         name: string | null;
         email: string | null;
-        photoURL: string;
+        photoURL: StaticImageData;
     }
     isLoggedIn: boolean
 }

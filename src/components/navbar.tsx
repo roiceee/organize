@@ -69,7 +69,7 @@ function NavigationBar() {
               </a>
             </Link>
           </Navbar.Text>
-          <Navbar.Text style={{ marginLeft: "12px" }}>
+          <Navbar.Text>
             <UserDiv signInHandler={userSignIn} signOutHandler={userSignOut} />
           </Navbar.Text>
         </div>

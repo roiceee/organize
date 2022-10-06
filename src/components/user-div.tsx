@@ -46,8 +46,8 @@ function UserDiv({ signInHandler, signOutHandler }: UserDivProps) {
 
   return (
     <>
-      <div style={{ fontSize: "0.9rem" }}>
-        <div className={`d-flex justify-content-end align-items-center`}>
+      <div style={{ fontSize: "0.9rem", borderLeft: "1px solid white", paddingLeft: "8px" }}>
+        <div className={`d-flex justify-content-end align-items-center`} >
           <Image
             className="rounded-circle"
             alt="user profile picture"
