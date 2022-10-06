@@ -6,6 +6,7 @@ import {
   signInWithPopup,
   signOut,
 } from "firebase/auth";
+import {getDatabase} from "firebase/database";
 import { useCallback, useEffect, useState } from "react";
 import createProjectArrayObject from "../defaults/default-project-array-";
 import { createDefaultUser, createEmptyUser } from "../defaults/default-user";
@@ -39,6 +40,7 @@ function ControlLayer({ children }: ControlLayerProps) {
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth();
+  const database = getDatabase(app);
 
   const destructureUserToTypeState = useCallback((userAuth: User) => {
     setUserStateType({

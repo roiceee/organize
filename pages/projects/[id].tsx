@@ -1,3 +1,4 @@
+import _ from "lodash";
 import { useRouter } from "next/router";
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import Button from "react-bootstrap/Button";
@@ -5,6 +6,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import BodyLayoutOne from "../../src/components/body-layout-one";
 import HeadWrapper from "../../src/components/head-wrapper";
+import TaskCalendar from "../../src/components/task-calendar";
 import AddTaskModal from "../../src/components/tasks-page-components/add-task-modal";
 import DeleteProjectModal from "../../src/components/tasks-page-components/delete-project-modal";
 import DescriptionPopover from "../../src/components/tasks-page-components/description-accordion";
@@ -12,11 +14,12 @@ import EditProjectModal from "../../src/components/tasks-page-components/edit-pr
 import GoBackLink from "../../src/components/tasks-page-components/go-back-link";
 import ProjectControl from "../../src/components/tasks-page-components/project-control";
 import TaskCard from "../../src/components/tasks-page-components/task-card";
+import UndoDeletedTaskAlert from "../../src/components/tasks-page-components/undo-task-alert";
 import ErrorNotice from "../../src/components/util-components/error-notice";
 import LoadingNotice from "../../src/components/util-components/loading-notice";
 import ScrollToTopButton from "../../src/components/util-components/scroll-to-top-button";
+import Sorter from "../../src/components/util-components/sorter";
 import StickyHeader from "../../src/components/util-components/sticky-header";
-import UndoDeletedTaskAlert from "../../src/components/tasks-page-components/undo-task-alert";
 import ProjectArrayContext from "../../src/contexts/project-array-context";
 import ProjectContext from "../../src/contexts/project-context";
 import UndoDeletedProjectContext from "../../src/contexts/undo-deleted-project-context";
@@ -27,7 +30,6 @@ import ProjectArrayInterface from "../../src/interfaces/project-array-interface"
 import ProjectInterface from "../../src/interfaces/project-interface";
 import TaskInterface from "../../src/interfaces/task-interface";
 import utilStyles from "../../src/styles/modules/util-styles.module.scss";
-import formatDate from "../../src/utils/dateFormatter";
 import { saveToStorage } from "../../src/utils/local-storage-util";
 import {
   taskSortByDateCreated,
@@ -35,9 +37,6 @@ import {
   taskSortByPriority,
   taskSortByTitle,
 } from "../../src/utils/task-sorts";
-import Sorter from "../../src/components/util-components/sorter";
-import TaskCalendar from "../../src/components/task-calendar";
-import _ from "lodash";
 
 //this dynamic page's path uses the projects' projectIDs
 function TasksPage() {
@@ -320,7 +319,6 @@ function TasksPage() {
           <HeadWrapper
             title={`${_.truncate(currentProjectState.title, {
               length: 12,
-              omission: "...",
             })} - Organize`}
           />
           <BodyLayoutOne

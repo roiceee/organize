@@ -3,6 +3,7 @@ import { useCallback, useContext, useState, useRef, useMemo } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import UserTypeContext from "../contexts/user-context";
 import SignOutModal from "./util-components/sign-out-modal";
+import utilStyles from "../styles/modules/util-styles.module.scss";
 import _ from "lodash";
 interface UserDivProps {
   signInHandler: () => void;
@@ -67,7 +68,7 @@ function UserDiv({ signInHandler, signOutHandler }: UserDivProps) {
               {!userTypeState.isLoggedIn && (
                 <Dropdown.Item
                   onClick={signInHandler}
-                  className="fw-bold text-black"
+                  className={`fw-bold text-black ${utilStyles.textWhiteOnActive}`}
                 >
                   Sign In
                 </Dropdown.Item>
@@ -75,7 +76,7 @@ function UserDiv({ signInHandler, signOutHandler }: UserDivProps) {
               {userTypeState.isLoggedIn && (
                 <Dropdown.Item
                   onClick={showSignOutModal}
-                  className="fw-bold text-black"
+                  className={`fw-bold text-black ${utilStyles.textWhiteOnActive}`}
                 >
                   Sign Out
                 </Dropdown.Item>

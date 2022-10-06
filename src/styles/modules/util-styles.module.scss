@@ -60,6 +60,10 @@
   box-shadow: 0px 15px 10px -15px rgb(173, 173, 173);
 }
 
+.textWhiteOnActive:active {
+  color: white!important;
+}
+
 @media all and (min-width: 1000px) {
   .hoverable:hover {
     transition: 0.2s;
