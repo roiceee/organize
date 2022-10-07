@@ -101,6 +101,7 @@ function ControlLayer({ children }: ControlLayerProps) {
     }
     async function getProjectArray() {
       const projects = await retrieveFromStorage(userTypeState);
+      console.log(projects)
       setProjectArrayState(projects);
     }
     getProjectArray();

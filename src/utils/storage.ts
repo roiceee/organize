@@ -16,8 +16,10 @@ function saveLastUserSession(userType: UserTypeInterface) {
   );
 }
 
-function retrieveLastUserSessionType() : UserTypeInterface {
-  const userType = localStorage.getItem(LocalStorageKeyEnum.IsLastSessionLoggedInKey);
+function retrieveLastUserSessionType(): UserTypeInterface {
+  const userType = localStorage.getItem(
+    LocalStorageKeyEnum.IsLastSessionLoggedInKey
+  );
   if (userType === null) {
     return createDefaultUser();
   }
@@ -82,4 +84,9 @@ async function retrieveFromStorage(
   return await retrieveFromFirebase(userType);
 }
 
-export { saveToStorage, retrieveFromStorage, saveLastUserSession, retrieveLastUserSessionType };
+export {
+  saveToStorage,
+  retrieveFromStorage,
+  saveLastUserSession,
+  retrieveLastUserSessionType,
+};
