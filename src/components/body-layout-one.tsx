@@ -12,7 +12,7 @@ function BodyLayoutOne({ leftElements, rightElements }: BodyLayoutOne) {
       <Col lg={5}>{leftElements}
       </Col>
       <Col lg={1}></Col>
-      <Col lg={5}>{rightElements}</Col>
+      <Col lg={6}>{rightElements}</Col>
     </Row>
   );
 }

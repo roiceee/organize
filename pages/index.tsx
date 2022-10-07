@@ -7,7 +7,6 @@ import Row from "react-bootstrap/Row";
 import BodyLayoutOne from "../src/components/body-layout-one";
 import HeadWrapper from "../src/components/head-wrapper";
 import AddProjectModal from "../src/components/projects-page-components/add-project-modal";
-import Overview from "../src/components/projects-page-components/overview-accordion";
 import ProjectCard from "../src/components/projects-page-components/project-card";
 import Quotes from "../src/components/projects-page-components/quotes";
 import UndoProjectAlert from "../src/components/projects-page-components/undo-project-alert";
@@ -30,6 +29,8 @@ import {
   projectSortByNumberOfTasks,
   projectSortByTitle,
 } from "../src/utils/project-sorts";
+import OverviewModal from "../src/components/projects-page-components/overview-modal";
+import OverviewTrigger from "../src/components/projects-page-components/overview.trigger";
 
 const Home: NextPage = () => {
   const { userTypeState, setUserStateType } = useContext(UserTypeContext);
@@ -37,20 +38,31 @@ const Home: NextPage = () => {
     useContext(ProjectArrayContext);
   const [currentProjectState, setCurrentProjectState] =
     useState<ProjectInterface>(createProjectObject());
-  const [showState, setModalShow] = useState<boolean>(false);
+  const [showAddProjectModalState, setShowAddProjectModalState] =
+    useState<boolean>(false);
   const { undoDeletedProjectAlertState, setUndoDeletedProjectAlertState } =
     useContext(UndoDeletedProjectContext);
   const [sortMethodState, setSortMethodState] = useState<string>(
     ProjectSortMethods.dateCreated
   );
   const [sortOrderState, setSortOrderState] = useState<boolean>(false);
+  const [showOverviewModalState, setShowOverviewModalState] =
+    useState<boolean>(false);
 
   const showAddProjectModal = useCallback(() => {
-    setModalShow(true);
+    setShowAddProjectModalState(true);
   }, []);
 
   const hideAddProjectModal = useCallback(() => {
-    setModalShow(false);
+    setShowAddProjectModalState(false);
+  }, []);
+
+  const showOverviewModal = useCallback(() => {
+    setShowOverviewModalState(true);
+  }, []);
+
+  const hideOverviewModal = useCallback(() => {
+    setShowOverviewModalState(false);
   }, []);
 
   const hideUndoDeletedProjectAlert = useCallback(() => {
@@ -119,9 +131,9 @@ const Home: NextPage = () => {
         return newProjectArrayState;
       });
 
-      setModalShow(false);
+      setShowAddProjectModalState(false);
     },
-    [setModalShow, setProjectArrayState, userTypeState]
+    [setShowAddProjectModalState, setProjectArrayState, userTypeState]
   );
 
   const undoDeletedProject = useCallback(
@@ -144,13 +156,16 @@ const Home: NextPage = () => {
       value={{ currentProjectState, setCurrentProjectState }}
     >
       <Container>
-        <HeadWrapper title="Organize | Home" />
+        <HeadWrapper title="Home / Organize" />
 
         <BodyLayoutOne
           leftElements={
             <Row className="sticky-wrapper position-sticky sticky-top bg-white border rounded-2 py-3 ">
               <Row className="mx-auto justify-content-center">
                 <Col>
+                  <div className="d-flex justify-content-end align-items-center">
+                    <OverviewTrigger onClick={showOverviewModal} />
+                  </div>
                   <h5 className="my-0 mb-2">
                     Welcome back, {userTypeState.userInformation.name}!
                   </h5>
@@ -168,9 +183,6 @@ const Home: NextPage = () => {
                   </Button>
                 </div>
               </Row>
-              {projectArrayState.projects.length > 0 && (
-                <Overview projectArray={projectArrayState} />
-              )}
               <TaskCalendar />
             </Row>
           }
@@ -211,9 +223,13 @@ const Home: NextPage = () => {
           }
         />
         <AddProjectModal
-          showState={showState}
+          showState={showAddProjectModalState}
           onHide={hideAddProjectModal}
           onActionButtonClick={addProjectToProjectArray}
+        />
+        <OverviewModal
+          show={showOverviewModalState}
+          onHide={hideOverviewModal}
         />
         <ScrollToTopButton />
         {projectArrayState.recentlyDeletedProject !== null && (

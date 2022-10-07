@@ -1,34 +1,44 @@
-import styles from "../../styles/modules/tasks-page.module.scss";
-
+import Button from "react-bootstrap/Button";
 interface ProjectControlProps {
-  editProjectHandler: () => void;
-  deleteProjectHandler: () => void;
+  onEditProjectButtonClick: () => void;
+  onClearProjectButtonClick: () => void;
+  onDeleteProjectButtonClick: () => void;
 }
 
 function ProjectControl({
-  editProjectHandler,
-  deleteProjectHandler,
+  onEditProjectButtonClick,
+  onClearProjectButtonClick,
+  onDeleteProjectButtonClick,
 }: ProjectControlProps) {
+
+
   return (
     <>
-      <div className="d-flex gap-3">
-        <div className={`${styles.smallerFontSize} d-flex gap-3`}>
-          <div
-            className={styles.editProject}
-            tabIndex={0}
-            onClick={editProjectHandler}
-          >
-            Edit
-          </div>
-          <div>|</div>
-          <div
-            className={styles.deleteProject}
-            tabIndex={0}
-            onClick={deleteProjectHandler}
-          >
-            Delete
-          </div>
-        </div>
+      <div className={`d-flex flex-column text-center gap-2`}>
+        <Button
+          variant="info"
+          tabIndex={0}
+          onClick={onEditProjectButtonClick}
+          style={{ fontSize: "0.9rem" }}
+        >
+          Edit Project
+        </Button>
+        <Button
+          variant="warning"
+          tabIndex={0}
+          onClick={onClearProjectButtonClick}
+          style={{ fontSize: "0.9rem" }}
+        >
+          Clear Project
+        </Button>
+        <Button
+          variant="outline-danger"
+          tabIndex={0}
+          onClick={onDeleteProjectButtonClick}
+          style={{ fontSize: "0.9rem" }}
+        >
+          Delete Project
+        </Button>
       </div>
     </>
   );

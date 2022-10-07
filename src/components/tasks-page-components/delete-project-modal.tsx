@@ -27,6 +27,7 @@ function DeleteProjectModal({
       size="sm"
       aria-labelledby="delete-project-modal"
       centered
+      animation={false}
     >
       <Modal.Header className="bg-danger" closeButton>
         <Modal.Title id="delete-project-modal">Delete Project</Modal.Title>

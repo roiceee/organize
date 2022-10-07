@@ -1,6 +1,7 @@
 import utilStyles from "../modules/util-styles.module.scss";
 import styles from "../modules/task-card.module.scss";
 import TaskInterface from "../../interfaces/task-interface";
+import { checkTaskIsDue } from "../../utils/task-utils";
 
 function getStatusColor(task: TaskInterface) {
     switch (task.isDone) {
@@ -25,13 +26,10 @@ function getPriorityColor(task: TaskInterface) {
 }
 
 function getDeadlineColor(task: TaskInterface) {
-  if (task.isDone) {
+  if (!checkTaskIsDue(task)) {
     return "";
   }
-  if (new Date(task.deadline) <= new Date()) {
-    return utilStyles.colorDanger
-  }
-
+  return utilStyles.colorDanger;
 }
 
 export {getStatusColor, getPriorityColor, getDeadlineColor}

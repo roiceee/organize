@@ -59,10 +59,10 @@ function ControlLayer({ children }: ControlLayerProps) {
     try {
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
+      router.push("/");
     } catch {
       console.log("error");
     }
-    router.push("/");
   }, [router]);
 
   const userSignOut = useCallback(async () => {

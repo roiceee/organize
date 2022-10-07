@@ -1,10 +1,4 @@
-import {
-  ChangeEvent,
-  useCallback,
-  useContext,
-  useRef,
-  useState
-} from "react";
+import { ChangeEvent, useCallback, useContext, useRef, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import ProjectArrayContext from "../../contexts/project-array-context";
@@ -13,20 +7,21 @@ import ProjectInterface from "../../interfaces/project-interface";
 import {
   removeErrorFields,
   validateExistingProjectExceptForCurrent,
-  validateRequiredInput
+  validateRequiredInput,
 } from "../../utils/validation";
 import ProjectForm from "../projects-page-components/project-form";
 
 interface AddProjectModalProps {
-  showState: boolean;
+  show: boolean;
   onHide: () => void;
-  onActionButtonClick: (newProject: ProjectInterface) => void;
+
+  onEditButtonClick: (newProject: ProjectInterface) => void;
 }
 
 function EditProjectModal({
-  showState,
+  show,
   onHide,
-  onActionButtonClick,
+  onEditButtonClick,
 }: AddProjectModalProps) {
   const { currentProjectState } = useContext(ProjectContext);
   const { projectArrayState } = useContext(ProjectArrayContext);
@@ -68,8 +63,9 @@ function EditProjectModal({
     if (projectValue === null) {
       return;
     }
-    onActionButtonClick(projectValue);
-  }, [areFormsValid, onActionButtonClick, updateCurrentProject]);
+    onEditButtonClick(projectValue);
+    onHide();
+  }, [areFormsValid, onEditButtonClick, updateCurrentProject, onHide]);
 
   const projectTitleFormHandler = useCallback(
     (e: ChangeEvent<HTMLInputElement>): void => {
@@ -99,11 +95,12 @@ function EditProjectModal({
 
   return (
     <Modal
-      show={showState}
+      show={show}
       onHide={onHide}
       size="lg"
       aria-labelledby="edit-project-modal"
       centered
+      animation={false}
     >
       <Modal.Header className="bg-secondary text-light" closeButton>
         <Modal.Title id="edit-project-modal">Edit Project</Modal.Title>
@@ -118,6 +115,9 @@ function EditProjectModal({
         />
       </Modal.Body>
       <Modal.Footer>
+        <Button variant="gray" onClick={onHide}>
+          Cancel
+        </Button>
         <Button variant="action" onClick={actionButtonHandler}>
           Confirm
         </Button>

@@ -1,4 +1,5 @@
 import _ from "lodash";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import Button from "react-bootstrap/Button";
@@ -8,11 +9,10 @@ import BodyLayoutOne from "../../src/components/body-layout-one";
 import HeadWrapper from "../../src/components/head-wrapper";
 import TaskCalendar from "../../src/components/task-calendar";
 import AddTaskModal from "../../src/components/tasks-page-components/add-task-modal";
-import DeleteProjectModal from "../../src/components/tasks-page-components/delete-project-modal";
 import DescriptionPopover from "../../src/components/tasks-page-components/description-accordion";
-import EditProjectModal from "../../src/components/tasks-page-components/edit-project-modal";
 import GoBackLink from "../../src/components/tasks-page-components/go-back-link";
-import ProjectControl from "../../src/components/tasks-page-components/project-control";
+import ProjectInfoModal from "../../src/components/tasks-page-components/project-info-modal";
+import ProjectSettingsTrigger from "../../src/components/tasks-page-components/project-settings-trigger";
 import TaskCard from "../../src/components/tasks-page-components/task-card";
 import UndoDeletedTaskAlert from "../../src/components/tasks-page-components/undo-task-alert";
 import ErrorNotice from "../../src/components/util-components/error-notice";
@@ -38,6 +38,7 @@ import {
   taskSortByTitle,
 } from "../../src/utils/task-sorts";
 
+
 //this dynamic page's path uses the projects' projectIDs
 function TasksPage() {
   const router = useRouter();
@@ -48,9 +49,7 @@ function TasksPage() {
     useState<ProjectInterface>(createProjectObject());
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [addTaskModalState, setAddTaskModalState] = useState<boolean>(false);
-  const [editProjectModalState, setEditProjectModalState] =
-    useState<boolean>(false);
-  const [deleteProjectModalState, setDeleteProjectModalState] =
+  const [projectSettingsModalState, setProjectSettingsModalState] =
     useState<boolean>(false);
   const [undoDeletedTaskAlertState, setUndoDeletedTaskAlertState] =
     useState<boolean>(false);
@@ -69,28 +68,20 @@ function TasksPage() {
     setAddTaskModalState(false);
   }, []);
 
-  const showEditProjectModal = useCallback(() => {
-    setEditProjectModalState(true);
-  }, []);
-
-  const hideEditProjectModal = useCallback(() => {
-    setEditProjectModalState(false);
-  }, []);
-
-  const showDeleteProjectModal = useCallback(() => {
-    setDeleteProjectModalState(true);
-  }, []);
-
-  const hideDeleteProjectModal = useCallback(() => {
-    setDeleteProjectModalState(false);
-  }, []);
-
-  const showUndoDeletedTaskAlertState = useCallback(() => {
+  const showUndoDeletedTaskAlert = useCallback(() => {
     setUndoDeletedTaskAlertState(true);
   }, []);
 
-  const hideUndoDeletedTaskAlertState = useCallback(() => {
+  const hideUndoDeletedTaskAlert = useCallback(() => {
     setUndoDeletedTaskAlertState(false);
+  }, []);
+
+  const showProjectSettingsModal = useCallback(() => {
+    setProjectSettingsModalState(true);
+  }, []);
+
+  const hideProjectSettingsModal = useCallback(() => {
+    setProjectSettingsModalState(false);
   }, []);
 
   const arraySortInverterToggle = useCallback(() => {
@@ -121,9 +112,8 @@ function TasksPage() {
         saveToStorage(userTypeState, newProjectArrayState);
         return newProjectArrayState;
       });
-      hideEditProjectModal();
     },
-    [userTypeState, hideEditProjectModal, setProjectArrayState]
+    [userTypeState, setProjectArrayState]
   );
 
   const addTaskToProject = useCallback(
@@ -207,10 +197,21 @@ function TasksPage() {
         updateCurrentProjectOnProjectArrayState(newProjectState);
         return newProjectState;
       });
-      showUndoDeletedTaskAlertState();
+      showUndoDeletedTaskAlert();
     },
-    [updateCurrentProjectOnProjectArrayState, showUndoDeletedTaskAlertState]
+    [updateCurrentProjectOnProjectArrayState, showUndoDeletedTaskAlert]
   );
+
+  const clearProject = useCallback(() => {
+    setCurrentProjectState((prevprojectState) => {
+      const newProjectState: ProjectInterface = {
+        ...prevprojectState,
+        tasks: new Array<TaskInterface>(),
+      };
+      updateCurrentProjectOnProjectArrayState(newProjectState);
+      return newProjectState;
+    });
+  }, [updateCurrentProjectOnProjectArrayState]);
 
   const undoDeletedTask = useCallback(
     (taskToBeRestored: TaskInterface) => {
@@ -324,14 +325,13 @@ function TasksPage() {
           <BodyLayoutOne
             leftElements={
               <Row className="sticky-wrapper position-sticky sticky-top bg-light p-2 bg-white rounded-2 border">
-                <div className="d-flex justify-content-between">
+                <div className="d-flex justify-content-between align-items-center">
                   <div>
                     <GoBackLink />
                   </div>
                   <div>
-                    <ProjectControl
-                      editProjectHandler={showEditProjectModal}
-                      deleteProjectHandler={showDeleteProjectModal}
+                    <ProjectSettingsTrigger
+                      showProjectSettingsModal={showProjectSettingsModal}
                     />
                   </div>
                 </div>
@@ -346,10 +346,6 @@ function TasksPage() {
                     Add Task
                   </Button>
                 </div>
-                <DescriptionPopover
-                  title="Show Project Description"
-                  project={currentProjectState}
-                />
                 <TaskCalendar />
               </Row>
             }
@@ -406,21 +402,18 @@ function TasksPage() {
           onHide={hideAddTaskModal}
           onAddTaskButtonClick={addTaskToProject}
         />
-        <EditProjectModal
-          showState={editProjectModalState}
-          onHide={hideEditProjectModal}
-          onActionButtonClick={updateCurrentProjectOnProjectArrayState}
-        />
-        <DeleteProjectModal
-          show={deleteProjectModalState}
-          onHide={hideDeleteProjectModal}
-          onDeleteProjectButtonClick={deleteProject}
+        <ProjectInfoModal
+          show={projectSettingsModalState}
+          onHide={hideProjectSettingsModal}
+          editProjectHandler={updateCurrentProjectOnProjectArrayState}
+          deleteProjectHandler={deleteProject}
+          clearProjectHandler={clearProject}
         />
         <ScrollToTopButton />
         {currentProjectState.recentlyDeletedTask !== null && (
           <UndoDeletedTaskAlert
             show={undoDeletedTaskAlertState}
-            onHide={hideUndoDeletedTaskAlertState}
+            onHide={hideUndoDeletedTaskAlert}
             task={currentProjectState.recentlyDeletedTask}
             onUndoButtonClick={undoDeletedTask}
           />

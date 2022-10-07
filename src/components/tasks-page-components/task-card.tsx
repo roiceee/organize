@@ -8,7 +8,7 @@ import utilStyles from "../../styles/modules/util-styles.module.scss";
 import {
   getPriorityColor,
   getStatusColor,
-  getDeadlineColor
+  getDeadlineColor,
 } from "../../styles/style-scripts/task-styles-util";
 import {
   processDeadline,
@@ -74,7 +74,11 @@ function TaskCard({
             />
             <CardDetailRow
               label="Deadline"
-              valueSpan={<span className={getDeadlineColor(task)}>{processDeadline(task)}</span>}
+              valueSpan={
+                <span className={getDeadlineColor(task)}>
+                  {processDeadline(task)}
+                </span>
+              }
               svg={clockSVG}
             />
           </div>
