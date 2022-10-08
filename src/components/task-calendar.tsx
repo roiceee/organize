@@ -54,7 +54,7 @@ function TaskCalendar() {
     <>
       <Accordion defaultActiveKey={showCalendarState ? "1" : ""}>
         <Accordion.Item eventKey="1">
-          <Accordion.Header onClick={taskCalendarAccordionToggleHandler}>Show Task Calendar</Accordion.Header>
+          <Accordion.Header onClick={taskCalendarAccordionToggleHandler}>Task Calendar</Accordion.Header>
           <Accordion.Body>
             <div className="d-flex flex-column justify-content-center align-items-center">
               <Calendar

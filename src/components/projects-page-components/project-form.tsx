@@ -1,5 +1,5 @@
 import { ChangeEvent, useCallback } from "react";
-import Form from "react-bootstrap/form";
+import Form from "react-bootstrap/Form";
 import ProjectConstraintsEnum from "../../enums/project-constraints";
 import ProjectInterface from "../../interfaces/project-interface";
 import { removeErrorFields } from "../../utils/validation";

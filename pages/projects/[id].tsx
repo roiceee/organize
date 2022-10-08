@@ -325,7 +325,7 @@ function TasksPage() {
           <BodyLayoutOne
             leftElements={
               <Row className="sticky-wrapper position-sticky sticky-top bg-light p-2 bg-white rounded-2 border">
-                <div className="d-flex justify-content-between align-items-center">
+                <div className="d-flex justify-content-between align-items-center mb-2">
                   <div>
                     <GoBackLink />
                   </div>
