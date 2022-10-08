@@ -14,9 +14,9 @@ function ProjectControl({
 
   return (
     <>
-      <div className={`d-flex flex-column text-center gap-2`}>
+      <div className={`d-flex flex-column text-center gap-1`}>
         <Button
-          variant="info"
+          variant="outline-gray"
           tabIndex={0}
           onClick={onEditProjectButtonClick}
           style={{ fontSize: "0.9rem" }}
@@ -24,12 +24,12 @@ function ProjectControl({
           Edit Project
         </Button>
         <Button
-          variant="warning"
+          variant="outline-gray"
           tabIndex={0}
           onClick={onClearProjectButtonClick}
           style={{ fontSize: "0.9rem" }}
         >
-          Clear Project
+          Clear Tasks
         </Button>
         <Button
           variant="outline-danger"

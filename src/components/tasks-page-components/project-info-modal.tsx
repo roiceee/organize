@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
 import ProjectInterface from "../../interfaces/project-interface";
+import ClearTasksModal from "./clear-tasks.modal";
 import DeleteProjectModal from "./delete-project-modal";
 import EditProjectModal from "./edit-project-modal";
 import ViewProjectInfoModal from "./view-project-info-modal";
@@ -15,7 +16,7 @@ interface ProjectInfoModalProps {
   onHide: () => void;
   editProjectHandler: (updatedProject: ProjectInterface) => void;
   deleteProjectHandler: (projectToBeDeleted: ProjectInterface) => void;
-  clearProjectHandler: () => void;
+  clearTasksHandler: () => void;
 }
 
 function ProjectInfoModal({
@@ -23,7 +24,7 @@ function ProjectInfoModal({
   onHide,
   editProjectHandler,
   deleteProjectHandler,
-  clearProjectHandler,
+  clearTasksHandler,
 }: ProjectInfoModalProps) {
   const [projectModeState, setProjectControlModeState] =
     useState<ProjectControlModes>(ProjectControlModes.View);
@@ -60,6 +61,13 @@ function ProjectInfoModal({
           onEditProjectButtonClick={setToEditMode}
           onClearProjectButtonClick={setToClearMode}
           onDeleteProjectButtonClick={setToDeleteMode}
+        />
+      )}
+      {projectModeState === ProjectControlModes.Clear && (
+        <ClearTasksModal
+          show={show}
+          onHide={modalHideHandler}
+          onClearButtonClick={clearTasksHandler}
         />
       )}
       {projectModeState === ProjectControlModes.Edit && (

@@ -64,6 +64,10 @@
   color: white!important;
 }
 
+.responsiveFontSize {
+  font-size: 0.8rem;
+}
+
 @media all and (min-width: 1000px) {
   .hoverable:hover {
     transition: 0.2s;
@@ -73,5 +77,8 @@
   .darkenOnHover:hover {
     transition: 0.1s;
     background-color: rgb(233, 233, 233);
+  }
+  .responsiveFontSize {
+    font-size: 0.9rem;
   }
 }

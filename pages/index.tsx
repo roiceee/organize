@@ -31,6 +31,8 @@ import {
 } from "../src/utils/project-sorts";
 import OverviewModal from "../src/components/projects-page-components/overview-modal";
 import OverviewTrigger from "../src/components/projects-page-components/overview.trigger";
+import createProjectArrayObject from "../src/defaults/default-project-array-";
+import ClearDataModal from "../src/components/projects-page-components/clear-data-modal";
 
 const Home: NextPage = () => {
   const { userTypeState, setUserStateType } = useContext(UserTypeContext);
@@ -49,6 +51,8 @@ const Home: NextPage = () => {
   const [showOverviewModalState, setShowOverviewModalState] =
     useState<boolean>(false);
 
+
+
   const showAddProjectModal = useCallback(() => {
     setShowAddProjectModalState(true);
   }, []);
@@ -64,6 +68,8 @@ const Home: NextPage = () => {
   const hideOverviewModal = useCallback(() => {
     setShowOverviewModalState(false);
   }, []);
+
+
 
   const hideUndoDeletedProjectAlert = useCallback(() => {
     setUndoDeletedProjectAlertState(false);
@@ -156,7 +162,7 @@ const Home: NextPage = () => {
       value={{ currentProjectState, setCurrentProjectState }}
     >
       <Container>
-        <HeadWrapper title="Home / Organize" />
+        <HeadWrapper title="Home | Organize" />
 
         <BodyLayoutOne
           leftElements={
@@ -207,7 +213,7 @@ const Home: NextPage = () => {
                   }
                 />
                 {projectArrayState.projects.length === 0 && (
-                  <p className=" text-center">
+                  <div className=" text-center">
                     <span
                       onClick={showAddProjectModal}
                       className={utilStyles.underlineAction}
@@ -215,7 +221,7 @@ const Home: NextPage = () => {
                       Create a project
                     </span>{" "}
                     to get started!
-                  </p>
+                  </div>
                 )}
                 {renderedProjects}
               </Row>
@@ -231,6 +237,7 @@ const Home: NextPage = () => {
           show={showOverviewModalState}
           onHide={hideOverviewModal}
         />
+        
         <ScrollToTopButton />
         {projectArrayState.recentlyDeletedProject !== null && (
           <>

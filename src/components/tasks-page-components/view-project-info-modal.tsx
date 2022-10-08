@@ -1,12 +1,12 @@
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import ProjectControl from "./project-control";
-
 import { useContext } from "react";
 import CloseButton from "react-bootstrap/CloseButton";
 import ProjectContext from "../../contexts/project-context";
 import dateFormatter from "../../utils/dateFormatter";
 import { processDescription } from "../../utils/task-utils";
+import utilStyles from "../../styles/modules/util-styles.module.scss"
 
 interface ViewProjectInfoModalProps {
   show: boolean;
@@ -43,14 +43,14 @@ function ViewProjectInfoModal({
 
       <>
         <Modal.Body>
-          <div className="d-flex justify-content-between px-1">
+          <div className={`${utilStyles.responsiveFontSize}`}>
             <div
-              className="w-75 bg-light"
+              className="mb-2 border border-1 p-1"
               style={{
                 overflowWrap: "break-word",
                 overflowY: "scroll",
-                maxHeight: "200px",
-                fontSize: "0.9rem",
+                maxHeight: "150px",
+                scrollMarginRight: "4px"
               }}
             >
               <div className="d-flex flex-wrap gap-1">
@@ -65,8 +65,8 @@ function ViewProjectInfoModal({
                 <b>Description:</b> {processDescription(currentProjectState)}
               </div>
             </div>
-
-            <div className="px-1 mx-auto my-auto">
+             
+            <div className="mx-auto">
               <ProjectControl
                 onEditProjectButtonClick={onEditProjectButtonClick}
                 onClearProjectButtonClick={onClearProjectButtonClick}
