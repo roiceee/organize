@@ -162,7 +162,7 @@ const Home: NextPage = () => {
       value={{ currentProjectState, setCurrentProjectState }}
     >
       <Container>
-        <HeadWrapper title="Home | Organize" />
+        <HeadWrapper />
 
         <BodyLayoutOne
           leftElements={

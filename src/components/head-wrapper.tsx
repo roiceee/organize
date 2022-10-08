@@ -1,13 +1,15 @@
 import Head from "next/head";
+import { useRouter } from "next/router";
 
 interface HeadWrapperProps {
-  title: string;
+  title?: string;
 }
 function HeadWrapper({ title }: HeadWrapperProps) {
+  const router = useRouter();
   return (
     <>
       <Head>
-        <title>{title}</title>
+        <title>{!title ? "Organize" : `${title} | Organize`}</title>
         <meta name="description" content="Lightweight To Do list" />
         <link rel="icon" href="/organize-icon.png" />
       </Head>

@@ -38,7 +38,6 @@ import {
   taskSortByTitle,
 } from "../../src/utils/task-sorts";
 
-
 //this dynamic page's path uses the projects' projectIDs
 function TasksPage() {
   const router = useRouter();
@@ -318,9 +317,9 @@ function TasksPage() {
       >
         <Container>
           <HeadWrapper
-            title={`${_.truncate(currentProjectState.title, {
+            title={_.truncate(currentProjectState.title, {
               length: 12,
-            })} - Organize`}
+            })}
           />
           <BodyLayoutOne
             leftElements={

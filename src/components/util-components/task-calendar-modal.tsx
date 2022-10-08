@@ -51,9 +51,11 @@ function TaskCalendarModal({ show, onHide, date }: TaskCalendarModalProps) {
           </Modal.Title>
           <CloseButton variant="white" onClick={onHide} />
         </Modal.Header>
-        <Modal.Body style={{ maxHeight: "280px", overflowY: "scroll" }}>
-          <>{tasksDueOnSelectedDate.length === 0 && <div>None</div>}</>
-          <>{tasksDueOnSelectedDate}</>
+        <Modal.Body>
+          <div style={{ maxHeight: "280px", overflowY: "scroll" }}>
+            {tasksDueOnSelectedDate.length === 0 && <div>None</div>}
+            {tasksDueOnSelectedDate}
+          </div>
         </Modal.Body>
       </Modal>
     </>
