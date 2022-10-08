@@ -206,6 +206,7 @@ function TasksPage() {
       const newProjectState: ProjectInterface = {
         ...prevprojectState,
         tasks: new Array<TaskInterface>(),
+        recentlyDeletedTask: null,
       };
       updateCurrentProjectOnProjectArrayState(newProjectState);
       return newProjectState;

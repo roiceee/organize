@@ -157,6 +157,14 @@ const Home: NextPage = () => {
     [userTypeState, setProjectArrayState]
   );
 
+  const clearData = useCallback(() => {
+    setProjectArrayState(() => {
+      const newProjectArrayState = createProjectArrayObject();
+      saveToStorage(userTypeState, newProjectArrayState);
+      return newProjectArrayState;
+    });
+  }, [setProjectArrayState, userTypeState]);
+
   return (
     <ProjectContext.Provider
       value={{ currentProjectState, setCurrentProjectState }}
@@ -236,6 +244,7 @@ const Home: NextPage = () => {
         <OverviewModal
           show={showOverviewModalState}
           onHide={hideOverviewModal}
+          clearDataHandler={clearData}
         />
         
         <ScrollToTopButton />

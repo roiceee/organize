@@ -17,10 +17,11 @@ enum OverviewModalModes {
 interface OverviewModalProps {
   show: boolean;
   onHide: () => void;
+  clearDataHandler: () => void;
 }
 
-function OverviewModal({ show, onHide }: OverviewModalProps) {
-  const { projectArrayState, setProjectArrayState } =
+function OverviewModal({ show, onHide, clearDataHandler }: OverviewModalProps) {
+  const { projectArrayState } =
     useContext(ProjectArrayContext);
   const { userTypeState } = useContext(UserTypeContext);
   const [modalModeState, setModalModeState] = useState<OverviewModalModes>(
@@ -42,13 +43,6 @@ function OverviewModal({ show, onHide }: OverviewModalProps) {
     }, 500);
   }, [onHide, setToViewMode])
 
-  const clearData = useCallback(() => {
-    setProjectArrayState(() => {
-      const newProjectArrayState = createProjectArrayObject();
-      saveToStorage(userTypeState, newProjectArrayState);
-      return newProjectArrayState;
-    });
-  }, [setProjectArrayState, userTypeState]);
 
   const totalTasks = useMemo(() => {
     return projectArrayState.projects.reduce((acc, project) => {
@@ -156,7 +150,7 @@ function OverviewModal({ show, onHide }: OverviewModalProps) {
         <ClearDataModal
           show={show}
           onHide={modalHideHandler}
-          clearDataHandler={clearData}
+          clearDataHandler={clearDataHandler}
         />
       )}
     </>

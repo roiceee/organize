@@ -24,7 +24,7 @@ function DeleteConfirmationForm({
   );
 
   return (
-    <Form>
+    <Form onSubmit={(e) => {e.preventDefault()}}>
       <Form.Group className="mt-2" controlId="clear-form">
         <Form.Label>
           Please type <b>{keyword}</b> to confirm.
