@@ -76,20 +76,22 @@ function NavigationBar() {
         </div>
         {!isNotUser(userTypeState) && (
           <div className="d-flex gap-3 align-items-center">
-            <Navbar.Text className="mt-1 activable" data-link="/">
+            <div className="d-flex gap-3">
+            <Navbar.Text className="activable" data-link="/">
               <Link href="/">
                 <a className="text-light text-decoration-none">
-                  <Image src={homeIcon} alt="Home" />
+                  <Image src={homeIcon} height={25} width={25} alt="Home" />
                 </a>
               </Link>
             </Navbar.Text>
-            <Navbar.Text className="mt-1 activable" data-link="/about">
+            <Navbar.Text className=" activable" data-link="/about">
               <Link href="/about">
                 <a className="text-light text-decoration-none">
-                  <Image src={aboutIcon} alt="About" />
+                  <Image src={aboutIcon} height={25} width={25} alt="About" />
                 </a>
               </Link>
             </Navbar.Text>
+            </div>
             <Navbar.Text>
               <UserDiv />
             </Navbar.Text>
