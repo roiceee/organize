@@ -1,4 +1,3 @@
-import { create } from "domain";
 import {
   GoogleAuthProvider,
   signInWithPopup,
@@ -24,6 +23,7 @@ import {
   retrieveLastUserSessionType,
   saveLastUserSession,
 } from "../utils/storage";
+import { isLocalUser, isLoggedInUser, isNotUser } from "../utils/user-checks";
 
 //this is where the providers and global state and contexts are added so that app.tsx is not convoluted
 interface ControlLayerProps {
@@ -32,7 +32,7 @@ interface ControlLayerProps {
 
 function ControlLayer({ children }: ControlLayerProps) {
   const [userTypeState, setUserStateType] = useState<UserTypeInterface>(
-    createDefaultUser()
+    createEmptyUser()
   );
   const [projectArrayState, setProjectArrayState] =
     useState<ProjectArrayInterface>(createProjectArrayObject());
@@ -43,7 +43,7 @@ function ControlLayer({ children }: ControlLayerProps) {
   const [loadOtherEffects, setLoadOtherEffects] = useState(false);
   const router = useRouter();
 
-  const destructureUserToTypeState = useCallback((userAuth: User) => {
+  const destructureUserToUserTypeState = useCallback((userAuth: User) => {
     setUserStateType({
       userInformation: {
         uid: userAuth.uid,
@@ -52,6 +52,7 @@ function ControlLayer({ children }: ControlLayerProps) {
         photoURL: userAuth.photoURL === null ? userIcon : userAuth.photoURL,
       },
       isLoggedIn: true,
+      isLocalUser: false,
     });
   }, []);
 
@@ -59,13 +60,15 @@ function ControlLayer({ children }: ControlLayerProps) {
     try {
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
-      router.push("/");
     } catch {
       console.log("error");
     }
-  }, [router]);
+  }, []);
 
   const userSignOut = useCallback(async () => {
+    if (isLocalUser(userTypeState) || isLoggedInUser(userTypeState)) {
+      setUserStateType(createEmptyUser());
+    }
     try {
       const result = signOut(auth)
         .then(() => {})
@@ -75,8 +78,7 @@ function ControlLayer({ children }: ControlLayerProps) {
     } catch {
       console.log("error");
     }
-    router.push("/");
-  }, [router]);
+  }, [userTypeState]);
 
   useEffect(() => {
     setUserStateType(retrieveLastUserSessionType());
@@ -86,14 +88,13 @@ function ControlLayer({ children }: ControlLayerProps) {
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
       if (!user) {
-        setUserStateType(createDefaultUser());
         setIsAppLoading(false);
         return;
       }
-      destructureUserToTypeState(user);
+      destructureUserToUserTypeState(user);
       setIsAppLoading(false);
     });
-  }, [destructureUserToTypeState]);
+  }, [destructureUserToUserTypeState]);
 
   useEffect(() => {
     if (!loadOtherEffects) {
@@ -101,8 +102,10 @@ function ControlLayer({ children }: ControlLayerProps) {
     }
     async function getProjectArray() {
       const projects = await retrieveFromStorage(userTypeState);
-      console.log(projects)
       setProjectArrayState(projects);
+    }
+    if (isNotUser(userTypeState)) {
+      return;
     }
     getProjectArray();
   }, [userTypeState, isAppLoading, loadOtherEffects]);
@@ -113,6 +116,7 @@ function ControlLayer({ children }: ControlLayerProps) {
     }
     saveLastUserSession(userTypeState);
   }, [userTypeState, loadOtherEffects]);
+
 
   return (
     <>

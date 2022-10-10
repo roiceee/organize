@@ -6,6 +6,7 @@ import { database } from "../firebase/init";
 import ProjectArrayInterface from "../interfaces/project-array-interface";
 import TaskInterface from "../interfaces/task-interface";
 import UserTypeInterface from "../interfaces/user-interface";
+import { isLocalUser } from "./user-checks";
 
 const databaseRef = ref(database);
 
@@ -64,7 +65,7 @@ function saveToStorage(
   userType: UserTypeInterface,
   projectArray: ProjectArrayInterface
 ) {
-  if (!userType.isLoggedIn) {
+  if (isLocalUser(userType)) {
     saveToLocalStorage(projectArray);
     return;
   }
@@ -78,7 +79,7 @@ function saveToStorage(
 async function retrieveFromStorage(
   userType: UserTypeInterface
 ): Promise<ProjectArrayInterface> {
-  if (!userType.isLoggedIn) {
+  if (isLocalUser(userType)) {
     return await retrieveFromLocalStorage();
   }
   return await retrieveFromFirebase(userType);

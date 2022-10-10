@@ -1,11 +1,14 @@
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
+import UserNotSignedInAlert from "./util-components/user-not-signed-in-alert";
+
 
 interface BodyLayoutOneProps {
   leftElements: JSX.Element | Array<JSX.Element>;
   rightElements: JSX.Element | Array<JSX.Element>;
 }
 
+//this body layout is used on index and projects page
 function BodyLayoutOne({ leftElements, rightElements }: BodyLayoutOneProps) {
   return (
     <Row className="mt-4">

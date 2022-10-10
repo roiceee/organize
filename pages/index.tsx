@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import Router, { useRouter } from "next/router";
 import { useCallback, useContext, useMemo, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
@@ -16,6 +17,7 @@ import TaskCalendar from "../src/components/task-calendar";
 import ScrollToTopButton from "../src/components/util-components/scroll-to-top-button";
 import Sorter from "../src/components/util-components/sorter";
 import StickyHeader from "../src/components/util-components/sticky-header";
+import UserNotSignedInAlert from "../src/components/util-components/user-not-signed-in-alert";
 import ProjectArrayContext from "../src/contexts/project-array-context";
 import ProjectContext from "../src/contexts/project-context";
 import UndoDeletedProjectContext from "../src/contexts/undo-deleted-project-context";
@@ -29,11 +31,13 @@ import utilStyles from "../src/styles/modules/util-styles.module.scss";
 import {
   projectSortByDateCreated,
   projectSortByNumberOfTasks,
-  projectSortByTitle
+  projectSortByTitle,
 } from "../src/utils/project-sorts";
 import { saveToStorage } from "../src/utils/storage";
+import { isNotUser } from "../src/utils/user-checks";
 
 const Home: NextPage = () => {
+  const router = useRouter();
   const { userTypeState, setUserStateType } = useContext(UserTypeContext);
   const { projectArrayState, setProjectArrayState } =
     useContext(ProjectArrayContext);
@@ -50,7 +54,10 @@ const Home: NextPage = () => {
   const [showOverviewModalState, setShowOverviewModalState] =
     useState<boolean>(false);
 
-
+  //if user is not signed in and is not a local user, then redirect to sign in page
+  if (isNotUser(userTypeState)) {
+    router.push("/login");
+  }
 
   const showAddProjectModal = useCallback(() => {
     setShowAddProjectModalState(true);
@@ -67,8 +74,6 @@ const Home: NextPage = () => {
   const hideOverviewModal = useCallback(() => {
     setShowOverviewModalState(false);
   }, []);
-
-
 
   const hideUndoDeletedProjectAlert = useCallback(() => {
     setUndoDeletedProjectAlertState(false);
@@ -245,7 +250,7 @@ const Home: NextPage = () => {
           onHide={hideOverviewModal}
           clearDataHandler={clearData}
         />
-        
+
         <ScrollToTopButton />
         {projectArrayState.recentlyDeletedProject !== null && (
           <>

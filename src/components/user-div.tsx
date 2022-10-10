@@ -5,15 +5,14 @@ import UserTypeContext from "../contexts/user-context";
 import SignOutModal from "./util-components/sign-out-modal";
 import utilStyles from "../styles/modules/util-styles.module.scss";
 import _ from "lodash";
-interface UserDivProps {
-  signInHandler: () => void;
-  signOutHandler: () => void;
-}
+import Link from "next/link";
+import UserSignInContext from "../contexts/user-sign-in-context";
 
-function UserDiv({ signInHandler, signOutHandler }: UserDivProps) {
+function UserDiv() {
   const { userTypeState, setUserStateType } = useContext(UserTypeContext);
   const [showModal, setShowModal] = useState<boolean>(false);
   const dropdownTogglerRef = useRef<HTMLButtonElement>(null);
+  const { userSignOut } = useContext(UserSignInContext);
 
   const showSignOutModal = useCallback(() => {
     setShowModal(true);
@@ -46,8 +45,14 @@ function UserDiv({ signInHandler, signOutHandler }: UserDivProps) {
 
   return (
     <>
-      <div style={{ fontSize: "0.9rem", borderLeft: "1px solid white", paddingLeft: "8px" }}>
-        <div className={`d-flex justify-content-end align-items-center`} >
+      <div
+        style={{
+          fontSize: "0.9rem",
+          borderLeft: "1px solid white",
+          paddingLeft: "8px",
+        }}
+      >
+        <div className={`d-flex justify-content-end align-items-center`}>
           <Image
             className="rounded-circle"
             alt="user profile picture"
@@ -67,21 +72,19 @@ function UserDiv({ signInHandler, signOutHandler }: UserDivProps) {
               <Dropdown.Divider />
               {!userTypeState.isLoggedIn && (
                 <Dropdown.Item
-                  onClick={signInHandler}
                   className={`fw-bold text-black ${utilStyles.textWhiteOnActive}`}
+                  onClick={userSignOut}
                 >
-                  Sign In
+                  Log In
                 </Dropdown.Item>
               )}
               {userTypeState.isLoggedIn && (
-                <>
-                  <Dropdown.Item
-                    onClick={showSignOutModal}
-                    className={`fw-bold text-danger ${utilStyles.textWhiteOnActive}`}
-                  >
-                    Sign Out
-                  </Dropdown.Item>
-                </>
+                <Dropdown.Item
+                  onClick={showSignOutModal}
+                  className={`fw-bold text-danger ${utilStyles.textWhiteOnActive}`}
+                >
+                  Log Out
+                </Dropdown.Item>
               )}
             </Dropdown.Menu>
           </Dropdown>
@@ -90,7 +93,7 @@ function UserDiv({ signInHandler, signOutHandler }: UserDivProps) {
       <SignOutModal
         show={showModal}
         onHide={hideSignOutModal}
-        signOutHandler={signOutHandler}
+        signOutHandler={userSignOut}
       />
     </>
   );

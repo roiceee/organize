@@ -37,6 +37,7 @@ import {
   taskSortByPriority,
   taskSortByTitle,
 } from "../../src/utils/task-sorts";
+import { isNotUser } from "../../src/utils/user-checks";
 
 //this dynamic page's path uses the projects' projectIDs
 function TasksPage() {
@@ -285,6 +286,11 @@ function TasksPage() {
     sortOrderState,
     currentProjectState,
   ]);
+
+    //if user is not signed in and is not a local user, then redirect to sign in page
+    if (isNotUser(userTypeState)) {
+      router.push("/login");
+    }
 
   //this page's route uses the projectID
   useEffect(() => {
