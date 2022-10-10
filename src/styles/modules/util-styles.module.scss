@@ -16,6 +16,10 @@
     color: $action;
 }
 
+.borderBottomWhite {
+  border-bottom: 2px solid $light!important;
+}
+
 .underlineSuccess {
   @extend .underline;
   text-decoration-color: $success;
@@ -67,6 +71,7 @@
 .responsiveFontSize {
   font-size: 0.8rem;
 }
+
 
 @media all and (min-width: 1000px) {
   .hoverable:hover {
