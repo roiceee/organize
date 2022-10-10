@@ -76,12 +76,6 @@ function UserDiv({ signInHandler, signOutHandler }: UserDivProps) {
               {userTypeState.isLoggedIn && (
                 <>
                   <Dropdown.Item
-                    onClick={signInHandler}
-                    className={`fw-bold text-black ${utilStyles.textWhiteOnActive}`}
-                  >
-                    Change Account
-                  </Dropdown.Item>
-                  <Dropdown.Item
                     onClick={showSignOutModal}
                     className={`fw-bold text-danger ${utilStyles.textWhiteOnActive}`}
                   >

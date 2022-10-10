@@ -7,6 +7,8 @@ import Row from "react-bootstrap/Row";
 import BodyLayoutOne from "../src/components/body-layout-one";
 import HeadWrapper from "../src/components/head-wrapper";
 import AddProjectModal from "../src/components/projects-page-components/add-project-modal";
+import OverviewModal from "../src/components/projects-page-components/overview-modal";
+import OverviewTrigger from "../src/components/projects-page-components/overview.trigger";
 import ProjectCard from "../src/components/projects-page-components/project-card";
 import Quotes from "../src/components/projects-page-components/quotes";
 import UndoProjectAlert from "../src/components/projects-page-components/undo-project-alert";
@@ -19,20 +21,17 @@ import ProjectContext from "../src/contexts/project-context";
 import UndoDeletedProjectContext from "../src/contexts/undo-deleted-project-context";
 import UserTypeContext from "../src/contexts/user-context";
 import createProjectObject from "../src/defaults/default-project";
+import createProjectArrayObject from "../src/defaults/default-project-array-";
 import ProjectSortMethods from "../src/enums/project-sorter-methods";
 import ProjectArrayInterface from "../src/interfaces/project-array-interface";
 import ProjectInterface from "../src/interfaces/project-interface";
 import utilStyles from "../src/styles/modules/util-styles.module.scss";
-import { saveToStorage } from "../src/utils/storage";
 import {
   projectSortByDateCreated,
   projectSortByNumberOfTasks,
-  projectSortByTitle,
+  projectSortByTitle
 } from "../src/utils/project-sorts";
-import OverviewModal from "../src/components/projects-page-components/overview-modal";
-import OverviewTrigger from "../src/components/projects-page-components/overview.trigger";
-import createProjectArrayObject from "../src/defaults/default-project-array-";
-import ClearDataModal from "../src/components/projects-page-components/clear-data-modal";
+import { saveToStorage } from "../src/utils/storage";
 
 const Home: NextPage = () => {
   const { userTypeState, setUserStateType } = useContext(UserTypeContext);
@@ -174,7 +173,7 @@ const Home: NextPage = () => {
 
         <BodyLayoutOne
           leftElements={
-            <Row className="sticky-wrapper position-sticky sticky-top bg-white border rounded-2 py-3 ">
+            <Row className="sticky-wrapper position-sticky sticky-top">
               <Row className="mx-auto justify-content-center">
                 <Col>
                   <div className="d-flex justify-content-end align-items-center mb-2">
@@ -202,7 +201,7 @@ const Home: NextPage = () => {
           }
           rightElements={
             <>
-              <Row className="p-2 pb-4 gap-2 justify-content-center bg-white border rounded-2">
+              <Row className="p-2 pb-4 gap-2 justify-content-center">
                 <StickyHeader
                   mainDescriptionDiv={
                     <div className={`${utilStyles.colorAction}`}>

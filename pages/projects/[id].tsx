@@ -324,7 +324,7 @@ function TasksPage() {
           />
           <BodyLayoutOne
             leftElements={
-              <Row className="sticky-wrapper position-sticky sticky-top bg-light p-2 bg-white rounded-2 border">
+              <Row className="sticky-wrapper position-sticky sticky-top">
                 <div className="d-flex justify-content-between align-items-center mb-2">
                   <div>
                     <GoBackLink />
@@ -350,7 +350,7 @@ function TasksPage() {
               </Row>
             }
             rightElements={
-              <Row className="p-2 pb-4 gap-2 justify-content-center bg-white border rounded-2">
+              <Row className="p-2 pb-4 gap-2 justify-content-center">
                 <StickyHeader
                   mainDescriptionDiv={
                     <div className={`my-1 ${utilStyles.colorAction}`}>

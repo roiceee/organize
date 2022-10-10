@@ -8,7 +8,7 @@ interface BodyLayoutOne {
 
 function BodyLayoutOne({ leftElements, rightElements }: BodyLayoutOne) {
   return (
-    <Row>
+    <Row className="mt-4">
       <Col lg={5}>{leftElements}
       </Col>
       <Col lg={1}></Col>
