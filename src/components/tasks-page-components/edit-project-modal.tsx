@@ -14,7 +14,6 @@ import ProjectForm from "../projects-page-components/project-form";
 interface AddProjectModalProps {
   show: boolean;
   onHide: () => void;
-
   onEditButtonClick: (newProject: ProjectInterface) => void;
 }
 

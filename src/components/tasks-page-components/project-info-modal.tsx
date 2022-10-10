@@ -63,18 +63,18 @@ function ProjectInfoModal({
           onDeleteProjectButtonClick={setToDeleteMode}
         />
       )}
+      {projectModeState === ProjectControlModes.Edit && (
+        <EditProjectModal
+          show={show}
+          onHide={setToViewMode}
+          onEditButtonClick={editProjectHandler}
+        />
+      )}
       {projectModeState === ProjectControlModes.Clear && (
         <ClearTasksModal
           show={show}
           onHide={modalHideHandler}
           onClearButtonClick={clearTasksHandler}
-        />
-      )}
-      {projectModeState === ProjectControlModes.Edit && (
-        <EditProjectModal
-          show={show}
-          onHide={modalHideHandler}
-          onEditButtonClick={editProjectHandler}
         />
       )}
       {projectModeState === ProjectControlModes.Delete && (
