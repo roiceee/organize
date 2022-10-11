@@ -4,7 +4,7 @@ import UserTypeContext from "../contexts/user-context";
 import Footer from "./footer";
 import NavigationBar from "./navbar";
 import LoadingNotice from "./util-components/loading-notice";
-import UserNotSignedInAlert from "./util-components/user-not-signed-in-alert";
+
 
 interface LayoutProps {
   children: JSX.Element;
@@ -27,7 +27,6 @@ function Layout({ children }: LayoutProps) {
       >
         <div>
           <NavigationBar />
-          <UserNotSignedInAlert />
           <div>{children}</div>
         </div>
         <div>

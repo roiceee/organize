@@ -1,4 +1,4 @@
-import { child, get, ref, set } from "firebase/database";
+import { child, get, push, ref, set } from "firebase/database";
 import createProjectArrayObject from "../defaults/default-project-array-";
 import { createDefaultUser } from "../defaults/default-user";
 import LocalStorageKeyEnum from "../enums/local-storage-key";
@@ -8,7 +8,7 @@ import TaskInterface from "../interfaces/task-interface";
 import UserTypeInterface from "../interfaces/user-interface";
 import { isLocalUser } from "./user-checks";
 
-const databaseRef = ref(database);
+
 
 function saveLastUserSession(userType: UserTypeInterface) {
   localStorage.setItem(
@@ -42,6 +42,7 @@ async function retrieveFromLocalStorage(): Promise<ProjectArrayInterface> {
 async function retrieveFromFirebase(
   userType: UserTypeInterface
 ): Promise<ProjectArrayInterface> {
+  const databaseRef = ref(database);
   let projectArray = "";
   await get(child(databaseRef, "users/" + userType.userInformation.uid))
     .then((snapshot) => {
@@ -85,9 +86,18 @@ async function retrieveFromStorage(
   return await retrieveFromFirebase(userType);
 }
 
+function sendRecommendationToStorage(recommendation: string) {
+    const recommendationRef = ref(database, "recommendations");
+    const newRecommendationRef = push(recommendationRef);
+    set(newRecommendationRef, {
+      recommendation
+    })
+}
+
 export {
   saveToStorage,
   retrieveFromStorage,
   saveLastUserSession,
   retrieveLastUserSessionType,
+  sendRecommendationToStorage
 };
