@@ -76,9 +76,9 @@ function TaskViewModal({
       aria-labelledby="task-view-modal"
     >
       <Modal.Header className={`${getPriorityColor(task)} text-light`}>
-        <Modal.Title id="task-view-modal" style={{ fontSize: "1rem" }}>
-          Task Details ({!isOnEditState && "Viewing Mode"}
-          {isOnEditState && "Edit Mode"})
+        <Modal.Title id="task-view-modal" style={{ fontSize: "1.2rem" }}>
+          {!isOnEditState && "Task Details"}
+          {isOnEditState && "Edit Task"}
         </Modal.Title>
         <button
           type="button"
