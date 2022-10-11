@@ -75,7 +75,7 @@ function About() {
             </article>
             <article>
               <header>
-                <h4 className="text-action">Developer&apos;s Message</h4>
+                <h4 className="text-action">User Feedback</h4>
                 <p>
                   Hi! Thanks for taking a peek on Organize. If you have any
                   recommendations or have found any bugs, please let me know.
