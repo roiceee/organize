@@ -6,7 +6,6 @@ import Button from "react-bootstrap/Button";
 import { ChangeEvent, useCallback, useState } from "react";
 import { sendRecommendationToStorage } from "../src/utils/storage";
 
-
 function About() {
   const [formContentState, setFormContentState] = useState<string>("");
 
@@ -14,6 +13,9 @@ function About() {
     setFormContentState(e.target.value);
   }, []);
   const sendRecommendationHandler = useCallback(() => {
+    if (formContentState === "") {
+      return;
+    }
     sendRecommendationToStorage(formContentState);
     setFormContentState("");
   }, [formContentState]);

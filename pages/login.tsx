@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCallback, useContext } from "react";
 import Button from "react-bootstrap/Button";
@@ -50,8 +51,8 @@ function LogIn() {
                   <h3>Log in</h3>
                 </Row>
 
-                <Row className="mx-auto justify-content-center text-center gap-3">
-                  <Row>
+                <Row className="mx-auto justify-content-center gap-3">
+                  <Row className="text-center">
                     <Button
                       variant="action"
                       className="d-flex align-items-center gap-3 justify-content-center"
@@ -69,7 +70,7 @@ function LogIn() {
                       Manage your tasks on any device! (Recommended)
                     </div>
                   </Row>
-                  <Row>
+                  <Row className="text-center">
                     <Button
                       variant="outline-gray"
                       onClick={continueAsLocalUser}
@@ -79,6 +80,13 @@ function LogIn() {
                     <div style={{ fontSize: "0.9rem" }} className="text-gray">
                       Manage your tasks only on this browser.
                     </div>
+                  </Row>
+                  <Row>
+                    <Link href={"/about"}>
+                      <a className="text-decoration-none text-gray" style={{fontSize: "0.8rem"}}>
+                        Read App Info
+                      </a>
+                    </Link>
                   </Row>
                 </Row>
               </Row>
