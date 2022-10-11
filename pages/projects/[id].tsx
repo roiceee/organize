@@ -1,5 +1,3 @@
-import _ from "lodash";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import Button from "react-bootstrap/Button";
@@ -9,7 +7,6 @@ import BodyLayoutOne from "../../src/components/body-layout-one";
 import HeadWrapper from "../../src/components/head-wrapper";
 import TaskCalendar from "../../src/components/task-calendar";
 import AddTaskModal from "../../src/components/tasks-page-components/add-task-modal";
-import DescriptionPopover from "../../src/components/tasks-page-components/description-popover";
 import GoBackLink from "../../src/components/tasks-page-components/go-back-link";
 import ProjectInfoModal from "../../src/components/tasks-page-components/project-info-modal";
 import ProjectSettingsTrigger from "../../src/components/tasks-page-components/project-settings-trigger";
@@ -287,10 +284,10 @@ function TasksPage() {
     currentProjectState,
   ]);
 
-    //if user is not signed in and is not a local user, then redirect to sign in page
-    if (isNotUser(userTypeState)) {
-      router.push("/login");
-    }
+  //if user is not signed in and is not a local user, then redirect to sign in page
+  if (isNotUser(userTypeState)) {
+    router.push("/login");
+  }
 
   //this page's route uses the projectID
   useEffect(() => {
@@ -323,11 +320,7 @@ function TasksPage() {
         value={{ currentProjectState, setCurrentProjectState }}
       >
         <Container>
-          <HeadWrapper
-            title={_.truncate(currentProjectState.title, {
-              length: 12,
-            })}
-          />
+          <HeadWrapper title={currentProjectState.title} />
           <BodyLayoutOne
             leftElements={
               <Row className="sticky-wrapper position-sticky sticky-top">

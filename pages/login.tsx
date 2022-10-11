@@ -1,30 +1,26 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useCallback, useContext } from "react";
+import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import BodyLayoutTwo from "../src/components/body-layout-two";
 import HeadWrapper from "../src/components/head-wrapper";
 import UserTypeContext from "../src/contexts/user-context";
-import pic1 from "../src/images/sign-in/pic1.svg";
-import Button from "react-bootstrap/Button";
-import googleIcon from "../src/images/sign-in/google.svg";
-import { createDefaultUser } from "../src/defaults/default-user";
 import UserSignInContext from "../src/contexts/user-sign-in-context";
+import { createDefaultUser } from "../src/defaults/default-user";
+import googleIcon from "../src/images/sign-in/google.svg";
+import pic1 from "../src/images/sign-in/pic1.svg";
 import { isNotUser } from "../src/utils/user-checks";
-
-
 
 function LogIn() {
   const router = useRouter();
   const { userTypeState, setUserStateType } = useContext(UserTypeContext);
-  const {userSignIn} = useContext(UserSignInContext);
+  const { userSignIn } = useContext(UserSignInContext);
 
   const continueAsLocalUser = useCallback(() => {
     setUserStateType(createDefaultUser());
   }, [setUserStateType]);
-
- 
 
   //if user is logged in or is a local user after accessing the page, redirect the user to the home page.
   if (!isNotUser(userTypeState)) {
