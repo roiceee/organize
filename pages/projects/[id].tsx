@@ -9,7 +9,7 @@ import BodyLayoutOne from "../../src/components/body-layout-one";
 import HeadWrapper from "../../src/components/head-wrapper";
 import TaskCalendar from "../../src/components/task-calendar";
 import AddTaskModal from "../../src/components/tasks-page-components/add-task-modal";
-import DescriptionPopover from "../../src/components/tasks-page-components/description-accordion";
+import DescriptionPopover from "../../src/components/tasks-page-components/description-popover";
 import GoBackLink from "../../src/components/tasks-page-components/go-back-link";
 import ProjectInfoModal from "../../src/components/tasks-page-components/project-info-modal";
 import ProjectSettingsTrigger from "../../src/components/tasks-page-components/project-settings-trigger";

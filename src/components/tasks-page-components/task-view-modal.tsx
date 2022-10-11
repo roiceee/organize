@@ -6,16 +6,16 @@ import TaskInterface from "../../interfaces/task-interface";
 import {
   getPriorityColor,
   getStatusColor,
-  getDeadlineColor
+  getDeadlineColor,
 } from "../../styles/style-scripts/task-styles-util";
 import formatDate from "../../utils/dateFormatter";
 import {
   processDeadline,
   processDescription,
   processPriority,
-  processTaskStatus
+  processTaskStatus,
 } from "../../utils/task-utils";
-import DescriptionPopover from "./description-accordion";
+import DescriptionPopover from "./description-popover";
 import EditTaskDiv from "./edit-task-div";
 
 interface TaskViewModalProps {
@@ -92,28 +92,30 @@ function TaskViewModal({
           <Modal.Body>
             <div>
               <div></div>
-              <div style={{ fontSize: "1.3rem", overflowWrap: "break-word" }}>
+              <div style={{ fontSize: "1.1rem", overflowWrap: "break-word" }}>
                 <b>Title:</b> {task.title}
               </div>
               <hr className="my-2" />
-              <DescriptionPopover
-                title="Show Task Description"
-                task={task}
-              />
-              <div className="mb-1">
-                <b>Status:</b>{" "}
-                <span className={getStatusColor(task)}>
-                  {processTaskStatus(task)}
-                </span>
-              </div>
-              <div className="mb-1">
-                <b>Priority:</b> {processPriority(task)}
-              </div>
-              <div className="mb-1">
-                <b>Date Created: </b> {formatDate(task.dateCreated)}
-              </div>
-              <div className="mb-1">
-                <b>Deadline:</b> <span className={getDeadlineColor(task)}>{processDeadline(task)}</span>
+              <DescriptionPopover title="Task Description" task={task} />
+              <div style={{fontSize: "0.9rem"}}>
+                <div className="mb-1">
+                  <b>Status:</b>{" "}
+                  <span className={getStatusColor(task)}>
+                    {processTaskStatus(task)}
+                  </span>
+                </div>
+                <div className="mb-1">
+                  <b>Priority:</b> {processPriority(task)}
+                </div>
+                <div className="mb-1">
+                  <b>Date Created: </b> {formatDate(task.dateCreated)}
+                </div>
+                <div className="mb-1">
+                  <b>Deadline:</b>{" "}
+                  <span className={getDeadlineColor(task)}>
+                    {processDeadline(task)}
+                  </span>
+                </div>
               </div>
             </div>
           </Modal.Body>
