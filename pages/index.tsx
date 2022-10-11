@@ -17,7 +17,6 @@ import TaskCalendar from "../src/components/task-calendar";
 import ScrollToTopButton from "../src/components/util-components/scroll-to-top-button";
 import Sorter from "../src/components/util-components/sorter";
 import StickyHeader from "../src/components/util-components/sticky-header";
-import UserNotSignedInAlert from "../src/components/util-components/user-not-signed-in-alert";
 import ProjectArrayContext from "../src/contexts/project-array-context";
 import ProjectContext from "../src/contexts/project-context";
 import UndoDeletedProjectContext from "../src/contexts/undo-deleted-project-context";
