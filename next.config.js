@@ -10,9 +10,6 @@ module.exports = {
   images: {
     domains: ['lh3.googleusercontent.com'],
   },
-}
-
-module.exports = {
   webpack: (config) => {
     config.module.rules.push(
       {

@@ -66,9 +66,7 @@ function ControlLayer({ children }: ControlLayerProps) {
   }, []);
 
   const userSignOut = useCallback(async () => {
-    if (isLocalUser(userTypeState) || isLoggedInUser(userTypeState)) {
-      setUserStateType(createEmptyUser());
-    }
+    setUserStateType(createEmptyUser());
     try {
       const result = signOut(auth)
         .then(() => {})
@@ -78,7 +76,8 @@ function ControlLayer({ children }: ControlLayerProps) {
     } catch {
       console.log("error");
     }
-  }, [userTypeState]);
+    router.push("/login");
+  }, [router]);
 
   useEffect(() => {
     setUserStateType(retrieveLastUserSessionType());
@@ -116,7 +115,6 @@ function ControlLayer({ children }: ControlLayerProps) {
     }
     saveLastUserSession(userTypeState);
   }, [userTypeState, loadOtherEffects]);
-
 
   return (
     <>
