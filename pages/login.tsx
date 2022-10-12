@@ -85,14 +85,13 @@ function LogIn() {
                   </Row>
                   <Row>
                     <Link href={"/about"}>
-                      <div className="d-flex align-items-center gap-1 justify-content-end">
+                      <div className="d-flex align-items-center gap-1 justify-content-end mt-2">
                         <a
-                          className="text-decoration-none text-gray"
+                          className=" text-gray"
                           style={{ fontSize: "0.8rem" }}
                         >
-                          Read App Info
+                          I&apos;m new to this app
                         </a>
-                        <Image height={18} width={18} src={aboutIcon} alt="About" />
                       </div>
                     </Link>
                   </Row>

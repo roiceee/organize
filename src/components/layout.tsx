@@ -10,8 +10,6 @@ interface LayoutProps {
   children: JSX.Element;
 }
 function Layout({ children }: LayoutProps) {
-
-  const { userTypeState } = useContext(UserTypeContext);
   const isAppLoading = useContext(IsAppLoadingContext);
 
 
@@ -29,7 +27,7 @@ function Layout({ children }: LayoutProps) {
           <NavigationBar />
           <div>{children}</div>
         </div>
-        <div>
+        <div className="mt-1">
           <Footer />
         </div>
       </div>
