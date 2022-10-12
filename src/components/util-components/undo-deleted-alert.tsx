@@ -1,5 +1,4 @@
-import Alert from "react-bootstrap/Alert";
-import styles from "../../styles/modules/transitions.module.scss";
+import FloatingAlert from "./floating-alert";
 
 //this is a util component used by undo-deleted-project and undo-deleted-task components
 interface UndoAlertProps {
@@ -19,37 +18,22 @@ function UndoDeletedAlert({
 }: UndoAlertProps) {
   return (
     <>
-      {show && (
-        <Alert
-          variant="light"
-          onClose={onHide}
-          style={{
-            position: "fixed",
-            bottom: "40px",
-            left: "50%",
-            transform: "translateX(-50%)",
-            width: "80vw",
-            maxWidth: "400px",
-            zIndex: "2147483638",
-          }}
-          className={`p-2 ${styles.fadeInFaster} shadow`}
-        >
-          <div className="mx-3 d-flex justify-content-between">
-            <div>
-              {" "}
-              {label} &quot;
-              {itemName.length > 8 ? itemName.substring(0, 8) : itemName}
-              &quot; deleted.{" "}
-              <span onClick={undoButtonHandler} className="text-secondary">
-                Undo
-              </span>
-            </div>
-            <div>
-              <button className="btn-close" onClick={onHide}></button>
-            </div>
+      <FloatingAlert show={show} onHide={onHide}>
+        <div className="mx-3 d-flex justify-content-between">
+          <div>
+            {" "}
+            {label} &quot;
+            {itemName.length > 8 ? itemName.substring(0, 8) : itemName}
+            &quot; deleted.{" "}
+            <span onClick={undoButtonHandler} className="text-secondary">
+              Undo
+            </span>
           </div>
-        </Alert>
-      )}
+          <div>
+            <button className="btn-close" onClick={onHide}></button>
+          </div>
+        </div>
+      </FloatingAlert>
     </>
   );
 }

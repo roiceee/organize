@@ -5,20 +5,36 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { ChangeEvent, useCallback, useState } from "react";
 import { sendRecommendationToStorage } from "../src/utils/storage";
+import FloatingAlert from "../src/components/util-components/floating-alert";
 
 function About() {
   const [formContentState, setFormContentState] = useState<string>("");
+  const [thankyouAlertState, setThankYouAlertState] = useState<boolean>(false);
+
+  const showThankyouAlertState = useCallback(() => {
+    setThankYouAlertState(true);
+  }, []);
+
+  const hideThankyouAlertState = useCallback(() => {
+    setThankYouAlertState(false);
+  }, []);
 
   const formContentHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setFormContentState(e.target.value);
   }, []);
+
   const sendRecommendationHandler = useCallback(() => {
     if (formContentState === "") {
       return;
     }
     sendRecommendationToStorage(formContentState);
+    showThankyouAlertState();
     setFormContentState("");
-  }, [formContentState]);
+    setTimeout(() => {
+      hideThankyouAlertState();
+    }, 5000);
+  }, [formContentState, showThankyouAlertState, hideThankyouAlertState]);
+
 
   return (
     <>
@@ -109,6 +125,9 @@ function About() {
           </section>
         </BodyLayoutThree>
       </Container>
+      <FloatingAlert show={thankyouAlertState} onHide={hideThankyouAlertState}>
+        <div>Thanks for your response!</div>
+      </FloatingAlert>
     </>
   );
 }
