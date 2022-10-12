@@ -227,7 +227,7 @@ const Home: NextPage = () => {
                   <div className=" text-center">
                     <span
                       onClick={showAddProjectModal}
-                      className={utilStyles.underlineAction}
+                      className={"text-action"}
                     >
                       Create a project
                     </span>{" "}

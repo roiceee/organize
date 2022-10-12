@@ -383,7 +383,7 @@ function TasksPage() {
                 {currentProjectState.tasks.length === 0 && (
                   <p className="text-center">
                     <span
-                      className={utilStyles.underlineAction}
+                      className={"text-action"}
                       onClick={showAddTaskModal}
                     >
                       Create a task
