@@ -126,8 +126,8 @@ function About() {
           </section>
         </BodyLayoutThree>
       </Container>
-      <FloatingAlert show={thankyouAlertState} onHide={hideThankyouAlertState}>
-        <div className="text-center">Thanks for your response!</div>
+      <FloatingAlert show={thankyouAlertState} onHide={hideThankyouAlertState} className="bg-gray text-white">
+        <div className="text-center">Thanks for your feedback!</div>
       </FloatingAlert>
     </>
   );

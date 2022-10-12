@@ -1,17 +1,18 @@
 import Alert from "react-bootstrap/Alert";
 import styles from "../../styles/modules/transitions.module.scss";
 
-
 interface FloatingAlertProps {
-    children: JSX.Element | Array<JSX.Element>
-    show: boolean;
-    onHide: () => void;
+  children: JSX.Element | Array<JSX.Element>;
+  show: boolean;
+  onHide: () => void;
+  className?: string;
 }
 
 function FloatingAlert({
   children,
   show,
-  onHide
+  onHide,
+  className,
 }: FloatingAlertProps) {
   return (
     <>
@@ -28,9 +29,9 @@ function FloatingAlert({
             maxWidth: "400px",
             zIndex: "2147483638",
           }}
-          className={`p-2 ${styles.fadeInFaster} shadow`}
+          className={`p-2 ${styles.fadeInFaster} shadow ${className}`}
         >
-         {children}
+          {children}
         </Alert>
       )}
     </>
