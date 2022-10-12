@@ -112,17 +112,20 @@ function TaskViewModal({
           </Modal.Body>
           <Modal.Footer>
             {!isOnDeleteState && (
-              <>
-                <Button variant="outline-danger" onClick={setToDeleteMode}>
-                  Delete
-                </Button>
-                <Button variant="warning" onClick={setToEditMode}>
-                  Edit
-                </Button>
-                <Button variant="gray" onClick={onHide}>
+              <div className="d-flex justify-content-between w-100">
+                <div className="d-flex gap-2">
+                  <Button variant="outline-danger" onClick={setToDeleteMode}>
+                    Delete
+                  </Button>
+                  <Button variant="gray" onClick={setToEditMode}>
+                    Edit
+                  </Button>
+                </div>
+
+                <Button variant="primary" onClick={onHide}>
                   Close
                 </Button>
-              </>
+              </div>
             )}
             {isOnDeleteState && (
               <>
