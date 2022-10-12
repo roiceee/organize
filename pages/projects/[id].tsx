@@ -34,6 +34,7 @@ import {
   taskSortByPriority,
   taskSortByTitle,
 } from "../../src/utils/task-sorts";
+import { processDescription } from "../../src/utils/task-utils";
 import { isNotUser } from "../../src/utils/user-checks";
 
 //this dynamic page's path uses the projects' projectIDs
@@ -338,13 +339,25 @@ function TasksPage() {
                   <h2 style={{ overflowWrap: "break-word" }}>
                     {currentProjectState.title}
                   </h2>
+                  <div>
+                    <div
+                      style={{
+                        maxHeight: "100px",
+                        overflowWrap: "break-word",
+                        overflowY: "scroll",
+                      }}
+                    >
+                      <b>Project Description:</b>{" "}
+                      {processDescription(currentProjectState)}
+                    </div>
+                  </div>
                 </Row>
                 <hr className="mx-auto my-1 mb-2" />
                 <div className="d-flex flex-column flex-lg-column-reverse">
-                  <TaskCalendar />
                   <div className="text-center my-2">
                     <Button
-                      variant="action w-75 mb-2"
+                      className="mx-auto w-75"
+                      variant="action"
                       onClick={showAddTaskModal}
                     >
                       Add Task
@@ -391,9 +404,9 @@ function TasksPage() {
                       className={"text-action " + utilStyles.underlineAction}
                       onClick={showAddTaskModal}
                     >
-                      Create a task
+                      Create your first task
                     </span>{" "}
-                    to get started!
+                    for this project.
                   </p>
                 )}
                 {renderedTasks}

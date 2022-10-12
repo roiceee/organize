@@ -10,7 +10,7 @@ function HeadWrapper({ title }: HeadWrapperProps) {
     <>
       <Head>
         <title>{!title ? "Organize" : `${title} | Organize`}</title>
-        <meta name="description" content="Lightweight To Do list" />
+        <meta name="description" content="Lightweight Task Manager" />
         <link rel="icon" href="/organize-icon.png" />
       </Head>
     </>

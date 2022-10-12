@@ -136,13 +136,13 @@ const Home: NextPage = () => {
           projects: [...prevProjectArrayState.projects, newProject],
         };
         saveToStorage(userTypeState, newProjectArrayState);
-
+        router.push("/projects/" + newProject.id);
         return newProjectArrayState;
       });
 
       setShowAddProjectModalState(false);
     },
-    [setShowAddProjectModalState, setProjectArrayState, userTypeState]
+    [setShowAddProjectModalState, setProjectArrayState, userTypeState, router]
   );
 
   const undoDeletedProject = useCallback(
@@ -189,12 +189,12 @@ const Home: NextPage = () => {
                 </Col>
                 <hr />
                 <Quotes />
-                <hr className="mb-2" />
-                <div className="d-flex flex-column flex-lg-column-reverse">
+                <hr className="mx-auto my-1 mb-2" />
+                <div className="d-flex flex-column flex-lg-column-reverse p-0">
                   <TaskCalendar />
-                  <div className="text-center mb-2">
+                  <div className="text-center my-2">
                     <Button
-                      className="mx-auto w-75 my-2"
+                      className="mx-auto w-75"
                       variant="action"
                       onClick={showAddProjectModal}
                     >

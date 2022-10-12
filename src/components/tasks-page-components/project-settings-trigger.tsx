@@ -1,5 +1,5 @@
 import Image from "next/image";
-import aboutIcon from "../../images/info-black.svg";
+import settingsIcon from "../../images/settings.svg";
 
 interface ProjectSettingsTriggerProps {
   showProjectSettingsModal: () => void;
@@ -16,9 +16,9 @@ function ProjectSettingsTrigger({
       style={{ fontSize: "0.8rem" }}
       onClick={showProjectSettingsModal}
     >
-      <div>Project Info</div>
+      <div>Project Settings</div>
       <Image
-        src={aboutIcon}
+        src={settingsIcon}
         style={{ color: "black" }}
         height={16}
         width={16}

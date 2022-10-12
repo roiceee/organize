@@ -1,6 +1,8 @@
-import {initializeApp} from "firebase/app";
+import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getDatabase } from "firebase/database";
+import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
+
 const firebaseConfig = {
   apiKey: "AIzaSyBGrLCIQVG2wfVWjuA71kpYJ-pBRVg7m8o",
   authDomain: "organize-4d02e.firebaseapp.com",
@@ -11,11 +13,23 @@ const firebaseConfig = {
   measurementId: "G-348YVLQSGJ",
   databaseURL:
     "https://organize-4d02e-default-rtdb.asia-southeast1.firebasedatabase.app",
-    
 };
 
-const app = initializeApp(firebaseConfig)
+const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 const database = getDatabase(app);
 
-export {auth, database};
+//disable on production
+//globalThis.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
+
+function appCheck() {
+  initializeAppCheck(app, {
+    provider: new ReCaptchaV3Provider(
+      "6LcKKHQiAAAAAA0kvYSkO7iquwAcjlMTI9I1LZvU"
+    ),
+
+    isTokenAutoRefreshEnabled: true,
+  });
+}
+
+export { auth, database, appCheck };

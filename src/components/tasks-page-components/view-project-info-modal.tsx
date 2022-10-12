@@ -37,7 +37,7 @@ function ViewProjectInfoModal({
     >
       <Modal.Header className="bg-primary text-white">
         <Modal.Title id="contained-modal-title-vcenter">
-          Project Info
+          Project Settings
         </Modal.Title>
         <CloseButton onClick={onHide} variant="white" />
       </Modal.Header>
@@ -47,12 +47,6 @@ function ViewProjectInfoModal({
           <div className={`${utilStyles.responsiveFontSize}`}>
             <div
               className="mb-2 border border-1 p-1"
-              style={{
-                overflowWrap: "break-word",
-                overflowY: "scroll",
-                maxHeight: "150px",
-                scrollMarginRight: "4px",
-              }}
             >
               <div className="d-flex flex-wrap gap-1">
                 <div>
@@ -65,9 +59,6 @@ function ViewProjectInfoModal({
                   <b>Last Modified:</b>
                 </div>
                 <div>{dateFormatter(currentProjectState.lastModified)}</div>
-              </div>
-              <div className="mt-1">
-                <b>Description:</b> {processDescription(currentProjectState)}
               </div>
             </div>
 

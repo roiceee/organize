@@ -36,3 +36,6 @@ file-structure.txt
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# custom 
+credentials.txt

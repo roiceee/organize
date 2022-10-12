@@ -2,7 +2,7 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   signOut,
-  User,
+  User
 } from "firebase/auth";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
@@ -13,7 +13,7 @@ import UndoDeletedProjectContext from "../contexts/undo-deleted-project-context"
 import UserTypeContext from "../contexts/user-context";
 import UserSignInContext from "../contexts/user-sign-in-context";
 import createProjectArrayObject from "../defaults/default-project-array-";
-import { createDefaultUser, createEmptyUser } from "../defaults/default-user";
+import { createEmptyUser } from "../defaults/default-user";
 import { auth } from "../firebase/init";
 import userIcon from "../images/user-icon.svg";
 import ProjectArrayInterface from "../interfaces/project-array-interface";
@@ -21,9 +21,10 @@ import UserTypeInterface from "../interfaces/user-interface";
 import {
   retrieveFromStorage,
   retrieveLastUserSessionType,
-  saveLastUserSession,
+  saveLastUserSession
 } from "../utils/storage";
-import { isLocalUser, isLoggedInUser, isNotUser } from "../utils/user-checks";
+import { isNotUser } from "../utils/user-checks";
+import {appCheck} from "../firebase/init";
 
 //this is where the providers and global state and contexts are added so that app.tsx is not convoluted
 interface ControlLayerProps {
@@ -42,6 +43,9 @@ function ControlLayer({ children }: ControlLayerProps) {
   const [showCalendarState, setShowCalendarState] = useState<boolean>(true);
   const [loadOtherEffects, setLoadOtherEffects] = useState(false);
   const router = useRouter();
+
+  //firebase appCheck
+  appCheck();
 
   const destructureUserToUserTypeState = useCallback((userAuth: User) => {
     setUserStateType({
