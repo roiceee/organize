@@ -190,7 +190,7 @@ const Home: NextPage = () => {
                 </Col>
                 <hr />
                 <Quotes />
-                <hr className="mx-auto my-1 mb-2" />
+                <hr className="my-1 mb-2" />
                 <div className="d-flex flex-column flex-lg-column-reverse p-0">
                   <TaskCalendar />
                   <div className="text-center my-2">
@@ -240,9 +240,9 @@ const Home: NextPage = () => {
                   </div>
                 )}
                 {renderedProjects}
-                {projectArrayState.projects.length > 0 && (
+                {/* {projectArrayState.projects.length > 0 && (
                   <MobileAddButton onClick={showAddProjectModal} />
-                )}
+                )} */}
               </Row>
             </>
           }

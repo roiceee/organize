@@ -337,7 +337,7 @@ function TasksPage() {
                     />
                   </div>
                 </div>
-                <Row>
+                <Row className="mx-0">
                   <h1 style={{ overflowWrap: "break-word" }}>
                     {currentProjectState.title}
                   </h1>
@@ -365,9 +365,8 @@ function TasksPage() {
                       {processDescription(currentProjectState)}
                     </div>
                   </div>
+                  <hr className="mx-auto my-1 mb-2" />
                 </Row>
-
-                <hr className="mx-auto my-1 mb-2" />
 
                 <Row className="text-center justify-content-center">
                   <Button
@@ -424,9 +423,9 @@ function TasksPage() {
                   </p>
                 )}
                 {renderedTasks}
-                {currentProjectState.tasks.length > 0 && (
+                {/* {currentProjectState.tasks.length > 0 && (
                   <MobileAddButton onClick={showAddTaskModal} />
-                )}
+                )} */}
               </Row>
             }
           />

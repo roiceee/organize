@@ -90,7 +90,7 @@
     font-size: 0.9rem;
   }
   .showOnSmaller {
-    display: none;
+    display: none!important;
   }
   .floatOnMobile {
     position: fixed;
