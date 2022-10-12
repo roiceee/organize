@@ -7,6 +7,7 @@ import { ChangeEvent, useCallback, useState } from "react";
 import { sendRecommendationToStorage } from "../src/utils/storage";
 import FloatingAlert from "../src/components/util-components/floating-alert";
 
+
 function About() {
   const [formContentState, setFormContentState] = useState<string>("");
   const [thankyouAlertState, setThankYouAlertState] = useState<boolean>(false);
@@ -126,7 +127,7 @@ function About() {
         </BodyLayoutThree>
       </Container>
       <FloatingAlert show={thankyouAlertState} onHide={hideThankyouAlertState}>
-        <div>Thanks for your response!</div>
+        <div className="text-center">Thanks for your response!</div>
       </FloatingAlert>
     </>
   );

@@ -11,6 +11,7 @@ import UserTypeContext from "../src/contexts/user-context";
 import UserSignInContext from "../src/contexts/user-sign-in-context";
 import { createDefaultUser } from "../src/defaults/default-user";
 import googleIcon from "../src/images/sign-in/google.svg";
+import aboutIcon from "../src/images/info-black.svg";
 import pic1 from "../src/images/sign-in/pic1.svg";
 import { isNotUser } from "../src/utils/user-checks";
 
@@ -83,9 +84,15 @@ function LogIn() {
                   </Row>
                   <Row>
                     <Link href={"/about"}>
-                      <a className="text-decoration-none text-gray" style={{fontSize: "0.8rem"}}>
-                        Read App Info
-                      </a>
+                      <div className="d-flex align-items-center gap-1 justify-content-end">
+                        <a
+                          className="text-decoration-none text-gray"
+                          style={{ fontSize: "0.8rem" }}
+                        >
+                          Read App Info
+                        </a>
+                        <Image height={18} width={18} src={aboutIcon} alt="About" />
+                      </div>
                     </Link>
                   </Row>
                 </Row>
