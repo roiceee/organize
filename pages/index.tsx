@@ -190,17 +190,19 @@ const Home: NextPage = () => {
                 <hr />
                 <Quotes />
                 <hr className="mb-2" />
-                <div className="text-center mb-2">
-                  <Button
-                    className="mx-auto w-75 my-2"
-                    variant="action"
-                    onClick={showAddProjectModal}
-                  >
-                    Add new Project
-                  </Button>
+                <div className="d-flex flex-column flex-lg-column-reverse">
+                  <TaskCalendar />
+                  <div className="text-center mb-2">
+                    <Button
+                      className="mx-auto w-75 my-2"
+                      variant="action"
+                      onClick={showAddProjectModal}
+                    >
+                      Add new Project
+                    </Button>
+                  </div>
                 </div>
               </Row>
-              <TaskCalendar />
             </Row>
           }
           rightElements={
@@ -227,7 +229,7 @@ const Home: NextPage = () => {
                   <div className=" text-center">
                     <span
                       onClick={showAddProjectModal}
-                      className={"text-action"}
+                      className={"text-action " + utilStyles.underlineAction}
                     >
                       Create a project
                     </span>{" "}

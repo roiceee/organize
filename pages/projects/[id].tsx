@@ -340,12 +340,17 @@ function TasksPage() {
                   </h2>
                 </Row>
                 <hr className="mx-auto my-1 mb-2" />
-                <div className="text-center">
-                  <Button variant="action w-75 mb-2" onClick={showAddTaskModal}>
-                    Add Task
-                  </Button>
+                <div className="d-flex flex-column flex-lg-column-reverse">
+                  <TaskCalendar />
+                  <div className="text-center my-2">
+                    <Button
+                      variant="action w-75 mb-2"
+                      onClick={showAddTaskModal}
+                    >
+                      Add Task
+                    </Button>
+                  </div>
                 </div>
-                <TaskCalendar />
               </Row>
             }
             rightElements={
@@ -383,7 +388,7 @@ function TasksPage() {
                 {currentProjectState.tasks.length === 0 && (
                   <p className="text-center">
                     <span
-                      className={"text-action"}
+                      className={"text-action " + utilStyles.underlineAction}
                       onClick={showAddTaskModal}
                     >
                       Create a task
