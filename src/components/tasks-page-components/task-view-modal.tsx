@@ -24,7 +24,6 @@ interface TaskViewModalProps {
   onHide: () => void;
   editTaskHandler: (updatedTask: TaskInterface) => void;
   deleteTaskHandler: (taskToBeDeleted: TaskInterface) => void;
-  taskIsDoneToggler: (isDone: boolean, task: TaskInterface) => void;
 }
 
 function TaskViewModal({
@@ -33,7 +32,6 @@ function TaskViewModal({
   onHide,
   editTaskHandler,
   deleteTaskHandler,
-  taskIsDoneToggler,
 }: TaskViewModalProps) {
   const [isOnEditState, setIsOnEditState] = useState<boolean>(false);
   const [isOnDeleteState, setIsOnDeleteState] = useState<boolean>(false);
@@ -57,15 +55,6 @@ function TaskViewModal({
   const deleteTaskButtonHandler = useCallback(() => {
     deleteTaskHandler(task);
   }, [deleteTaskHandler, task]);
-
-  const markIsDoneHandler = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      const isChecked = e.target.checked;
-
-      taskIsDoneToggler(isChecked, task);
-    },
-    [taskIsDoneToggler, task]
-  );
 
   return (
     <Modal
@@ -124,19 +113,14 @@ function TaskViewModal({
           <Modal.Footer>
             {!isOnDeleteState && (
               <>
-                <div style={{ marginRight: "auto" }} className="d-flex gap-2">
-                  <Form.Check
-                    type="checkbox"
-                    label="Mark as Done"
-                    onChange={markIsDoneHandler}
-                    checked={task.isDone}
-                  />
-                </div>
-                <Button variant="gray" onClick={setToDeleteMode}>
+                <Button variant="outline-danger" onClick={setToDeleteMode}>
                   Delete
                 </Button>
                 <Button variant="warning" onClick={setToEditMode}>
                   Edit
+                </Button>
+                <Button variant="gray" onClick={onHide}>
+                  Close
                 </Button>
               </>
             )}

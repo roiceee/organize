@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import checkSVG from "../../images/check.svg";
 import clockSVG from "../../images/clock.svg";
 import prioritySVG from "../../images/priority.svg";
@@ -17,6 +17,7 @@ import {
 } from "../../utils/task-utils";
 import CardDetailRow from "../util-components/card-detail-row";
 import TaskViewModal from "./task-view-modal";
+import Form from "react-bootstrap/Form";
 
 interface TaskCardProps {
   task: TaskInterface;
@@ -41,6 +42,15 @@ function TaskCard({
     setTaskViewModalState(false);
   }, []);
 
+  const markIsDoneHandler = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const isChecked = e.target.checked;
+      taskIsDoneToggler(isChecked, task);
+      
+    },
+    [taskIsDoneToggler, task]
+  );
+
   return (
     <>
       <div
@@ -55,32 +65,45 @@ function TaskCard({
         <div
           className={`${styles.prioIndicator} ${getPriorityColor(task)}`}
         ></div>
-        <div className="p-1">
+        <div className="p-1 w-100">
           <h5>{task.title}</h5>
-          <div style={{ fontSize: "0.9rem" }}>
-            <CardDetailRow
-              label="Status"
-              valueSpan={
-                <span className={getStatusColor(task)}>
-                  {processTaskStatus(task)}
-                </span>
-              }
-              svg={checkSVG}
-            />
-            <CardDetailRow
-              label="Priority"
-              valueSpan={<span>{processPriority(task)}</span>}
-              svg={prioritySVG}
-            />
-            <CardDetailRow
-              label="Deadline"
-              valueSpan={
-                <span className={getDeadlineColor(task)}>
-                  {processDeadline(task)}
-                </span>
-              }
-              svg={clockSVG}
-            />
+          <div
+            style={{ fontSize: "0.9rem" }}
+            className="d-flex justify-content-between"
+          >
+            <div>
+              <CardDetailRow
+                label="Deadline"
+                valueSpan={
+                  <span className={getDeadlineColor(task)}>
+                    {processDeadline(task)}
+                  </span>
+                }
+                svg={clockSVG}
+              />
+              <CardDetailRow
+                label="Priority"
+                valueSpan={<span>{processPriority(task)}</span>}
+                svg={prioritySVG}
+              />
+              <CardDetailRow
+                label="Status"
+                valueSpan={
+                  <span className={getStatusColor(task)}>
+                    {processTaskStatus(task)}
+                  </span>
+                }
+                svg={checkSVG}
+              />
+            </div>
+            <div className="align-self-end mx-1" onClick={(e) => e.stopPropagation()}>
+              <Form.Check
+                type="checkbox"
+                label="Done"
+                onChange={markIsDoneHandler}
+                checked={task.isDone}
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -90,7 +113,6 @@ function TaskCard({
         onHide={hideTaskViewModal}
         editTaskHandler={editTaskHandler}
         deleteTaskHandler={deleteTaskHandler}
-        taskIsDoneToggler={taskIsDoneToggler}
       />
     </>
   );
