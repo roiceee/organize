@@ -27,6 +27,7 @@ import ProjectArrayInterface from "../../src/interfaces/project-array-interface"
 import ProjectInterface from "../../src/interfaces/project-interface";
 import TaskInterface from "../../src/interfaces/task-interface";
 import utilStyles from "../../src/styles/modules/util-styles.module.scss";
+import dateFormatter from "../../src/utils/dateFormatter";
 import { saveToStorage } from "../../src/utils/storage";
 import {
   taskSortByDateCreated,
@@ -336,22 +337,35 @@ function TasksPage() {
                   </div>
                 </div>
                 <Row>
-                  <h2 style={{ overflowWrap: "break-word" }}>
+                  <h1 style={{ overflowWrap: "break-word" }}>
                     {currentProjectState.title}
-                  </h2>
-                  <div>
-                    <div
-                      style={{
-                        maxHeight: "100px",
-                        overflowWrap: "break-word",
-                        overflowY: "scroll",
-                      }}
-                    >
+                  </h1>
+                  <hr className="mx-auto my-1 mb-2" />
+                </Row>
+                <Row className="mx-0">
+                  <div
+                    style={{
+                      maxHeight: "200px",
+                      overflowWrap: "break-word",
+                      overflowY: "scroll",
+                    }}
+                    className="bg-light p-1 rounded-1"
+                  >
+                    <div>
+                      <b>Date Created:</b>{" "}
+                      {dateFormatter(currentProjectState.dateCreated)}
+                    </div>
+                    <div>
+                      <b>Last Modified:</b>{" "}
+                      {dateFormatter(currentProjectState.dateCreated)}
+                    </div>
+                    <div>
                       <b>Project Description:</b>{" "}
                       {processDescription(currentProjectState)}
                     </div>
                   </div>
                 </Row>
+
                 <hr className="mx-auto my-1 mb-2" />
                 <div className="d-flex flex-column flex-lg-column-reverse">
                   <div className="text-center my-2">

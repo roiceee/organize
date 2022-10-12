@@ -48,11 +48,11 @@ function LogIn() {
           rightElements={
             <Container className="d-flex h-100 w-100">
               <Row className="my-auto mx-auto">
-                <Row className="mb-4">
+                <Row className="mb-3">
                   <h3>Log in</h3>
                 </Row>
 
-                <Row className="mx-auto justify-content-center gap-3">
+                <Row className="mx-auto justify-content-center gap-2">
                   <Row className="text-center">
                     <Button
                       variant="action"
@@ -67,10 +67,11 @@ function LogIn() {
                       />
                       <b>Continue with Google</b>
                     </Button>
-                    <div style={{ fontSize: "0.9rem" }} className="text-gray">
+                    <div style={{ fontSize: "0.8rem" }} className="text-gray">
                       Manage your tasks on any device! (Recommended)
                     </div>
                   </Row>
+                  <hr className="my-1"/>
                   <Row className="text-center">
                     <Button
                       variant="outline-gray"
@@ -78,7 +79,7 @@ function LogIn() {
                     >
                       Continue as Local User
                     </Button>
-                    <div style={{ fontSize: "0.9rem" }} className="text-gray">
+                    <div style={{ fontSize: "0.8rem" }} className="text-gray">
                       Manage your tasks only on this browser.
                     </div>
                   </Row>
