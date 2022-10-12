@@ -14,6 +14,7 @@ import ProjectCard from "../src/components/projects-page-components/project-card
 import Quotes from "../src/components/projects-page-components/quotes";
 import UndoProjectAlert from "../src/components/projects-page-components/undo-project-alert";
 import TaskCalendar from "../src/components/task-calendar";
+import MobileAddButton from "../src/components/util-components/mobile-add-button";
 import ScrollToTopButton from "../src/components/util-components/scroll-to-top-button";
 import Sorter from "../src/components/util-components/sorter";
 import StickyHeader from "../src/components/util-components/sticky-header";
@@ -193,13 +194,15 @@ const Home: NextPage = () => {
                 <div className="d-flex flex-column flex-lg-column-reverse p-0">
                   <TaskCalendar />
                   <div className="text-center my-2">
-                    <Button
-                      className="mx-auto w-75"
-                      variant="action"
-                      onClick={showAddProjectModal}
-                    >
-                      Add new Project
-                    </Button>
+                    <Row className="text-center justify-content-center">
+                      <Button
+                        variant="action"
+                        onClick={showAddProjectModal}
+                        style={{ maxWidth: "300px" }}
+                      >
+                        Add Project
+                      </Button>
+                    </Row>
                   </div>
                 </div>
               </Row>
@@ -237,6 +240,9 @@ const Home: NextPage = () => {
                   </div>
                 )}
                 {renderedProjects}
+                {projectArrayState.projects.length > 0 && (
+                  <MobileAddButton onClick={showAddProjectModal} />
+                )}
               </Row>
             </>
           }

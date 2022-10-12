@@ -13,11 +13,11 @@
 }
 
 .colorAction {
-    color: $action;
+  color: $action;
 }
 
 .borderBottomWhite {
-  border-bottom: 2px solid $light!important;
+  border-bottom: 2px solid $light !important;
 }
 
 .underlineSuccess {
@@ -65,15 +65,18 @@
 }
 
 .textWhiteOnActive:active {
-  color: white!important;
+  color: white !important;
 }
 
 .responsiveFontSize {
   font-size: 0.8rem;
 }
 
+.showOnSmaller {
+  display: block;
+}
 
-@media all and (min-width: 1000px) {
+@media all and (min-width: 992px) {
   .hoverable:hover {
     transition: 0.2s;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
@@ -85,5 +88,13 @@
   }
   .responsiveFontSize {
     font-size: 0.9rem;
+  }
+  .showOnSmaller {
+    display: none;
+  }
+  .floatOnMobile {
+    position: fixed;
+    right: 30px;
+    bottom: 50px;
   }
 }

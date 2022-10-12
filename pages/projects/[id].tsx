@@ -14,6 +14,7 @@ import TaskCard from "../../src/components/tasks-page-components/task-card";
 import UndoDeletedTaskAlert from "../../src/components/tasks-page-components/undo-task-alert";
 import ErrorNotice from "../../src/components/util-components/error-notice";
 import LoadingNotice from "../../src/components/util-components/loading-notice";
+import MobileAddButton from "../../src/components/util-components/mobile-add-button";
 import ScrollToTopButton from "../../src/components/util-components/scroll-to-top-button";
 import Sorter from "../../src/components/util-components/sorter";
 import StickyHeader from "../../src/components/util-components/sticky-header";
@@ -367,17 +368,16 @@ function TasksPage() {
                 </Row>
 
                 <hr className="mx-auto my-1 mb-2" />
-                <div className="d-flex flex-column flex-lg-column-reverse">
-                  <div className="text-center my-2">
-                    <Button
-                      className="mx-auto w-75"
-                      variant="action"
-                      onClick={showAddTaskModal}
-                    >
-                      Add Task
-                    </Button>
-                  </div>
-                </div>
+
+                <Row className="text-center justify-content-center">
+                  <Button
+                    variant="action"
+                    onClick={showAddTaskModal}
+                    style={{ maxWidth: "300px" }}
+                  >
+                    Add Task
+                  </Button>
+                </Row>
               </Row>
             }
             rightElements={
@@ -424,6 +424,9 @@ function TasksPage() {
                   </p>
                 )}
                 {renderedTasks}
+                {currentProjectState.tasks.length > 0 && (
+                  <MobileAddButton onClick={showAddTaskModal} />
+                )}
               </Row>
             }
           />
