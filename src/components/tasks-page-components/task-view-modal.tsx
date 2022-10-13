@@ -85,9 +85,9 @@ function TaskViewModal({
                 <b>Title:</b> {task.title}
               </div>
               <hr className="my-2" />
-              <div className="mb-1">
+              {/* <div className="mb-1">
                 <DescriptionPopover title="Task Description" task={task} />
-              </div>
+              </div> */}
               <div style={{ fontSize: "0.9rem" }}>
                 <div className="mb-1">
                   <b>Status:</b>{" "}

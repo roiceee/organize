@@ -46,14 +46,14 @@ function TaskForm({
         ref={taskTitleFormRef}
       />
       <div className="error my-1" id="task-title-error"></div>
-      <div className="d-flex justify-content-between mb-1">
+      {/* <div className="d-flex justify-content-between mb-1">
         <div>Description</div>
         <FormLengthCounter
           currentValue={formTaskState.description.length}
           maxValue={TaskConstraintsEnum.DescriptionLength}
         />
-      </div>
-      <Form.Control
+      </div> */}
+      {/* <Form.Control
         as="textarea"
         placeholder="Task Description"
         className="mb-2"
@@ -61,7 +61,7 @@ function TaskForm({
         maxLength={TaskConstraintsEnum.DescriptionLength}
         value={formTaskState.description}
         onChange={descriptionFormHandler}
-      />
+      /> */}
       <div className="d-flex gap-2 align-items-center">
         <div>Deadline:</div>
         <Form.Control

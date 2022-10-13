@@ -194,7 +194,7 @@ const Home: NextPage = () => {
                 <div className="d-flex flex-column flex-lg-column-reverse p-0">
                   <TaskCalendar />
                   <div className="text-center my-2">
-                    <Row className="text-center justify-content-center">
+                    <Row className="text-center justify-content-center mx-auto">
                       <Button
                         variant="action"
                         onClick={showAddProjectModal}
@@ -239,7 +239,7 @@ const Home: NextPage = () => {
                     to get started!
                   </div>
                 )}
-                {renderedProjects}
+                <Row className="justify-content-center gap-2">{renderedProjects}</Row>
                 {/* {projectArrayState.projects.length > 0 && (
                   <MobileAddButton onClick={showAddProjectModal} />
                 )} */}

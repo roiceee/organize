@@ -76,6 +76,12 @@
   display: block;
 }
 
+.overflowEllipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 @media all and (min-width: 992px) {
   .hoverable:hover {
     transition: 0.2s;

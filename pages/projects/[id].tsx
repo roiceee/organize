@@ -368,7 +368,7 @@ function TasksPage() {
                   <hr className="mx-auto my-1 mb-2" />
                 </Row>
 
-                <Row className="text-center justify-content-center">
+                <Row className="text-center justify-content-center mx-auto">
                   <Button
                     variant="action"
                     onClick={showAddTaskModal}
@@ -422,7 +422,8 @@ function TasksPage() {
                     for this project.
                   </p>
                 )}
-                {renderedTasks}
+                <Row className="gap-2 justify-content-center">{renderedTasks}</Row>
+                
                 {/* {currentProjectState.tasks.length > 0 && (
                   <MobileAddButton onClick={showAddTaskModal} />
                 )} */}

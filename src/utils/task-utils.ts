@@ -13,7 +13,7 @@ function processDeadline(task: TaskInterface) {
 }
 
 function processPriority(task: TaskInterface) {
-  return task.priority === "" ? "Not specified" : _.capitalize(task.priority);
+  return task.priority === "" ? "None" : _.capitalize(task.priority);
 }
 
 function processTaskStatus(task: TaskInterface) {
