@@ -35,6 +35,9 @@ import {
 } from "../src/utils/project-sorts";
 import { saveToStorage } from "../src/utils/storage";
 import { isNotUser } from "../src/utils/user-checks";
+import folderIcon from "../src/images/folder.svg";
+import Image from "next/image";
+import AddProjectButton from "../src/components/projects-page-components/add-project-button";
 
 const Home: NextPage = () => {
   const router = useRouter();
@@ -194,13 +197,7 @@ const Home: NextPage = () => {
                   <TaskCalendar />
                   <div className="text-center my-2">
                     <Row className="text-center justify-content-center mx-auto">
-                      <Button
-                        variant="action"
-                        onClick={showAddProjectModal}
-                        style={{ maxWidth: "300px" }}
-                      >
-                        Add Project
-                      </Button>
+                      <AddProjectButton onClick={showAddProjectModal} />
                     </Row>
                   </div>
                 </div>
@@ -238,7 +235,9 @@ const Home: NextPage = () => {
                     to get started!
                   </div>
                 )}
-                <Row className="justify-content-center gap-2">{renderedProjects}</Row>
+                <Row className="justify-content-center gap-2">
+                  {renderedProjects}
+                </Row>
                 {/* {projectArrayState.projects.length > 0 && (
                   <MobileAddButton onClick={showAddProjectModal} />
                 )} */}

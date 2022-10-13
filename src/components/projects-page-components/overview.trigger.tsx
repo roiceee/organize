@@ -1,5 +1,5 @@
 import Image from "next/image";
-import folderIcon from "../../images/folder.svg";
+import overviewIcon from "../../images/overview.svg"
 
 interface OverviewTriggerProps {
   onClick: () => void;
@@ -13,7 +13,7 @@ function OverviewTrigger({ onClick }: OverviewTriggerProps) {
     >
       <div>Overview</div>
       
-        <Image src={folderIcon} height={14} width={14} alt="Overview" />
+        <Image src={overviewIcon} height={14} width={14} alt="Overview" />
      
     </div>
   );

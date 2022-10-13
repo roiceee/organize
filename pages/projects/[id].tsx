@@ -6,6 +6,7 @@ import Row from "react-bootstrap/Row";
 import BodyLayoutOne from "../../src/components/body-layout-one";
 import HeadWrapper from "../../src/components/head-wrapper";
 import TaskCalendar from "../../src/components/task-calendar";
+import AddTaskButton from "../../src/components/tasks-page-components/add-task-button";
 import AddTaskModal from "../../src/components/tasks-page-components/add-task-modal";
 import GoBackLink from "../../src/components/tasks-page-components/go-back-link";
 import ProjectInfoModal from "../../src/components/tasks-page-components/project-info-modal";
@@ -369,13 +370,7 @@ function TasksPage() {
                 </Row>
 
                 <Row className="text-center justify-content-center mx-auto my-3">
-                  <Button
-                    variant="action"
-                    onClick={showAddTaskModal}
-                    style={{ maxWidth: "300px" }}
-                  >
-                    Add Task
-                  </Button>
+                  <AddTaskButton onClick={showAddTaskModal} />
                 </Row>
               </Row>
             }
@@ -422,8 +417,10 @@ function TasksPage() {
                     for this project.
                   </p>
                 )}
-                <Row className="gap-2 justify-content-center">{renderedTasks}</Row>
-                
+                <Row className="gap-2 justify-content-center">
+                  {renderedTasks}
+                </Row>
+
                 {/* {currentProjectState.tasks.length > 0 && (
                   <MobileAddButton onClick={showAddTaskModal} />
                 )} */}
