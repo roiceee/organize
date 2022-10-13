@@ -27,7 +27,7 @@ function Layout({ children }: LayoutProps) {
           <NavigationBar />
           <div>{children}</div>
         </div>
-        <div className="mt-1">
+        <div className="mt-3">
           <Footer />
         </div>
       </div>
