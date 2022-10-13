@@ -24,9 +24,11 @@
     "@types/react": "18.0.18",
     "@types/react-calendar": "^3.5.2",
     "@types/react-dom": "18.0.6",
+    "@zeit/next-css": "^1.0.1",
     "bootstrap": "^5.2.0",
     "eslint": "8.23.0",
     "eslint-config-next": "12.2.5",
+    "next-purgecss": "^4.0.0",
     "react-bootstrap": "^2.5.0",
     "typescript": "4.8.2"
   }
