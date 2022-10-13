@@ -77,7 +77,7 @@ function LogIn() {
                       variant="outline-gray"
                       onClick={continueAsLocalUser}
                     >
-                      Continue as Local User
+                      Continue as Guest
                     </Button>
                     <div style={{ fontSize: "0.8rem" }} className="text-gray">
                       Manage your tasks only on this browser.
