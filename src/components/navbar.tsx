@@ -11,7 +11,7 @@ import aboutIcon from "../images/info.svg";
 import { isLoggedInUser, isNotUser } from "../utils/user-checks";
 import UserDiv from "./user-div";
 import utilStyles from "../styles/modules/util-styles.module.scss";
-import organizeIcon from "../../public/organize-icon.png"
+import organizeIcon from "../../public/icon.png"
 
 enum NavigationBarConstants {
   titleCollapseBreakPoint = 310,
