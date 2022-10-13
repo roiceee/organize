@@ -379,7 +379,11 @@ function TasksPage() {
                 <StickyHeader
                   mainDescriptionDiv={
                     <div className={`my-1 ${utilStyles.colorAction}`}>
-                      {currentProjectState.tasks.length + " Tasks"}
+                      {currentProjectState.tasks.length +
+                        currentProjectState.tasks.length <=
+                      1
+                        ? " Task"
+                        : " Tasks"}
                       {currentProjectState.tasks.length > 0 && (
                         <div
                           className="fw-normal"
