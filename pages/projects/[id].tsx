@@ -341,7 +341,7 @@ function TasksPage() {
                   <h1 style={{ overflowWrap: "break-word" }}>
                     {currentProjectState.title}
                   </h1>
-                  <hr className="mx-auto my-1 mb-2" />
+                  {/* <hr className="mx-auto my-1 mb-2" /> */}
                 </Row>
                 <Row className="mx-0">
                   <div
@@ -365,10 +365,10 @@ function TasksPage() {
                       {processDescription(currentProjectState)}
                     </div>
                   </div>
-                  <hr className="mx-auto my-1 mb-2" />
+                  {/* <hr className="mx-auto my-1 mb-2" /> */}
                 </Row>
 
-                <Row className="text-center justify-content-center mx-auto">
+                <Row className="text-center justify-content-center mx-auto my-3">
                   <Button
                     variant="action"
                     onClick={showAddTaskModal}

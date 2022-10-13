@@ -48,13 +48,13 @@ function TaskCard({
     <>
       <div
         onClick={showTaskViewModal}
-        className={`border border-1 bg-white d-flex flex-column p-0 gap-2 ${
+        className={`border border-1 bg-white d-flex flex-column p-0 ${
           utilStyles.hoverable
         } ${styles.rounded} ${
           task.isDone ? "text-muted text-decoration-line-through" : ""
         }`}
         style={{
-          maxWidth: "280px",
+          maxWidth: "300px",
           overflowWrap: "break-word",
           wordBreak: "break-word",
         }}
@@ -62,15 +62,9 @@ function TaskCard({
         <div
           className={`${styles.prioIndicator} ${getPriorityColor(task)}`}
         ></div>
-        <div
-          className={`p-1 w-100 h-100 d-flex flex-column justify-content-between`}
-        >
-          <h5
-            className={utilStyles.overflowEllipsis}
-          >
-            {task.title}
-          </h5>
-
+        <div className={`p-1`}>
+          <h5 className={`${utilStyles.overflowEllipsis} mb-0`}>{task.title}</h5>
+          <hr className="my-1"/>
           <div style={{ fontSize: "0.9rem" }}>
             <div>
               <CardDetailRow
@@ -97,7 +91,10 @@ function TaskCard({
                 svg={checkSVG}
               /> */}
             </div>
-            <div className="mx-1 mt-1 d-flex gap-2 justify-content-end" onClick={(e) => e.stopPropagation()}>
+            <div
+              className="mx-1 mt-1 d-flex gap-2 justify-content-end"
+              onClick={(e) => e.stopPropagation()}
+            >
               <Form.Check
                 type="checkbox"
                 label="Done"

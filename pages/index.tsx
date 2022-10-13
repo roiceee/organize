@@ -131,16 +131,15 @@ const Home: NextPage = () => {
 
   const addProjectToProjectArray = useCallback(
     (newProject: ProjectInterface): void => {
+      router.push("/projects/" + newProject.id);
       setProjectArrayState((prevProjectArrayState) => {
         const newProjectArrayState = {
           ...prevProjectArrayState,
           projects: [...prevProjectArrayState.projects, newProject],
         };
         saveToStorage(userTypeState, newProjectArrayState);
-        router.push("/projects/" + newProject.id);
         return newProjectArrayState;
       });
-
       setShowAddProjectModalState(false);
     },
     [setShowAddProjectModalState, setProjectArrayState, userTypeState, router]
