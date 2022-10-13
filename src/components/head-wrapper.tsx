@@ -10,8 +10,11 @@ function HeadWrapper({ title }: HeadWrapperProps) {
       <Head>
         <title>{!title ? "Organize" : `${title} | Organize`}</title>
         <meta name="description" content="Lightweight Task Manager" />
-        <link rel="icon" href="/organize-icon.png" />
-        <link rel="manifest" href="/webmanifest.json" crossOrigin="use-credentials"/>
+        <meta name="theme-color"/>
+        <link rel="apple-touch-icon" href="/icon192.png"/>
+        <link rel="icon" href="/icon.png" />
+        <link rel="manifest" href="/manifest.json" crossOrigin="use-credentials"/>
+        
       </Head>
     </>
   );
