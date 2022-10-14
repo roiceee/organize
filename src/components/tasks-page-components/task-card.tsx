@@ -51,7 +51,7 @@ function TaskCard({
         className={`border border-1 bg-white d-flex flex-column p-0 ${
           utilStyles.hoverable
         } ${styles.rounded} ${
-          task.isDone ? "text-muted text-decoration-line-through" : ""
+          task.isDone ? "text-muted text-decoration-line-through bg-light" : ""
         }`}
         style={{
           maxWidth: "300px",
