@@ -17,8 +17,8 @@ function Fallback() {
       <Container style={{ minWidth: "100%" }}>
         <div className="d-flex flex-column gap-2 align-items-center justify-content position-absolute top-50 start-50 translate-middle">
           <Image src={image} height={200} width={200} alt="No-Signal" />
-          <div className="d-flex gap-2 align-items-center">
-            <h6>No internet connection.</h6>
+          <div className="d-flex flex-wrap justify-content-center align-items-center gap-2 text-center">
+            <div>No internet connection.</div>
             <Button onClick={refreshPage} variant={"primary"}>
               Go Back
             </Button>
