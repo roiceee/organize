@@ -4,14 +4,13 @@ import { useRouter } from "next/router";
 import { useContext, useEffect, useRef, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
+import organizeIcon from "../../public/icon.png";
 import UserTypeContext from "../contexts/user-context";
-import UserSignInContext from "../contexts/user-sign-in-context";
 import homeIcon from "../images/home.svg";
 import aboutIcon from "../images/info.svg";
-import { isLoggedInUser, isNotUser } from "../utils/user-checks";
-import UserDiv from "./user-div";
 import utilStyles from "../styles/modules/util-styles.module.scss";
-import organizeIcon from "../../public/icon.png"
+import { isNotUser } from "../utils/user-checks";
+import UserDiv from "./user-div";
 
 enum NavigationBarConstants {
   titleCollapseBreakPoint = 310,

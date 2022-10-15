@@ -6,6 +6,7 @@ import Button from "react-bootstrap/Button";
 import { ChangeEvent, useCallback, useState } from "react";
 import { sendRecommendationToStorage } from "../src/utils/storage";
 import FloatingAlert from "../src/components/util-components/floating-alert";
+import InstallPWA from "../src/components/util-components/install-PWA";
 
 
 function About() {
@@ -48,6 +49,7 @@ function About() {
             </header>
             <hr />
             <article>
+              <InstallPWA className="mb-2"/>
               <header>
                 <h4 className="text-action">What is Organize?</h4>
               </header>
