@@ -18,15 +18,15 @@ function DeleteProjectModal({
 }: DeleteProjectModalProps) {
   const { currentProjectState } = useContext(ProjectContext);
 
-  const [isButtonEnabled, setIsButtonEnabled] = useState<boolean>(false);
+  // const [isButtonEnabled, setIsButtonEnabled] = useState<boolean>(false);
 
-  const disableConfirmButton = useCallback(() => {
-    setIsButtonEnabled(false);
-  }, []);
+  // // const disableConfirmButton = useCallback(() => {
+  // //   setIsButtonEnabled(false);
+  // // }, []);
 
-  const enableConfirmButton = useCallback(() => {
-    setIsButtonEnabled(true);
-  }, []);
+  // // const enableConfirmButton = useCallback(() => {
+  // //   setIsButtonEnabled(true);
+  // // }, []);
 
   const deleteProjectButtonHandler = useCallback(() => {
     onDeleteProjectButtonClick(currentProjectState);
@@ -45,17 +45,17 @@ function DeleteProjectModal({
       </Modal.Header>
       <Modal.Body>
         <div>Are you sure you want to delete this project?</div>
-        <DeleteConfirmationForm
+        {/* <DeleteConfirmationForm
           keyword="DELETE"
           keywordIsConfirmedHandler={enableConfirmButton}
           keywordIsNotConfirmedHandler={disableConfirmButton}
-        />
+        /> */}
       </Modal.Body>
       <Modal.Footer>
         <Button variant="gray" onClick={onHide}>
           Cancel
         </Button>
-        <Button variant="action" onClick={deleteProjectButtonHandler} disabled={!isButtonEnabled}>
+        <Button variant="action" onClick={deleteProjectButtonHandler} >
           Delete
         </Button>
       </Modal.Footer>

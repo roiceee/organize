@@ -1,7 +1,7 @@
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import { useCallback, useState } from "react";
-import DeleteConfirmationForm from "../util-components/delete-confirmation-form";
+
 
 interface ClearTasksModalProps {
   show: boolean;
@@ -15,15 +15,15 @@ function ClearTasksModal({
   onClearButtonClick,
 }: ClearTasksModalProps) {
 
-  const [isButtonEnabled, setIsButtonEnabled] = useState<boolean>(false);
+  // const [isButtonEnabled, setIsButtonEnabled] = useState<boolean>(false);
 
-  const disableConfirmButton = useCallback(() => {
-    setIsButtonEnabled(false);
-  }, []);
+  // const disableConfirmButton = useCallback(() => {
+  //   setIsButtonEnabled(false);
+  // }, []);
 
-  const enableConfirmButton = useCallback(() => {
-    setIsButtonEnabled(true);
-  }, []);
+  // const enableConfirmButton = useCallback(() => {
+  //   setIsButtonEnabled(true);
+  // }, []);
 
   const clearTasksButtonHandler = useCallback(() => {
     onClearButtonClick();
@@ -44,17 +44,17 @@ function ClearTasksModal({
       </Modal.Header>
       <Modal.Body>
         <div>Are you sure you want to clear all tasks in this project?</div>
-        <DeleteConfirmationForm
+        {/* <DeleteConfirmationForm
           keyword="CLEAR"
           keywordIsConfirmedHandler={enableConfirmButton}
           keywordIsNotConfirmedHandler={disableConfirmButton}
-        />
+        /> */}
       </Modal.Body>
       <Modal.Footer>
         <Button variant="gray" onClick={onHide}>
           Cancel
         </Button>
-        <Button variant="action" onClick={clearTasksButtonHandler} disabled={!isButtonEnabled}>
+        <Button variant="action" onClick={clearTasksButtonHandler} >
           Confirm
         </Button>
       </Modal.Footer>

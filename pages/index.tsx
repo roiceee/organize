@@ -1,20 +1,20 @@
 import type { NextPage } from "next";
-import Router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import { useCallback, useContext, useMemo, useState } from "react";
-import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import BodyLayoutOne from "../src/components/body-layout-one";
 import HeadWrapper from "../src/components/head-wrapper";
+import AddProjectButton from "../src/components/projects-page-components/add-project-button";
 import AddProjectModal from "../src/components/projects-page-components/add-project-modal";
+import NoUserContainer from "../src/components/projects-page-components/no-user-container";
 import OverviewModal from "../src/components/projects-page-components/overview-modal";
 import OverviewTrigger from "../src/components/projects-page-components/overview.trigger";
 import ProjectCard from "../src/components/projects-page-components/project-card";
 import Quotes from "../src/components/projects-page-components/quotes";
 import UndoProjectAlert from "../src/components/projects-page-components/undo-project-alert";
 import TaskCalendar from "../src/components/task-calendar";
-import MobileAddButton from "../src/components/util-components/mobile-add-button";
 import ScrollToTopButton from "../src/components/util-components/scroll-to-top-button";
 import Sorter from "../src/components/util-components/sorter";
 import StickyHeader from "../src/components/util-components/sticky-header";
@@ -35,9 +35,6 @@ import {
 } from "../src/utils/project-sorts";
 import { saveToStorage } from "../src/utils/storage";
 import { isNotUser } from "../src/utils/user-checks";
-import folderIcon from "../src/images/folder.svg";
-import Image from "next/image";
-import AddProjectButton from "../src/components/projects-page-components/add-project-button";
 
 const Home: NextPage = () => {
   const router = useRouter();
@@ -57,10 +54,6 @@ const Home: NextPage = () => {
   const [showOverviewModalState, setShowOverviewModalState] =
     useState<boolean>(false);
 
-  //if user is not signed in and is not a local user, then redirect to sign in page
-  if (isNotUser(userTypeState)) {
-    router.push("/login");
-  }
 
   const showAddProjectModal = useCallback(() => {
     setShowAddProjectModalState(true);
@@ -170,6 +163,11 @@ const Home: NextPage = () => {
       return newProjectArrayState;
     });
   }, [setProjectArrayState, userTypeState]);
+
+    //if user is not signed in and is not a local user, then redirect to sign in page
+    if (isNotUser(userTypeState)) {
+      return <NoUserContainer/>
+    }
 
   return (
     <ProjectContext.Provider
