@@ -183,7 +183,7 @@ const Home: NextPage = () => {
             <Row className="sticky-wrapper position-sticky sticky-top">
               <Row className="mx-auto justify-content-center">
                 <Col>
-                  <div className="d-flex justify-content-end align-items-center mb-2">
+                  <div className="d-flex justify-content-end align-items-center my-2">
                     <OverviewTrigger onClick={showOverviewModal} />
                   </div>
                   <h5 className="my-0 mb-2">

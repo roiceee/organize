@@ -20,7 +20,7 @@ const auth = getAuth();
 const database = getDatabase(app);
 
 //disable on production
-// globalThis.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
+globalThis.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
 
 function appCheck() {
   initializeAppCheck(app, {

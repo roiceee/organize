@@ -55,7 +55,7 @@ function NavigationBar() {
       bg="primary"
       expand="md"
       variant="dark"
-      className="mb-2 text-light"
+      className="text-light"
     >
       <Container>
         <div className="d-flex">

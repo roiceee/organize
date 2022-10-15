@@ -14,7 +14,7 @@ function ScrollToTopButton() {
       document.body.scrollTop > 300 ||
       document.documentElement.scrollTop > 300
     ) {
-      scrollButton.style.display = "block";
+      scrollButton.style.display = "flex";
       scrollButton.classList.add(transitionStyles.fadeInScrollButton);
     } else {
       scrollButton.style.display = "none";
@@ -40,8 +40,8 @@ function ScrollToTopButton() {
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        width="35"
-        height="35"
+        width="22"
+        height="22"
         viewBox="0 0 24 24"
         fill="none"
         stroke="#ffffff"

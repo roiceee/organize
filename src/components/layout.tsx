@@ -4,6 +4,7 @@ import UserTypeContext from "../contexts/user-context";
 import Footer from "./footer";
 import NavigationBar from "./navbar";
 import LoadingNotice from "./util-components/loading-notice";
+import NoInternetAlert from "./util-components/no-internet-alert";
 
 
 interface LayoutProps {
@@ -25,6 +26,7 @@ function Layout({ children }: LayoutProps) {
       >
         <div>
           <NavigationBar />
+          <NoInternetAlert/>
           <div>{children}</div>
         </div>
         <div className="mt-3">
