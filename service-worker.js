@@ -5,7 +5,7 @@ import { registerRoute, setDefaultHandler, setCatchHandler } from 'workbox-routi
 import { matchPrecache, precacheAndRoute, cleanupOutdatedCaches } from 'workbox-precaching';
 
 //change value to trigger update of PWA
-const VERSION = 1
+const VERSION = 2
 
 self.skipWaiting();
 clientsClaim();
