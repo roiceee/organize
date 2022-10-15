@@ -3,6 +3,7 @@ import IsAppLoadingContext from "../contexts/is-app-loading-context";
 import UserTypeContext from "../contexts/user-context";
 import Footer from "./footer";
 import NavigationBar from "./navbar";
+import InstallPWA from "./util-components/install-PWA";
 import LoadingNotice from "./util-components/loading-notice";
 import NoInternetAlert from "./util-components/no-internet-alert";
 
@@ -13,11 +14,10 @@ interface LayoutProps {
 function Layout({ children }: LayoutProps) {
   const isAppLoading = useContext(IsAppLoadingContext);
 
-
+  
   if (isAppLoading) {
     return <LoadingNotice />;
   }
-
   return (
     <>
       <div
@@ -26,6 +26,7 @@ function Layout({ children }: LayoutProps) {
       >
         <div>
           <NavigationBar />
+          <InstallPWA/>
           <NoInternetAlert/>
           <div>{children}</div>
         </div>

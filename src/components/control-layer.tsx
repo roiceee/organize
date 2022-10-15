@@ -5,7 +5,7 @@ import {
   User,
 } from "firebase/auth";
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import IsAppLoadingContext from "../contexts/is-app-loading-context";
 import ProjectArrayContext from "../contexts/project-array-context";
 import TaskCalendarToggleContext from "../contexts/task-calendar-toggle-context";
@@ -25,6 +25,7 @@ import {
 } from "../utils/storage";
 import { isNotUser } from "../utils/user-checks";
 import { appCheck } from "../firebase/init";
+import InstallPWAContext from "../contexts/install-PWA-context";
 
 //this is where the providers and global state and contexts are added so that app.tsx is not convoluted
 interface ControlLayerProps {
@@ -42,6 +43,9 @@ function ControlLayer({ children }: ControlLayerProps) {
     useState<boolean>(false);
   const [showCalendarState, setShowCalendarState] = useState<boolean>(true);
   const [loadOtherEffects, setLoadOtherEffects] = useState(false);
+  const [showInstallPWADiv, setShowInstallPWADiv] = useState(false);
+  const installPWAPrompt = useRef<Event | null>();
+
   const router = useRouter();
 
   const destructureUserToUserTypeState = useCallback((userAuth: User) => {
@@ -80,6 +84,26 @@ function ControlLayer({ children }: ControlLayerProps) {
     router.push("/login");
   }, [router]);
 
+  const showInstallPWA = useCallback(() => {
+    setShowInstallPWADiv(true);
+  }, []);
+
+  const hideInstallPWA = useCallback(() => {
+    setShowInstallPWADiv(false);
+  }, []);
+
+  const installPWA = useCallback(async () => {
+    if (installPWAPrompt.current) {
+      // @ts-ignore
+      installPWAPrompt.current.prompt();
+      // @ts-ignore
+      const { outcome } = await installPWAPrompt.current.userChoice;
+      if (outcome === "accepted") {
+        installPWAPrompt.current = null;
+      }
+    }
+  }, []);
+
   useEffect(() => {
     //firebase appCheck
     appCheck();
@@ -112,6 +136,21 @@ function ControlLayer({ children }: ControlLayerProps) {
     getProjectArray();
   }, [userTypeState, isAppLoading, loadOtherEffects]);
 
+  //this is for the PWA install state
+  const installPWADivRelaunch = useRef(true);
+  useEffect(() => {
+    window.addEventListener("beforeinstallprompt", (e: Event) => {
+      if (installPWADivRelaunch.current === false) {
+        console.log("yeah");
+        return;
+      }
+      showInstallPWA();
+      installPWAPrompt.current = e;
+      installPWADivRelaunch.current = false;
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {
     if (!loadOtherEffects) {
       return;
@@ -136,7 +175,15 @@ function ControlLayer({ children }: ControlLayerProps) {
                 value={{ showCalendarState, setShowCalendarState }}
               >
                 <UserSignInContext.Provider value={{ userSignIn, userSignOut }}>
-                  {children}
+                  <InstallPWAContext.Provider
+                    value={{
+                      showInstallPWADiv,
+                      installPWA,
+                      hideInstallPWA,
+                    }}
+                  >
+                    {children}
+                  </InstallPWAContext.Provider>
                 </UserSignInContext.Provider>
               </TaskCalendarToggleContext.Provider>
             </UndoDeletedProjectContext.Provider>
