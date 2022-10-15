@@ -61,10 +61,11 @@ function ControlLayer({ children }: ControlLayerProps) {
     try {
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
+      router.push("/")
     } catch {
       console.log("error");
     }
-  }, []);
+  }, [router]);
 
   const userSignOut = useCallback(async () => {
     setUserStateType(createEmptyUser());

@@ -11,24 +11,26 @@ import UserTypeContext from "../src/contexts/user-context";
 import UserSignInContext from "../src/contexts/user-sign-in-context";
 import { createDefaultUser } from "../src/defaults/default-user";
 import googleIcon from "../src/images/sign-in/google.svg";
-import aboutIcon from "../src/images/info-black.svg";
 import pic1 from "../src/images/sign-in/pic1.svg";
-import { isNotUser } from "../src/utils/user-checks";
 
 function LogIn() {
   const router = useRouter();
   const { userTypeState, setUserStateType } = useContext(UserTypeContext);
-  const { userSignIn } = useContext(UserSignInContext);
+  const { userSignIn, userSignOut } = useContext(UserSignInContext);
+  
+  const redirectToApp = useCallback(() => {
+    router.push("/")
+  }, [router])
 
   const continueAsLocalUser = useCallback(() => {
+    userSignOut();
     setUserStateType(createDefaultUser());
-  }, [setUserStateType]);
+    redirectToApp()
+  }, [setUserStateType, userSignOut, redirectToApp]);
+
 
   //if user is logged in or is a local user after accessing the page, redirect the user to the home page.
-  if (!isNotUser(userTypeState)) {
-    router.push("/");
-    return <></>;
-  }
+  
   return (
     <>
       <HeadWrapper title="Log in" />
