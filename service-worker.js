@@ -4,6 +4,9 @@ import { NetworkOnly, NetworkFirst, CacheFirst, StaleWhileRevalidate } from 'wor
 import { registerRoute, setDefaultHandler, setCatchHandler } from 'workbox-routing';
 import { matchPrecache, precacheAndRoute, cleanupOutdatedCaches } from 'workbox-precaching';
 
+//change value to trigger update of PWA
+const VERSION = 1
+
 self.skipWaiting();
 clientsClaim();
 
