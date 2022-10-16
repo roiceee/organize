@@ -44,6 +44,8 @@ function ControlLayer({ children }: ControlLayerProps) {
   const [loadOtherEffects, setLoadOtherEffects] = useState(false);
   const router = useRouter();
 
+  console.log(projectArrayState)
+
   const destructureUserToUserTypeState = useCallback((userAuth: User) => {
     setUserStateType({
       userInformation: {

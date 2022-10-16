@@ -29,7 +29,7 @@ function checkTaskIsDue(task: TaskInterface): boolean {
   if (task.isDone) {
     return false;
   }
-  return new Date(task.deadline).getDay() <= new Date().getDay();
+  return new Date(task.deadline) <= new Date();
 }
 
 export {

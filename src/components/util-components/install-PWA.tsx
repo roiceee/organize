@@ -35,7 +35,7 @@ function InstallPWAButton({ className }: InstallPWAProps) {
     <>
       {show && (
         <Button variant="action" onClick={installApp} className={className}>
-          Install as an App!
+          Install as an App
         </Button>
       )}
     </>

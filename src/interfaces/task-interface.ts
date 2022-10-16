@@ -6,6 +6,8 @@ interface TaskInterface {
     isDone: boolean;
     dateCreated: string;
     deadline: string;
+    date: string;
+    time: string;
     priority: string;
 }
 

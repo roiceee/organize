@@ -4,6 +4,7 @@ import arrowIcon from "../../images/arrow-right.svg";
 import Image from "next/image";
 import utilStyles from "../../styles/modules/util-styles.module.scss";
 import { getPriorityColor } from "../../styles/style-scripts/task-styles-util";
+import { convertTo12Hrs } from "../../utils/dateFormatter";
 
 interface TaskCalendarCardProps {
   number: number;
@@ -23,7 +24,7 @@ function TaskCalendarCard({
       <Link href={`/projects/${projectID}`}>
         <div className="d-flex">
           <div
-            style={{ width: "2px"}}
+            style={{ width: "2px" }}
             className={getPriorityColor(task)}
           ></div>
           <div
@@ -39,17 +40,9 @@ function TaskCalendarCard({
             >
               {number}. {task.title}
             </div>
-            <div
-              className="d-flex gap-1 align-items-center"
-              style={{ minWidth: "100px" }}
-            >
-              <div
-                style={{ fontSize: "0.8rem" }}
-                className="text-decoration-underline"
-              >
-                Go to Project
-              </div>
-              <Image src={arrowIcon} alt="arrow-icon"></Image>
+
+            <div style={{ fontSize: "0.8rem", minWidth: "60px" }} className="p-1">
+              {task.time === "" ? "All day" : `${convertTo12Hrs(task.time)}`}
             </div>
           </div>
         </div>

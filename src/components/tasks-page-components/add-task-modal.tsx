@@ -37,25 +37,44 @@ function AddTaskModal({
     []
   );
 
-  const taskDescriptionFormHandler = useCallback(
+  // const taskDescriptionFormHandler = useCallback(
+  //   (e: React.ChangeEvent<HTMLInputElement>) => {
+  //     setCurrentTaskState((prevTaskState) => ({
+  //       ...prevTaskState,
+  //       description: e.target.value,
+  //     }));
+  //   },
+  //   []
+  // );
+
+  const dateFormHandler = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setCurrentTaskState((prevTaskState) => ({
         ...prevTaskState,
-        description: e.target.value,
+        date: e.target.value,
+        deadline: (e.target.value + " " + prevTaskState.time).trim(),
       }));
     },
     []
   );
 
-  const deadLineFormHandler = useCallback(
+  const timeFormHandler = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setCurrentTaskState((prevTaskState) => ({
         ...prevTaskState,
-        deadline: e.target.value,
+        time: e.target.value,
+        deadline: (prevTaskState.date + " " + e.target.value).trim(),
       }));
     },
     []
   );
+
+  const clearTimeForm = useCallback(() => {
+    setCurrentTaskState((prevTaskState) => ({
+      ...prevTaskState,
+      time: "",
+    }));
+  }, []);
 
   const priorityFormHandler = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -69,11 +88,12 @@ function AddTaskModal({
 
   const createNewTask = useCallback((): TaskInterface => {
     const currentTaskCopy = { ...currentTaskState };
-    const newTask : TaskInterface = {
+    const newTask: TaskInterface = {
       ...currentTaskCopy,
       dateCreated: new Date().toString(),
       id: generateUniqueID(),
     };
+    console.log(newTask)
     return newTask;
   }, [currentTaskState]);
 
@@ -100,9 +120,11 @@ function AddTaskModal({
           formTaskState={currentTaskState}
           taskTitleFormRef={taskTitleFormRef}
           titleFormHandler={taskTitleFormHandler}
-          descriptionFormHandler={taskDescriptionFormHandler}
-          deadlineFormHandler={deadLineFormHandler}
+          // descriptionFormHandler={taskDescriptionFormHandler}
+          timeFormHandler={timeFormHandler}
+          dateFormHandler={dateFormHandler}
           priorityFormHandler={priorityFormHandler}
+          clearTimeForm={clearTimeForm}
         />
       }
       footerChildren={

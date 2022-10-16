@@ -65,7 +65,7 @@ function TaskCard({
         <div className={`p-1`}>
           <h5 className={`${utilStyles.overflowEllipsis} mb-0`}>{task.title}</h5>
           <hr className="my-1"/>
-          <div style={{ fontSize: "0.9rem" }}>
+          <div style={{ fontSize: "0.75rem" }}>
             <div>
               <CardDetailRow
                 label="Deadline"

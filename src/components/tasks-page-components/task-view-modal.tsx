@@ -87,7 +87,7 @@ function TaskViewModal({
               {/* <div className="mb-1">
                 <DescriptionPopover title="Task Description" task={task} />
               </div> */}
-              <div style={{ fontSize: "0.9rem" }}>
+              <div style={{ fontSize: "0.85rem" }}>
                 <div className="mb-1">
                   <b>Status:</b>{" "}
                   <span className={getStatusColor(task)}>

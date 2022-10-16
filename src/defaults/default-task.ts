@@ -9,6 +9,8 @@ function createTaskObject() : TaskInterface {
         isDone: false,
         dateCreated: "",
         deadline: "",
+        date: "",
+        time: "",
         priority: ""
     }
 }

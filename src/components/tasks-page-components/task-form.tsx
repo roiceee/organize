@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Form from "react-bootstrap/Form";
 import TaskConstraintsEnum from "../../enums/task-constraints";
 import TaskInterface from "../../interfaces/task-interface";
@@ -9,25 +9,40 @@ interface TaskFormProps {
   formTaskState: TaskInterface;
   taskTitleFormRef: React.RefObject<HTMLInputElement>;
   titleFormHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  descriptionFormHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  deadlineFormHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  // descriptionFormHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  timeFormHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  dateFormHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
   priorityFormHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  clearTimeForm: () => void;
 }
 
 function TaskForm({
   formTaskState,
   taskTitleFormRef,
   titleFormHandler,
-  descriptionFormHandler,
-  deadlineFormHandler,
+  // descriptionFormHandler,
+  timeFormHandler,
+  clearTimeForm,
+  dateFormHandler,
   priorityFormHandler,
 }: TaskFormProps) {
   const titleOnFocusHandler = useCallback(() => {
     removeErrorFields(taskTitleFormRef, "task-title-error");
   }, [taskTitleFormRef]);
+  const [hasDate, setHasDate] = useState<boolean>(false);
+  
+
+  useEffect(() => {
+    if (formTaskState.date === "" || !formTaskState.date) {
+      clearTimeForm();
+      setHasDate(false);
+      return;
+    }
+    setHasDate(true);
+  }, [setHasDate, formTaskState.date, clearTimeForm]);
 
   return (
-    <Form onSubmit={(e) => e.preventDefault()} style={{fontSize: "0.9rem"}}>
+    <Form onSubmit={(e) => e.preventDefault()} style={{ fontSize: "0.9rem" }}>
       <div className="d-flex justify-content-between mb-1">
         <div>Title (required)</div>
         <FormLengthCounter
@@ -52,19 +67,20 @@ function TaskForm({
           type="date"
           style={{ width: "fit-content" }}
           className="mb-2"
-          value={formTaskState.deadline}
-          onChange={deadlineFormHandler}
+          value={formTaskState.date}
+          onChange={dateFormHandler}
         />
       </Form.Group>
 
       <Form.Group>
         <Form.Label className="mb-0">Time:</Form.Label>
         <Form.Control
+          disabled={!hasDate}
           type="time"
           style={{ width: "fit-content" }}
           className="mb-2"
-          // value={}
-          // onChange={}
+          value={formTaskState.time}
+          onChange={timeFormHandler}
         />
       </Form.Group>
 

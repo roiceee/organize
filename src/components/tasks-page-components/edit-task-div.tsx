@@ -34,25 +34,45 @@ function EditTaskDiv({
     [setTaskFormState]
   );
 
-  const taskDescriptionFormHandler = useCallback(
+  // const taskDescriptionFormHandler = useCallback(
+  //   (e: React.ChangeEvent<HTMLInputElement>) => {
+  //     setTaskFormState((prevTaskFormState) => ({
+  //       ...prevTaskFormState,
+  //       description: e.target.value,
+  //     }));
+  //   },
+  //   [setTaskFormState]
+  // );
+
+  const dateFormHandler = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      setTaskFormState((prevTaskFormState) => ({
-        ...prevTaskFormState,
-        description: e.target.value,
+      setTaskFormState((prevTaskState) => ({
+        ...prevTaskState,
+        date: e.target.value,
+        deadline: (e.target.value + " " + prevTaskState.time).trim(),
       }));
     },
-    [setTaskFormState]
+    []
   );
 
-  const deadLineFormHandler = useCallback(
+  const timeFormHandler = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      setTaskFormState((prevTaskFormState) => ({
-        ...prevTaskFormState,
-        deadline: e.target.value,
+      setTaskFormState((prevTaskState) => ({
+        ...prevTaskState,
+        time: e.target.value,
+        deadline: (prevTaskState.date + " " + e.target.value).trim(),
       }));
     },
-    [setTaskFormState]
+    []
   );
+
+  const clearTimeForm = useCallback(() => {
+    setTaskFormState((prevTaskState) => ({
+      ...prevTaskState,
+      time: "",
+    }));
+  }, []);
+
 
   const priorityFormHandler = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,6 +88,7 @@ function EditTaskDiv({
     if (!areFormsValid()) {
       return;
     }
+    
     onEditTaskButtonClick(taskFormState);
     onCancelEditButtonClick();
   }, [
@@ -84,8 +105,10 @@ function EditTaskDiv({
           formTaskState={taskFormState}
           taskTitleFormRef={taskTitleFormRef}
           titleFormHandler={taskTitleFormHandler}
-          descriptionFormHandler={taskDescriptionFormHandler}
-          deadlineFormHandler={deadLineFormHandler}
+          // descriptionFormHandler={taskDescriptionFormHandler}
+          dateFormHandler={dateFormHandler}
+          timeFormHandler={timeFormHandler}
+          clearTimeForm={clearTimeForm}
           priorityFormHandler={priorityFormHandler}
         />
       </Modal.Body>
