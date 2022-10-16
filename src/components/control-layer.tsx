@@ -78,8 +78,7 @@ function ControlLayer({ children }: ControlLayerProps) {
     } catch {
       console.log("error");
     }
-    router.push("/login");
-  }, [router]);
+  }, []);
 
   useEffect(() => {
     //firebase appCheck

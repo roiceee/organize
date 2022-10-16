@@ -70,22 +70,13 @@ function UserDiv() {
             <Dropdown.Menu style={{ zIndex: "2147483638" }}>
               <Dropdown.ItemText>{formattedEmail}</Dropdown.ItemText>
               <Dropdown.Divider />
-              {!userTypeState.isLoggedIn && (
-                <Dropdown.Item
-                  className={`fw-bold text-black ${utilStyles.textWhiteOnActive}`}
-                  onClick={userSignOut}
-                >
-                  Log In
-                </Dropdown.Item>
-              )}
-              {userTypeState.isLoggedIn && (
-                <Dropdown.Item
-                  onClick={showSignOutModal}
-                  className={`fw-bold text-danger ${utilStyles.textWhiteOnActive}`}
-                >
-                  Log Out
-                </Dropdown.Item>
-              )}
+
+              <Dropdown.Item
+                onClick={showSignOutModal}
+                className={`fw-bold text-danger ${utilStyles.textWhiteOnActive}`}
+              >
+                Log Out
+              </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
         </div>

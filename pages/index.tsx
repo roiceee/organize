@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useCallback, useContext, useMemo, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -15,6 +15,7 @@ import ProjectCard from "../src/components/projects-page-components/project-card
 import Quotes from "../src/components/projects-page-components/quotes";
 import UndoProjectAlert from "../src/components/projects-page-components/undo-project-alert";
 import TaskCalendar from "../src/components/task-calendar";
+import LoadingNotice from "../src/components/util-components/loading-notice";
 import ScrollToTopButton from "../src/components/util-components/scroll-to-top-button";
 import Sorter from "../src/components/util-components/sorter";
 import StickyHeader from "../src/components/util-components/sticky-header";
@@ -53,7 +54,6 @@ const Home: NextPage = () => {
   const [sortOrderState, setSortOrderState] = useState<boolean>(false);
   const [showOverviewModalState, setShowOverviewModalState] =
     useState<boolean>(false);
-
 
   const showAddProjectModal = useCallback(() => {
     setShowAddProjectModalState(true);
@@ -164,10 +164,10 @@ const Home: NextPage = () => {
     });
   }, [setProjectArrayState, userTypeState]);
 
-    //if user is not signed in and is not a local user, then redirect to sign in page
-    if (isNotUser(userTypeState)) {
-      return <NoUserContainer/>
-    }
+  //if user is not signed in and is not a local user, then redirect to sign in page
+  if (isNotUser(userTypeState)) {
+    return <NoUserContainer />;
+  }
 
   return (
     <ProjectContext.Provider

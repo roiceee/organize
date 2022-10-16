@@ -23,20 +23,17 @@ function SignOutModal({ show, onHide, signOutHandler }: SignOutModalProps) {
       centered
     >
       <Modal.Header closeButton>
-        <Modal.Title id="sign-out-modal">Sign Out</Modal.Title>
+        <Modal.Title id="sign-out-modal">Log Out</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <div className="mb-2">Are you sure you want to sign out?</div>
-        <div style={{fontSize: "0.9rem"}} className="text-danger">
-          Note: This would load the projects stored in the local storage instead.
-        </div>
+        <div className="mb-2">Are you sure you want to log out?</div>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="gray" onClick={onHide}>
           Cancel
         </Button>
         <Button variant="action" onClick={onSignOutButtonClick}>
-          Sign Out
+          Log Out
         </Button>
       </Modal.Footer>
     </Modal>
