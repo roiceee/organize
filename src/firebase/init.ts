@@ -3,8 +3,13 @@ import { getAuth } from "firebase/auth";
 import { getDatabase } from "firebase/database";
 import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
 
+const firebaseAPIKey = (process.env.NEXT_PUBLIC_FIREBASE_API_KEY + "").trim();
+const recaptchaKey = (
+  process.env.NEXT_PUBLIC_RECAPTCHA_V3_APPCHECK_KEY + ""
+).trim();
+
 const firebaseConfig = {
-  apiKey: "AIzaSyBGrLCIQVG2wfVWjuA71kpYJ-pBRVg7m8o",
+  apiKey: firebaseAPIKey,
   authDomain: "organize-4d02e.firebaseapp.com",
   projectId: "organize-4d02e",
   storageBucket: "organize-4d02e.appspot.com",
@@ -24,9 +29,7 @@ const database = getDatabase(app);
 
 function appCheck() {
   initializeAppCheck(app, {
-    provider: new ReCaptchaV3Provider(
-      "6LcKKHQiAAAAAA0kvYSkO7iquwAcjlMTI9I1LZvU"
-    ),
+    provider: new ReCaptchaV3Provider(recaptchaKey),
 
     isTokenAutoRefreshEnabled: true,
   });
