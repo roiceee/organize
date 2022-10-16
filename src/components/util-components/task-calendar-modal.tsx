@@ -4,6 +4,7 @@ import ProjectArrayContext from "../../contexts/project-array-context";
 import formatDate from "../../utils/dateFormatter";
 import TaskCalendarCard from "./task-calendar-card";
 import CloseButton from "react-bootstrap/CloseButton";
+import { taskSortByDeadline } from "../../utils/task-sorts";
 
 interface TaskCalendarModalProps {
   show: boolean;
@@ -16,7 +17,7 @@ function TaskCalendarModal({ show, onHide, date }: TaskCalendarModalProps) {
   const tasksDueOnSelectedDate = useMemo(() => {
     const tasks: Array<JSX.Element> = new Array();
     projectArrayState.projects.forEach((project) => {
-      project.tasks.forEach((task) => {
+      taskSortByDeadline(project.tasks).forEach((task) => {
         if (new Date(task.deadline).toDateString() === date.toDateString()) {
           if (task.isDone) {
             return;
@@ -33,7 +34,7 @@ function TaskCalendarModal({ show, onHide, date }: TaskCalendarModalProps) {
         }
       });
     });
-    return tasks;
+    return tasks.reverse();
   }, [date, projectArrayState.projects, onHide]);
 
   return (
