@@ -49,7 +49,7 @@ function About() {
             </header>
             <hr />
             <article>
-              <InstallPWAButton className="mb-2"/>
+              <InstallPWAButton className="mb-2" variant="action"/>
               <header>
                 <h4 className="text-action">What is Organize?</h4>
               </header>

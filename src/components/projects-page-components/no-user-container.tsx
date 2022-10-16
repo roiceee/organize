@@ -25,13 +25,13 @@ function NoUserContainer() {
               <h1>Welcome to Organize!</h1>
               <div>Manage your tasks in a simple, straightforward way.</div>
               <Button
-                variant="primary"
+                variant="action"
                 className="px-5 fw-bold fs-5"
                 onClick={redirectToLoginPage}
               >
                 Sign in - it&apos;s free
               </Button>
-              <InstallPWAButton className="px-5 fs-5"/>
+              <InstallPWAButton className="px-5 fs-5" variant={"outline-action"}/>
               <div>
                 <hr />
                 <div className="d-flex flex-column gap-4">
@@ -57,6 +57,7 @@ function NoUserContainer() {
             <div className="d-flex flex-column align-items-center gap-1 my-4">
               <h6>Easy to use.</h6>
               <h6>Lightweight - doesn&apos;t take too much space.</h6>
+              <h6>Accessible in many platforms - Web, Desktop, and Mobile.</h6>
             </div>
           </div>
         </Row>

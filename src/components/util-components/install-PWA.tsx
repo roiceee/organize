@@ -4,9 +4,10 @@ import Button from "react-bootstrap/Button";
 
 interface InstallPWAProps {
   className?: string;
+  variant?: string;
 }
 
-function InstallPWAButton({ className }: InstallPWAProps) {
+function InstallPWAButton({ className, variant }: InstallPWAProps) {
   const deferredPrompt = useRef<Event | null>(null);
   const [show, setShow] = useState<boolean>(false);
 
@@ -34,7 +35,7 @@ function InstallPWAButton({ className }: InstallPWAProps) {
   return (
     <>
       {show && (
-        <Button variant="action" onClick={installApp} className={className}>
+        <Button variant={variant} onClick={installApp} className={className}>
           Install as an App
         </Button>
       )}
