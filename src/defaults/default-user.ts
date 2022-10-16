@@ -5,8 +5,8 @@ function createDefaultUser(): UserTypeInterface {
   return {
     userInformation: {
       uid: "",
-      name: "Local User",
-      email: "Local User",
+      name: "Guest User",
+      email: "Guest User",
       photoURL: profileIcon,
     },
     isLoggedIn: false,

@@ -10,7 +10,7 @@ import AddProjectButton from "../src/components/projects-page-components/add-pro
 import AddProjectModal from "../src/components/projects-page-components/add-project-modal";
 import NoUserContainer from "../src/components/projects-page-components/no-user-container";
 import OverviewModal from "../src/components/projects-page-components/overview-modal";
-import OverviewTrigger from "../src/components/projects-page-components/overview.trigger";
+import OverviewTrigger from "../src/components/projects-page-components/overview-trigger";
 import ProjectCard from "../src/components/projects-page-components/project-card";
 import Quotes from "../src/components/projects-page-components/quotes";
 import UndoProjectAlert from "../src/components/projects-page-components/undo-project-alert";

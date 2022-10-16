@@ -17,7 +17,7 @@ function TaskCalendarModal({ show, onHide, date }: TaskCalendarModalProps) {
   const tasksDueOnSelectedDate = useMemo(() => {
     const tasks: Array<JSX.Element> = new Array();
     projectArrayState.projects.forEach((project) => {
-      taskSortByDeadline(project.tasks).forEach((task) => {
+      taskSortByDeadline(project.tasks).reverse().forEach((task) => {
         if (new Date(task.deadline).toDateString() === date.toDateString()) {
           if (task.isDone) {
             return;
@@ -34,7 +34,7 @@ function TaskCalendarModal({ show, onHide, date }: TaskCalendarModalProps) {
         }
       });
     });
-    return tasks.reverse();
+    return tasks;
   }, [date, projectArrayState.projects, onHide]);
 
   return (
