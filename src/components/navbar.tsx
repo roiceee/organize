@@ -65,7 +65,7 @@ function NavigationBar() {
             height={30}
             className="my-auto"
           />
-          <Link href={isNotUser(userTypeState) ? "login" : "/"}>
+          <Link href="/">
             <div style={{ fontSize: "1.25rem" }} className="mx-2">
               {viewportSizeState >
               NavigationBarConstants.titleCollapseBreakPoint
