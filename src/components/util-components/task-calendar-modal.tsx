@@ -47,7 +47,12 @@ function TaskCalendarModal({ show, onHide, date }: TaskCalendarModalProps) {
       >
         <Modal.Header className="bg-primary text-light">
           <Modal.Title style={{ fontSize: "1.1rem" }}>
-            <>Tasks due on {formatDate(date)}</>
+            <>
+              Tasks due{" "}
+              {date.getDay() === new Date().getDay()
+                ? "Today"
+                : `on ${formatDate(date)}`}
+            </>
           </Modal.Title>
           <CloseButton variant="white" onClick={onHide} />
         </Modal.Header>

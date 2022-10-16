@@ -27,7 +27,7 @@ function TaskForm({
   }, [taskTitleFormRef]);
 
   return (
-    <Form onSubmit={(e) => e.preventDefault()}>
+    <Form onSubmit={(e) => e.preventDefault()} style={{fontSize: "0.9rem"}}>
       <div className="d-flex justify-content-between mb-1">
         <div>Title (required)</div>
         <FormLengthCounter
@@ -46,24 +46,8 @@ function TaskForm({
         ref={taskTitleFormRef}
       />
       <div className="error my-1" id="task-title-error"></div>
-      {/* <div className="d-flex justify-content-between mb-1">
-        <div>Description</div>
-        <FormLengthCounter
-          currentValue={formTaskState.description.length}
-          maxValue={TaskConstraintsEnum.DescriptionLength}
-        />
-      </div> */}
-      {/* <Form.Control
-        as="textarea"
-        placeholder="Task Description"
-        className="mb-2"
-        style={{ height: "90px" }}
-        maxLength={TaskConstraintsEnum.DescriptionLength}
-        value={formTaskState.description}
-        onChange={descriptionFormHandler}
-      /> */}
-      <div className="d-flex gap-2 align-items-center">
-        <div>Deadline:</div>
+      <Form.Group>
+        <Form.Label className="mb-0">Date:</Form.Label>
         <Form.Control
           type="date"
           style={{ width: "fit-content" }}
@@ -71,9 +55,21 @@ function TaskForm({
           value={formTaskState.deadline}
           onChange={deadlineFormHandler}
         />
-      </div>
-      <div className="d-flex gap-2">
-        <div>Priority: </div>
+      </Form.Group>
+
+      <Form.Group>
+        <Form.Label className="mb-0">Time:</Form.Label>
+        <Form.Control
+          type="time"
+          style={{ width: "fit-content" }}
+          className="mb-2"
+          // value={}
+          // onChange={}
+        />
+      </Form.Group>
+
+      <Form.Group>
+        <Form.Label className="mb-0">Priority:</Form.Label>
         <div key={`inline-radio`} className="mb-2 gap-1">
           <Form.Check
             inline
@@ -113,9 +109,31 @@ function TaskForm({
             checked={"high" === formTaskState.priority}
           />
         </div>
-      </div>
+      </Form.Group>
     </Form>
   );
 }
 
 export default TaskForm;
+
+//task description form
+{
+  /* <div className="d-flex justify-content-between mb-1">
+        <div>Description</div>
+        <FormLengthCounter
+          currentValue={formTaskState.description.length}
+          maxValue={TaskConstraintsEnum.DescriptionLength}
+        />
+      </div> */
+}
+{
+  /* <Form.Control
+        as="textarea"
+        placeholder="Task Description"
+        className="mb-2"
+        style={{ height: "90px" }}
+        maxLength={TaskConstraintsEnum.DescriptionLength}
+        value={formTaskState.description}
+        onChange={descriptionFormHandler}
+      /> */
+}
