@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import TaskCalendarToggleContextInterface from "../interfaces/task-calendar-toggle-context-interface";
+import TaskCalendarToggleContextInterface from "./task-calendar-toggle-context-interface";
 
 const TaskCalendarToggleContext =
   createContext<TaskCalendarToggleContextInterface>({

@@ -42,7 +42,7 @@ function TaskCalendarCard({
             </div>
 
             <div style={{ fontSize: "0.8rem", minWidth: "60px" }} className="p-1">
-              {task.time === "" ? "All day" : `${convertTo12Hrs(task.time)}`}
+              {(task.time === "" || !task.time) ? "All day" : `${convertTo12Hrs(task.time)}`}
             </div>
           </div>
         </div>
