@@ -48,7 +48,7 @@ function TaskCard({
     <>
       <div
         onClick={showTaskViewModal}
-        className={`border border-1 d-flex flex-column p-0 ${
+        className={`d-flex flex-column p-0 ${
           utilStyles.hoverable
         } ${styles.rounded} ${
           task.isDone ? "text-muted text-decoration-line-through bg-light" : ""
@@ -62,7 +62,7 @@ function TaskCard({
         <div
           className={`${styles.prioIndicator} ${getPriorityColor(task)}`}
         ></div>
-        <div className={`p-1`}>
+        <div className={`p-1 rounded-bottom ${styles.taskCardBorder}`}>
           <h5 className={`${utilStyles.overflowEllipsis} mb-0`}>{task.title}</h5>
           <hr className="my-1"/>
           <div style={{ fontSize: "0.75rem" }}>
