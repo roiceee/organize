@@ -4,6 +4,7 @@ import TaskConstraintsEnum from "../../enums/task-constraints";
 import TaskInterface from "../../interfaces/task-interface";
 import { removeErrorFields } from "../../utils/validation";
 import FormLengthCounter from "../util-components/form-length-counter";
+import Row from "react-bootstrap/Row";
 
 interface TaskFormProps {
   formTaskState: TaskInterface;
@@ -30,7 +31,6 @@ function TaskForm({
     removeErrorFields(taskTitleFormRef, "task-title-error");
   }, [taskTitleFormRef]);
   const [hasDate, setHasDate] = useState<boolean>(false);
-  
 
   useEffect(() => {
     if (formTaskState.date === "" || !formTaskState.date) {
@@ -61,29 +61,31 @@ function TaskForm({
         ref={taskTitleFormRef}
       />
       <div className="error my-1" id="task-title-error"></div>
-      <Form.Group>
-        <Form.Label className="mb-0">Date:</Form.Label>
-        <Form.Control
-          type="date"
-          style={{ width: "fit-content" }}
-          className="mb-2"
-          value={formTaskState.date}
-          onChange={dateFormHandler}
-        />
-      </Form.Group>
 
-      <Form.Group>
-        <Form.Label className="mb-0">Time:</Form.Label>
-        <Form.Control
-          disabled={!hasDate}
-          type="time"
-          style={{ width: "fit-content" }}
-          className="mb-2"
-          value={formTaskState.time}
-          onChange={timeFormHandler}
-        />
-      </Form.Group>
+      <Row className="row-cols-auto">
+        <Form.Group>
+          <Form.Label className="mb-0">Date:</Form.Label>
+          <Form.Control
+            type="date"
+            style={{ width: "fit-content" }}
+            className="mb-2"
+            value={formTaskState.date}
+            onChange={dateFormHandler}
+          />
+        </Form.Group>
 
+        <Form.Group>
+          <Form.Label className="mb-0">Time:</Form.Label>
+          <Form.Control
+            disabled={!hasDate}
+            type="time"
+            style={{ width: "fit-content" }}
+            className="mb-2"
+            value={formTaskState.time}
+            onChange={timeFormHandler}
+          />
+        </Form.Group>
+      </Row>
       <Form.Group>
         <Form.Label className="mb-0">Priority:</Form.Label>
         <div key={`inline-radio`} className="mb-2 gap-1">
