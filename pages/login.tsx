@@ -29,7 +29,7 @@ function LogIn() {
   }, [setUserStateType, userSignOut, redirectToApp]);
 
 
-  //if user is logged in or is a local user after accessing the page, redirect the user to the home page.
+ 
   
   return (
     <>

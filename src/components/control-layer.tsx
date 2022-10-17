@@ -1,6 +1,7 @@
 import {
+  getRedirectResult,
   GoogleAuthProvider,
-  signInWithPopup,
+  signInWithRedirect,
   signOut,
   User,
 } from "firebase/auth";
@@ -44,7 +45,6 @@ function ControlLayer({ children }: ControlLayerProps) {
   const [loadOtherEffects, setLoadOtherEffects] = useState(false);
   const router = useRouter();
 
-
   const destructureUserToUserTypeState = useCallback((userAuth: User) => {
     setUserStateType({
       userInformation: {
@@ -61,12 +61,13 @@ function ControlLayer({ children }: ControlLayerProps) {
   const userSignIn = useCallback(async () => {
     try {
       const provider = new GoogleAuthProvider();
-      const result = await signInWithPopup(auth, provider);
-      router.push("/")
+      const result = await signInWithRedirect(auth, provider);
+      
     } catch {
       console.log("error");
     }
-  }, [router]);
+
+  }, []);
 
   const userSignOut = useCallback(async () => {
     setUserStateType(createEmptyUser());
@@ -85,6 +86,36 @@ function ControlLayer({ children }: ControlLayerProps) {
     //firebase appCheck
     appCheck();
     setUserStateType(retrieveLastUserSessionType());
+    //get auth redirect result
+    getRedirectResult(auth)
+        .then((result) => {
+          // This gives you a Google Access Token. You can use it to access Google APIs.
+          console.log("yeah")
+          if (!result) {
+            return;
+          }
+          const credential = GoogleAuthProvider.credentialFromResult(result);
+          if (!credential) {
+            return;
+          }
+          const token = credential.accessToken;
+
+          // The signed-in user info.
+          const user = result.user;
+          destructureUserToUserTypeState(user);
+          router.push("/");
+          setIsAppLoading(false);
+        })
+        .catch((error) => {
+          // Handle Errors here.
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // The email of the user's account used.
+          const email = error.customData.email;
+          // The AuthCredential type that was used.
+          const credential = GoogleAuthProvider.credentialFromError(error);
+          // ...
+        });
     setLoadOtherEffects(true);
   }, []);
 
