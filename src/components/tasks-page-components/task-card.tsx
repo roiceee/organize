@@ -48,7 +48,7 @@ function TaskCard({
     <>
       <div
         onClick={showTaskViewModal}
-        className={`border border-1 bg-white d-flex flex-column p-0 ${
+        className={`border border-1 d-flex flex-column p-0 ${
           utilStyles.hoverable
         } ${styles.rounded} ${
           task.isDone ? "text-muted text-decoration-line-through bg-light" : ""
