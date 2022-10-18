@@ -28,7 +28,7 @@ function Sorter({
       className="d-flex align-items-center flex-wrap"
       style={{ fontSize: "0.9rem" }}
     >
-      <div className="mx-auto">Sort:</div>{" "}
+      <div className="mx-auto">Sort:</div>
       <div className="d-flex">
         <Dropdown drop="down">
           <Dropdown.Toggle

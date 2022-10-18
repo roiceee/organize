@@ -17,6 +17,7 @@ import ErrorNotice from "../../src/components/util-components/error-notice";
 import LoadingNotice from "../../src/components/util-components/loading-notice";
 import MobileAddButton from "../../src/components/util-components/mobile-add-button";
 import ScrollToTopButton from "../../src/components/util-components/scroll-to-top-button";
+import ShowTasksTrigger from "../../src/components/util-components/show-tasks-trigger";
 import Sorter from "../../src/components/util-components/sorter";
 import StickyHeader from "../../src/components/util-components/sticky-header";
 import ProjectArrayContext from "../../src/contexts/project-array-context";
@@ -29,7 +30,7 @@ import ProjectArrayInterface from "../../src/interfaces/project-array-interface"
 import ProjectInterface from "../../src/interfaces/project-interface";
 import TaskInterface from "../../src/interfaces/task-interface";
 import utilStyles from "../../src/styles/modules/util-styles.module.scss";
-import {formatDate} from "../../src/utils/dateFormatter";
+import { formatDate } from "../../src/utils/dateFormatter";
 import { saveToStorage } from "../../src/utils/storage";
 import {
   taskSortByDateCreated,
@@ -60,6 +61,7 @@ function TasksPage() {
     TaskSortMethods.deadline
   );
   const [sortOrderState, setSortOrderState] = useState<boolean>(false);
+  const [hideDoneTasksState, setHideDoneTasksState] = useState<boolean>(false);
 
   const showAddTaskModal = useCallback(() => {
     setAddTaskModalState(true);
@@ -92,6 +94,14 @@ function TasksPage() {
     }
     setSortOrderState(false);
   }, [sortOrderState]);
+
+  const hideDoneTasksToggler = useCallback(() => {
+    if (!hideDoneTasksState) {
+      setHideDoneTasksState(true);
+      return;
+    }
+    setHideDoneTasksState(false);
+  }, [hideDoneTasksState]);
 
   const updateCurrentProjectOnProjectArrayState = useCallback(
     (updatedProject: ProjectInterface) => {
@@ -231,25 +241,24 @@ function TasksPage() {
   );
 
   const sortTasks = useCallback(
-    (sortMethod: string) => {
-      const tasksCopy = currentProjectState.tasks.slice(0);
+    (tasks: Array<TaskInterface>, sortMethod: string) => {
       let sortedTasks: Array<TaskInterface> = new Array<TaskInterface>();
       switch (sortMethod) {
         case TaskSortMethods.dateCreated:
-          sortedTasks = taskSortByDateCreated(tasksCopy);
+          sortedTasks = taskSortByDateCreated(tasks);
           break;
         case TaskSortMethods.deadline:
-          sortedTasks = taskSortByDeadline(tasksCopy);
+          sortedTasks = taskSortByDeadline(tasks);
           break;
         case TaskSortMethods.priority:
-          sortedTasks = taskSortByPriority(tasksCopy);
+          sortedTasks = taskSortByPriority(tasks);
           break;
         case TaskSortMethods.title:
-          sortedTasks = taskSortByTitle(tasksCopy);
+          sortedTasks = taskSortByTitle(tasks);
       }
       return sortedTasks;
     },
-    [currentProjectState]
+    []
   );
 
   const changeSortState = useCallback(
@@ -263,7 +272,13 @@ function TasksPage() {
     if (currentProjectState === undefined) {
       return <></>;
     }
-    const taskCards = sortTasks(sortMethodState).map((task) => {
+    let tasks = currentProjectState.tasks.slice(0);
+    if (hideDoneTasksState) {
+      tasks = tasks.filter((task) => {
+        return !task.isDone;
+      });
+    }
+    const taskCards = sortTasks(tasks, sortMethodState).map((task) => {
       return (
         <TaskCard
           key={task.id}
@@ -286,6 +301,7 @@ function TasksPage() {
     sortTasks,
     sortOrderState,
     currentProjectState,
+    hideDoneTasksState,
   ]);
 
   //if user is not signed in and is not a local user, then redirect to sign in page
@@ -379,7 +395,9 @@ function TasksPage() {
               <Row className="p-2 pb-4 gap-2 justify-content-center">
                 <StickyHeader
                   mainDescriptionDiv={
-                    <div className={`my-1 ${utilStyles.colorAction}`}>
+                    <div
+                      className={`my-1 d-flex align-items-center justify-content-center gap-2 ${utilStyles.colorAction}`}
+                    >
                       {currentProjectState.tasks.length +
                         currentProjectState.tasks.length <=
                       1
@@ -388,7 +406,7 @@ function TasksPage() {
                       {currentProjectState.tasks.length > 0 && (
                         <div
                           className="fw-normal"
-                          style={{ fontSize: "0.8rem" }}
+                          style={{ fontSize: "0.85rem" }}
                         >
                           (
                           {currentProjectState.tasks.reduce((acc, task) => {
@@ -401,6 +419,9 @@ function TasksPage() {
                         </div>
                       )}
                     </div>
+                  }
+                  showTrigger={
+                    <ShowTasksTrigger togglerAction={hideDoneTasksToggler} />
                   }
                   sorter={
                     <Sorter
