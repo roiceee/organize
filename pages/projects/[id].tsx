@@ -29,7 +29,7 @@ import ProjectArrayInterface from "../../src/interfaces/project-array-interface"
 import ProjectInterface from "../../src/interfaces/project-interface";
 import TaskInterface from "../../src/interfaces/task-interface";
 import utilStyles from "../../src/styles/modules/util-styles.module.scss";
-import dateFormatter from "../../src/utils/dateFormatter";
+import {formatDate} from "../../src/utils/dateFormatter";
 import { saveToStorage } from "../../src/utils/storage";
 import {
   taskSortByDateCreated,
@@ -350,16 +350,17 @@ function TasksPage() {
                       maxHeight: "200px",
                       overflowWrap: "break-word",
                       overflowY: "scroll",
+                      fontSize: "0.85rem",
                     }}
                     className="bg-light p-1 rounded-1"
                   >
                     <div>
                       <b>Date Created:</b>{" "}
-                      {dateFormatter(currentProjectState.dateCreated)}
+                      {formatDate(currentProjectState.dateCreated)}
                     </div>
                     <div>
                       <b>Last Modified:</b>{" "}
-                      {dateFormatter(currentProjectState.dateCreated)}
+                      {formatDate(currentProjectState.dateCreated)}
                     </div>
                     <div>
                       <b>Project Description:</b>{" "}

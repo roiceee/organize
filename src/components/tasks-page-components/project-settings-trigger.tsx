@@ -16,12 +16,11 @@ function ProjectSettingsTrigger({
       style={{ fontSize: "0.8rem" }}
       onClick={showProjectSettingsModal}
     >
-      <div>Project Settings</div>
       <Image
         src={settingsIcon}
         style={{ color: "black" }}
-        height={16}
-        width={16}
+        height={22}
+        width={22}
         alt="Project Settings"
       />
     </div>

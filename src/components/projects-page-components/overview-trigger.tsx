@@ -1,5 +1,5 @@
 import Image from "next/image";
-import overviewIcon from "../../images/overview.svg"
+import settings from "../../images/settings.svg";
 
 interface OverviewTriggerProps {
   onClick: () => void;
@@ -11,10 +11,7 @@ function OverviewTrigger({ onClick }: OverviewTriggerProps) {
       className="d-flex gap-1 text-gray"
       onClick={onClick}
     >
-      <div>Overview</div>
-      
-        <Image src={overviewIcon} height={14} width={14} alt="Overview" />
-     
+      <Image src={settings} height={24} width={24} alt="Overview" />
     </div>
   );
 }

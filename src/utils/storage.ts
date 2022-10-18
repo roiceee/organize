@@ -1,6 +1,6 @@
 import { child, get, push, ref, set } from "firebase/database";
 import createProjectArrayObject from "../defaults/default-project-array-";
-import { createDefaultUser } from "../defaults/default-user";
+import { createDefaultUser, createEmptyUser } from "../defaults/default-user";
 import LocalStorageKeyEnum from "../enums/local-storage-key";
 import { database } from "../firebase/init";
 import ProjectArrayInterface from "../interfaces/project-array-interface";
@@ -22,7 +22,7 @@ function retrieveLastUserSessionType(): UserTypeInterface {
     LocalStorageKeyEnum.IsLastSessionLoggedInKey
   );
   if (userType === null) {
-    return createDefaultUser();
+    return createEmptyUser();
   }
   return JSON.parse(userType);
 }

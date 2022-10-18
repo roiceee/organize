@@ -1,4 +1,4 @@
-function formatDate(date: Date | undefined | string): string {
+function formateDateWithHours(date: Date | undefined | string): string {
   if (!date) {
     return "";
   }
@@ -17,6 +17,19 @@ function formatDate(date: Date | undefined | string): string {
     day: "numeric",
     hour: "2-digit",
     minute: "2-digit",
+  });
+}
+
+function formatDate(date: Date | undefined | string): string {
+  if (!date) {
+    return "";
+  }
+
+  return new Date(date).toLocaleDateString("en-US", {
+    weekday: "short",
+    year: "numeric",
+    month: "short",
+    day: "numeric",
   });
 }
 
@@ -49,4 +62,4 @@ function convertTo12Hrs(time: string) {
   return timeArr.join(""); // return adjusted time or original string
 }
 
-export { formatDate as default, convertDateToStringYYYYMMDD, convertTo12Hrs };
+export { formateDateWithHours as default, convertDateToStringYYYYMMDD, convertTo12Hrs, formatDate };

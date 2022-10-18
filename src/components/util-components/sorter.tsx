@@ -41,7 +41,7 @@ function Sorter({
             {filterSortID(sortState)}
           </Dropdown.Toggle>
 
-          <Dropdown.Menu style={{ fontSize: "0.8rem" }}>
+          <Dropdown.Menu style={{ fontSize: "0.8rem", minWidth: "fit-content" }}>
             {Object.values(sortingMethodsEnum).map((value, index) => {
               return (
                 <Dropdown.Item
@@ -49,6 +49,7 @@ function Sorter({
                   id={value}
                   onClick={changeSortStateHandler}
                   eventKey={index}
+                 
                 >
                   {filterSortID(value)}
                 </Dropdown.Item>

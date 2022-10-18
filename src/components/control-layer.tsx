@@ -117,6 +117,7 @@ function ControlLayer({ children }: ControlLayerProps) {
           // ...
         });
     setLoadOtherEffects(true);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

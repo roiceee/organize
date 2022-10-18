@@ -5,7 +5,7 @@ import taskSVG from "../../images/paper.svg";
 import ProjectInterface from "../../interfaces/project-interface";
 import styles from "../../styles/modules/project-card.module.scss";
 import utilStyles from "../../styles/modules/util-styles.module.scss";
-import formatDate from "../../utils/dateFormatter";
+import {formatDate} from "../../utils/dateFormatter";
 import CardDetailRow from "../util-components/card-detail-row";
 
 interface ProjectCardProps {

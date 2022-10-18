@@ -11,17 +11,9 @@ function GoBackLink() {
             style={{ transform: "scaleX(-1)" }}
             src={arrowRight}
             alt="Go Back"
-            height={14}
-            width={14}
+            height={22}
+            width={22}
           />
-        </div>
-        <div>
-          <a
-            className="text-decoration-none text-gray"
-            style={{ fontSize: "0.9rem" }}
-          >
-            Go Back
-          </a>
         </div>
       </div>
     </Link>
