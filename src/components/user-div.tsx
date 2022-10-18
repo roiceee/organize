@@ -61,13 +61,13 @@ function UserDiv() {
             onClick={toggleDropdown}
             src={userTypeState.userInformation.photoURL}
           />
-          <Dropdown drop="start">
+          <Dropdown drop="down">
             <Dropdown.Toggle
               variant="none"
               className="border border-0 d-flex align-items-center text-white"
               ref={dropdownTogglerRef}
             ></Dropdown.Toggle>
-            <Dropdown.Menu style={{ zIndex: "2147483638" }}>
+            <Dropdown.Menu style={{ zIndex: "2147483638", right: "10%", left: "auto" }}>
               <Dropdown.ItemText>{formattedEmail}</Dropdown.ItemText>
               <Dropdown.Divider />
 

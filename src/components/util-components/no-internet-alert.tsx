@@ -26,15 +26,21 @@ function NoInternetAlert() {
       triggerOnlineAlert.current = false;
     }, 3000);
   }, []);
+ 
   useEffect(() => {
     window.addEventListener("offline", () => {
+      console.log("yeah")
       updateStatus();
     });
 
     window.addEventListener("online", () => {
       updateStatus();
     });
-  }, [updateStatus]);
+    
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+    
+ 
 
   return (
     <>
