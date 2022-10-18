@@ -50,7 +50,7 @@ function TaskCard({
         onClick={showTaskViewModal}
         className={`d-flex flex-column p-0 ${utilStyles.hoverable} ${
           styles.rounded
-        } ${task.isDone ? "bg-muted bg-opacity-25" : ""}`}
+        } ${task.isDone ? "bg-light" : ""}`}
         style={{
           maxWidth: "300px",
           overflowWrap: "break-word",
@@ -61,12 +61,16 @@ function TaskCard({
           className={`${styles.prioIndicator} ${getPriorityColor(task)}`}
         ></div>
         <div className={`p-1 rounded-bottom ${styles.taskCardBorder}`}>
-          <h5 className={`${utilStyles.overflowEllipsis} mb-0`}>
+          <h5
+            className={`${utilStyles.overflowEllipsis} ${
+              task.isDone ? "opacity-25" : ""
+            } mb-0`}
+          >
             {task.title}
           </h5>
           <hr className="my-1" />
           <div style={{ fontSize: "0.75rem" }}>
-            <div>
+            <div className={`${task.isDone ? "opacity-25" : ""}`}>
               <CardDetailRow
                 label="Deadline"
                 valueSpan={
@@ -96,7 +100,6 @@ function TaskCard({
               onClick={(e) => e.stopPropagation()}
             >
               <Form.Check
-                
                 type="checkbox"
                 label="Done"
                 onChange={markIsDoneHandler}
