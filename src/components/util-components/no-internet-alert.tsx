@@ -12,7 +12,7 @@ function NoInternetAlert() {
 
   const updateStatus = useCallback(() => {
     if (!navigator.onLine) {
-      setShow(false);
+      setShow(true);
       setAlertMessage(alertMessages.offline);
       triggerOnlineAlert.current = true;
       return;
@@ -29,11 +29,12 @@ function NoInternetAlert() {
  
   useEffect(() => {
     window.addEventListener("offline", () => {
-      console.log("yeah")
+      console.log("offline")
       updateStatus();
     });
 
     window.addEventListener("online", () => {
+      console.log("online")
       updateStatus();
     });
     

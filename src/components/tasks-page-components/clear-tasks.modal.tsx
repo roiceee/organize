@@ -1,34 +1,23 @@
-import Modal from "react-bootstrap/Modal";
+import { useCallback } from "react";
 import Button from "react-bootstrap/Button";
-import { useCallback, useState } from "react";
-
+import Modal from "react-bootstrap/Modal";
 
 interface ClearTasksModalProps {
   show: boolean;
   onHide: () => void;
-  onClearButtonClick: () => void;
+
+  clearAllTasksHandler: () => void;
 }
 
 function ClearTasksModal({
   show,
   onHide,
-  onClearButtonClick,
+  clearAllTasksHandler,
 }: ClearTasksModalProps) {
-
-  // const [isButtonEnabled, setIsButtonEnabled] = useState<boolean>(false);
-
-  // const disableConfirmButton = useCallback(() => {
-  //   setIsButtonEnabled(false);
-  // }, []);
-
-  // const enableConfirmButton = useCallback(() => {
-  //   setIsButtonEnabled(true);
-  // }, []);
-
   const clearTasksButtonHandler = useCallback(() => {
-    onClearButtonClick();
+    clearAllTasksHandler();
     onHide();
-  }, [onClearButtonClick, onHide]);
+  }, [clearAllTasksHandler, onHide]);
 
   return (
     <Modal
@@ -54,7 +43,7 @@ function ClearTasksModal({
         <Button variant="gray" onClick={onHide}>
           Cancel
         </Button>
-        <Button variant="action" onClick={clearTasksButtonHandler} >
+        <Button variant="action" onClick={clearTasksButtonHandler}>
           Confirm
         </Button>
       </Modal.Footer>

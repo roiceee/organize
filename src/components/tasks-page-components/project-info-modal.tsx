@@ -16,7 +16,7 @@ interface ProjectInfoModalProps {
   onHide: () => void;
   editProjectHandler: (updatedProject: ProjectInterface) => void;
   deleteProjectHandler: (projectToBeDeleted: ProjectInterface) => void;
-  clearTasksHandler: () => void;
+  clearAllTasksHandler: () => void;
 }
 
 function ProjectInfoModal({
@@ -24,7 +24,7 @@ function ProjectInfoModal({
   onHide,
   editProjectHandler,
   deleteProjectHandler,
-  clearTasksHandler,
+  clearAllTasksHandler,
 }: ProjectInfoModalProps) {
   const [projectModeState, setProjectControlModeState] =
     useState<ProjectControlModes>(ProjectControlModes.View);
@@ -74,7 +74,7 @@ function ProjectInfoModal({
         <ClearTasksModal
           show={show}
           onHide={modalHideHandler}
-          onClearButtonClick={clearTasksHandler}
+          clearAllTasksHandler={clearAllTasksHandler}
         />
       )}
       {projectModeState === ProjectControlModes.Delete && (

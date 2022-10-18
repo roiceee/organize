@@ -213,7 +213,7 @@ function TasksPage() {
     [updateCurrentProjectOnProjectArrayState, showUndoDeletedTaskAlert]
   );
 
-  const clearTasks = useCallback(() => {
+  const clearAllTasks = useCallback(() => {
     setCurrentProjectState((prevprojectState) => {
       const newProjectState: ProjectInterface = {
         ...prevprojectState,
@@ -464,7 +464,8 @@ function TasksPage() {
           onHide={hideProjectSettingsModal}
           editProjectHandler={updateCurrentProjectOnProjectArrayState}
           deleteProjectHandler={deleteProject}
-          clearTasksHandler={clearTasks}
+          clearAllTasksHandler={clearAllTasks}
+          
         />
         <ScrollToTopButton />
         {currentProjectState.recentlyDeletedTask !== null && (
