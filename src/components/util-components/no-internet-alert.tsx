@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import FloatingAlert from "./floating-alert";
 
 const alertMessages = {
   offline: { message: "No internet connection.", color: "bg-gray" },
@@ -26,33 +27,33 @@ function NoInternetAlert() {
       triggerOnlineAlert.current = false;
     }, 3000);
   }, []);
- 
+
   useEffect(() => {
     window.addEventListener("offline", () => {
-      console.log("offline")
+      console.log("offline");
       updateStatus();
     });
 
     window.addEventListener("online", () => {
-      console.log("online")
+      console.log("online");
       updateStatus();
     });
-    
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-    
- 
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
-      {show && (
-        <div
-          className={`py-1 text-white text-center ${alertMessage.color} bg-opacity-75`}
-          style={{ width: "100vw", fontSize: "0.7rem" }}
-        >
-          {alertMessage.message}
+      <FloatingAlert
+        show={show}
+        onHide={() => setShow(false)}
+        className={`text-white bg-opacity-75 ${alertMessage.color}`}
+      >
+        <div className="d-flex justify-content-between">
+          <div>{alertMessage.message}</div>
+          <button className="btn-close btn-close-white" onClick={() => setShow(false)}></button>
         </div>
-      )}
+      </FloatingAlert>
     </>
   );
 }

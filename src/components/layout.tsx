@@ -9,7 +9,7 @@ interface LayoutProps {
   children: JSX.Element;
 }
 function Layout({ children }: LayoutProps) {
-  const isAppLoading = useContext(IsAppLoadingContext);
+  const {isAppLoading} = useContext(IsAppLoadingContext);
 
   if (isAppLoading) {
     return <LoadingNotice />;
@@ -22,8 +22,8 @@ function Layout({ children }: LayoutProps) {
       >
         <div>
           <NavigationBar />
-          <NoInternetAlert />
           <div>{children}</div>
+          <NoInternetAlert />
         </div>
         <div className="mt-3">
           <Footer />

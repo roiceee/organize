@@ -5,6 +5,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import BodyLayoutOne from "../../src/components/body-layout-one";
 import HeadWrapper from "../../src/components/head-wrapper";
+import NoUserContainer from "../../src/components/projects-page-components/no-user-container";
 import TaskCalendar from "../../src/components/task-calendar";
 import AddTaskButton from "../../src/components/tasks-page-components/add-task-button";
 import AddTaskModal from "../../src/components/tasks-page-components/add-task-modal";
@@ -277,7 +278,11 @@ function TasksPage() {
       tasks = tasks.filter((task) => {
         return !task.isDone;
       });
+      if (tasks.length === 0) {
+        return <div className="text-center">Nothing to see here.</div>;
+      }
     }
+
     const taskCards = sortTasks(tasks, sortMethodState).map((task) => {
       return (
         <TaskCard
@@ -304,11 +309,6 @@ function TasksPage() {
     hideDoneTasksState,
   ]);
 
-  //if user is not signed in and is not a local user, then redirect to sign in page
-  if (isNotUser(userTypeState)) {
-    router.push("/login");
-  }
-
   //this page's route uses the projectID
   useEffect(() => {
     if (!router.query.id) {
@@ -323,6 +323,11 @@ function TasksPage() {
     setCurrentProjectState(matchedProject!);
     setIsLoading(false);
   }, [router.query.id, projectArrayState, router]);
+
+  //if user is not signed in and is not a local user, then redirect to index page
+  if (isNotUser(userTypeState)) {
+    return <NoUserContainer />;
+  }
 
   if (isLoading) {
     return <LoadingNotice />;
@@ -446,10 +451,6 @@ function TasksPage() {
                 <Row className="gap-2 justify-content-center">
                   {renderedTasks}
                 </Row>
-
-                {/* {currentProjectState.tasks.length > 0 && (
-                  <MobileAddButton onClick={showAddTaskModal} />
-                )} */}
               </Row>
             }
           />
@@ -465,7 +466,6 @@ function TasksPage() {
           editProjectHandler={updateCurrentProjectOnProjectArrayState}
           deleteProjectHandler={deleteProject}
           clearAllTasksHandler={clearAllTasks}
-          
         />
         <ScrollToTopButton />
         {currentProjectState.recentlyDeletedTask !== null && (

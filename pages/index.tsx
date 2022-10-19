@@ -19,6 +19,7 @@ import LoadingNotice from "../src/components/util-components/loading-notice";
 import ScrollToTopButton from "../src/components/util-components/scroll-to-top-button";
 import Sorter from "../src/components/util-components/sorter";
 import StickyHeader from "../src/components/util-components/sticky-header";
+import IsAppLoadingContext from "../src/contexts/is-app-loading-context";
 import ProjectArrayContext from "../src/contexts/project-array-context";
 import ProjectContext from "../src/contexts/project-context";
 import UndoDeletedProjectContext from "../src/contexts/undo-deleted-project-context";
@@ -42,6 +43,7 @@ const Home: NextPage = () => {
   const { userTypeState, setUserStateType } = useContext(UserTypeContext);
   const { projectArrayState, setProjectArrayState } =
     useContext(ProjectArrayContext);
+
   const [currentProjectState, setCurrentProjectState] =
     useState<ProjectInterface>(createProjectObject());
   const [showAddProjectModalState, setShowAddProjectModalState] =
@@ -54,6 +56,7 @@ const Home: NextPage = () => {
   const [sortOrderState, setSortOrderState] = useState<boolean>(false);
   const [showOverviewModalState, setShowOverviewModalState] =
     useState<boolean>(false);
+  const { isAppLoading } = useContext(IsAppLoadingContext);
 
   const showAddProjectModal = useCallback(() => {
     setShowAddProjectModalState(true);
@@ -116,12 +119,13 @@ const Home: NextPage = () => {
     if (projectArrayState === undefined) {
       return <></>;
     }
-    const projectCards = sortProjects(sortMethodState).map((project) => {
+    let projectCards = sortProjects(sortMethodState).map((project) => {
       return <ProjectCard key={project.id} project={project} />;
     });
     if (!sortOrderState) {
-      return projectCards.reverse();
+      projectCards = projectCards.reverse();
     }
+
     return projectCards;
   }, [projectArrayState, sortMethodState, sortProjects, sortOrderState]);
 
@@ -163,6 +167,10 @@ const Home: NextPage = () => {
       return newProjectArrayState;
     });
   }, [setProjectArrayState, userTypeState]);
+
+  if (isAppLoading) {
+    return <LoadingNotice />;
+  }
 
   //if user is not signed in and is not a local user, then redirect to sign in page
   if (isNotUser(userTypeState)) {

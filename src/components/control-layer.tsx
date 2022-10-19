@@ -62,11 +62,9 @@ function ControlLayer({ children }: ControlLayerProps) {
     try {
       const provider = new GoogleAuthProvider();
       const result = await signInWithRedirect(auth, provider);
-      
     } catch {
       console.log("error");
     }
-
   }, []);
 
   const userSignOut = useCallback(async () => {
@@ -88,46 +86,44 @@ function ControlLayer({ children }: ControlLayerProps) {
     setUserStateType(retrieveLastUserSessionType());
     //get auth redirect result
     getRedirectResult(auth)
-        .then((result) => {
-          // This gives you a Google Access Token. You can use it to access Google APIs.
-          console.log("yeah")
-          if (!result) {
-            return;
-          }
-          const credential = GoogleAuthProvider.credentialFromResult(result);
-          if (!credential) {
-            return;
-          }
-          const token = credential.accessToken;
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access Google APIs.
+        console.log("yeah");
+        if (!result) {
+          return;
+        }
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        if (!credential) {
+          return;
+        }
+        const token = credential.accessToken;
 
-          // The signed-in user info.
-          const user = result.user;
-          destructureUserToUserTypeState(user);
-          router.push("/");
-          setIsAppLoading(false);
-        })
-        .catch((error) => {
-          // Handle Errors here.
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          // The email of the user's account used.
-          const email = error.customData.email;
-          // The AuthCredential type that was used.
-          const credential = GoogleAuthProvider.credentialFromError(error);
-          // ...
-        });
+        // The signed-in user info.
+        const user = result.user;
+        destructureUserToUserTypeState(user);
+        router.push("/");
+        setIsAppLoading(false);
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        // ...
+      });
     setLoadOtherEffects(true);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
       if (!user) {
-        setIsAppLoading(false);
         return;
       }
       destructureUserToUserTypeState(user);
-      setIsAppLoading(false);
     });
   }, [destructureUserToUserTypeState]);
 
@@ -135,12 +131,15 @@ function ControlLayer({ children }: ControlLayerProps) {
     if (!loadOtherEffects) {
       return;
     }
+    if (isNotUser(userTypeState)) {
+      setIsAppLoading(false);
+      return;
+    }
     async function getProjectArray() {
       const projects = await retrieveFromStorage(userTypeState);
       setProjectArrayState(projects);
-    }
-    if (isNotUser(userTypeState)) {
-      return;
+      //set app loading to false when project array is fetched from database
+      setIsAppLoading(false);
     }
     getProjectArray();
   }, [userTypeState, isAppLoading, loadOtherEffects]);
@@ -152,9 +151,11 @@ function ControlLayer({ children }: ControlLayerProps) {
     saveLastUserSession(userTypeState);
   }, [userTypeState, loadOtherEffects]);
 
+  
+
   return (
     <>
-      <IsAppLoadingContext.Provider value={isAppLoading}>
+      <IsAppLoadingContext.Provider value={{ isAppLoading: isAppLoading }}>
         <UserTypeContext.Provider value={{ userTypeState, setUserStateType }}>
           <ProjectArrayContext.Provider
             value={{ projectArrayState, setProjectArrayState }}
