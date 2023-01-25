@@ -1,3 +1,4 @@
+import { randomUUID } from "crypto";
 import { child, get, push, ref, set } from "firebase/database";
 import createProjectArrayObject from "../defaults/default-project-array-";
 import { createDefaultUser, createEmptyUser } from "../defaults/default-user";
@@ -87,7 +88,7 @@ async function retrieveFromStorage(
 }
 
 function sendRecommendationToStorage(recommendation: string) {
-    const recommendationRef = ref(database, "recommendations");
+    const recommendationRef = ref(database, "recommendations/" + randomUUID);
     const newRecommendationRef = push(recommendationRef);
     set(newRecommendationRef, {
       recommendation

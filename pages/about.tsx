@@ -3,15 +3,26 @@ import BodyLayoutThree from "../src/components/body-layout-three";
 import HeadWrapper from "../src/components/head-wrapper";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import { ChangeEvent, useCallback, useState } from "react";
+import { ChangeEvent, useCallback, useContext, useState } from "react";
 import { sendRecommendationToStorage } from "../src/utils/storage";
 import FloatingAlert from "../src/components/util-components/floating-alert";
 import InstallPWAButton from "../src/components/util-components/install-PWA";
+import UserTypeContext from "../src/contexts/user-context";
 
 
 function About() {
   const [formContentState, setFormContentState] = useState<string>("");
   const [thankyouAlertState, setThankYouAlertState] = useState<boolean>(false);
+  const [userNotLoggedInAlertState, setUserNotLoggedInAlertState] = useState<boolean>(false);
+  const {userTypeState} = useContext(UserTypeContext);
+
+  const showUserNotLoggedInAlert = useCallback(() => {
+     setUserNotLoggedInAlertState(true);
+  }, [])
+
+  const hideUserNotLoggedInAlert = useCallback(() => {
+    setUserNotLoggedInAlertState(false);
+  }, []);
 
   const showThankyouAlertState = useCallback(() => {
     setThankYouAlertState(true);
@@ -29,13 +40,17 @@ function About() {
     if (formContentState === "") {
       return;
     }
+    if (!userTypeState.isLoggedIn) {
+      showUserNotLoggedInAlert();
+      return;
+    }
     sendRecommendationToStorage(formContentState);
     showThankyouAlertState();
     setFormContentState("");
     setTimeout(() => {
       hideThankyouAlertState();
     }, 5000);
-  }, [formContentState, showThankyouAlertState, hideThankyouAlertState]);
+  }, [formContentState, userTypeState.isLoggedIn, showThankyouAlertState, showUserNotLoggedInAlert, hideThankyouAlertState]);
 
 
   return (
@@ -130,6 +145,9 @@ function About() {
       </Container>
       <FloatingAlert show={thankyouAlertState} onHide={hideThankyouAlertState} className="bg-gray text-white">
         <div className="text-center">Thanks for your feedback!</div>
+      </FloatingAlert>
+      <FloatingAlert show={userNotLoggedInAlertState} onHide={hideUserNotLoggedInAlert} className="bg-gray text-white">
+        <div className="text-center">You need to log in to submit feedback!</div>
       </FloatingAlert>
     </>
   );
