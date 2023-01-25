@@ -88,7 +88,7 @@ async function retrieveFromStorage(
 }
 
 function sendRecommendationToStorage(recommendation: string) {
-    const recommendationRef = ref(database, "recommendations/" + randomUUID);
+    const recommendationRef = ref(database, "recommendations");
     const newRecommendationRef = push(recommendationRef);
     set(newRecommendationRef, {
       recommendation
