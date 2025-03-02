@@ -1,14 +1,36 @@
-# Organize
-### Keep your projects intact
+# Organize  
 
-Organize organizes your To Do List as a project structure - your projects are organized by tasks which helps in keeping in track of your pending projects.
+## Overview  
+**Organize** is a **task management PWA** designed for productivity and efficient task tracking. Built with **Next.js** and **Firebase**, it provides seamless real-time updates and offline support.  
 
+## Tech Stack  
+- **Frontend:** Next.js  
+- **Backend & Database:** Firebase  
+- **PWA Support** 
 
-#### Project Structure
-This project utilizes two forms of data storage: Your browser's localStorage (when not signed in), and Firebase Cloud Storage (recommended).
+## Setup & Installation  
 
-##### Using ```localStorage```
-For you to be able to manage your projects in different devices, you are advised to sign-in. However, not everyone does this. Instead, your projects would be saved in your browser's ```localStorage```. This would save your projects everytime you open the web app on your browser. However, this means that the projects would only be saved to the browser you used to save the projects.
+1. Clone the repository:  
+   ```sh
+   git clone <repo-url>
+   cd organize
+   ```  
 
-##### Using ```Firebase Cloud Storage```(recommended)
-You can utilize this by signing in using the Firebase Authentication. You are required to enter your google account (which is handled by Firebase's Authentication). By signing in, you have the convenience of viewing, managing, and adding projects on every browser just by signing into the same account.
+2. Install dependencies:  
+   ```sh
+   npm install  # or pnpm install
+   ```  
+
+3. Set up environment variables:  
+   - Copy `.env.example` to `.env` and configure Firebase credentials.  
+
+4. Run the development server:  
+   ```sh
+   npm run dev
+   ```  
+   Open [http://localhost:3000](http://localhost:3000) in your browser.  
+
+## Features  
+- **Task organization & tracking**  
+- **Real-time sync** with Firebase  
+- **Progressive Web App (PWA)**
